@@ -32,6 +32,9 @@ public class IntercepterConfig implements WebMvcConfigurer {
 				.addPathPatterns("/memberMenu/departmentSchedule")
 				.addPathPatterns("/memberMenu/mySchedule");
 				*/
+		registry.addInterceptor(getAdminMenuIntercepter())
+				.addPathPatterns("/admin/**");
+		
 	}
 
 	@Bean
@@ -39,5 +42,9 @@ public class IntercepterConfig implements WebMvcConfigurer {
 		return new MenuIntercepter();
 	}
 	
+	@Bean
+	public AdminMenuIntercepter getAdminMenuIntercepter() {
+		return new AdminMenuIntercepter();
+	}
 	
 }

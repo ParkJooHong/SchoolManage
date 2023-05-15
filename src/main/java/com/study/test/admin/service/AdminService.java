@@ -8,5 +8,5 @@ import com.study.test.admin.vo.AdminSubMenuVO;
 public interface AdminService {
 	List<AdminMenuVO> getAdminMenuList();
 	
-	List<AdminSubMenuVO> getAdminSubMenuList();
+	List<AdminSubMenuVO> getAdminSubMenuList(String menuCode);
 }

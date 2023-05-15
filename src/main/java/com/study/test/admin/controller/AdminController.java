@@ -25,8 +25,9 @@ public class AdminController {
 	//회원등록 페이지 이동
 	@GetMapping("/joinMember")
 	public String joinMember(Model model) {
-		model.addAttribute("adminMenuList",adminService.getAdminMenuList());
-		model.addAttribute("adminSubMenuList",adminService.getAdminSubMenuList());
+		
+		model.addAttribute("menuList", adminService.getAdminMenuList());
+		
 		return "content/admin/join_member";
 	}
 	
