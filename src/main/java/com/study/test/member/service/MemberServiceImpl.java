@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.study.test.member.vo.MemberMenuVO;
+import com.study.test.member.vo.MemberVO;
 
 @Service("memberService")
 public class MemberServiceImpl implements MemberService {
@@ -24,6 +25,12 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public List<MemberMenuVO> stuSubMenuList(String menuCode) {
 		return sqlSession.selectList("memberMenuMapper.stuSubMenuList", menuCode);
+	}
+
+	@Override
+	public void regMember(MemberVO memberVO) {
+		sqlSession.insert("memberMapper.regMember", memberVO);
+		
 	}
 
 	

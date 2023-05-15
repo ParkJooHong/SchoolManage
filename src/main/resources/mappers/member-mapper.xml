@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="memberMapper">
+	<!-- 학생 메뉴  -->
+	<resultMap type="com.study.test.member.vo.MemberVO" id="member">
+		<result column="memNo" 			property="MEM_NO"/>
+		<result column="memPw" 			property="MEM_PW"/>
+		<result column="memName" 		property="MEM_NAME"/>
+		<result column="memEmail" 		property="MEM_EMAIL"/>
+		<result column="memAddr" 		property="MEM_ADDR"/>
+		<result column="memAddrDetail" 	property="MEM_ADDR_DETAIL"/>
+		<result column="memTell" 		property="MEM_TELL"/>
+		<result column="memImage" 		property="MEM_IMAGE"/>
+		<result column="memGender" 		property="MEM_GENDER"/>
+		<result column="memBirth" 		property="MEM_BIRTH"/>
+		<result column="memRole" 		property="MEM_ROLE"/>
+	</resultMap>
+	
+	<insert id="regMember">
+		INSERT INTO UNI_MEMBER (
+				MEM_NO
+				, MEM_PW
+				, MEM_NAME
+				, MEM_EMAIL
+				, MEM_ADDR
+				, MEM_ADDR_DETAIL
+			<if test='memTell != null and !memTell.equals("")'>	
+				, MEM_TELL
+			</if>
+			<if test='memImage != null and !memImage.equals("")'>
+				, MEM_IMAGE
+			</if>
+				, MEM_GENDER
+				, MEM_BIRTH
+				, MEM_ROLE
+		) VALUES(
+				#{memNo}
+				, #{memPw}
+				, #{memName}
+				, #{memEmail}
+				, #{memAddr}
+				, #{memAddrDetail}
+			<if test='memTell != null and !memTell.equals("")'>	
+				, #{memTell}
+			</if>
+			<if test='memImage != null and !memImage.equals("")'>	
+				, #{memImage}
+			</if>
+				, #{memGender}
+				, #{memBirth}
+				, #{memRole}	
+		)
+		
+	
+	</insert>
+	
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
