@@ -24,9 +24,26 @@
 	border-top-left-radius: 2rem;
 }
 
-.login_input > .row:last-child{
-	background-color: #d3c4b2; 
-	height: 2rem;
+.login_input .col-8{
+	font-weight: bold;
+}
+
+.login_footer{
+background-color: #eee0ce;
+	width: 60%;
+	float: right;
+	text-align: center;
+	position: relative;
+	z-index: 100;
+	background-color: #d3c4b2;
+	color: #9a9084;
+	font-size: 15px; 
+	height: 40px;
+}
+
+.login_footer .row{
+	height: 100%;
+	align-items: center;
 }
 
 /* 로그인 버튼 */
@@ -41,3 +58,9 @@
 /* 서브메뉴 정렬 */
 .sub_menu span::before{padding-right: 5px; content: "|"; color: #d3c4b2}
 .sub_menu span:first-child::before{content: ""}
+
+.iuput_info{
+	text-align: left;
+}
+
+
