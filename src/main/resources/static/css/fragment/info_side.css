@@ -1,0 +1,45 @@
+@charset "UTF-8";
+
+
+
+#menuSearch{
+	border-radius: 20px;
+}
+
+.b{
+	height: 100px;
+}
+
+body{
+	height: 100vh;
+}
+
+
+table{
+	height: 100%;
+}
+
+table tr:first-child td {
+	/* width: 500px; */
+}
+
+
+td:hover {
+  background-color: rgb(128, 255, 255);
+}
+table tr td:nth-child(1) {
+	width: 150px;
+}
+
+
+
+table tr td:nth-child(2) {
+	width: auto;
+	height: 1000%;
+	/* background-color: red; */
+	/* display: none; */
+}
+
+.list-group-item{
+	cursor: pointer;
+}
