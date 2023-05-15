@@ -4,17 +4,17 @@
 <mapper namespace="memberMapper">
 	<!-- 학생 메뉴  -->
 	<resultMap type="com.study.test.member.vo.MemberVO" id="member">
-		<result column="memNo" 			property="MEM_NO"/>
-		<result column="memPw" 			property="MEM_PW"/>
-		<result column="memName" 		property="MEM_NAME"/>
-		<result column="memEmail" 		property="MEM_EMAIL"/>
-		<result column="memAddr" 		property="MEM_ADDR"/>
-		<result column="memAddrDetail" 	property="MEM_ADDR_DETAIL"/>
-		<result column="memTell" 		property="MEM_TELL"/>
-		<result column="memImage" 		property="MEM_IMAGE"/>
-		<result column="memGender" 		property="MEM_GENDER"/>
-		<result column="memBirth" 		property="MEM_BIRTH"/>
-		<result column="memRole" 		property="MEM_ROLE"/>
+		<id column="MEM_NO" 			property="memNo"/>
+		<result column="MEM_PW" 			property="memPw"/>
+		<result column="MEM_NAME" 			property="memName"/>
+		<result column="MEM_EMAIL" 			property="memEmail"/>
+		<result column="MEM_ADDR" 			property="memAddr"/>
+		<result column="MEM_ADDR_DETAIL" 	property="memAddrDetail"/>
+		<result column="MEM_TELL" 			property="memTell"/>
+		<result column="MEM_IMAGE" 			property="memImage"/>
+		<result column="MEM_GENDER" 		property="memGender"/>
+		<result column="MEM_BIRTH" 			property="memBirth"/>
+		<result column="MEM_ROLE" 			property="memRole"/>
 	</resultMap>
 	
 	<insert id="regMember">
