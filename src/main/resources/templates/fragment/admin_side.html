@@ -21,12 +21,12 @@
 			<td class="list-group-item" > 즐겨찾기</td>
 		</tr>
 		<tr>
-			<th:block th:each="menu : ${menuList}">
+			<th:block th:each="menu : ${adminMenuList}">
 				<td class="list-group-item" th:onclick="mainMenu([[${menu.menuCode}]],[[${menu.menuUrl}]]);"
 				th:classappend="${menu.menuCode == menu.menuCode ? 'active' : ''}">
 					[[${menu.menuName}]]
 				</td>			
-			<th:block th:each="subMenu : ${subMenuList}">
+			<th:block th:each="subMenu : ${adminSubMenuList}">
 				<th:block th:if="${menu.menuCode == subMenu.menuCode}">
 							<td class="list-group-item" th:onclick="subMenu([[${subMenu.subMenuCode}]],[[${subMenu.subMenuUrl}]],[[${menu.menuCode}]]);">  [[${subMenu.subMenuName}]]</td>
 					</th:block>
