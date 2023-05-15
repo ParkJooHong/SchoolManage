@@ -29,20 +29,27 @@ public class SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
 		System.out.println("success 핸들러 실행!");
 		
-		PrintWriter p = response.getWriter();
-		p.write("success");
-		p.flush();
-
 		//인증정보 가져오기
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		
+		if(userDetails.getAuthorities().equals("ROLE_ADMIN")) {
+			PrintWriter p = response.getWriter();
+			p.write("admin");
+			p.flush();
+		}
+		else {
+			PrintWriter p = response.getWriter();
+			p.write("stu");
+			p.flush();
+		}
 
 		// 세션에 회원이름 저장
-		String memId = userDetails.getUsername();
+		String memNo = userDetails.getUsername();
 		MemberVO memberInfo = new MemberVO();
-		//memberInfo.setMemId(memId);
+		memberInfo.setMemNo(memNo);
 
 		HttpSession session = request.getSession();
-		//session.setAttribute("memName", memberService.login(memberInfo).getMemName());
+		session.setAttribute("memName", memberService.login(memberInfo).getMemName());
 
 		super.onAuthenticationSuccess(request, response, authentication);
 	}

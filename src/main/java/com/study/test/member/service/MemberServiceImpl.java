@@ -27,11 +27,17 @@ public class MemberServiceImpl implements MemberService {
 		return sqlSession.selectList("memberMenuMapper.stuSubMenuList", menuCode);
 	}
 
+	//회원등록
 	@Override
 	public void regMember(MemberVO memberVO) {
 		sqlSession.insert("memberMapper.regMember", memberVO);
 		
 	}
 
+	//로그인
+	@Override
+	public MemberVO login(MemberVO memberVO) {
+		return sqlSession.selectOne("memberMapper.login", memberVO);
+	}
 	
 }

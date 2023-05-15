@@ -17,6 +17,7 @@
 		<result column="MEM_ROLE" 			property="memRole"/>
 	</resultMap>
 	
+	<!-- 회원등록 -->
 	<insert id="regMember">
 		INSERT INTO UNI_MEMBER (
 				MEM_NO
@@ -51,10 +52,21 @@
 				, #{memBirth}
 				, #{memRole}	
 		)
-		
-	
 	</insert>
-	
+
+	<!-- 로그인 -->
+	<select id="login" resultMap="member">
+		SELECT MEM_NO
+			, MEM_PW
+			, MEM_NAME
+			, MEM_ROLE
+			, MEM_EMAIL
+		FROM UNI_MEMBER
+		WHERE MEM_NO = #{memNo}
+		<if test="memName != null and memName != ''">
+			AND MEM_NAME = #{memName}
+		</if>
+	</select>
 	
 </mapper>
 

@@ -38,7 +38,7 @@ public class FailureHandler extends SimpleUrlAuthenticationFailureHandler {
 		}
 		
 		//로그인시 입력한 아이디값
-		String memId = request.getParameter("memId");
+		String memNo = request.getParameter("memNo");
 		
 		//로그인 실패 시 페이지 이동
 		PrintWriter p = response.getWriter();
