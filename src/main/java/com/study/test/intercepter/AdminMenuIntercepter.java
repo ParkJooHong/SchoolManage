@@ -17,10 +17,10 @@ public class AdminMenuIntercepter implements HandlerInterceptor{
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
-		String menuCode = request.getParameter("menuCode");
-		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"+menuCode);
+		
+		
 		modelAndView.addObject("adminMenuList",adminService.getAdminMenuList());
-		modelAndView.addObject("adminSubMenuList",adminService.getAdminSubMenuList(menuCode));
+		modelAndView.addObject("adminSubMenuList",adminService.getAdminSubMenuList());
 	}
 	
 	

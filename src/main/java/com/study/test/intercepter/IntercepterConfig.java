@@ -32,6 +32,7 @@ public class IntercepterConfig implements WebMvcConfigurer {
 				.addPathPatterns("/memberMenu/departmentSchedule")
 				.addPathPatterns("/memberMenu/mySchedule");
 				*/
+		
 		registry.addInterceptor(getAdminMenuIntercepter())
 				.addPathPatterns("/admin/**");
 		

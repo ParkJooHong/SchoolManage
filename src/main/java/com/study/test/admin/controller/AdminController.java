@@ -1,7 +1,6 @@
 package com.study.test.admin.controller;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,9 +23,7 @@ public class AdminController {
 	
 	//회원등록 페이지 이동
 	@GetMapping("/joinMember")
-	public String joinMember(Model model) {
-		
-		model.addAttribute("menuList", adminService.getAdminMenuList());
+	public String joinMember() {
 		
 		return "content/admin/join_member";
 	}

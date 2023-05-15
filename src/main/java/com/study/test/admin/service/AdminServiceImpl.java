@@ -21,8 +21,8 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 	@Override
-	public List<AdminSubMenuVO> getAdminSubMenuList(String menuCode) {
-		return sqlsession.selectList("adminMapper.getAdminSubMenuList", menuCode);
+	public List<AdminSubMenuVO> getAdminSubMenuList() {
+		return sqlsession.selectList("adminMapper.getAdminSubMenuList");
 	}
 	
 	
