@@ -33,7 +33,7 @@ function login(){
 					error_div.insertAdjacentHTML('beforeend', str);
 				}
 			}
-			else if (result == 'success') {
+			else if (result == 'admin' || result == 'stu') {
 				swal.fire({
 					title: "로그인 성공",
 					icon: 'success',
