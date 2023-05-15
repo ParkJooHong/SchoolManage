@@ -3,20 +3,30 @@ package com.study.test.member.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.study.test.member.service.MemberService;
 import com.study.test.member.vo.MemberMenuVO;
 import com.study.test.member.vo.MemberSubMenuVO;
+import com.study.test.member.vo.MemberVO;
 
 import jakarta.annotation.Resource;
 
 @Controller
 @RequestMapping("/memberMenu")
-public class MenuController {
+public class MemberController {
 	
 	@Resource(name = "memberService")
 	private MemberService memberService;
+	
+	//로그인
+	@ResponseBody
+	@PostMapping("/getMemberInfo")
+	public MemberVO getMemberInfo(MemberVO memberVO) {
+		return memberService.login(memberVO);
+	}
 	
 	//-------------------Menu ============================================================================================================================
 	//내 정보 관리

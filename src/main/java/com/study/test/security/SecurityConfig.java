@@ -28,9 +28,9 @@ public class SecurityConfig {
 			.and()
 				.formLogin()
 				.loginPage("/")
-				.usernameParameter("memId")
+				.usernameParameter("memNo")
 				.passwordParameter("memPw")
-				.loginProcessingUrl("/")
+				.loginProcessingUrl("/member/login")
 				.successHandler(geSuccessHandler())
 				.failureHandler(getFailureHandler())
 				.permitAll()
@@ -46,11 +46,11 @@ public class SecurityConfig {
 		return security.build();
 	}
 	
-	//암호화 객체 생성
-	@Bean
-	public PasswordEncoder getPasswordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
+//	//암호화 객체 생성
+//	@Bean
+//	public PasswordEncoder getPasswordEncoder() {
+//		return new BCryptPasswordEncoder();
+//	}
 	
 	//로그인 성공시 실행되는 핸들러 객체생성
 	@Bean
