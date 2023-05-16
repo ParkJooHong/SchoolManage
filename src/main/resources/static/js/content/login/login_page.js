@@ -34,17 +34,19 @@ function login(){
 				}
 			}
 			else if (result == 'admin' || result == 'stu') {
+				const role = result
 				swal.fire({
 					title: "로그인 성공",
 					icon: 'success',
 					button: '확인',
 				})
 					.then((result) => {
-						if (result == 'admin') {
-							location.href = '/';
+						
+						if (role == 'admin') {
+							location.href = '/admin/joinMember';
 						}
 						else{
-							location.href = '/';
+							location.href = '/mainPage';
 						}
 					})
 			}
@@ -55,3 +57,14 @@ function login(){
 	});
 	//ajax end
 } 	
+
+
+//한글로 변환
+function toKor(){
+	const find_id = document.querySelector('#find_id');
+	const find_pw = document.querySelector('#find_pw');
+	const main_homepage = document.querySelector('#main_homepage');
+	
+}
+
+
