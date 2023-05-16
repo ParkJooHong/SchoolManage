@@ -12,6 +12,14 @@
 	border-bottom-right-radius: 2rem;
 }
 
+/* kr, en선택시 밑줄 및 글자색 */
+.bd_bottom{
+	border-bottom: 2px solid red;
+}
+.bd_bottom > a{
+	color:red;
+}
+
 .login_input{
 	height: 50vh;
 	background-color: #eee0ce;
