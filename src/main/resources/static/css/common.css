@@ -31,3 +31,14 @@ body{
 .mainContainer{
 	width: 100%;
 }
+
+.btn-primary{
+	background-color: #897c76;
+	color: white;	
+	border-color: #897c76;
+}
+
+.btn-primary:hover{
+	background-color: #554d4a;
+	
+}

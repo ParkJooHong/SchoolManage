@@ -4,12 +4,14 @@
 	margin-top: 5rem;
 	width: 130vh;
 	height: 60vh;
-	z-index: 0;
-}
-
-.login_backgroung img{
 	border-top-right-radius: 2rem;
 	border-bottom-right-radius: 2rem;
+	background-size: cover; /* 배경 이미지를 컨테이너에 맞게 조정 */
+	background-position: center; /* 배경 이미지를 가운데 정렬 */
+	z-index: 0;
+	overflow: hidden; /* 이미지 영역을 넘어가는 부분은 숨김 */
+	position: relative; /* 자식 요소를 포함하기 위해 상대적 위치 설정 */
+	transition: background-image 1s ease-in-out; /* 페이드 애니메이션 속성 설정 */
 }
 
 /* kr, en선택시 밑줄 및 글자색 */
@@ -42,7 +44,7 @@
 }
 
 .login_footer{
-background-color: #eee0ce;
+	background-color: #eee0ce;
 	width: 60%;
 	float: right;
 	text-align: center;
