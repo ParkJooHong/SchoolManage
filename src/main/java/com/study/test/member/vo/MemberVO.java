@@ -19,5 +19,6 @@ public class MemberVO {
 	private String memGender;
 	private String memBirth;
 	private String memRole;
+	private MemImgVO memImgVO;
 	
 }

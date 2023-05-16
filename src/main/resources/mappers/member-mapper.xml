@@ -15,6 +15,14 @@
 		<result column="MEM_GENDER" 		property="memGender"/>
 		<result column="MEM_BIRTH" 			property="memBirth"/>
 		<result column="MEM_ROLE" 			property="memRole"/>
+		<association property="memImgVO" resultMap="memImg"/>
+	</resultMap>
+	<resultMap type="com.study.test.member.vo.MemImgVO" id="memImg">
+		<id 	column="IMG_CODE" 			property="imgCode"/>
+		<result column="ORIGIN_FILE_NAME" 	property="originFileName"/>
+		<result column="ATTACHED_FILE_NAME" property="attachedFileName"/>
+		<result column="IS_MAIN" 			property="isMain"/>
+		<result column="MEM_NO" 			property="memNo"/>
 	</resultMap>
 	
 	<!-- 회원등록 -->
