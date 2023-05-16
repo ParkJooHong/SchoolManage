@@ -17,4 +17,17 @@ a{
 	color: black;
 }
 
+body{
+	width: 100%;
+}
 
+.container{
+	width: 100%;
+	max-width: 100%;
+	margin-right: 0;
+	margin-left: 0;
+}
+
+.mainContainer{
+	width: 100%;
+}

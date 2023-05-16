@@ -21,23 +21,23 @@
 			</div>
 			<div class="row">
 				<div class="col">
-					<table>
+					<table class="detail_info">
 						<tr>
 							<td>학번</td>
-							<td>
-								<input type="text" name="memNo" class="form-control" required placeholder="본인의 학번 및 교번을 입력하세요">
+							<td class="d-grid">
+								<input type="text" name="memNo"  required placeholder="본인의 학번 및 교번을 입력하세요">
 							</td>
 						</tr>
 						<tr>
 							<td>비밀번호</td>
-							<td>
-								<input type="password" name="memPw" class="form-control" required placeholder="비밀번호를 입력하세요">
+							<td class="d-grid">
+								<input type="password" name="memPw"  required placeholder="비밀번호를 입력하세요">
 							</td>
 						</tr>
 						<tr>
 							<td>이름</td>
-							<td>
-								<input type="text" name="memName" class="form-control" required placeholder="이름 입력은 필수입니다.">
+							<td class="d-grid">
+								<input type="text" name="memName"  required placeholder="이름 입력은 필수입니다.">
 							</td>
 						</tr>
 						<tr>
@@ -45,10 +45,10 @@
 							<td>
 								<div class="row">
 									<div class="col-9 d-grid">
-										<input type="text" class="form-control" name="memAddr" required id="inputAddress" readonly onclick="searchAddr();" placeholder="주소 입력은 필수입니다." >
+										<input type="text" name="memAddr" required id="inputAddress" readonly onclick="searchAddr();" placeholder="주소 입력은 필수입니다." >
 									</div>
 									<div class="col-3 d-grid">
-										<input type="button" class="btn btn-primary" onclick="searchAddr();" value="검색">
+										<input type="button" class="btn btn-primary addr_search_btn" onclick="searchAddr();" value="검색">
 									</div>
 								</div>
 								
@@ -56,20 +56,20 @@
 						</tr>
 						<tr>
 							<td>상세주소</td>
-							<td>
-								<input type="text" name="memAddrDetail"  class="form-control" required placeholder="상세주소 입력은 필수입니다.">
+							<td class="d-grid">
+								<input type="text" name="memAddrDetail"  required placeholder="상세주소 입력은 필수입니다.">
 							</td>
 						</tr>
 						<tr>
 							<td>이메일</td>
-							<td>
-								<input type="text" name="memEmail" class="form-control" required placeholder="이메일 입력은 필수입니다.">
+							<td class="d-grid">
+								<input type="text" name="memEmail" required placeholder="이메일 입력은 필수입니다.">
 							</td>
 						</tr>
 						<tr>
 							<td>연락처(선택)</td>
-							<td>
-								<input type="text" name="memTell" class="form-control" placeholder="연락처 입력은 선택입니다.">
+							<td class="d-grid">
+								<input type="text" name="memTell" placeholder="연락처 입력은 선택입니다.">
 							</td>
 						</tr>
 						<tr>
@@ -82,8 +82,8 @@
 						</tr>
 						<tr>
 							<td>생년월일</td>
-							<td>
-								<input type="date" name="memBirth" class="form-control">
+							<td class="d-grid">
+								<input type="date" name="memBirth">
 							</td>
 						</tr>
 						<tr>
@@ -95,8 +95,8 @@
 						</tr>
 						<tr>
 							<td>이미지 등록(선택)</td>
-							<td>
-								<input type="file" name="mainImg" class="form-control">
+							<td class="d-grid">
+								<input type="file" name="mainImg">
 							</td>
 						</tr>
 					</table>	

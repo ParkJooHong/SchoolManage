@@ -36,12 +36,22 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 		</div>
 		<div class="row mt-3">
 			<div class="col-1"></div>
-			<div class="col-1"  th:classappend='${param.lang.toString == "kr" ? "bd_bottom" : ""}'>
-				<a href="?lang=kr">KR</a>
-			</div>
-			<div class="col-1"  th:classappend='${param.lang.toString == "en" ? "bd_bottom" : ""}'>
-				<a href="?lang=en">EN</a>
-			</div>
+			<th:block th:if="${param.lang == null}">
+				<div class="col-1 bd_bottom">
+					<a href="?lang=kr">KR</a>
+				</div>
+				<div class="col-1">
+					<a href="?lang=en">EN</a>
+				</div>
+			</th:block>
+			<th:block th:unless="${param.lang == null}">
+				<div class="col-1"  th:classappend='${param.lang.toString == "kr" ? "bd_bottom" : ""}'>
+					<a href="?lang=kr">KR</a>
+				</div>
+				<div class="col-1"  th:classappend='${param.lang.toString == "en" ? "bd_bottom" : ""}'>
+					<a href="?lang=en">EN</a>
+				</div>
+			</th:block>
 			<div class="col-9"></div>
 		</div>
 		<div class="row mt-3">
