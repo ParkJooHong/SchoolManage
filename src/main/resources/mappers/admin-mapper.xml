@@ -29,6 +29,7 @@
 			, SUB_MENU_URL
 			, MENU_CODE
 		FROM ADMIN_SUB_MENU
+		WHERE MENU_CODE = #{menuCode}
 	</select>
 	
 	

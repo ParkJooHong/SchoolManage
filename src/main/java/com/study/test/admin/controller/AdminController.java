@@ -3,6 +3,7 @@ package com.study.test.admin.controller;
 
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,9 +12,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 import com.study.test.admin.service.AdminService;
+import com.study.test.admin.vo.AdminSubMenuVO;
 import com.study.test.member.service.MemberService;
 import com.study.test.member.vo.MemImgVO;
+
 import com.study.test.member.vo.MemberVO;
+import com.study.test.util.ConstVariable;
 import com.study.test.util.UploadUtil;
 
 import jakarta.annotation.Resource;
@@ -30,8 +34,11 @@ public class AdminController {
 	
 	//회원등록 페이지 이동
 	@GetMapping("/joinMember")
-	public String joinMember() {
-		
+	public String joinMember(AdminSubMenuVO adminSubMenuVO, Model model) {
+		adminSubMenuVO.setMenuCode(ConstVariable.DEFAULT_MENU_CODE);
+		adminSubMenuVO.setSubMenuCode(ConstVariable.DEFAULT_SUB_MENU_CODE);	
+		model.addAttribute("adminMenuList",adminService.getAdminMenuList());
+		model.addAttribute("adminSubMenuList",adminService.getAdminSubMenuList(adminSubMenuVO.getMenuCode()));
 		return "content/admin/join_member";
 	}
 	
@@ -54,4 +61,20 @@ public class AdminController {
 		
 		return "redirect:/admin/join";
 	}
+	
+	//학적변동승인
+	@GetMapping("/updateStuInfo")
+	public String updateStuInfo(AdminSubMenuVO adminSubMenuVO, Model model) {
+		adminSubMenuVO.setMenuCode(ConstVariable.SECOND_MENU_CODE);
+		adminSubMenuVO.setSubMenuCode(ConstVariable.SUB_MENU_CODE_SECOND);
+		model.addAttribute("adminMenuList",adminService.getAdminMenuList());
+		model.addAttribute("adminSubMenuList",adminService.getAdminSubMenuList(adminSubMenuVO.getMenuCode()));
+		return "content/admin/update_stu_info";
+	}
+	
+	
+	
+	
+	
+	
 }
