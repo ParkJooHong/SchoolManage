@@ -34,7 +34,10 @@ public class IntercepterConfig implements WebMvcConfigurer {
 				*/
 		
 		registry.addInterceptor(getAdminMenuIntercepter())
-				.addPathPatterns("/admin/**");
+				.order(1)
+				.addPathPatterns("/admin/**")
+				.excludePathPatterns("/admin/join")
+				.excludePathPatterns("/member/**");
 		
 	}
 

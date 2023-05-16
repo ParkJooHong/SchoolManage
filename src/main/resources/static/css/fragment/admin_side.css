@@ -1,20 +1,23 @@
 @charset "UTF-8";
-main_div{
+
+.main_div {
 	width: 100%;
-	
 }
 
-ul{
-	width:100%;
+ul {
+	width: 100%;
 	margin: 0 auto;
-	list-style:none;
-	padding:0;
+	list-style: none;
+	padding: 0;
 }
 
-li{
-	width:100%;
+li {
+	width: 100%;
 	margin: 0 auto;
 	text-align: center;
 	font-size: 25px;
-		
+}
+
+.subMenu_ul li {
+	text-align: left;
 }

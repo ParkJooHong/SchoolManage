@@ -12,5 +12,7 @@ public class ConstVariable {
 	
 	public static final String SUB_MENU_CODE_SECOND = "SUB_MENU_002";
 	
+	public static final String THIRD_MENU_CODE = "MENU_003";
+	
 
 }

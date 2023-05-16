@@ -2,23 +2,25 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <th:block th:fragment="adminSideFragment">
-<link rel="stylesheet" href="/css/fragment/admin_side.css">
-<div class="row main_div">
-	<div class="col-6 menu_name_div">
-		<ul class="menu_ul">
-			<th:block th:each="adminMenu:${adminMenuList}">
-				<li><a href="javascript:void(0)" th:onclick="moveByMenuCode([[${adminMenu.menuCode}]],[[${adminMenu.menuUrl}]])">[[${adminMenu.menuName}]]</a></li>
-			</th:block>
-		</ul>
+	<link rel="stylesheet" href="/css/fragment/admin_side.css">
+	<div class="row main_div">
+		<div class="col-8 menu_name_div">
+			<ul class="menu_ul">
+				<th:block th:each="adminMenu:${adminMenuList}">
+					<li><a href="javascript:void(0)"
+						th:onclick="moveByMenuCode([[${adminMenu.menuCode}]],[[${adminMenu.menuUrl}]])">[[${adminMenu.menuName}]]</a></li>
+				</th:block>
+			</ul>
+		</div>
+		<div class="col-4">
+			<ul class="subMenu_ul">
+				<th:block th:each="subMenu:${adminSubMenuList}">
+					<li><a href="javascript:void(0)"
+						th:onclick="moveBySubMenuCode([[${subMenu.subMenuCode}]],[[${subMenu.subMenuUrl}]])">[[${subMenu.subMenuName}]]</a></li>
+				</th:block>
+			</ul>
+		</div>
 	</div>
-	<div class="col-6">
-		<ul class="subMenu_ul">
-			<th:block th:each="subMenu:${adminSubMenuList}">
-				<li><a href="javascript:void(0)" th:onclick="moveBySubMenuCode([[${subMenu.subMenuCode}]],[[${subMenu.subMenuUrl}]])">[[${subMenu.subMenuName}]]</a></li>
-			</th:block>
-		</ul>
-	</div>		
-</div>
-<script type="text/javascript" src="/js/fragment/admin_side.js"></script>
+	<script type="text/javascript" src="/js/fragment/admin_side.js"></script>
 </th:block>
 </html>
