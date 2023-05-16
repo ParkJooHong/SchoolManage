@@ -48,4 +48,9 @@ public class IntercepterConfig implements WebMvcConfigurer {
 		return new AdminMenuIntercepter();
 	}
 	
+	@Bean
+	public WebMvcConfig getLocale() {
+		return new WebMvcConfig();
+	}
+	
 }

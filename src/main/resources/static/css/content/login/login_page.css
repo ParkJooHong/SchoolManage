@@ -28,6 +28,11 @@
 	font-weight: bold;
 }
 
+/* 학사행정웹서비스 타이틀 */
+.login_page_title{
+	font-size: 20px;
+}
+
 .login_footer{
 background-color: #eee0ce;
 	width: 60%;
