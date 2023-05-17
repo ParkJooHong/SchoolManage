@@ -4,7 +4,7 @@
    layout:decorate="~{fragment/info_layout}">
 
 <th:block layout:fragment="content_css">
-   <link rel="stylesheet" href="/css/content/info/stu_board/donation.css">
+    <link rel="stylesheet" href="/css/content/stu/stu_myInfo/changePwd.css">
 </th:block>
 
 <th:block layout:fragment="content">
@@ -31,13 +31,27 @@
 	</button>
 </div>
 <br>
-<div style="text-align: center;"> 중고 나눔</div>
+<div style="text-align: center;"> 비밀번호 변경</div>
 
+	<th:block th:each="stu : ${stuVO}">
+		 <h2>비밀번호 변경</h2>
+		    <form>
+		        <label for="currentPassword">현재 비밀번호:</label>
+		        <input type="password" class="currentPassword"><br>
+		
+		        <label for="newPassword">새로운 비밀번호:</label>
+		        <input type="password" class="newPassword" ><br>
+		
+		        <label for="confirmPassword">비밀번호 확인:</label>
+		        <input type="password" class="confirmPassword" ><br>
+		
+		        <button type="button" th:onclick="changePassword([[${stu.memPw}]],[[${stu.memNo}]])">비밀번호 변경</button>
+		    </form>
+	</th:block>
 </th:block>
 
-
 <th:block layout:fragment="content_js">
-<script type="text/javascript" src="/js/content/info/stu_board/donation.js"></script>
+<script type="text/javascript" src="/js/content/stu/stu_myInfo/changePwd.js"></script>
 </th:block>
 
 </html>

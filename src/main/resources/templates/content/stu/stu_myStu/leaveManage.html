@@ -4,7 +4,7 @@
    layout:decorate="~{fragment/info_layout}">
 
 <th:block layout:fragment="content_css">
-   <link rel="stylesheet" href="/css/content/info/stu_board/totalBoard.css">
+   <link rel="stylesheet" href="/css/content/stu/stu_myStu/leaveManage.css">
 </th:block>
 
 <th:block layout:fragment="content">
@@ -31,13 +31,49 @@
 	</button>
 </div>
 <br>
-<div style="text-align: center;"> 보드</div>
+<h3>휴학 신청</h3>
 
+<table border="1" class="detail_info" th:each="stu : ${stuVO}">
+	<tr>
+		<td>이름</td>
+		<td>[[${stu.memName}]]</td>
+		<td>학번</td>
+		<td>[[${stu.memNo}]]</td>
+		<td>학년</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>전공대학</td>
+		<td></td>
+		<td>전공학과</td>
+		<td></td>
+		<td>복수전공</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>성별</td>
+		<td></td>
+		<td>생년월일</td>
+		<td>[[${stu.stuVO.stuYear}]]</td>
+		<td>학적상태</td>
+		<td>[[${stu.stuVO.stuStatus}]]</td>
+	</tr>
+</table>
+
+<table border="1" class="detail_info">
+	<tr>
+		<td>휴학 사유</td>
+		<td><textarea placeholder="휴학 사유를 작성하세요." rows="4" cols="50"></textarea></td>
+	</tr>
+</table>
+<div style="text-align: center;">
+	<input type="button" value="휴학 신청" class="btn btn-primary">
+</div>
 </th:block>
 
 
 <th:block layout:fragment="content_js">
-<script type="text/javascript" src="/js/content/info/stu_board/totalBoard.js"></script>
+<script type="text/javascript" src="/js/content/stu/stu_myStu/leaveManage.js"></script>
 </th:block>
 
 </html>

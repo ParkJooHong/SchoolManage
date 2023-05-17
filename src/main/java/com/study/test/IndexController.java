@@ -35,7 +35,7 @@ public class IndexController {
 		model.addAttribute("menuList", memberService.stuMenuList());
 		System.out.println("@@@@@@@@@@@@@" + memberService.stuMenuList());
 
-		return "/content/info/info_main";
+		return "/content/stu/info_main";
 
 
 	
