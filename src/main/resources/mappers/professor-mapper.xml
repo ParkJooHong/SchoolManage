@@ -33,39 +33,6 @@
 		FROM PROFESSOR_SUB_MENU
 		WHERE MENU_CODE = #{menuCode}
 	</select>
-
-	<!-- 학기 리스트 조회 -->
-	<select id="getSemeList" resultMap="schoolMapper.semester">
-		SELECT SEM_NO
-			, SEM_NAME
-			, SEM_YEAR
-			, SEMESTER
-		FROM SEMESTER
-	</select>
-
-	<!-- 대학 리스트 조회 -->
-	<select id="getCollList" resultMap="schoolMapper.colleage">
-		SELECT COLL_NO
-			, COLL_NAME
-		FROM COLLEAGE
-	</select>
-
-	<!-- 학과 리스트 조회 -->
-	<select id="getDeptList" resultMap="schoolMapper.dept">
-		SELECT DEPT_NO
-			, DEPT_NAME
-			, COLL_NO
-		FROM DEPT
-	</select>
-
-	<!-- 복수 전공 리스트 조회 -->
-	<select id="getDoubleMajorList" resultMap="schoolMapper.doubleMajor">
-		SELECT DOUBLE_NO
-			, DOUBLE_DEPT_NAME
-			, DOUBLE_COLL
-		FROM DOUBLE_MAJOR
-	</select>
-	
 </mapper>
 
 

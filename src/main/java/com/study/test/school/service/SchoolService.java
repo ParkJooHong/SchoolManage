@@ -15,7 +15,7 @@ public interface SchoolService {
 	List<ColleageVO> getCollList();
 	
 	//학과 리스트 조회
-	List<DeptVO> getDeptList();
+	List<DeptVO> getDeptList(String collNo);
 	
 	//복수전공 리스트 조회
 	List<DoubleMajorVO> getDoubleMajorList();

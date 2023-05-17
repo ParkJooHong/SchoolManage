@@ -43,10 +43,18 @@
 							</tr>
 							<tr>
 								<td>단과대학</td>
+								<td class="d-grid"><select name="collNo" id="collSelect" th:onchange="getDeptList()" >
+									<th:block th:each="coll : ${collList}">
+										<option th:value="${coll.collNo}">[[${coll.collName}]]</option>
+									</th:block>
+								</select></td>
+							</tr>
+							<tr>
+								<td>소속학과</td>
 								<td class="d-grid">
-									<select name="collNo">
-										<th:block th:each="seme : ${semeList}">
-											<option th:value="${seme.semNo}">[[${seme.semName}]]</option>
+									<select name="deptNo" id="deptSelect">
+										<th:block th:each="dept : ${deptList}">
+											<option th:value="${dept.deptNo}">[[${dept.deptName}]]</option>
 										</th:block>
 									</select>
 								</td>

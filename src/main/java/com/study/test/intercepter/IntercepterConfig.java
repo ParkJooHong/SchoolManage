@@ -14,23 +14,28 @@ public class IntercepterConfig implements WebMvcConfigurer {
 		//학생 인터셉터
 		registry.addInterceptor(getMenuIntercepter())
 				.addPathPatterns("/member/**")
+				.addPathPatterns("/stu/**")
 				.addPathPatterns("/stuMenu/**")
 				.excludePathPatterns("/admin/**")
-				.excludePathPatterns("/professor/**");
+				.excludePathPatterns("/professor/**")
+				.excludePathPatterns("/member/**Ajax")
+				.excludePathPatterns("/stu/**Ajax");
 		
 		//어드민 인터셉터
 		registry.addInterceptor(getAdminMenuIntercepter())
 				.order(1)
 				.addPathPatterns("/admin/**")
 				.excludePathPatterns("/member/**")
-				.excludePathPatterns("/professor/**");
+				.excludePathPatterns("/professor/**")
+				.excludePathPatterns("/admin/**Ajax");
 		
 		//교수 인터셉터
 		registry.addInterceptor(getProfessorMenuIntercepter())
 				.order(2)
 				.addPathPatterns("/professor/**")
 				.excludePathPatterns("/admin/**")
-				.excludePathPatterns("/member/**");
+				.excludePathPatterns("/member/**")
+				.excludePathPatterns("/professor/**Ajax");
 	}
 
 	//학생 메인 메뉴

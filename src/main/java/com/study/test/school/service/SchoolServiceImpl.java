@@ -30,8 +30,8 @@ public class SchoolServiceImpl implements SchoolService{
 
 	//학과 리스트
 	@Override
-	public List<DeptVO> getDeptList() {
-		return sqlsession.selectList("schoolMapper.getDeptList");
+	public List<DeptVO> getDeptList(String collNo) {
+		return sqlsession.selectList("schoolMapper.getDeptList", collNo);
 	}
 
 	//복수전공 리스트

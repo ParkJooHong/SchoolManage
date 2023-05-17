@@ -49,6 +49,9 @@
 			, DEPT_NAME
 			, COLL_NO
 		FROM DEPT
+		<if test="collNo != null and collNo != ''">
+		WHERE COLL_NO = #{collNo}
+		</if>
 	</select>
 
 	<!-- 복수 전공 리스트 조회 -->
