@@ -27,25 +27,36 @@
 		<result column="SEM_NAME" 	property="semName"/>
 	</resultMap>
 	
-	<!-- 대학 조회 -->
-	<select id="selectColleage" resultMap="colleage">
+	<!-- 학기 리스트 조회 -->
+	<select id="getSemeList" resultMap="semester">
+		SELECT SEM_NO
+			, SEM_NAME
+			, SEM_YEAR
+			, SEMESTER
+		FROM SEMESTER
+	</select>
+
+	<!-- 대학 리스트 조회 -->
+	<select id="getCollList" resultMap="colleage">
 		SELECT COLL_NO
 			, COLL_NAME
 		FROM COLLEAGE
 	</select>
-	
-	<!-- 학과 조회 -->
-	<select id="selectColleage" resultMap="colleage">
-		SELECT COLL_NO
-			, COLL_NAME
-		FROM COLLEAGE
+
+	<!-- 학과 리스트 조회 -->
+	<select id="getDeptList" resultMap="dept">
+		SELECT DEPT_NO
+			, DEPT_NAME
+			, COLL_NO
+		FROM DEPT
 	</select>
-	
-	<!-- 복수전공 조회 -->
-	<select id="selectColleage" resultMap="colleage">
-		SELECT COLL_NO
-			, COLL_NAME
-		FROM COLLEAGE
+
+	<!-- 복수 전공 리스트 조회 -->
+	<select id="getDoubleMajorList" resultMap="doubleMajor">
+		SELECT DOUBLE_NO
+			, DOUBLE_DEPT_NAME
+			, DOUBLE_COLL
+		FROM DOUBLE_MAJOR
 	</select>
 </mapper>
 

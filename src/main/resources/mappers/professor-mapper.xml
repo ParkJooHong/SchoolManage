@@ -35,7 +35,7 @@
 	</select>
 
 	<!-- 학기 리스트 조회 -->
-	<select id="getSemeList" resultMap="semester">
+	<select id="getSemeList" resultMap="schoolMapper.semester">
 		SELECT SEM_NO
 			, SEM_NAME
 			, SEM_YEAR
@@ -44,14 +44,14 @@
 	</select>
 
 	<!-- 대학 리스트 조회 -->
-	<select id="getCollList" resultMap="colleage">
+	<select id="getCollList" resultMap="schoolMapper.colleage">
 		SELECT COLL_NO
 			, COLL_NAME
 		FROM COLLEAGE
 	</select>
 
 	<!-- 학과 리스트 조회 -->
-	<select id="getDeptList" resultMap="dept">
+	<select id="getDeptList" resultMap="schoolMapper.dept">
 		SELECT DEPT_NO
 			, DEPT_NAME
 			, COLL_NO
@@ -59,7 +59,7 @@
 	</select>
 
 	<!-- 복수 전공 리스트 조회 -->
-	<select id="getDoubleMajorList" resultMap="doubleMajor">
+	<select id="getDoubleMajorList" resultMap="schoolMapper.doubleMajor">
 		SELECT DOUBLE_NO
 			, DOUBLE_DEPT_NAME
 			, DOUBLE_COLL
