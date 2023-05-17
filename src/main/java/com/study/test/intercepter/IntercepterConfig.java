@@ -13,14 +13,13 @@ public class IntercepterConfig implements WebMvcConfigurer {
 
 
 		registry.addInterceptor(getMenuIntercepter())
-				.addPathPatterns("/memberMenu/**")
+				.addPathPatterns("/member/**")
 				.addPathPatterns("/stuMenu/**");
 		
 		
 		registry.addInterceptor(getAdminMenuIntercepter())
 				.order(1)
 				.addPathPatterns("/admin/**")
-				.excludePathPatterns("/admin/join")
 				.excludePathPatterns("/member/**");
 		
 	}
