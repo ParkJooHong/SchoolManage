@@ -11,6 +11,7 @@
 </th:block>	
 
 <th:block layout:fragment="content">
+<form action="/admin/insertStu" method="post">
 	<div class="row">
 		<div class="col">
 			<div class="row">
@@ -28,14 +29,14 @@
 						<tr>
 							<td>학생번호</td>
 							<td>
-								<input type="text" class="form-control" readonly th:value="${memberVO.memNo}">
+								<input type="text" name="stuNo" class="form-control" readonly th:value="${schoolMap.memNo}">
 							</td>
 						</tr>
 						<tr>
 							<td>단과대학</td>
 							<td>
-								<select class="form-select">
-									<th:block th:each="coll : ${collList}">
+								<select name="collNo" class="form-select">
+									<th:block th:each="coll : ${schoolMap.collList}">
 										<option th:value="${coll.collNo}">[[${coll.collName}]]</option>
 									</th:block>
 								</select>
@@ -44,8 +45,8 @@
 						<tr>
 							<td>학과</td>
 							<td>
-								<select class="form-select">
-									<th:block th:each="dept:${deptList}">
+								<select name="deptNo" class="form-select">
+									<th:block th:each="dept:${schoolMap.deptList}">
 										<option th:value="${dept.deptNo}">[[${dept.deptName}]]</option>
 									</th:block>
 								</select>
@@ -54,9 +55,9 @@
 						<tr>
 							<td>복수전공</td>
 							<td>
-								<select class="form-select">
+								<select name="doubleNo" class="form-select">
 									<option selected>없음</option>
-									<th:block th:each="double:${doubleList}">
+									<th:block th:each="double:${schoolMap.doubleMajorList}">
 										<option th:value="${double.doubleNo}">[[${double.doubleColl}]]</option>
 									</th:block>
 								</select>
@@ -65,31 +66,60 @@
 						<tr>
 							<td>학년</td>
 							<td>
-								<select class="form-select">
-									<option>1학년</option>
+								<select name="stuYear" class="form-select">
+									<option value="1">1학년</option>
+									<option value="2">2학년</option>
+									<option value="3">3학년</option>
+									<option value="4">4학년</option>
 								</select>
 							</td>
 						</tr>
 						<tr>
 							<td>학기</td>
 							<td>
-								<select class="form-select">
-									<option>1학기</option>
+								<select name="stuSem" class="form-select">
+									<option value="1">1학기</option>
+									<option value="2">2학기</option>
 								</select>
 							</td>
 						</tr>
 						<tr>
 							<td>상태</td>
 							<td>
-								<select class="form-select">
-									<option>재학</option>
+								<select name="stuStatus" class="form-select">
+									<option value="재학">재학</option>
+									<option value="휴학">휴학</option>
 								</select>
 							</td>
 						</tr>
 						<tr>
 							<td>회원번호</td>
 							<td>
-								<input type="text" class="form-control" readonly th:value="${memberVO.memNo}">
+								<input type="text" name="memNo" class="form-control" readonly th:value="${schoolMap.memNo}">
+							</td>
+						</tr>
+						<tr>
+							<td>보호자 성함</td>
+							<td>
+								<input type="text" name="parentName" class="form-control">
+							</td>
+						</tr>
+						<tr>
+							<td>보호자 연락처</td>
+							<td>
+								<input type="text" name="parentTell" class="form-control">
+							</td>
+						</tr>
+						<tr>
+							<td>학생계좌은행</td>
+							<td>
+								<input type="text" name="stuBankName" class="form-control">
+							</td>
+						</tr>
+						<tr>
+							<td>학생계좌번호</td>
+							<td>
+								<input type="text" name="stuBankAccount" class="form-control">
 							</td>
 						</tr>
 					</table>
@@ -97,11 +127,12 @@
 			</div>
 			<div class="row">
 				<div class="col d-grid">
-					<input type="button" value="등록" class="btn btn-primary">
+					<input type="submit" value="등록" class="btn btn-primary">
 				</div>
 			</div>
 		</div>
 	</div>
+</form>
 </th:block>
 
 <!-- 연결해야 할 외부 js 파일 -->

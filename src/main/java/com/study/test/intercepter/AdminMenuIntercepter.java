@@ -21,10 +21,12 @@ public class AdminMenuIntercepter implements HandlerInterceptor{
 			ModelAndView modelAndView) throws Exception {
 		
 		Map<String, Object> data = modelAndView.getModel();
-		if(data != null) {			
-			AdminSubMenuVO subMenu = (AdminSubMenuVO)data.get("adminSubMenuVO");
-			modelAndView.addObject("adminMenuList",adminService.getAdminMenuList());
-			modelAndView.addObject("adminSubMenuList",adminService.getAdminSubMenuList(subMenu.getMenuCode()));
+		if (data != null) {			
+			AdminSubMenuVO subMenu = (AdminSubMenuVO) data.get("adminSubMenuVO");
+			if (subMenu != null) {
+				modelAndView.addObject("adminMenuList", adminService.getAdminMenuList());
+				modelAndView.addObject("adminSubMenuList", adminService.getAdminSubMenuList(subMenu.getMenuCode()));
+			}
 		}
 		
 	}

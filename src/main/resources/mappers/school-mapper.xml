@@ -17,7 +17,7 @@
 	<resultMap type="com.study.test.school.double_major.DoubleMajorVO" id="doubleMajor">
 		<id column="DOUBLE_NO" 			property="doubleNo"/>
 		<result column="DOUBLE_COLL" 	property="doubleColl"/>
-		<result column="DOUBLE_DEPT" 	property="doubleDept"/>
+		<result column="DOUBLE_DEPT_NAME" 	property="doubleDeptName"/>
 	</resultMap>
 	<!-- 학기 -->
 	<resultMap type="com.study.test.school.semester.SemesterVO" id="semester">
