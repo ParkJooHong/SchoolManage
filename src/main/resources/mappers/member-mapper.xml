@@ -95,6 +95,14 @@
 		</if>
 	</select>
 	
+	<!-- 아이디 찾기 -->
+	<select id="findId" resultType="String">
+		SELECT MEM_NO
+		FROM UNI_MEMBER
+		WHERE MEM_NAME = #{memName}
+		AND MEM_EMAIL = #{memEmail}
+	</select>
+	
 </mapper>
 
 

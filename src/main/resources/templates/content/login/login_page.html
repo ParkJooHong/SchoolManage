@@ -72,8 +72,8 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 		<div class="row iuput_info">
 			<div class="col-1"></div>
 			<div class="col-5 mt-3">
-				<span th:text="#{find_id}"></span>
-				<span th:text="#{find_pw}"></span>
+				<span data-bs-toggle="modal" data-bs-target="#findIdModal" th:text="#{find_id}" style="cursor: pointer;"></span>
+				<span data-bs-toggle="modal" data-bs-target="#findPwModal"  th:text="#{find_pw}" style="cursor: pointer;"></span>
 			</div>
 		</div>
 		<div class="row sub_menu mt-5 text-start">
@@ -94,6 +94,82 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 			</div>
 		</div>
 	</div>
+
+	<!-- FIND ID Modal -->
+	<div class="modal fade" id="findIdModal" data-bs-keyboard="false"
+		data-backdrop="false" tabindex="-1"
+		aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-body" id="findIdModalBody"
+					style="text-align: center;">
+					<form th:action="@{/member/findId}" method="post" class="row g-3"
+						id="findIdForm">
+						<div class="col-12">
+							<input type="text" class="form-control" id="memName" name="memName"
+								placeholder="이름을 입력해주세요">
+						</div>
+						<div class="col-12" id="error_find_id_div">
+							<input type="text" class="form-control" id="memEmail"
+								name="memEmail" placeholder="이메일을 입력하여주세요">
+						</div>
+						<div class="col-12 text-start">
+							<ul class="note">
+								<li>개인정보 유출에 유의하시기 바랍니다.</li>
+								<li>이름은 띄어쓰기 없이 입력해주세요.</li>
+								<li>이메일은 @포함 전체다 입력해주세요.</li>
+								<li>입력한 이메일 정보가 기억나지 않을 경우 소속학과 또는 소속대학원 사무실에 문의하시기 바랍니다.</li>
+							</ul>
+						</div>
+						<div class="col-12 d-grid">
+							<button id="button" class="btn btn-primary" type="button"
+								onclick='findId();'>
+								<span>아이디 찾기</span>
+							</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- FIND Pw Modal -->
+	<div class="modal fade" id="findPwModal" data-bs-keyboard="false"
+		data-backdrop="false" tabindex="-1"
+		aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-body" id="findPwModalBody"
+					style="text-align: center;">
+					<form th:action="@{/member/findPw}" method="post" class="row g-3"
+						id="findIdForm">
+						<div class="col-12">
+							<input type="text" class="form-control" id="memNo" name="memNo"
+								placeholder="학번 또는 교직원번호를 입력하여 주세요">
+						</div>
+						<div class="col-12" id="error_find_pw_div">
+							<input type="text" class="form-control" id="memEmail"
+								name="memEmail" placeholder="이메일을 입력하여주세요">
+						</div>
+						<div class="col-12 text-start">
+							<ul class="note">
+								<li>개인정보 유출에 유의하시기 바랍니다.</li>
+								<li>이메일은 @포함 전체다 입력해주세요.</li>
+								<li>입력한 이메일 정보가 기억나지 않을 경우 소속학과 또는 소속대학원 사무실에 문의하시기 바랍니다.</li>
+							</ul>
+						</div>
+						<div class="col-12 d-grid">
+							<button id="button" class="btn btn-primary" type="button"
+								onclick='findPw();'>
+								<span>아이디 찾기</span>
+							</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<!-- login_page js파일 로딩 -->
 	<script type="text/javascript" src="/js/content/login/login_page.js"></script>
 	

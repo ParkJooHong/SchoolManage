@@ -22,7 +22,7 @@ public class MemberServiceImpl implements MemberService {
 		return sqlSession.selectList("memberMenuMapper.stuMenuList");
 	}
 
-	//학생ㅅㅓ브 메뉴
+	//학생서브 메뉴
 	@Override
 	public List<MemberMenuVO> stuSubMenuList(String menuCode) {
 		return sqlSession.selectList("memberMenuMapper.stuSubMenuList", menuCode);
@@ -43,12 +43,16 @@ public class MemberServiceImpl implements MemberService {
 		return sqlSession.selectOne("memberMapper.login", memberVO);
 	}
 	
+	//아이디 찾기
+	@Override
+	public String getMemNo(MemberVO memberVO) {
+		return sqlSession.selectOne("memberMapper.findId", memberVO);
+	}
+	
 	//다음에 들어갈 IMG코드 조회
 	@Override
 	public String getNextImgCode() {		
 		return sqlSession.selectOne("memberMapper.getNextImgCode");
 	}
-	
-
 	
 }

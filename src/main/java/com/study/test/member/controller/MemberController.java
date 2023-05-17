@@ -15,7 +15,7 @@ import com.study.test.member.vo.MemberVO;
 import jakarta.annotation.Resource;
 
 @Controller
-@RequestMapping("/memberMenu")
+@RequestMapping("/member")
 public class MemberController {
 	
 	@Resource(name = "memberService")
@@ -27,6 +27,27 @@ public class MemberController {
 	public MemberVO getMemberInfo(MemberVO memberVO) {
 		return memberService.login(memberVO);
 	}
+	
+	//아이디 찾기
+	@ResponseBody
+	@PostMapping("/findId")
+	public String getMemNo(MemberVO memberVO) {
+		System.out.println(memberVO);
+		return memberService.getMemNo(memberVO);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	//-------------------Menu ============================================================================================================================
 	//내 정보 관리
@@ -85,29 +106,27 @@ public class MemberController {
 	//-----------------------------------------------------------------------------------------------------------------------------
 	
 	
-	//-------------------SubMenu ============================================================================================================================
-	
-	// ---- 내정보 관리 { 
-	//MyInfo
+	// -------------------SubMenu
+	// ============================================================================================================================
+
+	// ---- 내정보 관리 {
+	// MyInfo
 	@GetMapping("infoManage")
 	private String infoManage() {
 
-		
 		return "/content/info/stu_myInfo/infoManage";
 	}
-	
-	
-	  //비밀번호변경	  
-	  @GetMapping("changePwd") 
-	  private String changePwd() {
-	  
-	  
-	  return "/content/info/stu_myInfo/changePwd"; }
-	 
+
+	// 비밀번호변경
+	@GetMapping("changePwd")
+	private String changePwd() {
+
+		return "/content/info/stu_myInfo/changePwd";
+	}
+
 	// ----- 내 정보 관리 끝 }
-	
-	
-	//----------학적관리 {
+
+	// ----------학적관리 {
 	@GetMapping("/academicManage")
 	private String academicManage() {
 
