@@ -1,18 +1,14 @@
 
-function mainMenu(menuCode, menuUrl){
+function moveByMenuCode(menuCode, menuUrl){
 
-	location.href=`/admin${menuUrl}?menuCode=${menuCode}`;
-	alert(menuUrl);
-	alert(menuCode);
+	location.href=`/admin${menuUrl}?subMenuCode=${menuCode}`;
+
 	
 	
 }
 
-function subMenu(subMenuCode, subMenuUrl, menuCode){
-	location.href=`/admin${subMenuUrl}?menuCode=${menuCode}`;
-	// subMenuCode=${subMenuCode} 
-	alert(menuUrl);
-	alert(menuCode);
+function moveBySubMenuCode(subMenuCode,subMenuUrl){
+	location.href=`/admin${subMenuUrl}?subMenuCode=${subMenuCode}`;
 }
 
 

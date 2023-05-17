@@ -11,9 +11,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 import com.study.test.admin.service.AdminService;
+import com.study.test.admin.vo.AdminSubMenuVO;
 import com.study.test.member.service.MemberService;
 import com.study.test.member.vo.MemImgVO;
+
 import com.study.test.member.vo.MemberVO;
+import com.study.test.util.ConstVariable;
 import com.study.test.util.UploadUtil;
 
 import jakarta.annotation.Resource;
@@ -30,9 +33,18 @@ public class AdminController {
 	
 	//회원등록 페이지 이동
 	@GetMapping("/joinMember")
-	public String joinMember() {
-		
+	public String joinMember(AdminSubMenuVO adminSubMenuVO) {
+		adminSubMenuVO.setMenuCode(ConstVariable.DEFAULT_MENU_CODE);
+		adminSubMenuVO.setSubMenuCode(ConstVariable.DEFAULT_SUB_MENU_CODE);	
+
 		return "content/admin/join_member";
+	}
+	
+	//비밀번호 변겅 페이지 이동
+	@GetMapping("/changePwd")
+	public String changePwd(AdminSubMenuVO adminSubMenuVO) {
+		adminSubMenuVO.setMenuCode(ConstVariable.DEFAULT_MENU_CODE);
+		return "content/admin/change_pwd";
 	}
 	
 	//회원등록
@@ -54,4 +66,45 @@ public class AdminController {
 		
 		return "redirect:/admin/join";
 	}
+	
+	//학적변동승인(복학,휴학)
+	@GetMapping("/updateStuInfo")
+	public String updateStuInfo(AdminSubMenuVO adminSubMenuVO) {
+		adminSubMenuVO.setMenuCode(ConstVariable.SECOND_MENU_CODE);
+
+		return "content/admin/update_stu_info";
+	}
+	
+	//전과/복수전공
+	@GetMapping("/changeMajor")
+	public String changeMajor(AdminSubMenuVO adminSubMenuVO) {
+		adminSubMenuVO.setMenuCode(ConstVariable.SECOND_MENU_CODE);
+		
+		return "content/admin/change_major";
+	}
+	
+	//실적현황
+	@GetMapping("/performanceData")
+	public String performanceData(AdminSubMenuVO adminSubMenuVO) {
+		adminSubMenuVO.setMenuCode(ConstVariable.SECOND_MENU_CODE);
+		
+		return "content/admin/performance_data";
+	}
+	
+	//학사경고,제적
+	@GetMapping("/updateStuOut")
+	public String updateStuOut(AdminSubMenuVO adminSubMenuVO) {
+		adminSubMenuVO.setMenuCode(ConstVariable.THIRD_MENU_CODE);
+		
+		return "content/admin/update_stu_out";
+	}
+	//제적처리 페이지
+	@GetMapping("/dismissal")
+	public String dismissal(AdminSubMenuVO adminSubMenuVO) {
+		adminSubMenuVO.setMenuCode(ConstVariable.THIRD_MENU_CODE);
+		
+		return "content/admin/dismissal";
+	}
+	
+	
 }

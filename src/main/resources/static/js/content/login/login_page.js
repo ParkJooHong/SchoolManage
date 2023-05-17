@@ -1,4 +1,4 @@
-function login(){
+function login() {
 	let memNo = document.querySelector('#memNo').value;
 	let memPw = document.querySelector('#memPw').value;
 	//ajax start
@@ -19,8 +19,8 @@ function login(){
 				//id, pw input 태그 초기화
 				memNo = '';
 				memPw = '';
-			
-				
+
+
 				//경고창 메세지 띄우기
 				if (document.querySelector('.input_pw').querySelector('div') == null) {
 					const error_div = document.querySelector('.input_pw');
@@ -41,11 +41,11 @@ function login(){
 					button: '확인',
 				})
 					.then((result) => {
-						
+
 						if (role == 'admin') {
 							location.href = '/admin/joinMember';
 						}
-						else{
+						else {
 							location.href = '/mainPage';
 						}
 					})
@@ -56,15 +56,41 @@ function login(){
 		}
 	});
 	//ajax end
-} 	
-
-
-//한글로 변환
-function toKor(){
-	const find_id = document.querySelector('#find_id');
-	const find_pw = document.querySelector('#find_pw');
-	const main_homepage = document.querySelector('#main_homepage');
-	
 }
+
+
+//배경 자동전환 (애니메이션)
+//메인페이지 전체 선택
+const imgContainer = document.querySelector('.login_backgroung');
+
+const images = ['/image/login/img_login00.jpg', '/image/login/img_login01.png', '/image/login/img_login02.png']; // 이미지 경로를 배열로 저장
+
+let currentImageIndex = 0;
+
+const intervalDuration = 3000; // 이미지 전환 간격 (밀리초)
+
+// 이미지를 로드하고 배경 이미지로 설정하는 함수
+    function loadAndSetImage(index) {
+      const image = new Image();
+      image.src = images[index];
+      image.onload = () => {
+        imgContainer.style.backgroundImage = `url(${images[index]})`;
+      };
+    }
+
+    setInterval(() => {
+      // 다음 이미지 인덱스 계산
+      currentImageIndex = (currentImageIndex + 1) % images.length;
+
+      // 다음 이미지로 배경 이미지 변경하여 표시
+      loadAndSetImage(currentImageIndex);
+    }, intervalDuration);
+
+    // 초기에 첫 번째 이미지 로드하여 표시
+    loadAndSetImage(0);
+
+
+
+
 
 
