@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com.study.test.admin.vo.AdminMenuVO;
 import com.study.test.admin.vo.AdminSubMenuVO;
+import com.study.test.professor.vo.ProfessorMenuVO;
+import com.study.test.professor.vo.ProfessorSubMenuVO;
 
 @Service("professorService")
 public class ProfessorServiceImpl implements ProfessorService{
@@ -15,12 +17,12 @@ public class ProfessorServiceImpl implements ProfessorService{
 	private SqlSessionTemplate sqlsession;
 
 	@Override
-	public List<AdminMenuVO> getProfessorMenuList() {
+	public List<ProfessorMenuVO> getProfessorMenuList() {
 		return sqlsession.selectList("professorMapper.getProfessorMenuList");
 	}
 
 	@Override
-	public List<AdminSubMenuVO> getProfessorSubMenuList(String menuCode) {
+	public List<ProfessorSubMenuVO> getProfessorSubMenuList(String menuCode) {
 		return sqlsession.selectList("professorMapper.getProfessorSubMenuList",menuCode);
 	}
 	

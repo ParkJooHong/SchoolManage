@@ -21,9 +21,10 @@
 	</resultMap>
 	<!-- 학기 -->
 	<resultMap type="com.study.test.school.semester.SemesterVO" id="semester">
-		<id column="DOUBLE_NO" 			property="doubleNo"/>
-		<result column="DOUBLE_COLL" 	property="doubleColl"/>
-		<result column="DOUBLE_DEPT" 	property="doubleDept"/>
+		<id column="SEM_NO" 			property="semNo"/>
+		<result column="SEM_YEAR" 	property="semYear"/>
+		<result column="SEMESTER" 	property="semester"/>
+		<result column="SEM_NAME" 	property="semName"/>
 	</resultMap>
 </mapper>
 

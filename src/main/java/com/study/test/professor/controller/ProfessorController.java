@@ -32,7 +32,11 @@ public class ProfessorController {
 	//강의등록 페이지로 이동
 	@GetMapping("/regLecture")
 	public String regLecture(ProfessorMenuVO professorMenuVO) {
+		//메뉴코드 등록
 		professorMenuVO.setMenuCode(ConstVariable.DEFAULT_PROFESSOR_MENU_CODE);
+		
+		//학기리스트 조회
+		
 		
 		return "content/professor/reg_lecture";
 	}

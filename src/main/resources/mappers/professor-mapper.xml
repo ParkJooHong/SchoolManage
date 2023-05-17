@@ -35,8 +35,10 @@
 	</select>
 	
 	<!-- 학기 리스트 조회 -->
-	<select id="getSemeList" resultMap="">
-	
+	<select id="getSemeList" resultMap="schoolMapper.semester">
+		SELECT SEM_NO
+			, SEM_NAME
+		FROM SEMESTER
 	</select>
 	
 </mapper>
