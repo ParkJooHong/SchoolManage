@@ -7,11 +7,188 @@
 
 <!-- 연결해야 할 외부 css 파일  -->
 <th:block layout:fragment="content_css">
-	<link rel="stylesheet" href="">
+	<link rel="stylesheet" href="/css/content/admin/update_stu_info.css">
 </th:block>	
 
 <th:block layout:fragment="content">
-	학적변동승인페이지
+	<div class="row">
+		<div class="col">
+			<div class="row mb-3">
+				<div class="col-12">
+					<h4>1.휴학신청 접수현황</h4>
+				</div>
+			</div>
+			<div class="row mb-3">
+				<div class="col-12">
+					<table class="table align-middle">
+						<colgroup>
+							<col width="7%">
+							<col width="17%">
+							<col width="17%">
+							<col width="7%">
+							<col width="12%">
+							<col width="12%">
+							<col width="12%">
+							<col width="*">
+						</colgroup>
+						<tr>
+							<td>신청일</td>
+							<td>
+								<input type="date" class="form-control">
+							</td>
+							<td>
+								<input type="date" class="form-control">
+							</td>
+							<td>처리상태</td>
+							<td>
+								<input type="radio" class="form-check-input" name="status-1" checked>전체
+							</td>
+							<td>
+								<input type="radio" class="form-check-input" name="status-1">승인대기							
+							</td>
+							<td>
+								<input type="radio" class="form-check-input" name="status-1">승인완료
+							</td>
+							<td class="d-grid">
+								<input type="button" class="btn btn-primary" value="search">
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<span class="ps-span"> ★ 학생의 학번을 클릭하면 학생정보창이 열립니다.</span>
+				</div>
+			</div>
+			<div class="row mb-5">
+				<div class="col">
+					<table class="table align-middle">
+						<thead>
+							<tr>
+								<td>
+									<input type="checkbox" class="form-check-input">
+								</td>
+								<td>No</td>
+								<td>이 름</td>
+								<td>학 번</td>
+								<td>학 년</td>
+								<td>전공대학</td>
+								<td>전공학과</td>
+								<td>신청일</td>
+								<td>승인여부</td>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>
+									<input type="checkbox" class="form-check-input">
+								</td>
+								<td>1</td>
+								<td>김자바</td>
+								<td>20230005</td>
+								<td>1학년</td>
+								<td>교육대학</td>
+								<td>교육학</td>
+								<td>2023-05-17</td>
+								<td>
+									<input type="radio" class="form-check-input" checked name="status-2">승인대기
+									<input type="radio" class="form-check-input" name="status-2">승인완료
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="row mb-3">
+				<div class="col">
+					<h4>2.복학신청 접수현황</h4>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<table class="table align-middle">
+						<colgroup>
+							<col width="7%">
+							<col width="17%">
+							<col width="17%">
+							<col width="7%">
+							<col width="12%">
+							<col width="12%">
+							<col width="12%">
+							<col width="*">
+						</colgroup>
+						<tr>
+							<td>신청일</td>
+							<td>
+								<input type="date" class="form-control">
+							</td>
+							<td>
+								<input type="date" class="form-control">
+							</td>
+							<td>처리상태</td>
+							<td>
+								<input type="radio" class="form-check-input" name="status-3" checked>전체
+							</td>
+							<td>
+								<input type="radio" class="form-check-input" name="status-4">승인대기							
+							</td>
+							<td>
+								<input type="radio" class="form-check-input" name="status-5">승인완료
+							</td>
+							<td class="d-grid">
+								<input type="button" class="btn btn-primary" value="search">
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<span class="ps-span"> ★ 학생의 학번을 클릭하면 학생정보창이 열립니다.</span>
+				</div>
+			</div>
+			<div class="row mb-5">
+				<div class="col">
+					<table class="table align-middle">
+						<thead>
+							<tr>
+								<td>
+									<input type="checkbox" class="form-check-input">
+								</td>
+								<td>No</td>
+								<td>이 름</td>
+								<td>학 번</td>
+								<td>학 년</td>
+								<td>전공대학</td>
+								<td>전공학과</td>
+								<td>신청일</td>
+								<td>승인여부</td>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>
+									<input type="checkbox" class="form-check-input">
+								</td>
+								<td>1</td>
+								<td>김자바</td>
+								<td>20230005</td>
+								<td>1학년</td>
+								<td>교육대학</td>
+								<td>교육학</td>
+								<td>2023-05-17</td>
+								<td>
+									<input type="radio" class="form-check-input" checked name="status-3">승인대기
+									<input type="radio" class="form-check-input" name="status-3">승인완료
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
 </th:block>
 
 <!-- 연결해야 할 외부 js 파일 -->
