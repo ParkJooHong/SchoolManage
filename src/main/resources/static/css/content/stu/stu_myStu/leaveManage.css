@@ -3,15 +3,7 @@
 @charset "UTF-8";
 
 .detail_info {
-    position: relative;
-    display: flex;
-    flex-wrap: wrap;
-    border-top: 2px solid #897c76;
-    border-bottom: 1px solid #897c76;
-    margin: 10px 0;
     background: #ebe7e3;
-    overflow: hidden;
-    padding: 6px 6px 1px 6px;
 }
 
 table.detail_info{
@@ -20,8 +12,11 @@ table.detail_info{
 	padding: 10px;
 }
 table.detail_info td{
-	margin: 10px;
+	width: 50px;
 	padding: 5px;
+}
+table.detail_info td:nth-child(even){
+	background-color: white;
 }
 
 table.default_info{

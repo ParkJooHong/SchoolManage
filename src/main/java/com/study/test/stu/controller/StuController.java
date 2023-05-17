@@ -56,7 +56,7 @@ public class StuController {
 	
 			//에러 많음 수정 필요.
 			
-			return "/content/info/stu_myInfo/infoManage";
+			return "/content/stu/stu_myInfo/infoManage";
 		}
 		
 		// 내정보 수정
@@ -74,14 +74,14 @@ public class StuController {
 			
 
 			
-			return "/content/info/stu_myStu/my_stu";
+			return "/content/stu/stu_myStu/my_stu";
 		}
 		
 		//교과수업
 		@GetMapping("stuClass")
 		private String stuClass() {
 			
-			return "/content/info/stu_class/grade";
+			return "/content/stu/stu_class/grade";
 		}
 		
 		
@@ -91,7 +91,7 @@ public class StuController {
 		private String board() {
 
 			
-			return "/content/info/stu_board/totalBoard";
+			return "/content/stu/stu_board/totalBoard";
 		}
 		
 		//캘린더
@@ -99,7 +99,7 @@ public class StuController {
 		private String calender() {
 
 			
-			return "/content/info/stu_calender/departmentSchedule";
+			return "/content/stu/stu_calender/departmentSchedule";
 		}
 			
 		//-----------------------------------------------------------------------------------------------------------------------------
@@ -129,7 +129,7 @@ public class StuController {
 			
 			//에러 많음 수정 필요.
 			
-			return "/content/info/stu_myInfo/infoManage";
+			return "/content/stu/stu_myInfo/infoManage";
 		}
 		
 		
@@ -143,7 +143,7 @@ public class StuController {
 		  model.addAttribute("stuVO" , stuService.seletStu(stuVO.getMemNo()));
 		  System.out.println(model.addAttribute("stuVO" , stuService.seletStu(stuVO.getMemNo())));
 	  
-		  return "/content/info/stu_myInfo/changePwd"; 
+		  return "/content/stu/stu_myInfo/changePwd"; 
 	  }
 		 
 	  
@@ -169,11 +169,52 @@ public class StuController {
 		
 		
 		//----------학적관리 {
+	  
+	  	//휴학신청
+		@GetMapping("/leaveManage")
+		private String leaveManage(Authentication authentication,StuVO stuVO, MemberVO memberVO, Model model) {
+
+			
+			User user = (User)authentication.getPrincipal();
+			String memName = user.getUsername();
+			stuVO.setMemNo(user.getUsername()); // id임
+			memberVO.setMemNo(user.getUsername());
+			model.addAttribute("stuVO" , stuService.seletStu(memberVO.getMemNo()));
+			
+			return "/content/stu/stu_myStu/leaveManage";
+		}
+		
+		
+		// 복학 신청
+		@GetMapping("/returnManage")
+		private String returnManage() {
+
+			return "/content/stu/stu_myStu/returnManage";
+		}
+		
+		// 전과신청
+		@GetMapping("/moveManage")
+		private String moveManage() {
+
+			return "/content/stu/stu_myStu/moveManage";
+		}
+		
+		// 복수전공신청
+		@GetMapping("/doubleMajorManage")
+		private String doubleMajorManage() {
+
+			return "/content/stu/stu_myStu/doubleMajorManage";
+		}
+		
+		// 학적신청현황조회
 		@GetMapping("/academicManage")
 		private String academicManage() {
 
-			return "/content/info/stu_myStu/academicManage";
+			return "/content/stu/stu_myStu/academicManage";
 		}
+				
+		
+		
 		
 		
 		// ---- 교과수업 { 
@@ -181,21 +222,21 @@ public class StuController {
 			@GetMapping("grade")
 			private String grade() {
 				
-				return "/content/info/stu_class/grade";
+				return "/content/stu/stu_class/grade";
 			}
 			
 		//수강신청
 		@GetMapping("application")
 		private String application() {
 
-			return "/content/info/stu_class/application";
+			return "/content/stu/stu_class/application";
 		}
 		
 		//수업평가
 		@GetMapping("evaluation")
 		private String evaluation() {
 
-			return "/content/info/stu_class/evaluation";
+			return "/content/stu/stu_class/evaluation";
 		}
 		
 		// 교과수업 끝 } 
@@ -205,14 +246,14 @@ public class StuController {
 		@GetMapping("/totalBoard")
 		private String totalBoard() {
 
-			return "/content/info/stu_board/totalBoard";
+			return "/content/stu/stu_board/totalBoard";
 		}
 		
 		//중고 나눔
 		@GetMapping("/donation")
 		private String donation() {
 
-			return "/content/info/stu_board/donation";
+			return "/content/stu/stu_board/donation";
 		}
 		
 		// 게시판 끝 } 
@@ -222,14 +263,14 @@ public class StuController {
 		@GetMapping("/departmentSchedule")
 		private String departmentSchedule() {
 
-			return "/content/info/stu_calender/departmentSchedule";
+			return "/content/stu/stu_calender/departmentSchedule";
 		}
 		
 		//내 할일
 		@GetMapping("/mySchedule")
 		private String mySchedule() {
 
-			return "/content/info/stu_calender/mySchedule";
+			return "/content/stu/stu_calender/mySchedule";
 		}
 
 }

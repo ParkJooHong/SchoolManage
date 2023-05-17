@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+   xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+   layout:decorate="~{fragment/info_layout}">
+
+<th:block layout:fragment="content_css">
+   <link rel="stylesheet" href="/css/content/stu/stu_myStu/doubleMajorManage.css">
+</th:block>
+
+<th:block layout:fragment="content">
+<div style="font-size: 15px; color: blue; font-weight: bold;">즐겨찾기 ☆</div>
+<div style="font-size: 20px; color: red; font-weight: bold;" >학생기본정보</div>
+<div class="tableAdd">
+	<table border="3" style="border-color: red;" class="default_info">
+		<tr>
+			<td>학번</td>
+			<td><input type="text" readonly></td>
+			<td>성명</td>
+			<td><input type="text" readonly></td>
+			<td>학년</td>
+			<td><input type="text" readonly></td>
+			<td>학적상태</td>
+			<td><input type="text" readonly></td>
+		</tr>
+	</table>
+</div>
+<div style="text-align: center;">
+	<button onclick="plus();" class="plus" style="width: 40px; height:30px; border-bottom-left-radius:10px; border-bottom-right-radius:10px;
+		font-size: 20px; font-weight: bold; border-color: red;  color: white; background-color: red;">
+		+
+	</button>
+</div>
+<br>
+<div style="text-align: center;"> 휴학신청</div>
+
+</th:block>
+
+
+<th:block layout:fragment="content_js">
+<script type="text/javascript" src="/js/content/stu/stu_myStu/doubleMajorManage.js"></script>
+</th:block>
+
+</html>
