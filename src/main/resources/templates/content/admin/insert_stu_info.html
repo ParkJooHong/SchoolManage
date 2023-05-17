@@ -35,7 +35,9 @@
 							<td>단과대학</td>
 							<td>
 								<select class="form-select">
-									<option>1</option>
+									<th:block th:each="coll : ${collList}">
+										<option th:value="${coll.collNo}">[[${coll.collName}]]</option>
+									</th:block>
 								</select>
 							</td>
 						</tr>
@@ -43,7 +45,9 @@
 							<td>학과</td>
 							<td>
 								<select class="form-select">
-									<option>1</option>
+									<th:block th:each="dept:${deptList}">
+										<option th:value="${dept.deptNo}">[[${dept.deptName}]]</option>
+									</th:block>
 								</select>
 							</td>
 						</tr>
@@ -51,8 +55,10 @@
 							<td>복수전공</td>
 							<td>
 								<select class="form-select">
-									<option>없음</option>
-									<option>1</option>
+									<option selected>없음</option>
+									<th:block th:each="double:${doubleList}">
+										<option th:value="${double.doubleNo}">[[${double.doubleColl}]]</option>
+									</th:block>
 								</select>
 							</td>
 						</tr>

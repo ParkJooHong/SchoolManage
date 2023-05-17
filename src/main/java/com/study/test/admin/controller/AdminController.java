@@ -75,10 +75,14 @@ public class AdminController {
 
 	// 학생정보등록페이지 이동
 	@GetMapping("/insertStuInfo")
-	public String insertStuInfo(MemberVO memberVO, AdminSubMenuVO adminSubMenuVO) {
+	public String insertStuInfo(MemberVO memberVO, AdminSubMenuVO adminSubMenuVO, Model model) {
 		adminSubMenuVO.setMenuCode(ConstVariable.DEFAULT_MENU_CODE);
 		adminSubMenuVO.setSubMenuCode(ConstVariable.DEFAULT_SUB_MENU_CODE);
-
+		
+		model.addAttribute("collList",adminService.getCollList());
+		model.addAttribute("deptList",adminService.getDeptList());
+		model.addAttribute("doubleList",adminService.getDoubleMajorList());
+		
 		return "content/admin/insert_stu_info";
 	}
 
