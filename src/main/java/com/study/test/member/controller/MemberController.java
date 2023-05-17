@@ -21,6 +21,8 @@ public class MemberController {
 	@Resource(name = "memberService")
 	private MemberService memberService;
 	
+	
+	
 	//로그인
 	@ResponseBody
 	@PostMapping("/getMemberInfo")

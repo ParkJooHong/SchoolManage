@@ -18,8 +18,8 @@ public class StuServiceImpl implements StuService {
 
 	//학생 정보
 	@Override
-	public MemberVO seletStu(String memNo) {
-		return sqlSession.selectOne("stuMapper.seletStu", memNo);
+	public MemberVO seletStu(MemberVO memberVO) {
+		return sqlSession.selectOne("stuMapper.seletStu", memberVO);
 	}
 
 	// 학생, MyInfo 변경

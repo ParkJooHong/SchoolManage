@@ -9,7 +9,7 @@ public interface StuService {
 
 	
 	//학생 정보
-	MemberVO seletStu(String memNo);
+	MemberVO seletStu(MemberVO memberVO);
 	
 	
 	//학생, MyInfo 변경

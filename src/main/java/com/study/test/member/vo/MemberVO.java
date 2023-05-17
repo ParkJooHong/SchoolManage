@@ -1,5 +1,6 @@
 package com.study.test.member.vo;
 
+import com.study.test.school.colleage.ColleageVO;
 import com.study.test.stu.vo.StuVO;
 
 import lombok.Getter;
@@ -23,4 +24,5 @@ public class MemberVO {
 	private String memRole;
 	private MemImgVO memImgVO;
 	private StuVO stuVO;
+	private ColleageVO colleageVO;
 }

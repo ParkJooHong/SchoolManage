@@ -26,6 +26,13 @@
 		<result column="SEMESTER" 	property="semester"/>
 		<result column="SEM_NAME" 	property="semName"/>
 	</resultMap>
+	
+	<!-- 대학 조회 -->
+	<select id="selectColleage" resultMap="colleage">
+		SELECT COLL_NO
+			, COLL_NAME
+		FROM COLLEAGE
+	</select>
 </mapper>
 
 

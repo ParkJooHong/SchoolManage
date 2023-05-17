@@ -18,6 +18,7 @@
 		<result column="PARENT_TELL" 			property="parentTell"/>
 		<result column="STU_BANK_NAME" 			property="stuBankName"/>
 		<result column="STU_BANK_ACCOUNT" 			property="stuBankAccount"/>
+		
 	</resultMap>
 	
 		<!-- 사용자 메뉴 -->
@@ -35,6 +36,7 @@
 		<result column="MEM_ROLE" 			property="memRole"/>
 		<association property="memImgVO" resultMap="memberMapper.memImg"/>
 		<association property="stuVO" resultMap="stu"/>
+		<association property="colleageVO" resultMap="schoolMapper.colleage"/>
 	</resultMap>
 	
 	
@@ -48,7 +50,7 @@
 			, MEM_ROLE
 			, MEM_NAME
 			, STU_NO
-			, COLL_NO
+			, UNI_STU.COLL_NO
 			, DEPT_NO
 			, DOUBLE_NO
 			, STU_YEAR
@@ -58,8 +60,10 @@
 			, PARENT_TELL
 			, STU_BANK_NAME
 			, STU_BANK_ACCOUNT
-		FROM UNI_STU, UNI_MEMBER
+			, COLL_NAME
+		FROM UNI_STU, UNI_MEMBER, COLLEAGE
 		WHERE UNI_MEMBER.MEM_NO = #{memNo}
+		AND UNI_STU.COLL_NO = #{collNo}
 	</select>
 	
 	<!-- 학생 정보 변경 -->

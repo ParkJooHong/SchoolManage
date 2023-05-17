@@ -13,6 +13,7 @@ import com.study.test.member.service.MemberService;
 import com.study.test.member.vo.MemberMenuVO;
 import com.study.test.member.vo.MemberSubMenuVO;
 import com.study.test.member.vo.MemberVO;
+import com.study.test.school.colleage.ColleageVO;
 import com.study.test.stu.service.StuService;
 import com.study.test.stu.vo.StuVO;
 
@@ -32,17 +33,21 @@ public class StuController {
 	
 	//내 정보 관리
 		@GetMapping("/myInfo")
-		private String myInfo(Authentication authentication, String memNo, Model model, StuVO stuVO, MemberVO memberVO) {
+		private String myInfo(Authentication authentication, String memNo, Model model, StuVO stuVO, MemberVO memberVO, ColleageVO colleageVO) {
 			
 			User user = (User)authentication.getPrincipal();
 			String memName = user.getUsername();
 			stuVO.setMemNo(user.getUsername()); // id임
 			memberVO.setMemNo(user.getUsername());
 			
+			//System.out.println("######" + university.selectColleage()); 
+			
+			colleageVO.getCollNo();
+			
+			System.out.println("#######" + stuService.seletStu(memberVO));
+			// System.out.println("#######" + stuService.seletStu(memberVO.getMemNo()));
 
-			System.out.println("#######" + stuService.seletStu(memberVO.getMemNo()));
-
-			model.addAttribute("stuVO" , stuService.seletStu(memberVO.getMemNo()));
+			model.addAttribute("stuVO" , stuService.seletStu(memberVO));
 			
 			System.out.println("아뒤 : " + memName);
 			
@@ -116,8 +121,8 @@ public class StuController {
 			String memName = user.getUsername();
 			stuVO.setMemNo(user.getUsername()); // id임
 			
-			model.addAttribute("stuVO" , stuService.seletStu(stuVO.getMemNo()));
-			System.out.println("@@@@@@@@@@" + stuService.seletStu(stuVO.getMemNo()));
+			//model.addAttribute("stuVO" , stuService.seletStu(stuVO.getMemNo()));
+			//System.out.println("@@@@@@@@@@" + stuService.seletStu(stuVO.getMemNo()));
 			System.out.println("아뒤 : " + memName);
 			
 			MemberMenuVO menuCode = new MemberMenuVO();
@@ -140,8 +145,8 @@ public class StuController {
 		  stuVO.setMemNo(user.getUsername()); 
 		  
 	  
-		  model.addAttribute("stuVO" , stuService.seletStu(stuVO.getMemNo()));
-		  System.out.println(model.addAttribute("stuVO" , stuService.seletStu(stuVO.getMemNo())));
+		  //model.addAttribute("stuVO" , stuService.seletStu(stuVO.getMemNo()));
+		 // System.out.println(model.addAttribute("stuVO" , stuService.seletStu(stuVO.getMemNo())));
 	  
 		  return "/content/stu/stu_myInfo/changePwd"; 
 	  }
@@ -179,7 +184,7 @@ public class StuController {
 			String memName = user.getUsername();
 			stuVO.setMemNo(user.getUsername()); // id임
 			memberVO.setMemNo(user.getUsername());
-			model.addAttribute("stuVO" , stuService.seletStu(memberVO.getMemNo()));
+			//model.addAttribute("stuVO" , stuService.seletStu(memberVO.getMemNo()));
 			
 			return "/content/stu/stu_myStu/leaveManage";
 		}
@@ -199,7 +204,11 @@ public class StuController {
 			String memName = user.getUsername();
 			stuVO.setMemNo(user.getUsername()); // id임
 			memberVO.setMemNo(user.getUsername());
-			model.addAttribute("stuVO" , stuService.seletStu(memberVO.getMemNo()));
+			//model.addAttribute("stuVO" , stuService.seletStu(memberVO.getMemNo()));
+			
+			//대학 조회
+			//model.addAttribute("colleageVO" , university.selectColleage());
+			//System.out.println(university.selectColleage());
 
 			return "/content/stu/stu_myStu/moveManage";
 		}
