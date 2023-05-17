@@ -31,8 +31,57 @@
 	</button>
 </div>
 <br>
-<div style="text-align: center;"> 휴학신청</div>
+<h3>전과 신청</h3>
+<table border="1" class="detail_info" th:each="stu : ${stuVO}">
+	<tr>
+		<td>이름</td>
+		<td>[[${stu.memName}]]</td>
+		<td>학번</td>
+		<td>[[${stu.memNo}]]</td>
+		<td>학년</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>전공대학</td>
+		<td></td>
+		<td>전공학과</td>
+		<td></td>
+		<td>복수전공</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>성별</td>
+		<td></td>
+		<td>생년월일</td>
+		<td>[[${stu.stuVO.stuYear}]]</td>
+		<td>학적상태</td>
+		<td>[[${stu.stuVO.stuStatus}]]</td>
+	</tr>
+</table>
 
+<table border="1" class="detail_info">
+	<tr>
+		<td>현재 전공 대학</td>
+		<td></td>
+		<td>현재 전공 학과</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>변경 전공 대학</td>
+		<td></td>
+		<td>변겅 전공 학과</td>
+		<td></td>
+	</tr>
+</table>
+<table border="1" class="detail_info">
+	<tr>
+		<td>전과 사유</td>
+		<td><textarea placeholder="휴학 사유를 작성하세요." rows="4" cols="30"></textarea></td>
+	</tr>
+</table>
+<div style="text-align: center;">
+	<input type="button" value="전과 신청" class="btn btn-primary">
+</div>
 </th:block>
 
 

@@ -11,11 +11,40 @@
 		</svg>
 		<input type="text" id="menuSearch" style="background-color: rgb(128, 255, 255);"  placeholder="메뉴를 검색하세요.">
 	</div>
-	<table class="list-group">
+
+
+	<br>
+
+<div class="div-container">
+	<div class="div-left">
+		<table class="list-group">
+			<th:block th:each="menu : ${menuList}">
+			<tr>
+				<td class="list-group-item" th:onclick="mainMenu([[${menu.menuCode}]],[[${menu.menuUrl}]]);">
+					✨ [[${menu.menuName}]]</td>
+			</tr>
+			</th:block>
 		
-	</table>
 		
-	<table class="list-group">
+		</table>
+	</div>
+	<div class="div-center">
+		<th:block th:each="menu : ${menuList}">
+			<th:block th:each="subMenu : ${subMenuList}">					
+						<th:block th:if="${menu.menuCode == subMenu.menuCode}">
+						<ul>
+							<li class="list-group-item"
+								th:onclick="subMenu([[${subMenu.subMenuCode}]],[[${subMenu.subMenuUrl}]],[[${menu.menuCode}]]);">
+								🍒 [[${subMenu.subMenuName}]]</li>
+								</ul>
+						</th:block>
+			</th:block>
+		</th:block>
+	</div>
+</div>
+
+
+		<table class="list-group">
 		<tr>
 			<td> </td>
 			<td class="list-group-item" > 즐겨찾기</td>
@@ -34,9 +63,8 @@
 			</th:block>		
 		</tr>			
 	</table>
-	<br>
 
-<!-- Ajax때매 j쿼리 문법 넣어줌 -->
+		<!-- Ajax때매 j쿼리 문법 넣어줌 -->
 <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 </div>
 <script type="text/javascript" src="/js/fragment/info_side.js"></script>

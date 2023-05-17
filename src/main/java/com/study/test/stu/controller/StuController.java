@@ -194,7 +194,12 @@ public class StuController {
 		
 		// 전과신청
 		@GetMapping("/moveManage")
-		private String moveManage() {
+		private String moveManage(Authentication authentication,StuVO stuVO, MemberVO memberVO, Model model) {
+			User user = (User)authentication.getPrincipal();
+			String memName = user.getUsername();
+			stuVO.setMemNo(user.getUsername()); // id임
+			memberVO.setMemNo(user.getUsername());
+			model.addAttribute("stuVO" , stuService.seletStu(memberVO.getMemNo()));
 
 			return "/content/stu/stu_myStu/moveManage";
 		}

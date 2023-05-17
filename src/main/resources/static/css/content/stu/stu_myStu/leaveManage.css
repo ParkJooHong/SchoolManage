@@ -12,11 +12,20 @@ table.detail_info{
 	padding: 10px;
 }
 table.detail_info td{
-	width: 50px;
 	padding: 5px;
 }
+
+table.detail_info td:nth-child(odd){
+	width: 150px;
+}
+
 table.detail_info td:nth-child(even){
 	background-color: white;
+}
+
+textarea{
+	 width: 100%;
+	 height: 300px;
 }
 
 table.default_info{
