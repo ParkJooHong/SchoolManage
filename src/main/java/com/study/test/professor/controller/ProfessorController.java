@@ -1,6 +1,9 @@
 package com.study.test.professor.controller;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,7 +16,9 @@ import com.study.test.member.service.MemberService;
 import com.study.test.member.vo.MemImgVO;
 
 import com.study.test.member.vo.MemberVO;
+import com.study.test.professor.service.ProfessorService;
 import com.study.test.professor.vo.ProfessorMenuVO;
+import com.study.test.school.semester.SemesterVO;
 import com.study.test.util.ConstVariable;
 import com.study.test.util.UploadUtil;
 
@@ -28,14 +33,18 @@ public class ProfessorController {
 	private MemberService memberService;
 	@Resource(name = "adminService")
 	private AdminService adminService;
+	@Resource(name = "professorService")
+	private ProfessorService professorService;
 	
 	//강의등록 페이지로 이동
 	@GetMapping("/regLecture")
-	public String regLecture(ProfessorMenuVO professorMenuVO) {
+	public String regLecture(Model model, ProfessorMenuVO professorMenuVO) {
 		//메뉴코드 등록
 		professorMenuVO.setMenuCode(ConstVariable.DEFAULT_PROFESSOR_MENU_CODE);
 		
 		//학기리스트 조회
+		List<SemesterVO> semeList = professorService.getSemeList();
+		model.addAttribute("semeList", semeList);
 		
 		
 		return "content/professor/reg_lecture";

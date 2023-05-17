@@ -9,6 +9,6 @@ import lombok.ToString;
 @ToString
 public class DoubleMajorVO {
 	private String doubleNo;
+	private String doubleDeptName;
 	private String doubleColl;
-	private String doubleDept;
 }

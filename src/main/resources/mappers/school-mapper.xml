@@ -33,6 +33,20 @@
 			, COLL_NAME
 		FROM COLLEAGE
 	</select>
+	
+	<!-- 학과 조회 -->
+	<select id="selectColleage" resultMap="colleage">
+		SELECT COLL_NO
+			, COLL_NAME
+		FROM COLLEAGE
+	</select>
+	
+	<!-- 복수전공 조회 -->
+	<select id="selectColleage" resultMap="colleage">
+		SELECT COLL_NO
+			, COLL_NAME
+		FROM COLLEAGE
+	</select>
 </mapper>
 
 

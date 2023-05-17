@@ -40,5 +40,26 @@ body{
 
 .btn-primary:hover{
 	background-color: #554d4a;
-	
+}
+
+/* 인풋태그 */
+input[type="text"]
+, input[type="password"]
+, input[type="date"]
+, select
+{
+	height: 35px;
+	border-radius: 5px;
+	padding: 0px 5px;
+	border: 1px solid black;
+	box-shadow: 0 2px 4px #897c76;
+}
+
+/* 인풋태그 */
+input[type="text"]:focus
+, input[type="password"]:focus
+, input[type="date"]:focus
+, select:focus
+{
+	 outline: none; /* 포커스 스타일 제거 */
 }

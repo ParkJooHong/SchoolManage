@@ -33,23 +33,22 @@
 							</tr>
 							<tr>
 								<td>강의학기</td>
-								<td class="d-grid"><input type="text" name="memName"
-									required placeholder="이름 입력은 필수입니다."></td>
+								<td class="d-grid">
+									<select name="semNo">
+										<th:block th:each="seme : ${semeList}">
+											<option th:value="${seme.semNo}">[[${seme.semName}]]</option>
+										</th:block>
+									</select>
+								</td>
 							</tr>
 							<tr>
-								<td>주소</td>
-								<td>
-									<div class="row">
-										<div class="col-9 d-grid">
-											<input type="text" name="memAddr" required id="inputAddress"
-												readonly onclick="searchAddr();" placeholder="주소 입력은 필수입니다.">
-										</div>
-										<div class="col-3 d-grid">
-											<input type="button" class="btn btn-primary addr_search_btn"
-												onclick="searchAddr();" value="검색">
-										</div>
-									</div>
-
+								<td>단과대학</td>
+								<td class="d-grid">
+									<select name="collNo">
+										<th:block th:each="seme : ${semeList}">
+											<option th:value="${seme.semNo}">[[${seme.semName}]]</option>
+										</th:block>
+									</select>
 								</td>
 							</tr>
 							<tr>
