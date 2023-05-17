@@ -58,6 +58,59 @@ function login() {
 	//ajax end
 }
 
+//아이디 찾기
+function findId() {
+	let memName = document.querySelector('#findIdForm #memName').value;
+	let memEmail = document.querySelector('#findIdForm #memEmail').value;
+	//ajax start
+	$.ajax({
+		url: '/member/findId', //요청경로
+		type: 'post',
+		async: false, //동기 방식으로 실행, 작성하지 않으면 기본 true값을 가짐
+		//data: loginData, //필요한 데이터
+		data: { 'memName': memName, 'memEmail': memEmail }, //필요한 데이터
+		success: function(result) {
+			if (result == null || result == '') {
+				swal.fire({
+					title: "아이디 찾기 실패",
+					text: "이름 또는 이메일이 잘못 되었습니다",
+					icon: 'error',
+					button: '확인',
+				})
+				//id, pw input 태그 초기화
+				memNo = '';
+				memEmail = '';
+
+				//경고창 메세지 띄우기
+				if (document.querySelector('#error_find_id_div').querySelector('div') == null) {
+					const error_div = document.querySelector('#error_find_id_div');
+
+					let str = '';
+					str += `<div style="color: red; font-size: 0.9rem; text-align: left;">`
+					str += `이름 또는 이메일을 확인하세요.`
+					str += `</div>`
+
+					error_div.insertAdjacentHTML('beforeend', str);
+				}
+			}
+			else {
+				const find_memNo = result;
+				const message = `당신의 학번(교직원번호)는 <div style="color:#554d4a"><strong>${find_memNo}</strong>입니다</div>`;
+				swal.fire({
+					title: "정보 체크 완료",
+					html: message,
+					icon: 'success',
+					button: '확인',
+				})
+			}
+		},
+		error: function() {
+			alert('실패');
+		}
+	});
+	//ajax end
+}
+
 
 //배경 자동전환 (애니메이션)
 //메인페이지 전체 선택

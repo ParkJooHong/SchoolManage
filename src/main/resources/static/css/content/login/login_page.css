@@ -43,6 +43,18 @@
 	font-size: 20px;
 }
 
+/* 아이디 찾기, 비밀번호 찾기 */
+.note li{
+	font-size: 14px;
+}
+
+/* 아이디 찾기 모달창 */
+#findIdModal .modal-dialog,#findPwModal .modal-dialog{
+	transform: translateY(50%);
+}
+
+
+/* 개인정보처리방침, 이메일무단수집거부 */
 .login_footer{
 	background-color: #eee0ce;
 	width: 60%;
@@ -56,6 +68,7 @@
 	height: 40px;
 }
 
+/* 개인정보처리방침, 이메일무단수집거부 */
 .login_footer .row{
 	height: 100%;
 	align-items: center;

@@ -20,6 +20,9 @@ public interface MemberService {
 	//로그인
 	MemberVO login(MemberVO memberVO);
 	
+	//아이디 찾기
+	String getMemNo(MemberVO memberVO);
+	
 	//다음에 들어가는 IMG코드 조회
 	String getNextImgCode();
 }
