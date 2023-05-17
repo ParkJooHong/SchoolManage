@@ -30,16 +30,19 @@ public class SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 		//인증정보 가져오기
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 		
-		boolean isAdmin = false;
+		String isAccount = "";
 		
 		for (GrantedAuthority authority : userDetails.getAuthorities()) {
 		    if (authority.getAuthority().equals("ROLE_ADMIN")) {
-		        isAdmin = true;
+		        isAccount = "admin";
 		        break;
 		    }
+		    else if(authority.getAuthority().equals("ROLE_PROFESSOR"))
+		    	isAccount = "professor";
+	        	break;
 		}
 		
-		if(isAdmin) {
+		if(isAccount.equals("admin")) {
 			PrintWriter p = response.getWriter();
 			p.write("admin");
 			p.flush();

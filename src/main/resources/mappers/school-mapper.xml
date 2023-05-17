@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="schoolMapper">
+	<!-- 대학 -->
+	<resultMap type="com.study.test.school.colleage.ColleageVO" id="colleage">
+		<id column="COLL_NO" 		property="collNo"/>
+		<result column="COLL_NAME" 	property="collName"/>
+	</resultMap>
+	<!-- 학과 -->
+	<resultMap type="com.study.test.school.dept.DeptVO" id="dept">
+		<id column="DEPT_NO" 		property="deptNo"/>
+		<result column="DEPT_NAME" 	property="deptName"/>
+		<result column="COLL_NO" 	property="collNo"/>
+	</resultMap>
+	<!-- 복수전공 -->
+	<resultMap type="com.study.test.school.double_major.DoubleMajorVO" id="doubleMajor">
+		<id column="DOUBLE_NO" 			property="doubleNo"/>
+		<result column="DOUBLE_COLL" 	property="doubleColl"/>
+		<result column="DOUBLE_DEPT" 	property="doubleDept"/>
+	</resultMap>
+	<!-- 학기 -->
+	<resultMap type="com.study.test.school.semester.SemesterVO" id="semester">
+		<id column="SEM_NO" 			property="semNo"/>
+		<result column="SEM_YEAR" 	property="semYear"/>
+		<result column="SEMESTER" 	property="semester"/>
+		<result column="SEM_NAME" 	property="semName"/>
+	</resultMap>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -2,7 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="adminMapper">
-	<!-- 학생 메뉴  -->
 	<resultMap type="com.study.test.admin.vo.AdminMenuVO" id="adminMenu">
 		<result column="MENU_CODE" 	property="menuCode"/>
 		<result column="MENU_NAME" 	property="menuName"/>
@@ -14,6 +13,30 @@
 		<result column="SUB_MENU_NAME" 	property="subMenuName"/>
 		<result column="SUB_MENU_URL" 	property="subMenuUrl"/>
 		<result column="MENU_CODE" 		property="menuCode"/>
+	</resultMap>
+	
+	<resultMap type="com.study.test.school.colleage.ColleageVO" id="coll">
+		<result column="COLL_NO" 	property="collNo"/>
+		<result column="COLL_NAME" 	property="collName"/>
+	</resultMap>
+	
+	<resultMap type="com.study.test.school.dept.DeptVO" id="dept">
+		<result column="DETP_NO" 	property="detpNo"/>
+		<result column="DEPT_NAME" 	property="deptName"/>
+		<result column="COLL_NO" 	property="collNo"/>
+	</resultMap>
+	
+	<resultMap type="com.study.test.school.double_major.DoubleMajorVO" id="double">
+		<result column="DOUBLE_NO" 		property="doubleNo"/>
+		<result column="DOUBLE_COLL" 	property="doubleColl"/>
+		<result column="DOUBLE_DEPT" 	property="doubleDept"/>
+	</resultMap>
+	
+	<resultMap type="com.study.test.school.semester.SemesterVO" id="sem">
+		<result column="SEM_NO" 	property="semNo"/>
+		<result column="SEM_YEAR" 	property="semYear"/>
+		<result column="SEMESTER" 	property="semester"/>
+		<result column="SEM_NAME" 	property="semName"/>
 	</resultMap>
 	
 	<select id="getAdminMenuList" resultMap="adminMenu">
@@ -32,7 +55,33 @@
 		WHERE MENU_CODE = #{menuCode}
 	</select>
 	
+	<select id="getCollList" resultMap="coll">
+		SELECT COLL_NO
+			, COLL_NAME
+		FROM COLLEAGE
+	</select>
 	
+	<select id="getDeptList" resultMap="dept">
+		SELECT DEPT_NO
+			, DEPT_NAME
+			, COLL_NO
+		FROM DEPT
+	</select>
+	
+	<select id="getDoubleMajorList" resultMap="double">
+		SELECT DOUBLE_NO
+			, DOUBLE_COLL
+			, DOUBLE_DEPT
+		FROM DOUBLE_MAJOR
+	</select>
+	
+	<select id="getSemesterList" resultMap="sem">
+		SELECT SEM_NO
+			, DECODE(SEM_YEAR, 1, '1학년', 2, '2학년', 3, '3학년', 4, '4학년')
+			, DECODE(SEM_YEAR, 1, '1학년', 2, '2학년', 3, '3학년', 4, '4학년')
+			, SEM_NAME
+		FROM SEMESTER
+	</select>
 	
 </mapper>
 
