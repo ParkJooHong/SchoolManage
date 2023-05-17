@@ -1,5 +1,7 @@
 package com.study.test.member.vo;
 
+import com.study.test.stu.vo.StuVO;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -20,5 +22,5 @@ public class MemberVO {
 	private String memBirth;
 	private String memRole;
 	private MemImgVO memImgVO;
-	
+	private StuVO stuVO;
 }

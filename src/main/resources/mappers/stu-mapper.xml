@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="stuMapper">
+
+	
+	<!-- MEM_STU  -> 찐 학생 메뉴 -->
+	<resultMap type="com.study.test.stu.vo.StuVO" id="stu">
+		<id column="STU_NO" 			property="stuNo"/>
+		<result column="COLL_NO" 			property="collNo"/>
+		<result column="DEPT_NO" 			property="deptNo"/>
+		<result column="DOUBLE_NO" 			property="doubleNo"/>
+		<result column="STU_YEAR" 			property="stuYear"/>
+		<result column="STU_SEM" 		property="stuSem"/>
+		<result column="STU_STATUS" 			property="stuStatus"/>
+		<result column="MEM_NO" 			property="memNo"/>
+		<result column="PARENT_NAME" 		property="parentName"/>
+		<result column="PARENT_TELL" 			property="parentTell"/>
+		<result column="STU_BANK_NAME" 			property="stuBankName"/>
+		<result column="STU_BANK_ACCOUNT" 			property="stuBankAccount"/>
+	</resultMap>
+	
+		<!-- 사용자 메뉴 -->
+	<resultMap type="com.study.test.member.vo.MemberVO" id="member">
+		<id column="MEM_NO" 			property="memNo"/>
+		<result column="MEM_PW" 			property="memPw"/>
+		<result column="MEM_NAME" 			property="memName"/>
+		<result column="MEM_EMAIL" 			property="memEmail"/>
+		<result column="MEM_ADDR" 			property="memAddr"/>
+		<result column="MEM_ADDR_DETAIL" 	property="memAddrDetail"/>
+		<result column="MEM_TELL" 			property="memTell"/>
+		<result column="MEM_IMAGE" 			property="memImage"/>
+		<result column="MEM_GENDER" 		property="memGender"/>
+		<result column="MEM_BIRTH" 			property="memBirth"/>
+		<result column="MEM_ROLE" 			property="memRole"/>
+		<association property="memImgVO" resultMap="memberMapper.memImg"/>
+		<association property="stuVO" resultMap="stu"/>
+	</resultMap>
+	
+	
+	<!--  학생 정보 조회 -->
+<!-- 	<select id="seletStu" resultType="String"> -->
+	<select id="seletStu" resultMap="member">
+		SELECT UNI_MEMBER.MEM_NO 
+			, MEM_PW
+			, MEM_ADDR
+			, MEM_ADDR_DETAIL
+			, MEM_ROLE
+			, MEM_NAME
+			, STU_NO
+			, COLL_NO
+			, DEPT_NO
+			, DOUBLE_NO
+			, STU_YEAR
+			, STU_SEM
+			, STU_STATUS
+			, PARENT_NAME
+			, PARENT_TELL
+			, STU_BANK_NAME
+			, STU_BANK_ACCOUNT
+		FROM UNI_STU, UNI_MEMBER
+		WHERE UNI_MEMBER.MEM_NO = #{memNo}
+	</select>
+	
+	<!-- 학생 정보 변경 -->
+	<update id="updateStu">
+		UPDATE UNI_STU
+		SET PARENT_NAME = #{parentName}
+			, PARENT_TELL = #{parentTell}
+			, STU_BANK_NAME = #{stuBankName}
+			, STU_BANK_ACCOUNT = #{stuBankAccount}
+		WHERE MEM_NO = #{memNo} 
+	</update>
+	
+	<!-- 학생 비밀번호 변경 -->
+	<update id="updateStuPwd">
+		UPDATE UNI_MEMBER
+		SET MEM_PW = #{memPw}
+		WHERE MEM_NO = #{memNo}
+	</update>
+
+	
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

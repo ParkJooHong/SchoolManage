@@ -65,3 +65,59 @@ function plus(){
 	button.insertAdjacentHTML('afterbegin', str);
 	table.insertAdjacentHTML('afterbegin', str2);
 }
+
+
+function changePassword(memPw, memNo){
+	
+	currentPassword = document.querySelector('.currentPassword').value;
+	newPassword = document.querySelector('.newPassword').value;
+	confirmPassword = document.querySelector('.confirmPassword').value;
+	
+	
+	if(currentPassword != memPw){
+		alert("현재 비밀번호가 올바르지 않습니다. \n 다시 입력해주세요.");
+	}
+	else if(newPassword != confirmPassword){
+		alert("새로운 비밀번호가 올바르지 않습니다. \n 다시 입력해주세요.");
+	}
+	else if(currentPassword == newPassword){
+		alert("현재 비밀번호와 새로운 비밀번호가 중복입니다. \n 다시 입력해주세요.");
+	}
+	else{
+		alert("비밀번호를 변경합니다.");		
+		
+			$.ajax({
+			url: '/stuMenu/changePwdAjax', //요청경로
+			type: 'post',
+			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+			data: {'newPassword' : newPassword, 'memNo' : memNo }, //필요한 데이터
+			success: function(result) {
+				if(result){
+					alert(result);
+					alert('사용여부가 변경되었습니다.');
+				}
+				else{
+					alert('일시적 오류가 발생했습니다.');
+				}
+			},
+			error: function() {
+				alert('실패');
+				
+			}
+		});
+			
+	}
+	
+	
+}
+
+
+
+
+
+
+
+
+
+
+

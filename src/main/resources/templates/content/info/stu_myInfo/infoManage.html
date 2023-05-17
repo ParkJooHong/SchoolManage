@@ -12,23 +12,26 @@
 <div style="font-size: 20px; color: red; font-weight: bold;" >학생기본정보</div>
 <div class="tableAdd">
 	<table border="3" style="border-color: red;" class="default_info">
-		<tr>
+		<tr th:each="stu : ${stuVO}">
 			<td>학번</td>
-			<td><input type="text" readonly></td>
+			<td><input type="text" readonly th:value="${stu.memNo}"> </td>
 			<td>성명</td>
-			<td><input type="text" readonly></td>
+			<td><input type="text" readonly th:value="${stu.memName}"></td>
 			<td>학년</td>
-			<td><input type="text" readonly></td>
+			<td><input type="text" readonly th:value="${stu.stuVO.stuYear}">
+			</td>
 			<td>학적상태</td>
-			<td><input type="text" readonly></td>
+			<td><input type="text" readonly th:value="${stu.stuVO.stuStatus}" ></td>
 		</tr>
 	</table>
 </div>
 <div style="text-align: center;">
-	<button onclick="plus();" class="plus" style="width: 40px; height:30px; border-bottom-left-radius:10px; border-bottom-right-radius:10px;
+<th:block th:each="stu : ${stuVO}">
+	<button th:onclick="plus([[${stu.memNo}]], [[${stu.memName}]], [[${stu.stuVO.stuYear}]] , [[${stu.stuVO.stuStatus}]] );" class="plus" style="width: 40px; height:30px; border-bottom-left-radius:10px; border-bottom-right-radius:10px;
 		font-size: 20px; font-weight: bold; border-color: red;  color: white; background-color: red;">
 		+
 	</button>
+</th:block>
 </div>
 <br>
 <div  style="font-size: 20px; font-weight: bold;" > 개인정보 변경</div>
@@ -36,7 +39,7 @@
 
 
 
-<table class="detail_info">
+<table class="detail_info" th:each="stu : ${stuVO}">
 	<tr style="justify-content: space-between;">
 		<td>융합연계(복)</td>
 		<td><input type="text"></td>
@@ -70,59 +73,69 @@
 	</tr>
 	<tr>
 		<td>휴대폰</td>
-		<td><input type="text"></td>
+		<td><input type="text" ></td>
 		<td>ex) 010-1234-5678</td>
 	</tr>
 </table>
 
-<table class="detail_info">
-	<tr>
-		<td>보호자명</td>
-		<td><input type="text"></td>
-		<td></td>
-	</tr>
-	<tr>
-		<td>학부모 E-mail</td>
-		<td><input type="text"></td>
-		<td></td>
-	</tr>
-	<tr>
-		<td>전화번호</td>
-		<td><input type="text"></td>
-		<td></td>
-	</tr>
-	<tr>
-		<td>우편번호</td>
-		<td><input type="text"></td>
-		<td><input type="button" value="우편번호 검색" class="faxSearch" onclick="searchAddr();"></td>
-	</tr>
-	<tr>
-		<td >주소</td>
-		<td><input type="text" readonly style="background-color: #D3D3D3;"></td>
-		<td><input type="text" placeholder="상세 주소를 입력해주세요." style="width: 250px;"></td>
-	</tr>
-	<tr>
-		<td>계좌은행</td>
-		<td><input type="text"></td>
-		<td>(축협, 새마을금고, 수협 제외)</td>
-		<td>계좌번호</td>
-		<td><input type="text"></td>
-		<td>(반드시 본인 계좌번호 기재)</td>
-	</tr>
-</table>
-<div><span style="padding: 20px; margin:5px; text-align: center; background-color: #D3D3D3; display: flex; font-size: 12px;" >
-	* 필히 학생본인 계좌번호와 은행명을 기재 바라며, 계좌번호 입력 오류로 인한 모든 문제에 대한 책임은 학생본인에게 있으니 정확하게 기재하여 주시기 부탁드립니다.
-</span></div>
-<div style="text-align: right;" >
-	<button class="btn btn-primary mb-3" onclick="addGood();">
+
+<form action="/stuMenu/updateMyInfo" method="post">
+	
+	<table class="detail_info" th:each="stu : ${stuVO}">
+		<tr><td>
+			<th:block>
+			<input type="hidden" name="menuCode" th:value="${menuCode.menuCode}">
+			</th:block>
+			<input type="hidden" name="stuNo" th:value="${stu.stuVO.stuNo}">
+			<input type="hidden" name="deptNo" th:value="${stu.stuVO.deptNo}">
+			 <input type="hidden" name="collNo" th:value="${stu.stuVO.collNo}">
+			<input type="hidden" name="doubleNo" th:value="${stu.stuVO.doubleNo}">
+			<input type="hidden" name="stuYear" th:value="${stu.stuVO.stuYear}">
+			<input type="hidden" name="stuSem" th:value="${stu.stuVO.stuSem}">
+			<input type="hidden" name="stuStatus" th:value="${stu.stuVO.stuStatus}">
+			<input type="hidden" name="memNo" th:value="${stu.stuVO.memNo}">
+		</td></tr>
+		<tr>
+			<td>보호자명</td>
+			<td><input type="text" th:value="${stu.stuVO.parentName}" name="parentName"></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>보호자 연락처</td>
+			<td><input type="text" th:value="${stu.stuVO.parentTell}" name="parentTell"></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>우편번호</td>
+			<td><input type="text"></td>
+			<td><input type="button" value="우편번호 검색" class="faxSearch" onclick="searchAddr();"></td>
+		</tr>
+		<tr>
+			<td >주소</td>
+			<td><input type="text" readonly style="background-color: #D3D3D3;" th:value="${stu.memAddr}"></td>
+			<td><input type="text" placeholder="상세 주소를 입력해주세요." style="width: 250px;" th:value="${stu.memAddrDetail}"></td>
+		</tr>
+		<tr>
+			<td>계좌은행</td>
+			<td><input type="text" th:value="${stu.stuVO.stuBankName}" name="stuBankName"></td>
+			<td>(축협, 새마을금고, 수협 제외)</td>
+			<td>계좌번호</td>
+			<td><input type="text" th:value="${stu.stuVO.stuBankAccount}" name="stuBankAccount"></td>
+			<td>(반드시 본인 계좌번호 기재)</td>
+		</tr>
+	</table>
+		<div class="save" style="text-align: center;">
 		<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard2-plus" viewBox="0 0 16 16">
-		  <path d="M9.5 0a.5.5 0 0 1 .5.5.5.5 0 0 0 .5.5.5.5 0 0 1 .5.5V2a.5.5 0 0 1-.5.5h-5A.5.5 0 0 1 5 2v-.5a.5.5 0 0 1 .5-.5.5.5 0 0 0 .5-.5.5.5 0 0 1 .5-.5h3Z"/>
-		  <path d="M3 2.5a.5.5 0 0 1 .5-.5H4a.5.5 0 0 0 0-1h-.5A1.5 1.5 0 0 0 2 2.5v12A1.5 1.5 0 0 0 3.5 16h9a1.5 1.5 0 0 0 1.5-1.5v-12A1.5 1.5 0 0 0 12.5 1H12a.5.5 0 0 0 0 1h.5a.5.5 0 0 1 .5.5v12a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5v-12Z"/>
-		  <path d="M8.5 6.5a.5.5 0 0 0-1 0V8H6a.5.5 0 0 0 0 1h1.5v1.5a.5.5 0 0 0 1 0V9H10a.5.5 0 0 0 0-1H8.5V6.5Z"/>
-		</svg>
-		저장
-	</button>
-</div>
+			  <path d="M9.5 0a.5.5 0 0 1 .5.5.5.5 0 0 0 .5.5.5.5 0 0 1 .5.5V2a.5.5 0 0 1-.5.5h-5A.5.5 0 0 1 5 2v-.5a.5.5 0 0 1 .5-.5.5.5 0 0 0 .5-.5.5.5 0 0 1 .5-.5h3Z"/>
+			  <path d="M3 2.5a.5.5 0 0 1 .5-.5H4a.5.5 0 0 0 0-1h-.5A1.5 1.5 0 0 0 2 2.5v12A1.5 1.5 0 0 0 3.5 16h9a1.5 1.5 0 0 0 1.5-1.5v-12A1.5 1.5 0 0 0 12.5 1H12a.5.5 0 0 0 0 1h.5a.5.5 0 0 1 .5.5v12a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5v-12Z"/>
+			  <path d="M8.5 6.5a.5.5 0 0 0-1 0V8H6a.5.5 0 0 0 0 1h1.5v1.5a.5.5 0 0 0 1 0V9H10a.5.5 0 0 0 0-1H8.5V6.5Z"/>
+			</svg>
+			<input type="submit" value="저장" style="border-color: #ffffff;">
+	</div>
+	<div><span style="padding: 20px; margin:5px; text-align: center; background-color: #D3D3D3; display: flex; font-size: 12px;" >
+		* 필히 학생본인 계좌번호와 은행명을 기재 바라며, 계좌번호 입력 오류로 인한 모든 문제에 대한 책임은 학생본인에게 있으니 정확하게 기재하여 주시기 부탁드립니다.
+	</span></div>
+</form> 
 
 </th:block>
 
