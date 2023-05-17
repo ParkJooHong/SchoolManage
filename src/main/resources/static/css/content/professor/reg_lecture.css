@@ -1,0 +1,62 @@
+@charset "UTF-8";
+
+.mainContainer{
+	width: 100%;
+	margin-top: 25px;
+}
+
+
+.detail_info {
+    position: relative;
+    flex-wrap: wrap;
+    border-top: 2px solid #897c76;
+    border-bottom: 1px solid #897c76;
+    margin: 10px 0;
+    background: #ebe7e3;
+    overflow: hidden;
+    padding: 6px 6px 1px 6px;
+}
+
+table.detail_info{
+	width: 100%;
+	padding: 10px;
+}
+table.detail_info td{
+	height: 50px;
+	padding: 5px;
+}
+table.detail_info td:first-child
+{
+	width: 160px;
+}
+
+table.default_info input{
+	background-color: #D3D3D3;
+}
+table.default_info td{
+	width: 200px;
+	padding: 5px;
+}
+
+input[type="text"]
+, input[type="password"]
+, input[type="date"]
+{
+	height: 35px;
+	border-radius: 4px;
+	padding: 0px 5px;
+}
+
+.faxSearch{
+	background-color: #FFFF00;
+	color: red;
+}
+
+.addr_search_btn{
+	height: 100%
+}
+
+
+
+td:nth-child(3) {
+}

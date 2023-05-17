@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="professorMapper">
+	<!-- 교수 메뉴  -->
+	<resultMap type="com.study.test.professor.vo.ProfessorMenuVO" id="professorMenu">
+		<result column="PROFESSOR_MENU_CODE" 	property="menuCode"/>
+		<result column="PROFESSOR_MENU_NAME" 	property="menuName"/>
+		<result column="PROFESSOR_MENU_URL" 	property="menuUrl"/>
+	</resultMap>
+	
+	<resultMap type="com.study.test.professor.vo.ProfessorSubMenuVO" id="professorSubMenu">
+		<result column="PROFESSOR_SUB_MENU_CODE" 	property="subMenuCode"/>
+		<result column="PROFESSOR_SUB_MENU_NAME" 	property="subMenuName"/>
+		<result column="PROFESSOR_SUB_MENU_URL" 	property="subMenuUrl"/>
+		<result column="PROFESSOR_MENU_CODE" 		property="menuCode"/>
+	</resultMap>
+	
+	<!-- 교수 메뉴 -->
+	<select id="getProfessorMenuList" resultMap="professorMenu">
+		SELECT PROFESSOR_MENU_CODE
+			, PROFESSOR_MENU_NAME
+			, PROFESSOR_MENU_URL
+		FROM PROFESSOR_MENU
+	</select>
+	
+	<!-- 교수 서브 메뉴 -->
+	<select id="getProfessorSubMenuList" resultMap="professorSubMenu">
+		SELECT PROFESSOR_SUB_MENU_CODE
+			, PROFESSOR_SUB_MENU_NAME
+			, PROFESSOR_SUB_MENU_URL
+			, PROFESSOR_MENU_CODE
+		FROM PROFESSOR_SUB_MENU
+		WHERE MENU_CODE = #{menuCode}
+	</select>
+	
+	<!-- 학기 리스트 조회 -->
+	<select id="getSemeList" resultMap="">
+	
+	</select>
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
