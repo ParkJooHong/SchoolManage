@@ -35,6 +35,12 @@ public class StuServiceImpl implements StuService {
 		sqlSession.update("stuMapper.updateStuPwd", memberVO);
 		
 	}
+
+	//대학 코드 갖고오기
+	@Override
+	public StuVO getColl(String memNo) {
+		return sqlSession.selectOne("stuMapper.getColl", memNo);
+	}
 	
 
 	

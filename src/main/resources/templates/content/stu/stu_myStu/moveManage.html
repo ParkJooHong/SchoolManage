@@ -43,15 +43,15 @@
 	</tr>
 	<tr>
 		<td>전공대학</td>
-		<td></td>
+		<td>[[${stu.colleageVO.collName}]]</td>
 		<td>전공학과</td>
-		<td></td>
+		<td>[[${stu.deptVO.deptName}]]</td>
 		<td>복수전공</td>
 		<td></td>
 	</tr>
 	<tr>
 		<td>성별</td>
-		<td></td>
+		<td>[[${stu.memGender}]]</td>
 		<td>생년월일</td>
 		<td>[[${stu.stuVO.stuYear}]]</td>
 		<td>학적상태</td>
@@ -59,28 +59,47 @@
 	</tr>
 </table>
 
-<table border="1" class="detail_info">
+<table border="1" class="detail_info" th:each="stu : ${stuVO}">
 	<tr>
 		<td>현재 전공 대학</td>
-		<td></td>
+		<td>[[${stu.colleageVO.collName}]]</td>
 		<td>현재 전공 학과</td>
-		<td></td>
+		<td>
+			<input type="hidden" class="currentDept" th:value="${stu.deptVO.deptName}">
+			[[${stu.deptVO.deptName}]]
+		</td>
 	</tr>
 	<tr>
 		<td>변경 전공 대학</td>
-		<td ></td>
-		<td>변겅 전공 학과</td>
-		<td></td>
+		<td> 
+			<select class="colleage">
+				<th:block th:each="colleage : ${colleageVO}" >
+					<option th:value="${colleage.collName}">						
+							[[${colleage.collName}]]		
+					</option>
+				</th:block>
+			</select>	
+		</td>
+		<td>변경 전공 학과</td>
+		<td>
+			<select class="dept">
+				<th:block th:each="dept : ${deptVO}" >
+					<option th:value="${dept.deptName}">						
+							[[${dept.deptName}]]		
+					</option>
+				</th:block>
+			</select>
+		</td>
 	</tr>
 </table>
 <table border="1" class="detail_info">
 	<tr>
 		<td>전과 사유</td>
-		<td><textarea placeholder="휴학 사유를 작성하세요." rows="4" cols="30"></textarea></td>
+		<td><textarea placeholder="전과 사유를 작성하세요." rows="4" cols="30" class="applyReason"></textarea></td>
 	</tr>
 </table>
 <div style="text-align: center;">
-	<input type="button" value="전과 신청" class="btn btn-primary">
+	<input type="button" value="전과 신청" class="btn btn-primary" onclick="moveManage();">
 </div>
 </th:block>
 

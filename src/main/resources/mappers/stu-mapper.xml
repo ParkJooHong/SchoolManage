@@ -37,12 +37,55 @@
 		<association property="memImgVO" resultMap="memberMapper.memImg"/>
 		<association property="stuVO" resultMap="stu"/>
 		<association property="colleageVO" resultMap="schoolMapper.colleage"/>
+		<association property="deptVO" resultMap="schoolMapper.dept"/>
 	</resultMap>
 	
 	
 	<!--  학생 정보 조회 -->
 <!-- 	<select id="seletStu" resultType="String"> -->
 	<select id="seletStu" resultMap="member">
+		SELECT UM.MEM_NO 
+			, MEM_PW
+			, MEM_ADDR
+			, MEM_ADDR_DETAIL
+			, MEM_ROLE
+			, MEM_NAME
+			, STU_NO
+			, US.COLL_NO
+			, US.DEPT_NO
+			, DOUBLE_NO
+			, STU_YEAR
+			, STU_SEM
+			, STU_STATUS
+			, PARENT_NAME
+			, PARENT_TELL
+			, STU_BANK_NAME
+			, STU_BANK_ACCOUNT
+			, COLL_NAME
+			, DEPT_NAME
+		FROM UNI_STU US, UNI_MEMBER UM, COLLEAGE C, DEPT D
+		WHERE US.COLL_NO = C.COLL_NO
+		AND UM.MEM_NO = US.MEM_NO
+		AND D.DEPT_NO = US.DEPT_NO
+		AND UM.MEM_NO = #{memNo}
+	</select>
+	
+	<!-- 대학 코드 갖고오기. -->
+	<select id="getColl" resultMap="stu">
+		SELECT COLL_NO
+		FROM UNI_STU
+		WHERE MEM_NO = #{memNo}
+	</select>
+	
+	<!-- 
+	<select id="getColl" resultMap="stu" resultType = "String" > << 이거 왜안됨.
+		SELECT COLL_NO
+		FROM UNI_STU
+		WHERE MEM_NO = #{memNo}
+	</select> -->
+	
+	
+<!-- 	<select id="seletStu" resultMap="member">
 		SELECT UNI_MEMBER.MEM_NO 
 			, MEM_PW
 			, MEM_ADDR
@@ -64,7 +107,7 @@
 		FROM UNI_STU, UNI_MEMBER, COLLEAGE
 		WHERE UNI_MEMBER.MEM_NO = #{memNo}
 		AND UNI_STU.COLL_NO = #{collNo}
-	</select>
+	</select> -->
 	
 	<!-- 학생 정보 변경 -->
 	<update id="updateStu">
@@ -82,6 +125,31 @@
 		SET MEM_PW = #{memPw}
 		WHERE MEM_NO = #{memNo}
 	</update>
+	
+	<!-- 전과신청 하기 -->
+<!-- 	<insert id="">
+		INSERT INTO DEPT_MANAGE(
+		    APPLY_NO
+		    , STU_NO
+		    , APPLY_CODE
+		    , APPLY_DATE
+		    , APPLY_REASON
+		    , APPLROVAL_DATE
+		    , PROCESS_STATUS
+		    , FROM_COLL
+		    , TO_COLL
+		    , FROM_DEPT
+		    , TO_DEPT
+		    , DOUBLE_MAJOR_COLL
+		    , DOUBLE_MAJOR_DEPT
+		    , STU_YEAR
+		    , STU_SEM
+		) VALUES(
+			SELECT 'APPLY_'||LPAD(NVL(MAX(TO_NUMBER(SUBSTR(APPLY_NO, 7))), 0) +1 , 3, '0')
+				FROM DEPT_MANAGE
+			, #{stuNo}
+		)
+	</insert> -->
 
 	
 	

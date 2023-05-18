@@ -20,4 +20,7 @@ public interface SchoolService {
 	//복수전공 리스트 조회
 	List<DoubleMajorVO> getDoubleMajorList();
 	
+	//학과에 맞는 리스트 조회
+	List<DeptVO> getDept(String collNo);
+	
 }

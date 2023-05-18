@@ -11,6 +11,8 @@ public interface StuService {
 	//학생 정보
 	MemberVO seletStu(MemberVO memberVO);
 	
+	//대학 코드 갖고오기.
+	StuVO getColl(String memNo);
 	
 	//학생, MyInfo 변경
 	void updateStu(StuVO stuVO);

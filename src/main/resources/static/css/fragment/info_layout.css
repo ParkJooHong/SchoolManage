@@ -15,6 +15,10 @@ width: 100%;
 
 }
 
+.side{
+	background-color: #9b021d;
+}
+
 .full_layout {
 	background-color: #eee;
 	height: 100vh;

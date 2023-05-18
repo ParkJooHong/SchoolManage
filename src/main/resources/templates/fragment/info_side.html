@@ -3,66 +3,42 @@
 
 <th:block th:fragment="infoSideFragment">
 <link rel="stylesheet" href="/css/fragment/info_side.css">
-<div class="row" style="background-color: rgb(128, 255, 255);">
-<div><div class="b">빈공간</div></div>
+<div class="row">
 	<div>
-		<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-					<path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-		</svg>
-		<input type="text" id="menuSearch" style="background-color: rgb(128, 255, 255);"  placeholder="메뉴를 검색하세요.">
+		<input type="search" class="menuSearch"  placeholder="🔎   메뉴를 검색하세요.">
 	</div>
+	<div> <p>★ 즐겨찾기 메뉴</p></div>
 
-
-	<br>
 
 <div class="div-container">
 	<div class="div-left">
-		<table class="list-group">
+		<table>
 			<th:block th:each="menu : ${menuList}">
-			<tr>
-				<td class="list-group-item" th:onclick="mainMenu([[${menu.menuCode}]],[[${menu.menuUrl}]]);">
-					✨ [[${menu.menuName}]]</td>
-			</tr>
-			</th:block>
-		
-		
+				<tr>
+					<td class="list-group-item submenuTd" th:onclick="mainMenu([[${menu.menuCode}]],[[${menu.menuUrl}]]);">
+						✨ [[${menu.menuName}]]</td>
+				</tr>
+			</th:block>	
 		</table>
 	</div>
 	<div class="div-center">
+		<table>
 		<th:block th:each="menu : ${menuList}">
 			<th:block th:each="subMenu : ${subMenuList}">					
-						<th:block th:if="${menu.menuCode == subMenu.menuCode}">
-						<ul>
-							<li class="list-group-item"
+					<th:block th:if="${menu.menuCode == subMenu.menuCode}">
+						<tr>
+							<td class="list-group-item submenuTd"
 								th:onclick="subMenu([[${subMenu.subMenuCode}]],[[${subMenu.subMenuUrl}]],[[${menu.menuCode}]]);">
-								🍒 [[${subMenu.subMenuName}]]</li>
-								</ul>
-						</th:block>
+								🍒 [[${subMenu.subMenuName}]] <br></td>
+						</tr>
+					</th:block>
 			</th:block>
 		</th:block>
+		</table>
 	</div>
 </div>
 
-
-		<table class="list-group">
-		<tr>
-			<td> </td>
-			<td class="list-group-item" > 즐겨찾기</td>
-		</tr>
-		<tr>
-			<th:block th:each="menu : ${menuList}">
-				<td class="list-group-item" th:onclick="mainMenu([[${menu.menuCode}]],[[${menu.menuUrl}]]);"
-				th:classappend="${menu.menuCode == menu.menuCode ? 'active' : ''}">
-					[[${menu.menuName}]]
-				</td>			
-			<th:block th:each="subMenu : ${subMenuList}">
-				<th:block th:if="${menu.menuCode == subMenu.menuCode}">
-							<td class="list-group-item" th:onclick="subMenu([[${subMenu.subMenuCode}]],[[${subMenu.subMenuUrl}]],[[${menu.menuCode}]]);">  [[${subMenu.subMenuName}]]</td>
-					</th:block>
-				</th:block>	
-			</th:block>		
-		</tr>			
-	</table>
+		
 
 		<!-- Ajax때매 j쿼리 문법 넣어줌 -->
 <script src="https://code.jquery.com/jquery-latest.min.js"></script>

@@ -21,6 +21,7 @@ table.detail_info td:nth-child(odd){
 
 table.detail_info td:nth-child(even){
 	background-color: white;
+
 }
 
 textarea{
@@ -43,3 +44,7 @@ input[type="text"]{
 	width: 120px;
 	border-radius: 4px;
 }
+
+select{
+	width: 100%;
+} 

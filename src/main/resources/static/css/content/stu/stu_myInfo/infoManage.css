@@ -46,6 +46,10 @@ input[type="text"]{
 	color: red;
 }
 
+input::placeholder {
+	font-weight: bold;
+    	color: #ccc;
+}
 
 
 td:nth-child(3) {

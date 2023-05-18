@@ -27,6 +27,8 @@ public class MemberController {
 	@ResponseBody
 	@PostMapping("/getMemberInfo")
 	public MemberVO getMemberInfo(MemberVO memberVO) {
+		
+		
 		return memberService.login(memberVO);
 	}
 	

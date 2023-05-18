@@ -39,6 +39,12 @@ public class SchoolServiceImpl implements SchoolService{
 	public List<DoubleMajorVO> getDoubleMajorList() {
 		return sqlsession.selectList("schoolMapper.getDoubleMajorList");
 	}
+
+	//학과에 맞는 리스트 조회
+	@Override
+	public List<DeptVO> getDept(String collNo) {
+		return sqlsession.selectList("schoolMapper.getDept",collNo);
+	}
 	
 	
 }
