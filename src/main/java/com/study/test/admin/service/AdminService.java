@@ -6,6 +6,7 @@ import com.study.test.admin.vo.AdminMenuVO;
 import com.study.test.admin.vo.AdminSubMenuVO;
 import com.study.test.admin.vo.EmpVO;
 import com.study.test.school.colleage.ColleageVO;
+import com.study.test.school.dept.DeptManageVO;
 import com.study.test.school.dept.DeptVO;
 import com.study.test.school.double_major.DoubleMajorVO;
 import com.study.test.stu.vo.StuVO;
@@ -25,4 +26,6 @@ public interface AdminService {
 	void regStu(StuVO stuVO);
 	//교직원 등록
 	void regEmp(EmpVO empVO);
+	//학적관리 리스트 조회
+	List<DeptManageVO> getDeptManageList();
 }

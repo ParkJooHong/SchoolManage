@@ -1,5 +1,8 @@
 package com.study.test.school.dept;
 
+import com.study.test.member.vo.MemberVO;
+import com.study.test.stu.vo.StuVO;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -21,6 +24,8 @@ public class DeptManageVO {
 	private String toDept;
 	private String doubleMajorColl;
 	private String doubleMajorDept;
-	private String stuYear;
+	private int stuYear;
 	private int stuSem;
+	private MemberVO memberVO;
+	private StuVO stuVO;
 }

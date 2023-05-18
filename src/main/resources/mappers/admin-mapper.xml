@@ -22,6 +22,26 @@
 		<result column="MEM_NO" 	property="memNo"/>
 		<result column="COLL_NO" 	property="collNo"/>
 	</resultMap>
+	
+	<resultMap type="com.study.test.school.dept.DeptManageVO" id="deptManage">
+		<result column="APPLY_NO"			property="applyNo"/>
+		<result column="STU_NO" 			property="stuNo"/>
+		<result column="APPLY_CODE" 		property="applyCode"/>
+		<result column="APPLY_DATE" 		property="applyDate"/>
+		<result column="APPLY_REASON" 		property="applyReason"/>
+		<result column="APPLROVAL_DATE" 	property="applrovalDate"/>
+		<result column="PROCESS_STATUS" 	property="processStatus"/>
+		<result column="FROM_COLL" 			property="fromColl"/>
+		<result column="TO_COLL" 			property="toColl"/>
+		<result column="FROM_DEPT" 			property="fromDept"/>
+		<result column="TO_DEPT" 			property="toDept"/>
+		<result column="DOUBLE_MAJOR_COLL"  property="doubleMajorColl"/>
+		<result column="DOUBLE_MAJOR_DEPT"  property="doubleMajorDept"/>
+		<result column="STU_YEAR" 			property="stuYear"/>
+		<result column="STU_SEM" 			property="stuSem"/>
+		<association property="stuVO" resultMap="stuMapper.stu"/>
+		<association property="memberVO" resultMap="memberMapper.member"/>
+	</resultMap>
 
 	
 	<select id="getAdminMenuList" resultMap="adminMenu">
@@ -85,6 +105,27 @@
 			, #{collNo}
 		)
 	</insert>
+	
+	<select id="getDeptManageList" resultMap="deptManage">
+		SELECT APPLY_NO
+			, MEM.MEM_NAME AS MEM_NAME
+            , MEM.MEM_NO AS MEM_NO
+			, APPLY_CODE
+			, APPLY_DATE
+			, APPLY_REASON
+			, APPLROVAL_DATE
+			, PROCESS_STATUS
+			, FROM_COLL
+			, TO_COLL
+			, FROM_DEPT
+			, DOUBLE_MAJOR_COLL
+			, DOUBLE_MAJOR_DEPT
+			, DEPT.STU_YEAR AS STU_YEAR
+			, DEPT.STU_SEM AS STU_SEM
+		FROM DEPT_MANAGE DEPT, UNI_MEMBER MEM, UNI_STU STU
+		WHERE MEM.MEM_NO = STU.MEM_NO
+        AND DEPT.STU_NO = STU.STU_NO
+	</select>
 	
 </mapper>
 

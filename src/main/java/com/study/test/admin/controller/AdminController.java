@@ -161,15 +161,15 @@ public class AdminController {
 	@GetMapping("/updateStuInfo")
 	public String updateStuInfo(AdminSubMenuVO adminSubMenuVO) {
 		adminSubMenuVO.setMenuCode(ConstVariable.SECOND_MENU_CODE);
-
+		
 		return "content/admin/update_stu_info";
 	}
 
 	// 전과/복수전공
 	@GetMapping("/changeMajor")
-	public String changeMajor(AdminSubMenuVO adminSubMenuVO) {
+	public String changeMajor(AdminSubMenuVO adminSubMenuVO, Model model) {
 		adminSubMenuVO.setMenuCode(ConstVariable.SECOND_MENU_CODE);
-
+		model.addAttribute("deptManageList", adminService.getDeptManageList());
 		return "content/admin/change_major";
 	}
 
