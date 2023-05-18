@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{fragment/admin_layout}"
+   >
+
+<!-- 연결해야 할 외부 css 파일  -->
+<th:block layout:fragment="content_css">
+	<link rel="stylesheet" href="">
+</th:block>	
+
+<th:block layout:fragment="content">
+<form action="/admin/insertEmp" id="insertEmpForm" method="post">
+	<div class="row">
+		<div class="col">
+			<div class="row">
+				<div class="col">
+					<h4>교직원정보등록</h4>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<table class="table align-middle">
+						<colgroup>
+							<col width="20%">
+							<col width="*">
+						</colgroup>
+						<tr>
+							<td>교직원번호</td>
+							<td>
+								<input type="text" name="empNo" class="form-control" readonly th:value="${schoolMap.memNo}">
+							</td>
+						</tr>
+						<tr>
+							<td>단과대학</td>
+							<td>
+								<select name="collNo" id="collSelect" th:onchange="getDeptList()" class="form-select">
+									<th:block th:each="coll : ${schoolMap.collList}">
+										<option th:value="${coll.collNo}">[[${coll.collName}]]</option>
+									</th:block>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td>학과</td>
+							<td>
+								<select name="deptNo" id="deptSelect" class="form-select">
+									<th:block th:each="dept:${schoolMap.deptList}">
+										<option th:value="${dept.deptNo}">[[${dept.deptName}]]</option>
+									</th:block>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td>직책</td>
+							<td>
+								<select name="empType" class="form-select">
+									<option value="교수" selected>교수</option>
+									<option value="교직원">교직원</option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td>회원번호</td>
+							<td>
+								<input type="text" name="memNo" class="form-control" readonly th:value="${schoolMap.memNo}">
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col d-grid">
+					<input type="button" onclick="insertEmp();" value="등록" class="btn btn-primary">
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+</th:block>
+
+<!-- 연결해야 할 외부 js 파일 -->
+<th:block layout:fragment="content_js">
+	<script type="text/javascript" src="/js/content/admin/insert_emp_info.js"></script>
+</th:block>	
+
+</html>

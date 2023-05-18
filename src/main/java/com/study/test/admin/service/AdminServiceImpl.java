@@ -8,9 +8,12 @@ import org.springframework.stereotype.Service;
 
 import com.study.test.admin.vo.AdminMenuVO;
 import com.study.test.admin.vo.AdminSubMenuVO;
+import com.study.test.admin.vo.EmpVO;
 import com.study.test.school.colleage.ColleageVO;
 import com.study.test.school.dept.DeptVO;
 import com.study.test.school.double_major.DoubleMajorVO;
+import com.study.test.stu.vo.StuVO;
+
 
 @Service("adminService")
 public class AdminServiceImpl implements AdminService{
@@ -42,6 +45,18 @@ public class AdminServiceImpl implements AdminService{
 	public List<DoubleMajorVO> getDoubleMajorList() {
 		return sqlsession.selectList("adminMapper.getDoubleMajorList");
 	}
+	//학생 등록
+	@Override
+	public void regStu(StuVO stuVO) {
+		sqlsession.insert("adminMapper.regStu",stuVO);
+		
+	}
+	//교직원 등록
+	@Override
+	public void regEmp(EmpVO empVO) {
+		sqlsession.insert("adminMapper.regEmp",empVO);
+	}
+
 	
 	
 	

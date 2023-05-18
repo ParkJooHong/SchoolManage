@@ -9,11 +9,36 @@
 		<result column="PROFESSOR_MENU_URL" 	property="menuUrl"/>
 	</resultMap>
 	
+	<!-- 교수 서브 메뉴 -->
 	<resultMap type="com.study.test.professor.vo.ProfessorSubMenuVO" id="professorSubMenu">
 		<result column="PROFESSOR_SUB_MENU_CODE" 	property="subMenuCode"/>
 		<result column="PROFESSOR_SUB_MENU_NAME" 	property="subMenuName"/>
 		<result column="PROFESSOR_SUB_MENU_URL" 	property="subMenuUrl"/>
 		<result column="PROFESSOR_MENU_CODE" 		property="menuCode"/>
+	</resultMap>
+	
+	<!-- 강의 정보-->
+	<resultMap type="com.study.test.professor.vo.LectureVO" id="lecture">
+		<id column="LEC_NO" 			property=""/>
+		<result column="LEC_NAME" 		property=""/>
+		<result column="LEC_SCORE" 		property=""/>
+		<result column="COLL_NO" 		property=""/>
+		<result column="DEPT_NO" 		property=""/>
+		<result column="EMP_NO" 		property=""/>
+		<result column="CREATE_DATE" 	property=""/>
+		<result column="MAX_MEM" 		property=""/>
+		<result column="NOW_MEM" 		property=""/>
+		<result column="SEM_NO" 		property=""/>
+		<result column="LEC_STATUS" 	property=""/>
+		<association property="lecturePdfVO" resultMap="lecturePdf"/>
+	</resultMap>
+	
+	<!-- 강의 자료 -->
+	<resultMap type="com.study.test.professor.vo.LecturePdfVO" id="lecturePdf">
+		<id column="PDF_NO" 				property="pdfNo"/>
+		<result column="ORIGIN_PDF_NAME" 	property="originPdfName"/>
+		<result column="ATTACHED_PDF_NAME" 	property="attachedPdfName"/>
+		<result column="LEC_NO" 			property="lecNo"/>
 	</resultMap>
 	
 	<!-- 교수 메뉴 -->
@@ -33,38 +58,72 @@
 		FROM PROFESSOR_SUB_MENU
 		WHERE MENU_CODE = #{menuCode}
 	</select>
-
-	<!-- 학기 리스트 조회 -->
-	<select id="getSemeList" resultMap="schoolMapper.semester">
-		SELECT SEM_NO
-			, SEM_NAME
-			, SEM_YEAR
-			, SEMESTER
-		FROM SEMESTER
+	
+	<!-- 다음 등록될 강의 넘버 조회 -->
+	<select id="getNextLectureNo" resultType="String">
+		SELECT
+			'LEC_'||LPAD(NVL(MAX(TO_NUMBER(SUBSTR(LEC_NO, 5))), 0) + 1, 4,'0')
+		FROM LECTURE
 	</select>
-
-	<!-- 대학 리스트 조회 -->
-	<select id="getCollList" resultMap="schoolMapper.colleage">
-		SELECT COLL_NO
-			, COLL_NAME
-		FROM COLLEAGE
-	</select>
-
-	<!-- 학과 리스트 조회 -->
-	<select id="getDeptList" resultMap="schoolMapper.dept">
-		SELECT DEPT_NO
-			, DEPT_NAME
+	
+	<!-- 강의 등록 -->
+	<insert id="regLecture">
+		INSERT INTO LECTURE (
+			LEC_NO
+			, LEC_NAME
+			, LEC_SCORE
 			, COLL_NO
-		FROM DEPT
-	</select>
-
-	<!-- 복수 전공 리스트 조회 -->
-	<select id="getDoubleMajorList" resultMap="schoolMapper.doubleMajor">
-		SELECT DOUBLE_NO
-			, DOUBLE_DEPT_NAME
-			, DOUBLE_COLL
-		FROM DOUBLE_MAJOR
-	</select>
+			, DEPT_NO
+			, EMP_NO
+			, MAX_MEM
+			, SEM_NO
+		) VALUES (
+			SELECT 'LEC_'||LPAD(NVL(MAX(TO_NUMBER(SUBSTR(LEC_NO, 5))), 0) + 1, 4, '0')
+			FROM LECTURE
+			, #{lecName}
+			, #{lecScore}
+			, #{collNo}
+			, #{deptNo}
+			, #{empNo}
+			, #{maxMem}
+			, #{semNo}
+		)
+	</insert>
+	
+	<!-- 강의 상세 등록 : 강의 자료 -->
+	<insert id="regLecturePdf">
+		INSERT INTO LECTURE_PDF (
+			PDF_NO
+			, ORIGIN_PDF_NAME
+			, ATTACHED_PDF_NAME
+			, LEC_NO
+		) VALUES (
+			SELECT 'PDF_'||LPAD(NVL(MAX(TO_NUMBER(SUBSTR(PDF_NO, 5))), 0) + 1, 4, '0')
+			FROM LECTURE
+			, #{lectureVO.originPdfName}
+			, #{lectureVO.attachedPdfName}
+			, #{lecNo}
+		)
+	</insert>
+	
+	<!-- 강의 상세 등록 : 강의 날짜, 시간 -->
+	<insert id="regLectureTime">
+		INSERT INTO LECTURE_TIEM (
+			TIME_NO
+			, LEC_DAY
+			, START_TIME
+			, FINISH_DATE
+			, LEC_NO
+		) VALUES (
+			SELECT 'TIME_'||LPAD(NVL(MAX(TO_NUMBER(SUBSTR(TIME_NO, 6))), 0) + 1, 4, '0')
+			FROM LECTURE
+			, #{lecDay}
+			, #{startTime}
+			, #{finishDate}
+			, #{lecNo}
+		)
+	</insert>
+	
 	
 </mapper>
 

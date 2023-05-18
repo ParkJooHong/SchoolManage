@@ -1,19 +1,30 @@
 package com.study.test.admin.controller;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.study.test.admin.service.AdminService;
 import com.study.test.admin.vo.AdminSubMenuVO;
+import com.study.test.admin.vo.EmpVO;
 import com.study.test.member.service.MemberService;
 import com.study.test.member.vo.MemImgVO;
 
 import com.study.test.member.vo.MemberVO;
+import com.study.test.school.colleage.ColleageVO;
+import com.study.test.school.dept.DeptVO;
+import com.study.test.school.double_major.DoubleMajorVO;
+import com.study.test.school.service.SchoolService;
+import com.study.test.stu.vo.StuVO;
 import com.study.test.util.ConstVariable;
 import com.study.test.util.UploadUtil;
 
@@ -26,6 +37,8 @@ public class AdminController {
 	private MemberService memberService;
 	@Resource(name = "adminService")
 	private AdminService adminService;
+	@Resource(name = "schoolService")
+	private SchoolService schoolService;
 
 	// 회원등록 페이지 이동
 	@GetMapping("/joinMember")
@@ -45,13 +58,14 @@ public class AdminController {
 
 	// 회원등록
 	@PostMapping("/join")
-	public String join(MemberVO memberVO, MultipartFile mainImg, Model model) {
+	public String join(MemberVO memberVO, MultipartFile mainImg, Model model,AdminSubMenuVO adminSubMenuVO) {
+		adminSubMenuVO.setMenuCode(ConstVariable.DEFAULT_MENU_CODE);
 		String path = "";
 		// 학생이면 추가정보 insert해야해서 조건문 넣음~
 		if (memberVO.getMemRole().equals("STU")) {
-			path = "redirect:/admin/insertStuInfo";
+			path = "redirect:/admin/insertStuInfo?memNo=" + memberVO.getMemNo();
 		} else {
-			path = "redirect:/admin/join";
+			path = "redirect:/admin/insertEmpInfo?memNo=" + memberVO.getMemNo();
 		}
 
 		// UploadUtill 객체 호출해서(util패키지에 만들어놓음)MemImgVO 객체에 받음
@@ -67,25 +81,82 @@ public class AdminController {
 		System.out.println("@@@@@@@@@@@@@@" + memberVO);
 		memberService.regMember(memberVO);
 
-		if (memberVO.getMemRole().equals("STU")) {
-			model.addAttribute("memberVO", memberVO);
-		}
+		System.out.println("@@@@@@@@@"+path);
+		System.out.println(adminSubMenuVO.getMenuCode());
+		System.out.println(memberVO.getMemNo());
 		return path;
 	}
 
 	// 학생정보등록페이지 이동
 	@GetMapping("/insertStuInfo")
-	public String insertStuInfo(MemberVO memberVO, AdminSubMenuVO adminSubMenuVO, Model model) {
-		adminSubMenuVO.setMenuCode(ConstVariable.DEFAULT_MENU_CODE);
-		adminSubMenuVO.setSubMenuCode(ConstVariable.DEFAULT_SUB_MENU_CODE);
+	public String insertStuInfo(@RequestParam("memNo")String memNo,AdminSubMenuVO adminSubMenuVO, Model model) {
+		if(adminSubMenuVO.getMenuCode() == null) {
+			adminSubMenuVO.setMenuCode(ConstVariable.DEFAULT_MENU_CODE);
+		}
 		
-		model.addAttribute("collList",adminService.getCollList());
-		model.addAttribute("deptList",adminService.getDeptList());
-		model.addAttribute("doubleList",adminService.getDoubleMajorList());
+		
+		String collNo = "COLL_001";
+		System.out.println("@@@@@@@@@@@@"+memNo);
+		Map<String, Object> schoolMap = new HashMap<>();
+		List<ColleageVO> collList = schoolService.getCollList();
+		List<DeptVO> deptList = schoolService.getDeptList(collNo);
+		List<DoubleMajorVO> doubleMajorList = schoolService.getDoubleMajorList();
+		schoolMap.put("collList", collList);
+		schoolMap.put("deptList", deptList);
+		schoolMap.put("doubleMajorList", doubleMajorList);
+		schoolMap.put("memNo", memNo);
+		
+		model.addAttribute("schoolMap",schoolMap);
 		
 		return "content/admin/insert_stu_info";
 	}
-
+	
+	// 교직원 정보 등록페이지 이동
+	@GetMapping("/insertEmpInfo")
+	public String insertEmpInfo(@RequestParam("memNo")String memNo, AdminSubMenuVO adminSubMenuVO, Model model) {
+		if(adminSubMenuVO.getMenuCode() == null) {
+			adminSubMenuVO.setMenuCode(ConstVariable.DEFAULT_MENU_CODE);
+		}
+		String collNo = "COLL_001";
+		Map<String, Object> schoolMap = new HashMap<>();
+		List<ColleageVO> collList = schoolService.getCollList();
+		List<DeptVO> deptList = schoolService.getDeptList(collNo);
+		List<DoubleMajorVO> doubleMajorList = schoolService.getDoubleMajorList();
+		schoolMap.put("collList", collList);
+		schoolMap.put("deptList", deptList);
+		schoolMap.put("doubleMajorList", doubleMajorList);
+		schoolMap.put("memNo", memNo);
+		
+		model.addAttribute("schoolMap",schoolMap);
+		return "content/admin/insert_emp_info";
+	}
+	
+	//대학교 코드 변경시 학과코드 변경
+	@PostMapping("/deptListAjax")
+	@ResponseBody
+	public List<DeptVO> deptListAjax(String collNo) {
+		List<DeptVO> deptList = schoolService.getDeptList(collNo);
+		
+		return deptList;
+	}
+	
+	
+	//학생정보등록
+	@PostMapping("/insertStu")
+	public String insertStu(StuVO stuVO) {
+		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"+stuVO);
+		adminService.regStu(stuVO);	
+		return "redirect:/admin/joinMember";
+	}
+	
+	//교직원등록
+	@PostMapping("/insertEmp")
+	public String insertEmp(EmpVO empVO) {
+		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"+empVO);
+		adminService.regEmp(empVO);
+		return "redirect:/admin/joinMember";
+	}
+	
 	// 학적변동승인(복학,휴학)
 	@GetMapping("/updateStuInfo")
 	public String updateStuInfo(AdminSubMenuVO adminSubMenuVO) {
