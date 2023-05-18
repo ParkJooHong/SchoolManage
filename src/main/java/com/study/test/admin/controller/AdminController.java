@@ -21,6 +21,7 @@ import com.study.test.member.vo.MemImgVO;
 
 import com.study.test.member.vo.MemberVO;
 import com.study.test.school.colleage.ColleageVO;
+import com.study.test.school.dept.DeptManageVO;
 import com.study.test.school.dept.DeptVO;
 import com.study.test.school.double_major.DoubleMajorVO;
 import com.study.test.school.service.SchoolService;
@@ -175,9 +176,11 @@ public class AdminController {
 	
 	//전과 신청 Ajax
 	@ResponseBody
-	@RequestMapping("/acceptChangeMajorAjax")
-	public void acceptChangeMajorAjax(String applyNo) {
+	@PostMapping("/acceptChangeMajorAjax")
+	public DeptManageVO acceptChangeMajorAjax(String applyNo, String stuNo) {
+		DeptManageVO acceptData = adminService.getDeptManageData(applyNo);
 		
+		return acceptData;
 	}
 	
 	// 실적현황

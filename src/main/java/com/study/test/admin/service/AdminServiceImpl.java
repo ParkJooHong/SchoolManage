@@ -62,6 +62,11 @@ public class AdminServiceImpl implements AdminService{
 	public List<DeptManageVO> getDeptManageList() {
 		return sqlsession.selectList("adminMapper.getDeptManageList");
 	}
+	//학적 관리 대상자 조회
+	@Override
+	public DeptManageVO getDeptManageData(String applyNo) {
+		return sqlsession.selectOne("adminMapper.getDeptManageData",applyNo);
+	}
 
 	
 	

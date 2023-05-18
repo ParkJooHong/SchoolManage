@@ -20,6 +20,7 @@
 		<result column="EMP_TYPE" 	property="empType"/>
 		<result column="DEPT_NO" 	property="deptNo"/>
 		<result column="MEM_NO" 	property="memNo"/>
+		<result column="MEM_NAME" 	property="memName"/>
 		<result column="COLL_NO" 	property="collNo"/>
 	</resultMap>
 	
@@ -153,7 +154,46 @@
 	</select>
 	
 	<!-- 전과 신청자 조회 쿼리  -->
-	
+	<select id="getDeptManageData" resultMap="deptManage">
+		SELECT APPLY_NO
+			, MEM.MEM_NAME AS MEM_NAME
+            , MEM.MEM_NO AS MEM_NO
+			, APPLY_CODE
+			, APPLY_DATE
+			, APPLY_REASON
+			, APPLROVAL_DATE
+			, PROCESS_STATUS
+			, FROM_COLL
+            , (SELECT COLL_NAME
+                FROM COLLEAGE
+                WHERE DEPT.FROM_COLL= COLLEAGE.COLL_NO) AS FROM_COLL_NAME
+			, TO_COLL
+            , (SELECT COLL_NAME
+                FROM COLLEAGE
+                WHERE DEPT.TO_COLL= COLLEAGE.COLL_NO) AS TO_COLL_NAME
+			, FROM_DEPT
+            , (SELECT DEPT_NAME
+                FROM DEPT
+                WHERE DEPT.FROM_DEPT= DEPT.DEPT_NO) AS FROM_DEPT_NAME
+            , TO_DEPT
+            , (SELECT DEPT_NAME
+                FROM DEPT
+                WHERE DEPT.TO_DEPT= DEPT.DEPT_NO) AS TO_DEPT_NAME
+			, DOUBLE_MAJOR_COLL
+            , (SELECT COLL_NAME
+                FROM COLLEAGE
+                WHERE DEPT.DOUBLE_MAJOR_COLL = COLLEAGE.COLL_NO) AS DOUBLE_MAJOR_COLL_NAME
+			, DOUBLE_MAJOR_DEPT
+            , (SELECT DOUBLE_DEPT_NAME
+            FROM DOUBLE_MAJOR
+            WHERE DEPT.DOUBLE_MAJOR_DEPT = DOUBLE_MAJOR.DOUBLE_NO) AS DOUBLE_MAJOR_DEPT_NAME
+			, DEPT.STU_YEAR
+			, DEPT.STU_SEM
+		FROM DEPT_MANAGE DEPT, UNI_MEMBER MEM, UNI_STU STU
+		WHERE MEM.MEM_NO = STU.MEM_NO
+        AND DEPT.STU_NO = STU.STU_NO
+        AND APPLY_NO = #{applyNo}
+	</select>
 	
 	
 	
