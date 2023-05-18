@@ -34,7 +34,7 @@ function allCheckControll(allCheck){
 //전과 신청 모달
 function acceptChangeMajor(){
 	const apply_no = document.querySelector('#memApplyNo');
-	const stu_no = document.querySelector
+	const stu_no = document.querySelector('#memNo');
 		
 		//ajax start
 		$.ajax({
@@ -43,7 +43,7 @@ function acceptChangeMajor(){
 		   ansyc: true,
 		   contentType : 'application/json; charset=UTF-8',
 		   contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-		   data: {'applyNo': apply_no}, //필요한 데이터
+		   data: {'applyNo': apply_no, 'stuNo':stu_no}, //필요한 데이터
 		   success: function(result) {
 		      const major_modal = new bootstrap.Modal('#majorModal');
 			  major_modal.show();	
