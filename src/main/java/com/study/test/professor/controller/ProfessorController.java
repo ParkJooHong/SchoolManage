@@ -2,6 +2,7 @@ package com.study.test.professor.controller;
 
 import java.util.List;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -68,12 +69,14 @@ public class ProfessorController {
 	}
 	
 	//강의등록 페이지 
-	//select 대학 목록을 골랐을때 그 대학에 맞게 소속학과 목록 가져오기
+	//select 대학 목록을 골랐을때 그 대학에 맞게 소속학과 목록 및 교수님 목록 가져오기
 	@ResponseBody
 	@PostMapping("/deptListAjax")
-	public List<DeptVO> getDeptList(String collNo){
-		List<DeptVO> deptList = schoolService.getDeptList(collNo);
-		System.out.println("@@@@@@@@@@@@@데이터 확인 : " + deptList);
+	public List<DeptVO> getDeptList(Authentication authentication, String collNo){
+		//
+		
+		//학과 목록 조회
+ 		List<DeptVO> deptList = schoolService.getDeptList(collNo);
 		return deptList;
 	}
 	

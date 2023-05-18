@@ -62,14 +62,26 @@
 		FROM DOUBLE_MAJOR
 	</select>
 	
-	
-	<!-- 학과에 맞는 리스트 조회 -->
+	<!-- 단과대학에 맞는 리스트 조회 -->
 	<select id="getDept" resultMap="dept">
 		SELECT DEPT_NO
 			, DEPT_NAME
 			, COLL_NO
 		FROM DEPT
 		WHERE COLL_NO = #{collNo}
+	</select>
+	
+	<!-- 학과에 맞는 담당교수님 리스트 조회 -->
+	<select id="getProfessorList" resultMap="adminMapper.emp">
+		SELECT EMP_NO
+			, EMP_TYPE
+			, DEPT_NO
+			, MEM_NO
+			, COLL_NO
+		FROM UNI_EMP
+		<if test="deptNo != null and deptNo != ''">
+			WHERE DEPT_NO = #{deptNo}
+		</if>
 	</select>
 </mapper>
 

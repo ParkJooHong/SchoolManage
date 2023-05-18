@@ -6,6 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.study.test.admin.vo.EmpVO;
 import com.study.test.school.colleage.ColleageVO;
 import com.study.test.school.dept.DeptVO;
 import com.study.test.school.double_major.DoubleMajorVO;
@@ -40,10 +41,16 @@ public class SchoolServiceImpl implements SchoolService{
 		return sqlsession.selectList("schoolMapper.getDoubleMajorList");
 	}
 
-	//학과에 맞는 리스트 조회
+	//단과대학에 맞는 리스트 조회
 	@Override
 	public List<DeptVO> getDept(String collNo) {
 		return sqlsession.selectList("schoolMapper.getDept",collNo);
+	}
+
+	//학과에 맞는 담당교수님 목록 조회
+	@Override
+	public List<EmpVO> getProfessor(String deptNo) {
+		return sqlsession.selectList("schollMapper.getProfessorList", deptNo);
 	}
 	
 	
