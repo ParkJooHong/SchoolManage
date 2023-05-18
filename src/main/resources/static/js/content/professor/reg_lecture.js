@@ -4,6 +4,8 @@ function getDeptList(){
 	const coll_tag = document.querySelector('#collSelect');
 	//소속학과 태그
 	const dept_tag = document.querySelector('#deptSelect');
+	//담당교수 태그
+	const professor_tag = document.querySelector('#empSelect');
 	 
 	//ajax start
 	$.ajax({
@@ -15,22 +17,35 @@ function getDeptList(){
 		//contentType: 'application/json; charset=UTF-8',
 		contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
 		success: function(result) {
-			//자식태그 삭제
+			//학과, 담당교수 자식태그 삭제
 			dept_tag.replaceChildren();
+			professor_tag.replaceChildren();
 			
-			let str = '';
+			let dept_str = '';
+			let professor_str = '';
 			
-			for(const dept of result){
-				console.log(dept);
-				str += `<option value="${dept.deptNo}">${dept.deptName}</option>`;
+			//학과 목록
+			for(const dept of result['deptList']){
+				dept_str += `<option value="${dept.deptNo}">${dept.deptName}</option>`;
 			}
 			
-			dept_tag.insertAdjacentHTML('afterbegin', str);
+			//담당교수 목록
+			for(const professor of result['professorList']){
+				professor_str += `<option value="${professor.empNo}">${professor.memName}</option>`;
+			}
 			
+			dept_tag.insertAdjacentHTML('afterbegin', dept_str);
+			professor_tag.insertAdjacentHTML('afterbegin', professor_str);
 		},
 		error: function() {
 			alert('실패');
 		}
 	});
 	//ajax end 
+}
+
+//학과에 따른 교수 목록 갱신
+function getDeptList(){
+	//담당교수 태그
+	const professor_tag = document.querySelector('#empSelect');
 }

@@ -1,6 +1,8 @@
 package com.study.test.professor.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -59,7 +61,6 @@ public class ProfessorController {
 		//대학리스트 조회
 		List<ColleageVO> collList = schoolService.getCollList();
 		model.addAttribute("collList", collList);
-		System.out.println("@@@@@@@@@@@@@데이터 확인 : " + collList);
 		
 		//첫화면 소속학과 리스트
 		String collNo = "COLL_001";
@@ -67,9 +68,14 @@ public class ProfessorController {
 		model.addAttribute("deptList", deptList);
 		
 		//첫화면 소속교수님 리스트
-		System.out.println("@@@@@교수님 정보 조회" + schoolService.getProfessor(collNo));
 		String deptNo = "DEPT_001";
 		List<EmpVO> empList = schoolService.getProfessor(deptNo);
+		System.out.println("@@@@@@@@@@@@@데이터 확인 : " + empList);
+		model.addAttribute("professorList", empList);
+		
+        String path = System.getProperty("user.dir")+"\\src\\main\\resources\\static\\";
+        System.out.println("현재 작업 경로: " + path);
+        System.out.println("현재 작업 경로2: " + ConstVariable.PROFESSOR_UPLOAD_PATH);
 		
 		return "content/professor/reg_lecture";
 	}
@@ -78,10 +84,20 @@ public class ProfessorController {
 	//select 대학 목록을 골랐을때 그 대학에 맞게 소속학과 목록 및 교수님 목록 가져오기
 	@ResponseBody
 	@PostMapping("/deptListAjax")
-	public List<DeptVO> getDeptList(Authentication authentication, String collNo){
-		//학과 목록 조회
+	public Map<String, Object> getDeptList(Authentication authentication, String collNo){
+		//학과 목록과 교수님 목록을 담을 map객체생성
+		Map<String, Object> deptEmpMap = new HashMap<>();
+		
+		//단과 대학에 따른 학과 목록 조회
  		List<DeptVO> deptList = schoolService.getDeptList(collNo);
-		return deptList;
+ 		
+ 		//학과에 따른 교수님 조회(여기서는 학교를 고르면 자동으로 선택되는 학과의 교수님 목록만 불러옴)
+ 		List<EmpVO> professorList = schoolService.getProfessor(deptList.get(0).getDeptNo());
+ 		
+ 		deptEmpMap.put("deptList", deptList);
+ 		deptEmpMap.put("professorList", professorList);
+ 		
+		return deptEmpMap;
 	}
 	
 	//강의 등록

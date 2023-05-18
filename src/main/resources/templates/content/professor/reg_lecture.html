@@ -50,7 +50,7 @@
 							</tr>
 							<tr>
 								<td>소속학과</td>
-								<td class="d-grid"><select name="deptNo" id="deptSelect">
+								<td class="d-grid"><select name="deptNo" id="deptSelect" onchange="getDeptList()">
 										<th:block th:each="dept : ${deptList}">
 											<option th:value="${dept.deptNo}">[[${dept.deptName}]]</option>
 										</th:block>
@@ -58,8 +58,10 @@
 							</tr>
 							<tr>
 								<td>담당교수</td>
-								<td class="d-grid"><select name="empNo" id="professor">
-										<option>김교수</option>
+								<td class="d-grid"><select name="empNo" id="empSelect">
+										<th:block th:each="professor : ${professorList}">
+											<option th:value="${professor.empNo}">[[${professor.memName}]]</option>
+										</th:block>
 								</select></td>
 							</tr>
 							<tr>

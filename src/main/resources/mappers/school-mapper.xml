@@ -76,11 +76,13 @@
 		SELECT EMP_NO
 			, EMP_TYPE
 			, DEPT_NO
-			, MEM_NO
+			, MEM.MEM_NO
 			, COLL_NO
-		FROM UNI_EMP
+			, MEM.MEM_NAME
+		FROM UNI_EMP EMP, UNI_MEMBER MEM
+		WHERE EMP.MEM_NO = MEM.MEM_NO
 		<if test="deptNo != null and deptNo != ''">
-			WHERE DEPT_NO = #{deptNo}
+			AND DEPT_NO = #{deptNo}
 		</if>
 	</select>
 </mapper>
