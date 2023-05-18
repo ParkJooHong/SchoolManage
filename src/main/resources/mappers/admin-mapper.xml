@@ -159,9 +159,9 @@
 			, MEM.MEM_NAME AS MEM_NAME
             , MEM.MEM_NO AS MEM_NO
 			, APPLY_CODE
-			, APPLY_DATE
+			, TO_CHAR(APPLY_DATE, 'YYYY-MM-DD') AS APPLY_DATE
 			, APPLY_REASON
-			, APPLROVAL_DATE
+			, TO_CHAR(APPLROVAL_DATE, 'YYYY-MM-DD') AS APPLROVAL_DATE
 			, PROCESS_STATUS
 			, FROM_COLL
             , (SELECT COLL_NAME
@@ -193,6 +193,24 @@
 		WHERE MEM.MEM_NO = STU.MEM_NO
         AND DEPT.STU_NO = STU.STU_NO
         AND APPLY_NO = #{applyNo}
+	</select>
+	<!-- 신청학생 데이터 -->
+	<select id="getMemInfo" resultMap="memberMapper.member">
+		SELECT STU_NO
+			, MEM_NAME
+			, MEM_TELL
+			, MEM_ADDR
+			, ATTACHED_FILE_NAME
+			, MEM.MEM_NO
+			, TO_CHAR(MEM_BIRTH, 'YYYY-MM-DD') AS MEM_BIRTH
+			, MEM_ADDR_DETAIL
+            , STU_STATUS
+            , STU_YEAR
+            , STU_SEM
+		FROM UNI_MEMBER MEM, UNI_STU STU, MEM_IMG IMG
+		WHERE STU.MEM_NO = MEM.MEM_NO
+		AND IMG.MEM_NO = MEM.MEM_NO
+		AND MEM.MEM_NO = #{memNo}
 	</select>
 	
 	

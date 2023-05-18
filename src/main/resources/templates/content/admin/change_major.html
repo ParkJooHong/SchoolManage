@@ -208,14 +208,90 @@
 	
 <!-- 전과신청 모달 -->
 <div class="modal fade" id="majorModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-     <div class="modal-dialog">
+     <div class="modal-dialog modal-dialog modal-xl">
        <div class="modal-content">
          <div class="modal-header">
-           <h1 class="modal-title fs-5" ><span>전과 신청서</span></h1>
+           <h1 class="modal-title" ><span style="font-size: 25px; font-weight: bold;">전과 신청서</span></h1>
            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
          </div>
          <div class="modal-body">
-          	전과 신청서 입니다.  
+          	<div class="row">
+          		<div class="col-10">
+          			<table class="table modalTable">
+          				<colgroup>
+          					<col width="15%">
+          					<col width="35%">
+          					<col width="15%">
+          					<col width="35%">
+          				</colgroup>
+          				<tr>
+          					<td colspan="4" id="memInfo"></td>
+          				</tr>
+          				<tr>
+          					<td>주소</td>
+          					<td id="memAddr" colspan="3"></td>
+          				</tr>
+          				<tr>
+          					<td>연락처</td>
+          					<td id="memTell" colspan="3"></td>
+          				</tr>
+          				<tr>
+          					<td>학년</td>
+          					<td id="memYear"></td>
+          					<td>학적</td>
+          					<td id="memStatus"></td>
+          				</tr>
+          				<tr>
+          					<td>전공학과</td>
+          					<td id="memDept"></td>
+          					<td>복수전공</td>
+          					<td id="memDbDept"></td>
+          				</tr>
+          			</table>
+          		</div>
+          		<div class="col-2">
+          			<img id="memImg" src="" width="100%;">
+          		</div>
+          	</div>
+          	<div class="row">
+          		<div class="col">
+          			<table class="table">
+          				<colgroup>
+          					<col width="25%">
+          					<col width="25%">
+          					<col width="25%">
+          					<col width="25%">
+          				</colgroup>
+          				<tr>
+          					<td>소속전공대학</td>
+          					<td id="fromColl"></td>
+          					<td>변경전공대학</td>
+          					<td id="toColl"></td>
+          				</tr>
+          				<tr>
+          					<td>소속전공학과</td>
+          					<td id="fromDept"></td>
+          					<td>변경전공학과</td>
+          					<td id="toDept"></td>
+          				</tr>
+          			</table>
+          			<table class="table">
+          				<colgroup>
+          					<col width="50%">
+          					<col width="50%">
+          				</colgroup>
+          				<tr>
+          					<td>신청사유</td>
+          					<td id="reason"></td>
+          				</tr>
+          			</table>
+          		</div>
+          	</div>
+          	<div class="row">
+          		<div class="col-12 d-grid">
+          			<input type="button" value="승인" onclick="updateStuInfo();" class="btn btn-primary">
+          		</div>
+          	</div>
          </div>
        </div>
      </div>

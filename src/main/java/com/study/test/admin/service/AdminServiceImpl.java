@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.study.test.admin.vo.AdminMenuVO;
 import com.study.test.admin.vo.AdminSubMenuVO;
 import com.study.test.admin.vo.EmpVO;
+import com.study.test.member.vo.MemberVO;
 import com.study.test.school.colleage.ColleageVO;
 import com.study.test.school.dept.DeptManageVO;
 import com.study.test.school.dept.DeptVO;
@@ -66,6 +67,11 @@ public class AdminServiceImpl implements AdminService{
 	@Override
 	public DeptManageVO getDeptManageData(String applyNo) {
 		return sqlsession.selectOne("adminMapper.getDeptManageData",applyNo);
+	}
+	//학적 관리 대상자 인적사항 조회
+	@Override
+	public MemberVO getMemInfo(String memNo) {
+		return sqlsession.selectOne("adminMapper.getMemInfo",memNo);
 	}
 
 	

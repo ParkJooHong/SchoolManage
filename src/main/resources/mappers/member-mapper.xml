@@ -16,6 +16,7 @@
 		<result column="MEM_BIRTH" 			property="memBirth"/>
 		<result column="MEM_ROLE" 			property="memRole"/>
 		<association property="memImgVO" resultMap="memImg"/>
+		<association property="stuVO" resultMap="stuMapper.stu"/>
 	</resultMap>
 	<resultMap type="com.study.test.member.vo.MemImgVO" id="memImg">
 		<id 	column="IMG_CODE" 			property="imgCode"/>
