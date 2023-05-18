@@ -172,7 +172,14 @@ public class AdminController {
 		model.addAttribute("deptManageList", adminService.getDeptManageList());
 		return "content/admin/change_major";
 	}
-
+	
+	//전과 신청 Ajax
+	@ResponseBody
+	@RequestMapping("/acceptChangeMajorAjax")
+	public void acceptChangeMajorAjax(String applyNo) {
+		
+	}
+	
 	// 실적현황
 	@GetMapping("/performanceData")
 	public String performanceData(AdminSubMenuVO adminSubMenuVO) {

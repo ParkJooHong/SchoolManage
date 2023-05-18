@@ -111,7 +111,7 @@
 			, #{collNo}
 		)
 	</insert>
-	
+	<!-- 전과 신청자 리스트  -->
 	<select id="getDeptManageList" resultMap="deptManage">
 		SELECT APPLY_NO
 			, MEM.MEM_NAME AS MEM_NAME
@@ -151,6 +151,11 @@
 		WHERE MEM.MEM_NO = STU.MEM_NO
         AND DEPT.STU_NO = STU.STU_NO
 	</select>
+	
+	<!-- 전과 신청자 조회 쿼리  -->
+	
+	
+	
 	
 </mapper>
 
