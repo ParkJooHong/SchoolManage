@@ -40,6 +40,26 @@
 		<association property="deptVO" resultMap="schoolMapper.dept"/>
 	</resultMap>
 	
+	<resultMap type="com.study.test.school.dept.DeptManageVO" id="deptManage">
+		<id column="APPLY_NO" 			property="applyNo"/>
+		<result column="STU_NO" 	property="stuNo"/>
+		<result column="APPLY_CODE" 	property="applyCode"/>
+		<result column="APPLY_DATE" 	property="applyDate"/>
+		<result column="APPLY_REASON" 	property="applyReason"/>
+		<result column="APPLROVAL_DATE" 	property="applrovalDate"/>
+		<result column="PROCESS_STATUS" 	property="processStatus"/>
+		<result column="FROM_COLL" 	property="fromColl"/>
+		<result column="TO_COLL" 	property="toColl"/>
+		<result column="FROM_DEPT" 	property="fromDept"/>
+		<result column="TO_DEPT" 	property="toDept"/>
+		<result column="DOUBLE_MAJOR_COLL" 	property="doubleMajorColl"/>
+		<result column="DOUBLE_MAJOR_DEPT" 	property="doubleMajorDept"/>
+		<result column="STU_YEAR" 	property="stuYear"/>
+		<result column="STU_SEM" 	property="stuSem"/>
+		<association property="memberVO" resultMap="memberMapper.member"/>
+		<association property="stuVO" resultMap="stuMapper.stu"/>
+	</resultMap>
+	
 	
 	<!--  학생 정보 조회 -->
 <!-- 	<select id="seletStu" resultType="String"> -->
@@ -77,37 +97,43 @@
 		WHERE MEM_NO = #{memNo}
 	</select>
 	
-	<!-- 
-	<select id="getColl" resultMap="stu" resultType = "String" > << 이거 왜안됨.
-		SELECT COLL_NO
-		FROM UNI_STU
-		WHERE MEM_NO = #{memNo}
-	</select> -->
-	
-	
-<!-- 	<select id="seletStu" resultMap="member">
-		SELECT UNI_MEMBER.MEM_NO 
-			, MEM_PW
-			, MEM_ADDR
-			, MEM_ADDR_DETAIL
-			, MEM_ROLE
-			, MEM_NAME
-			, STU_NO
-			, UNI_STU.COLL_NO
-			, DEPT_NO
-			, DOUBLE_NO
-			, STU_YEAR
-			, STU_SEM
-			, STU_STATUS
-			, PARENT_NAME
-			, PARENT_TELL
-			, STU_BANK_NAME
-			, STU_BANK_ACCOUNT
-			, COLL_NAME
-		FROM UNI_STU, UNI_MEMBER, COLLEAGE
-		WHERE UNI_MEMBER.MEM_NO = #{memNo}
-		AND UNI_STU.COLL_NO = #{collNo}
-	</select> -->
+	<!-- 전과신청  -->
+	<insert id="moveManage">
+		INSERT INTO DEPT_MANAGE(
+          APPLY_NO
+          , STU_NO
+          , APPLY_CODE
+          , APPLY_DATE
+          , APPLY_REASON
+          , APPLROVAL_DATE
+          , PROCESS_STATUS
+          , FROM_COLL
+          , TO_COLL
+          , FROM_DEPT
+          , TO_DEPT
+          , DOUBLE_MAJOR_COLL
+          , DOUBLE_MAJOR_DEPT
+          , STU_YEAR
+          , STU_SEM
+      ) VALUES(
+         (SELECT 'APPLY_'||LPAD(NVL(MAX(TO_NUMBER(SUBSTR(APPLY_NO, 7))), 0) +1 , 3, '0')
+            FROM DEPT_MANAGE)
+         , #{stuNo}
+         , #{applyCode}
+         , SYSDATE
+         , #{applyReason}
+         , SYSDATE 
+         ,'승인대기'
+         , #{fromColl}
+         , #{toColl}
+         , #{fromDept}
+         , #{toDept}
+         , #{doubleMajorColl}
+         , #{doubleMajorDept}
+         , #{stuYear}
+         , #{stuSem}    
+      )
+	</insert>
 	
 	<!-- 학생 정보 변경 -->
 	<update id="updateStu">
