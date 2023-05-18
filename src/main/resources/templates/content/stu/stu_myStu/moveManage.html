@@ -74,7 +74,7 @@
 		<td> 
 			<select class="colleage">
 				<th:block th:each="colleage : ${colleageVO}" >
-					<option th:value="${colleage.collName}">						
+					<option th:value="${colleage.collNo}">						
 							[[${colleage.collName}]]		
 					</option>
 				</th:block>
@@ -84,7 +84,7 @@
 		<td>
 			<select class="dept">
 				<th:block th:each="dept : ${deptVO}" >
-					<option th:value="${dept.deptName}">						
+					<option th:value="${dept.deptNo}">						
 							[[${dept.deptName}]]		
 					</option>
 				</th:block>
