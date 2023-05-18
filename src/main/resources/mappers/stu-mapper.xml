@@ -40,6 +40,18 @@
 		<association property="deptVO" resultMap="schoolMapper.dept"/>
 	</resultMap>
 	
+	<!-- 학적 상태 -->
+	<resultMap type="com.study.test.stu.vo.StatusInfoVO" id="statusInfo">
+		<id column="STATUS_NO" 			property="statusNo"/>
+		<result column="STU_NO" 			property="stuNo"/>
+		<result column="NOW_STATUS" 			property="nowStatus"/>
+		<result column="AFTER_STATUS" 			property="afterStatus"/>
+		<result column="APPLY_DATE" 			property="applyDate"/>
+		<result column="APPROVAL_DATE" 	property="approvalDate"/>
+		<result column="ING_STATUS" 			property="ingStatus"/>
+	</resultMap>
+	
+	<!-- 전과신청 -->
 	<resultMap type="com.study.test.school.dept.DeptManageVO" id="deptManage">
 		<id column="APPLY_NO" 			property="applyNo"/>
 		<result column="STU_NO" 	property="stuNo"/>

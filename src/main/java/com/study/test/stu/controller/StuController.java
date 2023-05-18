@@ -130,11 +130,18 @@ public class StuController {
 		// ---- 내정보 관리 { 
 		//MyInfo
 		@GetMapping("infoManage")
-		private String infoManage(Authentication authentication, String memNo, Model model, StuVO stuVO) {
-
-			User user = (User)authentication.getPrincipal();
-			String memName = user.getUsername();
-			stuVO.setMemNo(user.getUsername()); // id임
+		private String infoManage(Authentication authentication, String memNo, Model model, StuVO stuVO, MemberVO memberVO) {
+				
+			
+			  User user = (User)authentication.getPrincipal();
+				String memName = user.getUsername();
+				stuVO.setMemNo(user.getUsername()); // id임
+				memberVO.setMemNo(user.getUsername());
+				model.addAttribute("stuVO" , stuService.seletStu(memberVO));
+			
+			//User user = (User)authentication.getPrincipal();
+			//String memName = user.getUsername();
+			//stuVO.setMemNo(user.getUsername()); // id임
 			
 			//model.addAttribute("stuVO" , stuService.seletStu(stuVO.getMemNo()));
 			//System.out.println("@@@@@@@@@@" + stuService.seletStu(stuVO.getMemNo()));
@@ -155,9 +162,16 @@ public class StuController {
 		
 	  //비밀번호변경 페이지  
 	  @GetMapping("changePwd") 
-	  private String changePwd(Authentication authentication, Model model, StuVO stuVO) {
+	  private String changePwd(Authentication authentication, Model model, StuVO stuVO, MemberVO memberVO) {
+		  
 		  User user = (User)authentication.getPrincipal();
-		  stuVO.setMemNo(user.getUsername()); 
+			String memName = user.getUsername();
+			stuVO.setMemNo(user.getUsername()); // id임
+			memberVO.setMemNo(user.getUsername());
+			model.addAttribute("stuVO" , stuService.seletStu(memberVO));
+		  
+		  //User user = (User)authentication.getPrincipal();
+		  //stuVO.setMemNo(user.getUsername()); 
 		  
 	  
 		  //model.addAttribute("stuVO" , stuService.seletStu(stuVO.getMemNo()));
@@ -199,11 +213,19 @@ public class StuController {
 			String memName = user.getUsername();
 			stuVO.setMemNo(user.getUsername()); // id임
 			memberVO.setMemNo(user.getUsername());
-			//model.addAttribute("stuVO" , stuService.seletStu(memberVO.getMemNo()));
+			model.addAttribute("stuVO" , stuService.seletStu(memberVO));
+			
+			System.out.println(stuService.seletStu(memberVO));
 			
 			return "/content/stu/stu_myStu/leaveManage";
 		}
 		
+		@ResponseBody
+		@PostMapping("/leaveManageAjax")
+		public String leaveManageAjax(String memNo, String StuStatus, String applyLeave) {
+			
+			return "";
+		}
 		
 		// 복학 신청
 		@GetMapping("/returnManage")
