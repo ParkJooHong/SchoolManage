@@ -50,7 +50,7 @@ public class SchoolServiceImpl implements SchoolService{
 	//학과에 맞는 담당교수님 목록 조회
 	@Override
 	public List<EmpVO> getProfessor(String deptNo) {
-		return sqlsession.selectList("schollMapper.getProfessorList", deptNo);
+		return sqlsession.selectList("schoolMapper.getProfessorList", deptNo);
 	}
 	
 	

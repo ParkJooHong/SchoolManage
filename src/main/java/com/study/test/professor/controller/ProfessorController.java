@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.study.test.admin.service.AdminService;
 import com.study.test.admin.vo.AdminSubMenuVO;
+import com.study.test.admin.vo.EmpVO;
 import com.study.test.member.service.MemberService;
 import com.study.test.member.vo.MemImgVO;
 
@@ -65,6 +66,11 @@ public class ProfessorController {
 		List<DeptVO> deptList = schoolService.getDeptList(collNo);
 		model.addAttribute("deptList", deptList);
 		
+		//첫화면 소속교수님 리스트
+		System.out.println("@@@@@교수님 정보 조회" + schoolService.getProfessor(collNo));
+		String deptNo = "DEPT_001";
+		List<EmpVO> empList = schoolService.getProfessor(deptNo);
+		
 		return "content/professor/reg_lecture";
 	}
 	
@@ -73,8 +79,6 @@ public class ProfessorController {
 	@ResponseBody
 	@PostMapping("/deptListAjax")
 	public List<DeptVO> getDeptList(Authentication authentication, String collNo){
-		//
-		
 		//학과 목록 조회
  		List<DeptVO> deptList = schoolService.getDeptList(collNo);
 		return deptList;
