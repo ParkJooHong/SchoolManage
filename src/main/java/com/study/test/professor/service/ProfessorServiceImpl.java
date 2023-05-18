@@ -34,6 +34,14 @@ public class ProfessorServiceImpl implements ProfessorService{
 	public List<SemesterVO> getSemeList() {
 		return sqlsession.selectList("professorMapper.getSemeList");
 	}
+
+	//다음 강의 넘버 조회
+	@Override
+	public String getNextLecNo() {
+		return sqlsession.selectOne("professorMapper.getNextLectureNo");
+	}
+	
+	
 	
 	
 }

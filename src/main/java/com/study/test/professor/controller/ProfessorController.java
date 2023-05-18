@@ -17,6 +17,8 @@ import com.study.test.member.vo.MemImgVO;
 
 import com.study.test.member.vo.MemberVO;
 import com.study.test.professor.service.ProfessorService;
+import com.study.test.professor.vo.LecturePdfVO;
+import com.study.test.professor.vo.LectureVO;
 import com.study.test.professor.vo.ProfessorMenuVO;
 import com.study.test.school.colleage.ColleageVO;
 import com.study.test.school.dept.DeptVO;
@@ -74,6 +76,24 @@ public class ProfessorController {
 		return deptList;
 	}
 	
+	//강의 등록
+	@PostMapping("/regLecture")
+	public void regLecture(LectureVO lectureVO, MultipartFile pdfFile) {
+		//UploadUtill 객체 호출해서(util패키지에 만들어놓음)LecturePdfVO객체에 받음
+		LecturePdfVO attachedPdfVO = UploadUtil.uploadPdfFile(null);
+		//다음 강의 넘버값
+		String nextLecNo = professorService.getNextLecNo();
+		//lecNo갑 저장
+		attachedPdfVO.setLecNo(nextLecNo);
+		//memberVO.memImage에 imgCode 세팅
+		//memberVO.setMemImage(attachedImgVO.getImgCode());
+		//memberVO안에있는 memImgVO에 UploadUtill로 불러온 데이터 넣음(트랜잭션처리때문에)
+		//memberVO.setMemImgVO(attachedImgVO);
+		//System.out.println("@@@@@@@@@@@@@@" + memberVO);
+		//memberService.regMember(memberVO);
+	}
+	
+	
 	//강의 시간표 페이지 이동
 	@GetMapping("/lectureSchedule")
 	public String lectureSchedule(ProfessorMenuVO professorMenuVO) {
@@ -98,23 +118,6 @@ public class ProfessorController {
 		return "content/professor/reg_grade";
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	//비밀번호 변겅 페이지 이동
-	@GetMapping("/changePwd")
-	public String changePwd(AdminSubMenuVO adminSubMenuVO) {
-		adminSubMenuVO.setMenuCode(ConstVariable.DEFAULT_MENU_CODE);
-		return "content/admin/change_pwd";
-	}
 	
 	//회원등록
 	@PostMapping("/join")

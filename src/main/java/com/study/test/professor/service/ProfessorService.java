@@ -18,4 +18,7 @@ public interface ProfessorService {
 	//학기 리스트
 	List<SemesterVO> getSemeList();
 	
+	//다음 강의 넘버 조회
+	String getNextLecNo();
+	
 }

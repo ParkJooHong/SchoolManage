@@ -41,7 +41,6 @@ function login() {
 					button: '확인',
 				})
 					.then((result) => {
-
 						if (role == 'admin') {
 							location.href = '/admin/joinMember';
 						}

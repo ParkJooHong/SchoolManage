@@ -76,7 +76,8 @@
 
 /* 로그인 버튼 */
 .login_btn{
-	height: 100%;
+	height: 75px;
+	width: 75px;
 }
 
 /* 아이디찾기 비밀번호찾기 정렬 */

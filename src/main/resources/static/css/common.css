@@ -49,6 +49,7 @@ input[type="text"]
 , select
 {
 	height: 35px;
+	border: none;
 	border-radius: 5px;
 	padding: 0px 5px;
 	box-shadow: 0 2px 4px #897c76;

@@ -23,8 +23,8 @@
 						<table class="detail_info">
 							<tr>
 								<td>교과목명</td>
-								<td class="d-grid"><input type="text" name="lecName" required
-									placeholder="강의명을 입력해주세요."></td>
+								<td class="d-grid"><input type="text" name="lecName"
+									required placeholder="강의명을 입력해주세요."></td>
 							</tr>
 							<tr>
 								<td>학점</td>
@@ -33,66 +33,73 @@
 							</tr>
 							<tr>
 								<td>강의학기</td>
-								<td class="d-grid">
-									<select name="semNo">
+								<td class="d-grid"><select name="semNo">
 										<th:block th:each="seme : ${semeList}">
 											<option th:value="${seme.semNo}">[[${seme.semName}]]</option>
 										</th:block>
-									</select>
-								</td>
+								</select></td>
 							</tr>
 							<tr>
 								<td>단과대학</td>
-								<td class="d-grid"><select name="collNo" id="collSelect" th:onchange="getDeptList()" >
-									<th:block th:each="coll : ${collList}">
-										<option th:value="${coll.collNo}">[[${coll.collName}]]</option>
-									</th:block>
+								<td class="d-grid"><select name="collNo" id="collSelect"
+									th:onchange="getDeptList()">
+										<th:block th:each="coll : ${collList}">
+											<option th:value="${coll.collNo}">[[${coll.collName}]]</option>
+										</th:block>
 								</select></td>
 							</tr>
 							<tr>
 								<td>소속학과</td>
-								<td class="d-grid">
-									<select name="deptNo" id="deptSelect">
+								<td class="d-grid"><select name="deptNo" id="deptSelect">
 										<th:block th:each="dept : ${deptList}">
 											<option th:value="${dept.deptNo}">[[${dept.deptName}]]</option>
 										</th:block>
-									</select>
+								</select></td>
+							</tr>
+							<tr>
+								<td>담당교수</td>
+								<td class="d-grid"><select name="empNo" id="professor">
+										<option>김교수</option>
+								</select></td>
+							</tr>
+							<tr>
+								<td>최대 수강신청 인원</td>
+								<td class="d-grid"><input type="text" name="mexMem"
+									required placeholder="최대 수강 인원을 입력해주세요."></td>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="col-12 mt-4">
+				<div class="row">
+					<div class="col">
+						<h3>강의 상세 등록</h3>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						<table class="detail_info">
+							<tr>
+								<td>강의 자료 등록</td>
+								<td class="d-grid">
+									<input type="file" name="mainImg">
 								</td>
 							</tr>
 							<tr>
-								<td>상세주소</td>
-								<td class="d-grid"><input type="text" name="memAddrDetail"
-									required placeholder="상세주소 입력은 필수입니다."></td>
+								<td>강의 날짜</td>
+								<td class="d-grid"><input type="text" name="mexMem"
+									required placeholder="최대 수강 인원을 입력해주세요."></td>
 							</tr>
 							<tr>
-								<td>이메일</td>
-								<td class="d-grid"><input type="text" name="memEmail"
-									required placeholder="이메일 입력은 필수입니다."></td>
+								<td>강의 시작시간</td>
+								<td class="d-grid"><input type="text" name="startTime"
+									required placeholder="24:00기준으로 입력해주세요. 예)14:00"></td>
 							</tr>
 							<tr>
-								<td>연락처(선택)</td>
-								<td class="d-grid"><input type="text" name="memTell"
-									placeholder="연락처 입력은 선택입니다."></td>
-							</tr>
-							<tr>
-								<td>권한(필수)</td>
-								<td><input type="radio" checked name="memRole" value="STU">학생
-									<input type="radio" name="memRole" value="PRO">교수 <input
-									type="radio" name="memRole" value="STF">교직원</td>
-							</tr>
-							<tr>
-								<td>생년월일</td>
-								<td><input type="date" name="memBirth"></td>
-							</tr>
-							<tr>
-								<td>성별(필수)</td>
-								<td><input type="radio" name="memGender" value="M" checked>남
-									<input type="radio" name="memGender" value="Y">여</td>
-							</tr>
-							<tr>
-								<td>이미지 등록(선택)</td>
-								<td class="d-grid"><input type="file" name="mainImg">
-								</td>
+								<td>강의 종료시간</td>
+								<td class="d-grid"><input type="text" name="finishDate"
+									required placeholder="강의 종료 시간을 입력해주세요."></td>
 							</tr>
 						</table>
 					</div>
