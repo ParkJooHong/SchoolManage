@@ -67,7 +67,7 @@
 						<thead>
 							<tr>
 								<td>
-									<input type="checkbox" class="form-check-input">
+									<input type="checkbox" id="allChk" onclick="allCheckControll(this);" checked class="form-check-input">
 								</td>
 								<td>No</td>
 								<td>이 름</td>
@@ -81,11 +81,11 @@
 								<td>승인</td>
 							</tr>
 						</thead>
-						<tbody>
+						<tbody id="changeMajorBody">
 							<th:block th:each="dept,state:${deptManageList}">
 								<tr>
 									<td>
-										<input type="checkbox" class="form-check-input" th:value="${dept.applyNo}">
+										<input type="checkbox" checked onclick="checkControll();" class="form-check-input checkboxes" th:value="${dept.applyNo}">
 									</td>
 									<td>[[${#lists.size(deptManageList) - state.index}]]</td>
 									<td>[[${dept.memberVO.memName}]]</td>
@@ -97,7 +97,7 @@
 									<td>[[${dept.toDeptName}]]</td>
 									<td>[[${dept.applyDate}]]</td>
 									<td class="d-grid">
-										<input type="button" value="승인" class="btn btn-primary">
+										<input type="button" value="승인" onclick="acceptChangeMajor();" class="btn btn-primary">
 									</td>
 								</tr>
 							</th:block>	
@@ -202,11 +202,30 @@
 			</div>
 		</div>
 	</div>
+	
+	
+<!-- 전과신청 모달 -->
+<div class="modal fade" id="majorModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+     <div class="modal-dialog">
+       <div class="modal-content">
+         <div class="modal-header">
+           <h1 class="modal-title fs-5" ><span>전과 신청서</span></h1>
+           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+         </div>
+         <div class="modal-body">
+          	전과 신청서 입니다.  
+         </div>
+       </div>
+     </div>
+   </div>
+
+	
+	
 </th:block>
 
 <!-- 연결해야 할 외부 js 파일 -->
 <th:block layout:fragment="content_js">
-	<script type="text/javascript" src=""></script>
+	<script type="text/javascript" src="/js/content/admin/change_major.js"></script>
 </th:block>	
 
 </html>
