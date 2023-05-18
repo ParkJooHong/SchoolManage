@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.study.test.admin.vo.AdminMenuVO;
 import com.study.test.admin.vo.AdminSubMenuVO;
+import com.study.test.admin.vo.EmpVO;
 import com.study.test.school.colleage.ColleageVO;
 import com.study.test.school.dept.DeptVO;
 import com.study.test.school.double_major.DoubleMajorVO;
@@ -22,4 +23,6 @@ public interface AdminService {
 	List<DoubleMajorVO> getDoubleMajorList();
 	//학생 등록
 	void regStu(StuVO stuVO);
+	//교직원 등록
+	void regEmp(EmpVO empVO);
 }
