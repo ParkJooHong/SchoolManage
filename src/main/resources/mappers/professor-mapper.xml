@@ -76,6 +76,9 @@
 		FROM LECTURE
 	</select>
 	
+	<!-- 담당 교수 목록-->
+	<select id=""></select>
+	
 	<!-- 강의 등록 -->
 	<insert id="regLecture">
 		INSERT INTO LECTURE (

@@ -12,5 +12,6 @@ public class EmpVO {
 	private String empType;
 	private String deptNo;
 	private String memNo;
+	private String memName;
 	private String collNo;
 }

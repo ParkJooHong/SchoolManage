@@ -28,4 +28,6 @@ public interface AdminService {
 	void regEmp(EmpVO empVO);
 	//학적관리 리스트 조회
 	List<DeptManageVO> getDeptManageList();
+	//학적 변경 대상자 조회
+	DeptManageVO getDeptManageData(String applyNo);
 }
