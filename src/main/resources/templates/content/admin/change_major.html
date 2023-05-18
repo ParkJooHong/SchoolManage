@@ -82,23 +82,25 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td>
-									<input type="checkbox" class="form-check-input">
-								</td>
-								<td>1</td>
-								<td>김자바</td>
-								<td>20230005</td>
-								<td>1학년</td>
-								<td>교육대학</td>
-								<td>교육학</td>
-								<td>공학대학</td>
-								<td>기계공학</td>
-								<td>2023-05-17</td>
-								<td class="d-grid">
-									<input type="button" value="승인" class="btn btn-primary">
-								</td>
-							</tr>
+							<th:block th:each="dept,state:${deptManageList}">
+								<tr>
+									<td>
+										<input type="checkbox" class="form-check-input" th:value="${dept.applyNo}">
+									</td>
+									<td>[[${#lists.size(deptManageList) - state.index}]]</td>
+									<td>[[${dept.memberVO.memName}]]</td>
+									<td>[[${dept.memberVO.memNo}]]</td>
+									<td>[[${dept.stuYear}]]</td>
+									<td>[[${dept.fromCollName}]]</td>
+									<td>[[${dept.fromDeptName}]]</td>
+									<td>[[${dept.toCollName}]]</td>
+									<td>[[${dept.toDeptName}]]</td>
+									<td>[[${dept.applyDate}]]</td>
+									<td class="d-grid">
+										<input type="button" value="승인" class="btn btn-primary">
+									</td>
+								</tr>
+							</th:block>	
 						</tbody>
 					</table>
 				</div>
@@ -198,12 +200,6 @@
 					</table>
 				</div>
 			</div>
-		</div>
-	</div>
-	<!--test  -->
-	<div class="row">
-		<div class="col">
-			
 		</div>
 	</div>
 </th:block>

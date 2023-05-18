@@ -28,4 +28,13 @@ public class DeptManageVO {
 	private int stuSem;
 	private MemberVO memberVO;
 	private StuVO stuVO;
+	private String fromCollName;
+	private String toCollName;
+	private String fromDeptName;
+	private String toDeptName;
+	private String doubleMajorCollName;
+	private String doubleMajorDeptName;
+	
+	
+	
 }
