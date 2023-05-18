@@ -4,6 +4,8 @@ public class ConstVariable {
 	//첨부될 파일 업로드 경로
 	public static final String UPLOAD_PATH = "D:\\dev\\workspace_sts\\UniManageTeamProject\\src\\main\\resources\\static\\image\\memImg\\";
 	
+	public static final String PROFESSOR_UPLOAD_PATH = "C:\\dev\\workspaceSTS\\UniManageTeamProject\\src\\main\\resources\\static\\image\\professor\\";
+
 	//-----------어드민 메뉴 상수---------------
 	public static final String DEFAULT_MENU_CODE = "MENU_001";
 	

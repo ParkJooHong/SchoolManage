@@ -31,6 +31,7 @@
 		<result column="SEM_NO" 		property=""/>
 		<result column="LEC_STATUS" 	property=""/>
 		<association property="lecturePdfVO" resultMap="lecturePdf"/>
+		<association property="lectureTimeVO" resultMap="lectureTime"/>
 	</resultMap>
 	
 	<!-- 강의 자료 -->
@@ -38,6 +39,15 @@
 		<id column="PDF_NO" 				property="pdfNo"/>
 		<result column="ORIGIN_PDF_NAME" 	property="originPdfName"/>
 		<result column="ATTACHED_PDF_NAME" 	property="attachedPdfName"/>
+		<result column="LEC_NO" 			property="lecNo"/>
+	</resultMap>
+	
+	<!-- 강의 시간 -->
+	<resultMap type="com.study.test.professor.vo.LectureTimeVO" id="lectureTime">
+		<id column="TIME_NO" 				property="timeNo"/>
+		<result column="LEC_DAY" 			property="lecDay"/>
+		<result column="START_TIME" 		property="startTime"/>
+		<result column="FINISH_TIME" 		property="finishTime"/>
 		<result column="LEC_NO" 			property="lecNo"/>
 	</resultMap>
 	
@@ -78,8 +88,7 @@
 			, MAX_MEM
 			, SEM_NO
 		) VALUES (
-			SELECT 'LEC_'||LPAD(NVL(MAX(TO_NUMBER(SUBSTR(LEC_NO, 5))), 0) + 1, 4, '0')
-			FROM LECTURE
+			, #{lecNo}
 			, #{lecName}
 			, #{lecScore}
 			, #{collNo}

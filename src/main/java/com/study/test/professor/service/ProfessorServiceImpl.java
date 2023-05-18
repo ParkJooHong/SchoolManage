@@ -5,9 +5,12 @@ import java.util.List;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.study.test.admin.vo.AdminMenuVO;
 import com.study.test.admin.vo.AdminSubMenuVO;
+import com.study.test.member.vo.MemberVO;
+import com.study.test.professor.vo.LectureVO;
 import com.study.test.professor.vo.ProfessorMenuVO;
 import com.study.test.professor.vo.ProfessorSubMenuVO;
 import com.study.test.school.semester.SemesterVO;
@@ -40,8 +43,14 @@ public class ProfessorServiceImpl implements ProfessorService{
 	public String getNextLecNo() {
 		return sqlsession.selectOne("professorMapper.getNextLectureNo");
 	}
-	
-	
-	
+
+	//강의 등록(상세 정보 까지 등록)
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public void regLecture(LectureVO lectureVO) {
+		sqlsession.insert("professorMapper.regLecture", lectureVO);
+		sqlsession.insert("professorMapper.regLecturePdf", lectureVO);
+		sqlsession.insert("professorMapper.regLectureTime", lectureVO);
+	}
 	
 }

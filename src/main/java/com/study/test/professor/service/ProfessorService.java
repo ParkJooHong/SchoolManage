@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.study.test.admin.vo.AdminMenuVO;
 import com.study.test.admin.vo.AdminSubMenuVO;
+import com.study.test.professor.vo.LectureVO;
 import com.study.test.professor.vo.ProfessorMenuVO;
 import com.study.test.professor.vo.ProfessorSubMenuVO;
 import com.study.test.school.semester.SemesterVO;
@@ -20,5 +21,8 @@ public interface ProfessorService {
 	
 	//다음 강의 넘버 조회
 	String getNextLecNo();
+	
+	//강의 등록
+	void regLecture(LectureVO lectureVO);
 	
 }

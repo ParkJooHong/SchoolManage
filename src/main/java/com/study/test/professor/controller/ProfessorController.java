@@ -18,6 +18,7 @@ import com.study.test.member.vo.MemImgVO;
 import com.study.test.member.vo.MemberVO;
 import com.study.test.professor.service.ProfessorService;
 import com.study.test.professor.vo.LecturePdfVO;
+import com.study.test.professor.vo.LectureTimeVO;
 import com.study.test.professor.vo.LectureVO;
 import com.study.test.professor.vo.ProfessorMenuVO;
 import com.study.test.school.colleage.ColleageVO;
@@ -78,19 +79,23 @@ public class ProfessorController {
 	
 	//강의 등록
 	@PostMapping("/regLecture")
-	public void regLecture(LectureVO lectureVO, MultipartFile pdfFile) {
+	public void regLecture(LectureVO lectureVO, LectureTimeVO lectureTimeVO, MultipartFile pdfFile) {
 		//UploadUtill 객체 호출해서(util패키지에 만들어놓음)LecturePdfVO객체에 받음
-		LecturePdfVO attachedPdfVO = UploadUtil.uploadPdfFile(null);
+		LecturePdfVO attachedPdfVO = UploadUtil.uploadPdfFile(pdfFile);
+
+		System.out.println("@@@@@@@@@@데이터 확인 : " + attachedPdfVO);
+	
 		//다음 강의 넘버값
 		String nextLecNo = professorService.getNextLecNo();
-		//lecNo갑 저장
-		attachedPdfVO.setLecNo(nextLecNo);
-		//memberVO.memImage에 imgCode 세팅
-		//memberVO.setMemImage(attachedImgVO.getImgCode());
-		//memberVO안에있는 memImgVO에 UploadUtill로 불러온 데이터 넣음(트랜잭션처리때문에)
-		//memberVO.setMemImgVO(attachedImgVO);
-		//System.out.println("@@@@@@@@@@@@@@" + memberVO);
+		//lecNo값 저장
+		lectureVO.setLecNo(nextLecNo);
+		//lectureVO안에있는 lecturePdfVO에 UploadUtill로 불러온 데이터 넣음(트랜잭션처리때문에)
+		lectureVO.setLecturePdfVO(attachedPdfVO);
+		//lectureVO안에있는 lectureTimeVO에 form태그로 가져온 데이터 넣음(트랜잭션처리때문에)
+		lectureVO.setLectureTimeVO(lectureTimeVO);
 		//memberService.regMember(memberVO);
+		
+		System.out.println("@@@@@@@@@@데이터 확인 : " + lectureVO);
 	}
 	
 	

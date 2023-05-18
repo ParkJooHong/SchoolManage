@@ -33,7 +33,7 @@ function login() {
 					error_div.insertAdjacentHTML('beforeend', str);
 				}
 			}
-			else if (result == 'admin' || result == 'stu') {
+			else if (result == 'admin' || result == 'stu' || result == 'professor') {
 				const role = result
 				swal.fire({
 					title: "로그인 성공",
@@ -43,6 +43,9 @@ function login() {
 					.then((result) => {
 						if (role == 'admin') {
 							location.href = '/admin/joinMember';
+						}
+						else if(role == 'professor'){
+							location.href = '/professor/regLecture';
 						}
 						else {
 							location.href = '/mainPage';

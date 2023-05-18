@@ -23,8 +23,6 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 		memberInfo.setMemNo(username);
 		MemberVO userInfo = memberService.login(memberInfo);
 		
-		System.out.println("@@@@@@@데이터 확인 " + userInfo);
-		
 		if(userInfo == null) {
 			throw new UsernameNotFoundException("계정 조회 오류");
 		}

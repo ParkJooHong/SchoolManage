@@ -20,4 +20,5 @@ public class LectureVO {
 	private String semNo;
 	private String lecStatus;
 	private LecturePdfVO lecturePdfVO;
+	private LectureTimeVO lectureTimeVO;
 }

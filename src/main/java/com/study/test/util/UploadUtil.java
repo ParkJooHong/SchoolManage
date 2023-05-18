@@ -35,19 +35,19 @@ public class UploadUtil {
     }
     
     //강의 자료 파일 업로드 메소드
-    public static LecturePdfVO uploadPdfFile(MultipartFile file) {
+    public static LecturePdfVO uploadPdfFile(MultipartFile pdfFile) {
         LecturePdfVO lecturePdfVO = null;
-        if (file != null && !file.isEmpty()) {
+        if (pdfFile != null && !pdfFile.isEmpty()) {
             lecturePdfVO = new LecturePdfVO();
-
-            String originFileName = file.getOriginalFilename();
+            
+            String originFileName = pdfFile.getOriginalFilename();
             String uuid = UUID.randomUUID().toString();
             String extension = originFileName.substring(originFileName.lastIndexOf("."));
             String attachedFileName = uuid + extension;
             
             try {
-                File pdfFile = new File(ConstVariable.UPLOAD_PATH + attachedFileName);
-                file.transferTo(pdfFile);
+                File file = new File(ConstVariable.PROFESSOR_UPLOAD_PATH + attachedFileName);
+                pdfFile.transferTo(file);
                 lecturePdfVO.setOriginPdfName(originFileName);
                 lecturePdfVO.setAttachedPdfName(attachedFileName);
             } catch (Exception e) {

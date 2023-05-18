@@ -3,6 +3,7 @@ package com.study.test.security;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import org.springframework.security.access.method.P;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -37,7 +38,7 @@ public class SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 		        isAccount = "admin";
 		        break;
 		    }
-		    else if(authority.getAuthority().equals("ROLE_PROFESSOR"))
+		    else if(authority.getAuthority().equals("ROLE_PRO"))
 		    	isAccount = "professor";
 	        	break;
 		}
@@ -45,6 +46,11 @@ public class SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 		if(isAccount.equals("admin")) {
 			PrintWriter p = response.getWriter();
 			p.write("admin");
+			p.flush();
+		}
+		else if(isAccount.equals("professor")) {
+			PrintWriter p = response.getWriter();
+			p.write("professor");
 			p.flush();
 		}
 		else {
