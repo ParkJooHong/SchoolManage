@@ -33,8 +33,32 @@ function allCheckControll(allCheck){
 
 //전과 신청 모달
 function acceptChangeMajor(){
-	const major_modal = new bootstrap.Modal('#majorModal');
-	major_modal.show();	
+	const apply_no = document.querySelector('#memApplyNo');
+	const stu_no = document.querySelector
+		
+		//ajax start
+		$.ajax({
+		   url: '/admin/acceptChangeMajorAjax', //요청경로
+		   type: 'post',
+		   ansyc: true,
+		   contentType : 'application/json; charset=UTF-8',
+		   contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+		   data: {'applyNo': apply_no}, //필요한 데이터
+		   success: function(result) {
+		      const major_modal = new bootstrap.Modal('#majorModal');
+			  major_modal.show();	
+		   },
+		   error: function() {
+		      alert('실패');
+		   }
+		});
+		//ajax end
+
+	
+	
+	
+	
+	
 	
 	
 	

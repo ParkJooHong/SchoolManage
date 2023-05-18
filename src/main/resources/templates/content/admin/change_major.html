@@ -85,7 +85,9 @@
 							<th:block th:each="dept,state:${deptManageList}">
 								<tr>
 									<td>
-										<input type="checkbox" checked onclick="checkControll();" class="form-check-input checkboxes" th:value="${dept.applyNo}">
+										<input type="hidden" id="memApplyNo" th:value="${dept.applyNo}">
+										<input type="hidden" id="memNo" th:value="${dept.memberVO.memNo}">
+										<input type="checkbox" checked onclick="checkControll();" class="form-check-input checkboxes">
 									</td>
 									<td>[[${#lists.size(deptManageList) - state.index}]]</td>
 									<td>[[${dept.memberVO.memName}]]</td>
