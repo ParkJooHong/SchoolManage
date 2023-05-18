@@ -3,6 +3,7 @@ package com.study.test.stu.service;
 import java.util.List;
 
 import com.study.test.member.vo.MemberVO;
+import com.study.test.school.dept.DeptManageVO;
 import com.study.test.stu.vo.StuVO;
 
 public interface StuService {
@@ -19,4 +20,7 @@ public interface StuService {
 	
 	//학생 비밀번호 변경
 	void updateStuPwd(MemberVO memberVO);
+	
+	//학생 전과신청
+	void moveManage(DeptManageVO deptManageVO);
 }

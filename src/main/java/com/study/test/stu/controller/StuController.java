@@ -14,6 +14,7 @@ import com.study.test.member.vo.MemberMenuVO;
 import com.study.test.member.vo.MemberSubMenuVO;
 import com.study.test.member.vo.MemberVO;
 import com.study.test.school.colleage.ColleageVO;
+import com.study.test.school.dept.DeptManageVO;
 import com.study.test.school.service.SchoolService;
 import com.study.test.stu.service.StuService;
 import com.study.test.stu.vo.StuVO;
@@ -241,13 +242,15 @@ public class StuController {
 		//전과신청 AJax
 		 @ResponseBody
 		  @PostMapping("/moveManageAjax")
-		  public String moveManageAjax(Authentication authentication, StuVO stuVO,  String newPassword, String memNo, MemberVO memberVO) {
+		  public String moveManageAjax(Authentication authentication, String menuCode, Model model, StuVO stuVO,  String newPassword, String memNo, MemberVO memberVO, DeptManageVO deptManageVO, String toColl, String toDept) {
 			 
 			 	User user = (User)authentication.getPrincipal();
 				String memName = user.getUsername();
 				stuVO.setMemNo(user.getUsername()); // id임
 				memberVO.setMemNo(user.getUsername());
 				
+				menuCode = "MENU_002";
+				model.addAttribute("subMenuList", memberService.stuSubMenuList(menuCode));
 				
 				stuService.getColl(user.getUsername());
 				memberVO.setStuVO(stuService.getColl(user.getUsername()));
@@ -256,8 +259,31 @@ public class StuController {
 				 memberVO = stuService.seletStu(memberVO);
 				 System.out.println(stuService.seletStu(memberVO));
 				 System.out.println("멤버 데이터 : " +memberVO);
+				 System.out.println(toColl);
 				 
-				return newPassword;
+				 
+				 deptManageVO.setStuNo(memberVO.getStuVO().getStuNo());
+				 deptManageVO.setApplyCode(memberVO.getStuVO().getDeptNo());
+				 deptManageVO.setFromColl(memberVO.getColleageVO().getCollNo());
+				 //deptManageVO.setToColl(memberVO.getColleageVO().getCollNo());
+				 deptManageVO.setToColl(toColl);
+				 
+				 deptManageVO.setFromDept(memberVO.getDeptVO().getDeptNo());
+				 deptManageVO.setToDept(toDept);
+				 //deptManageVO.setToDept(memberVO.getStuVO().getDeptNo());
+				 
+				 deptManageVO.setDoubleMajorColl(memberVO.getStuVO().getCollNo());
+				 deptManageVO.setDoubleMajorDept(memberVO.getStuVO().getDoubleNo());
+				 
+				 deptManageVO.setStuYear(memberVO.getStuVO().getStuYear());
+				 deptManageVO.setStuSem(memberVO.getStuVO().getStuSem());
+				 
+				 
+				 System.out.println(deptManageVO);
+					
+				 stuService.moveManage(deptManageVO);
+						
+				return "redirect:/mainPage";
 			}
 		
 		

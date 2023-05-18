@@ -1,13 +1,14 @@
 
+
 function moveManage(){
 	
-	const colleage = document.querySelector('.colleage').value;
-	const dept = document.querySelector('.dept').value;
-	const currentDept = document.querySelector('.currentDept').value;
+	const toColl = document.querySelector('.colleage').value;
+	const toDept = document.querySelector('.dept').value;
+	const fromDept = document.querySelector('.currentDept').value;
 	const applyReason = document.querySelector('.applyReason').value;
 	
 	
-	if(dept == currentDept){
+	if(toDept == fromDept){
 		alert("변경하려는 학과가 현재와 동일 합니다. \n 다시 입력해주세요.");
 	}
 	if(applyReason == ''){
@@ -20,11 +21,10 @@ function moveManage(){
 			url: '/stuMenu/moveManageAjax', //요청경로
 			type: 'post',
 			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-			data: {'dept' : dept, 'colleage' : colleage , 'applyReason' : applyReason}, //필요한 데이터
+			data: {'toDept' : toDept, 'toColl' : toColl , 'applyReason' : applyReason, 'fromDept' : fromDept}, //필요한 데이터
 			success: function(result) {
 				if(result){
-					alert(result);
-					alert('사용여부가 변경되었습니다.');
+					alert('전과 신청이 완료 되었습니다.');
 				}
 				else{
 					alert('일시적 오류가 발생했습니다.');
@@ -38,6 +38,7 @@ function moveManage(){
 			
 	}
 }	
+
 
 
 
