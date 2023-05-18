@@ -5,6 +5,7 @@ import java.util.List;
 import com.study.test.admin.vo.AdminMenuVO;
 import com.study.test.admin.vo.AdminSubMenuVO;
 import com.study.test.admin.vo.EmpVO;
+import com.study.test.member.vo.MemberVO;
 import com.study.test.school.colleage.ColleageVO;
 import com.study.test.school.dept.DeptManageVO;
 import com.study.test.school.dept.DeptVO;
@@ -30,4 +31,6 @@ public interface AdminService {
 	List<DeptManageVO> getDeptManageList();
 	//학적 변경 대상자 조회
 	DeptManageVO getDeptManageData(String applyNo);
+	//학적 변경 대상자 인적사항 조회
+	MemberVO getMemInfo(String memNo);
 }

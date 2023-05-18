@@ -177,10 +177,16 @@ public class AdminController {
 	//전과 신청 Ajax
 	@ResponseBody
 	@PostMapping("/acceptChangeMajorAjax")
-	public DeptManageVO acceptChangeMajorAjax(String applyNo, String stuNo) {
-		DeptManageVO acceptData = adminService.getDeptManageData(applyNo);
+	public Map<String, Object> acceptChangeMajorAjax(String applyNo, String memNo) {
 		
-		return acceptData;
+		Map<String, Object> data = new HashMap<>();
+		
+		DeptManageVO acceptData = adminService.getDeptManageData(applyNo);
+		MemberVO acceptInfoData = adminService.getMemInfo(memNo);
+		data.put("acceptData", acceptData);
+		data.put("acceptInfoData", acceptInfoData);
+		
+		return data;
 	}
 	
 	// 실적현황
