@@ -52,6 +52,6 @@ public class SchoolServiceImpl implements SchoolService{
 	public List<EmpVO> getProfessor(String deptNo) {
 		return sqlsession.selectList("schoolMapper.getProfessorList", deptNo);
 	}
-	
+	 
 	
 }
