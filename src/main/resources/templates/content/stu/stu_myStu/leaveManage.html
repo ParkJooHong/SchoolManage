@@ -56,19 +56,22 @@
 		<td>생년월일</td>
 		<td>[[${stu.stuVO.stuYear}]]</td>
 		<td>학적상태</td>
-		<td>[[${stu.stuVO.stuStatus}]]</td>
+		<td>
+			<input type="hidden" class="stuStatus" th:value="${stu.stuVO.stuStatus}">
+			[[${stu.stuVO.stuStatus}]]
+		</td>
 	</tr>
 </table>
 
 <table border="1" class="detail_info">
 	<tr>
 		<td>휴학 사유</td>
-		<td><textarea placeholder="휴학 사유를 작성하세요." rows="4" cols="100" class="applyLeave" ></textarea></td>
+		<td><textarea placeholder="휴학 사유를 작성하세요." rows="4" cols="100" class="applyReason" ></textarea></td>
 	</tr>
 </table>
 <div style="text-align: center;">
 	<th:block th:each="stu : ${stuVO}">
-		<input type="button" value="휴학 신청" class="btn btn-primary" th:onclick="leave([[${stu.memNo}]], [[${stu.stuVO.stuStatus}]]);">
+		<input type="button" value="휴학 신청" class="btn btn-primary" th:onclick="leave([[${stu.memNo}]]);">
 	</th:block>
 </div>
 </th:block>

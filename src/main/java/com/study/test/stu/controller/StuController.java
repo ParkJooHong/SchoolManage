@@ -17,6 +17,8 @@ import com.study.test.school.colleage.ColleageVO;
 import com.study.test.school.dept.DeptManageVO;
 import com.study.test.school.service.SchoolService;
 import com.study.test.stu.service.StuService;
+import com.study.test.stu.vo.LeaveManageVO;
+import com.study.test.stu.vo.StatusInfoVO;
 import com.study.test.stu.vo.StuVO;
 
 import ch.qos.logback.core.net.SyslogOutputStream;
@@ -220,11 +222,33 @@ public class StuController {
 			return "/content/stu/stu_myStu/leaveManage";
 		}
 		
+		// 휴학 신청Ajax
 		@ResponseBody
 		@PostMapping("/leaveManageAjax")
-		public String leaveManageAjax(String memNo, String StuStatus, String applyLeave) {
+		public String leaveManageAjax(Authentication authentication, MemberVO memberVO, String memNo, String stuStatus, String applyReason, LeaveManageVO leaveManageVO, StatusInfoVO statusInfoVO) {
 			
-			return "";
+			/*
+			leaveManageVO.setApplyReason(applyReason);
+			leaveManageVO.setStuNo(memNo);
+			leaveManageVO.setStuStatus(stuStatus);
+			
+			System.out.println(leaveManageVO);
+			
+			stuService.leaveManage(leaveManageVO);
+			*/
+			// 집가서 다시
+			User user = (User)authentication.getPrincipal();
+			String memName = user.getUsername();
+			System.out.println(memName);
+			stuService.seletStu(memberVO);
+			
+			statusInfoVO.setStuNo(memberVO.getStuVO().getStuNo());
+			statusInfoVO.setNowStatus(stuStatus);
+			
+			stuService.leav(statusInfoVO);
+			
+			
+			return "redirect:/mainPage";
 		}
 		
 		// 복학 신청
@@ -318,7 +342,16 @@ public class StuController {
 		
 		// 학적신청현황조회
 		@GetMapping("/academicManage")
-		private String academicManage() {
+		private String academicManage(Authentication authentication, MemberVO memberVO, Model model, StuVO stuVO, String memNo) {
+			  User user = (User)authentication.getPrincipal();
+				String memName = user.getUsername();
+				stuVO.setMemNo(user.getUsername()); // id임
+				memberVO.setMemNo(user.getUsername());
+				model.addAttribute("stuVO" , stuService.seletStu(memberVO));
+
+			
+			// 학적 신청 현황 조회에 들어감.
+			System.out.println(stuService.getStatusInfo(memberVO.getMemNo())); 
 
 			return "/content/stu/stu_myStu/academicManage";
 		}

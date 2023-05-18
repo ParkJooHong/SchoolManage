@@ -72,6 +72,16 @@
 		<association property="stuVO" resultMap="stuMapper.stu"/>
 	</resultMap>
 	
+	<!--휴학 신청  -->
+	<resultMap type="com.study.test.stu.vo.LeaveManageVO" id="leaveManage">
+		<id column="APPLY_NO" 			property="applyNo"/>
+		<result column="STU_NO" 			property="stuNo"/>
+		<result column="APPLY_DATE" 			property="applyDate"/>
+		<result column="STU_STATUS" 			property="stuStatus"/>		
+		<result column="APPLY_REASON" 			property="applyReason"/>
+		<result column="APPLROVAL_DATE" 			property="applrovalDate"/>
+		<result column="PROCESS_STATUS" 	property="processStatus"/>
+	</resultMap>
 	
 	<!--  학생 정보 조회 -->
 <!-- 	<select id="seletStu" resultType="String"> -->
@@ -147,6 +157,30 @@
       )
 	</insert>
 	
+	<!-- 휴학신청  -->
+	<insert id="leaveManage">
+		INSERT INTO LEAVE_MANAGE(
+          APPLY_NO
+          , STU_NO
+          , STU_STATUS
+          , APPLY_DATE
+          , APPLY_REASON
+          , APPLROVAL_DATE
+          , PROCESS_STATUS
+      ) VALUES(
+         (SELECT 'APPLY_'||LPAD(NVL(MAX(TO_NUMBER(SUBSTR(APPLY_NO, 7))), 0) +1 , 3, '0')
+            FROM DEPT_MANAGE)
+           , #{stuNo}
+           , #{stuStatus}
+           , SYSDATE
+           , #{applyReason}
+           , TO_DATE('9999-12-30', 'YYYY-MM-DD')
+           , '승인대기'   
+            
+      )
+	</insert>
+	
+	
 	<!-- 학생 정보 변경 -->
 	<update id="updateStu">
 		UPDATE UNI_STU
@@ -164,31 +198,40 @@
 		WHERE MEM_NO = #{memNo}
 	</update>
 	
-	<!-- 전과신청 하기 -->
-<!-- 	<insert id="">
-		INSERT INTO DEPT_MANAGE(
-		    APPLY_NO
-		    , STU_NO
-		    , APPLY_CODE
-		    , APPLY_DATE
-		    , APPLY_REASON
-		    , APPLROVAL_DATE
-		    , PROCESS_STATUS
-		    , FROM_COLL
-		    , TO_COLL
-		    , FROM_DEPT
-		    , TO_DEPT
-		    , DOUBLE_MAJOR_COLL
-		    , DOUBLE_MAJOR_DEPT
-		    , STU_YEAR
-		    , STU_SEM
-		) VALUES(
-			SELECT 'APPLY_'||LPAD(NVL(MAX(TO_NUMBER(SUBSTR(APPLY_NO, 7))), 0) +1 , 3, '0')
-				FROM DEPT_MANAGE
-			, #{stuNo}
-		)
-	</insert> -->
-
+	<!-- 휴학 신청. -->
+	<insert id="leav">
+		INSERT INTO STATUS_INFO(
+          STATUS_NO
+          , STU_NO
+          , NOW_STATUS
+          , AFTER_STATUS
+          , APPLY_DATE
+          , APPROVAL_DATE
+          , ING_STATUS
+      ) VALUES(
+         (SELECT 'STATUS_NO'||LPAD(NVL(MAX(TO_NUMBER(SUBSTR(STATUS_NO, 8))), 0) +1 , 3, '0')
+            FROM STATUS_INFO)
+           , #{stuNo}
+           , #{nowStatus}
+           , '처리되지 않음'
+           , SYSDATE
+           , TO_DATE('9999-12-30', 'YYYY-MM-DD')
+           , '승인대기'           
+      )
+	</insert>
+	
+	<!-- 학적 상태 조회 -->
+	<select id="getStatusInfo" resultMap="statusInfo">
+		SELECT STATUS_NO
+			, STU_NO
+			, NOW_STATUS
+			, AFTER_STATUS
+			, APPLY_DATE
+			, APPROVAL_DATE
+			, ING_STATUS
+		FROM STATUS_INFO
+		WHERE STU_NO = #{stuNo}
+	</select>
 	
 	
 </mapper>

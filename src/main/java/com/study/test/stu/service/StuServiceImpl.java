@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com.study.test.member.vo.MemberVO;
 import com.study.test.school.dept.DeptManageVO;
+import com.study.test.stu.vo.LeaveManageVO;
+import com.study.test.stu.vo.StatusInfoVO;
 import com.study.test.stu.vo.StuVO;
 
 @Service("stuService")
@@ -47,6 +49,26 @@ public class StuServiceImpl implements StuService {
 	@Override
 	public void moveManage(DeptManageVO deptManageVO) {
 		sqlSession.insert("stuMapper.moveManage", deptManageVO);
+		
+	}
+
+	//학적 상태 조회
+	@Override
+	public List<StatusInfoVO> getStatusInfo(String memNo) {
+		return sqlSession.selectList("stuMapper.getStatusInfo", memNo);
+	}
+
+	//휴학 신청
+	@Override
+	public void leaveManage(LeaveManageVO leaveManageVO) {
+		sqlSession.insert("stuMapper.leaveManage", leaveManageVO);
+		
+	}
+
+	//테스트
+	@Override
+	public void leav(StatusInfoVO statusInfoVO) {
+		sqlSession.insert("stuMapper.leav", statusInfoVO);
 		
 	}
 	
