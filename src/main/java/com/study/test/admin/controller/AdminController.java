@@ -91,10 +91,12 @@ public class AdminController {
 		if(adminSubMenuVO.getMenuCode() == null) {
 			adminSubMenuVO.setMenuCode(ConstVariable.DEFAULT_MENU_CODE);
 		}
+		memNo = "20230003";
+		String collNo = "COLL_001";
 		System.out.println("@@@@@@@@@@@@"+memNo);
 		Map<String, Object> schoolMap = new HashMap<>();
 		List<ColleageVO> collList = schoolService.getCollList();
-		List<DeptVO> deptList = schoolService.getDeptList();
+		List<DeptVO> deptList = schoolService.getDeptList(collNo);
 		List<DoubleMajorVO> doubleMajorList = schoolService.getDoubleMajorList();
 		schoolMap.put("collList", collList);
 		schoolMap.put("deptList", deptList);
