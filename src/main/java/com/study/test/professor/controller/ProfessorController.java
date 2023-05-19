@@ -4,6 +4,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -128,9 +132,16 @@ public class ProfessorController {
 		
 		boolean timeCheck = false;
 		
+		System.out.println("@@@@@@@@@@데이터확인" + timeNo);
+		
 		if(timeNo == null) {
 			timeCheck = true;
 		}
+		else {
+			timeCheck = false;
+		}
+		
+		System.out.println("@@@@@@@@@@중복 확인" + timeCheck);
 		
 		return timeCheck;
 	}
@@ -138,7 +149,7 @@ public class ProfessorController {
 	
 	//강의 등록
 	@PostMapping("/regLecture")
-	public void regLecture(LectureVO lectureVO, LectureTimeVO lectureTimeVO, MultipartFile pdfFile) {
+	public String regLecture(LectureVO lectureVO, LectureTimeVO lectureTimeVO, MultipartFile pdfFile) {
 		//UploadUtill 객체 호출해서(util패키지에 만들어놓음)LecturePdfVO객체에 받음
 		LecturePdfVO attachedPdfVO = UploadUtil.uploadPdfFile(pdfFile);
 
@@ -157,6 +168,8 @@ public class ProfessorController {
 		professorService.regLecture(lectureVO);
 		
 		System.out.println("@@@@@@@@@@데이터 확인 : " + lectureVO);
+		
+		return "redirect:/professor/regLecture";
 	}
 	
 	

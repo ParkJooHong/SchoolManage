@@ -107,7 +107,7 @@
 	</insert>
 	
 	<!-- 강의 시간 중복 체크 -->
-	<select id="lectureTimeCheck" resultMap="lectureTime">
+	<select id="lectureTimeCheck" resultType="String">
 		SELECT TIME_NO
 		FROM LECTURE_TIME
 		WHERE LEC_DAY = #{lecDay}
@@ -146,8 +146,8 @@
 			(SELECT 'TIME_'||LPAD(NVL(MAX(TO_NUMBER(SUBSTR(TIME_NO, 6))), 0) + 1, 4, '0')
 			FROM LECTURE_TIME)
 			, #{lectureTimeVO.lecDay}
-			, TO_DATE(TO_CHAR(SYSDATE, 'YYYY-MM-DD') || #{lectureTimeVO.startTime}, 'YYYY-MM-DD HH24:MI')
-			, TO_DATE(TO_CHAR(SYSDATE, 'YYYY-MM-DD') || #{lectureTimeVO.finishDate}, 'YYYY-MM-DD HH24:MI')
+			, #{lectureTimeVO.startTime}
+			, #{lectureTimeVO.finishDate}
 			, #{lecNo}
 		)
 	</insert>
