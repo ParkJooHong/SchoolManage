@@ -99,7 +99,12 @@
 									<td>[[${dept.toDeptName}]]</td>
 									<td>[[${dept.applyDate}]]</td>
 									<td class="d-grid">
-										<input type="button" value="승인" onclick="acceptChangeMajor();" class="btn btn-primary">
+										<th:block th:if="${dept.processStatus == '승인대기'}">
+											<input type="button" value="승인" onclick="acceptChangeMajor();" class="btn btn-primary">
+										</th:block>
+										<th:block th:unless="${dept.processStatus == '승인대기'}">
+											<input type="button" value="완료" onclick="acceptChangeMajor();" class="btn btn-primary">
+										</th:block>
 									</td>
 								</tr>
 							</th:block>	
@@ -289,7 +294,7 @@
           	</div>
           	<div class="row">
           		<div class="col-12 d-grid">
-          			<input type="button" value="승인" onclick="updateStuInfo();" class="btn btn-primary">
+	          			<input type="button" id="acceptBtn" value="승인" onclick="updateStuInfo();" class="btn btn-primary">
           		</div>
           	</div>
          </div>

@@ -213,6 +213,20 @@
 		AND MEM.MEM_NO = #{memNo}
 	</select>
 	
+	<update id="updateStuCollDept">
+		UPDATE UNI_STU
+		SET COLL_NO = #{collNo}
+			, DEPT_NO = #{deptNo}
+		WHERE STU_NO = #{stuNo}
+	</update>
+	
+	<update id="updateProcessStatus">
+		UPDATE DEPT_MANAGE
+		SET PROCESS_STATUS = '승인완료'
+			, APPLROVAL_DATE = SYSDATE
+		WHERE APPLY_NO = #{applyNo}	
+	</update>
+	
 	
 	
 </mapper>

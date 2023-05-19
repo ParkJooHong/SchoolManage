@@ -5,6 +5,7 @@ import java.util.List;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.study.test.admin.vo.AdminMenuVO;
 import com.study.test.admin.vo.AdminSubMenuVO;
@@ -73,6 +74,14 @@ public class AdminServiceImpl implements AdminService{
 	public MemberVO getMemInfo(String memNo) {
 		return sqlsession.selectOne("adminMapper.getMemInfo",memNo);
 	}
+	//학적 변경 실행
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public void updateStuCollDept(StuVO stuVO, String applyNo) {
+		sqlsession.update("adminMapper.updateStuCollDept",stuVO); 
+		sqlsession.update("adminMapper.updateProcessStatus",applyNo);
+	}
+
 
 	
 	

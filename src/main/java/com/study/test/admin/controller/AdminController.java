@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -174,7 +175,7 @@ public class AdminController {
 		return "content/admin/change_major";
 	}
 	
-	//전과 신청 Ajax
+	//전과 신청 모달 Ajax
 	@ResponseBody
 	@PostMapping("/acceptChangeMajorAjax")
 	public Map<String, Object> acceptChangeMajorAjax(String applyNo, String memNo) {
@@ -187,6 +188,24 @@ public class AdminController {
 		data.put("acceptInfoData", acceptInfoData);
 		
 		return data;
+	}
+	
+	//전과신청 업데이트
+	@ResponseBody
+	@PostMapping("/updateStuInfoAjax")
+	public void updateStuInfoAjax(@RequestBody Map<String, String> stuMap) {
+		String memNo = stuMap.get("memNo");
+		String applyNo = stuMap.get("applyNo");
+		String toColl = stuMap.get("toColl");
+		String toDept = stuMap.get("toDept");
+		
+		StuVO stuVO = new StuVO();
+		stuVO.setStuNo(memNo);
+		stuVO.setCollNo(toColl);
+		stuVO.setDeptNo(toDept);
+		
+		adminService.updateStuCollDept(stuVO, applyNo);
+		
 	}
 	
 	// 실적현황
