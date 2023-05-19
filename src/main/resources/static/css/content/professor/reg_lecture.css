@@ -21,7 +21,7 @@ table.detail_info{
 	padding: 10px;
 }
 table.detail_info td{
-	height: 50px;
+	margin: 5px;
 	padding: 5px;
 }
 table.detail_info td:first-child
@@ -44,6 +44,17 @@ table.default_info td{
 
 .addr_search_btn{
 	height: 100%
+}
+
+.btn-chk{
+	background-color: white;
+	color: black;
+	border-color: #897c76;
+}
+
+.btn-chk:hover{
+	background-color: #cccccc;
+	color: black;
 }
 
 

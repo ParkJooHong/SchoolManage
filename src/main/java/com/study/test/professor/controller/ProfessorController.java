@@ -9,7 +9,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -81,10 +83,10 @@ public class ProfessorController {
 	}
 	
 	//강의등록 페이지 
-	//select 대학 목록을 골랐을때 그 대학에 맞게 소속학과 목록 및 교수님 목록 가져오기
+	//select 학과를 골랐을때 학과에 맞게 목록 및 교수님 목록 가져오기
 	@ResponseBody
 	@PostMapping("/deptListAjax")
-	public Map<String, Object> getDeptList(Authentication authentication, String collNo){
+	public Map<String, Object> getDeptList(String collNo){
 		//학과 목록과 교수님 목록을 담을 map객체생성
 		Map<String, Object> deptEmpMap = new HashMap<>();
 		
@@ -99,6 +101,40 @@ public class ProfessorController {
  		
 		return deptEmpMap;
 	}
+	
+	//강의등록 페이지 
+	//select 학과를 골랐을때 그 학과에 맞게 교수님 목록 가져오기
+	@ResponseBody
+	@PostMapping("/professorListAjax")
+	public Map<String, Object> getprofessorList(String deptNo){
+		//학과 목록과 교수님 목록을 담을 map객체생성
+		Map<String, Object> professorpMap = new HashMap<>();
+		
+ 		//학과에 따른 교수님 조회
+ 		List<EmpVO> professorList = schoolService.getProfessor(deptNo);
+ 		
+ 		professorpMap.put("professorList", professorList);
+ 		
+		return professorpMap;
+	}
+	
+	//강의등록 페이지
+	//강의 시간 중복 체크
+	@ResponseBody
+	@PostMapping("/lectureTimeCheckAjax")
+	public boolean lectureTimeCheckAjax(@RequestBody LectureTimeVO lectureTimeVO) {
+		
+		String timeNo = professorService.lectureTimeCheck(lectureTimeVO);
+		
+		boolean timeCheck = false;
+		
+		if(timeNo == null) {
+			timeCheck = true;
+		}
+		
+		return timeCheck;
+	}
+	
 	
 	//강의 등록
 	@PostMapping("/regLecture")
@@ -116,7 +152,9 @@ public class ProfessorController {
 		lectureVO.setLecturePdfVO(attachedPdfVO);
 		//lectureVO안에있는 lectureTimeVO에 form태그로 가져온 데이터 넣음(트랜잭션처리때문에)
 		lectureVO.setLectureTimeVO(lectureTimeVO);
-		//memberService.regMember(memberVO);
+		
+		//강의 등록 쿼리 실행
+		professorService.regLecture(lectureVO);
 		
 		System.out.println("@@@@@@@@@@데이터 확인 : " + lectureVO);
 	}

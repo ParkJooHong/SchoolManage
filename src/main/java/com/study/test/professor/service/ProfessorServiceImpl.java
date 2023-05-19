@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.study.test.admin.vo.AdminMenuVO;
 import com.study.test.admin.vo.AdminSubMenuVO;
 import com.study.test.member.vo.MemberVO;
+import com.study.test.professor.vo.LectureTimeVO;
 import com.study.test.professor.vo.LectureVO;
 import com.study.test.professor.vo.ProfessorMenuVO;
 import com.study.test.professor.vo.ProfessorSubMenuVO;
@@ -43,6 +44,12 @@ public class ProfessorServiceImpl implements ProfessorService{
 	public String getNextLecNo() {
 		return sqlsession.selectOne("professorMapper.getNextLectureNo");
 	}
+	
+	//강의 시간 중복 체크
+	@Override
+	public String lectureTimeCheck(LectureTimeVO lectureTimeVO) {
+		return sqlsession.selectOne("professorMapper.lectureTimeCheck", lectureTimeVO);
+	}
 
 	//강의 등록(상세 정보 까지 등록)
 	@Override
@@ -52,5 +59,6 @@ public class ProfessorServiceImpl implements ProfessorService{
 		sqlsession.insert("professorMapper.regLecturePdf", lectureVO);
 		sqlsession.insert("professorMapper.regLectureTime", lectureVO);
 	}
+	
 	
 }

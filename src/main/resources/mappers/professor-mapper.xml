@@ -19,17 +19,17 @@
 	
 	<!-- 강의 정보-->
 	<resultMap type="com.study.test.professor.vo.LectureVO" id="lecture">
-		<id column="LEC_NO" 			property=""/>
-		<result column="LEC_NAME" 		property=""/>
-		<result column="LEC_SCORE" 		property=""/>
-		<result column="COLL_NO" 		property=""/>
-		<result column="DEPT_NO" 		property=""/>
-		<result column="EMP_NO" 		property=""/>
-		<result column="CREATE_DATE" 	property=""/>
-		<result column="MAX_MEM" 		property=""/>
-		<result column="NOW_MEM" 		property=""/>
-		<result column="SEM_NO" 		property=""/>
-		<result column="LEC_STATUS" 	property=""/>
+		<id column="LEC_NO" 				property="lecNo"/>
+		<result column="LEC_NAME" 			property="lecName"/>
+		<result column="LEC_SCORE" 			property="lecScore"/>
+		<result column="COLL_NO" 			property="collNo"/>
+		<result column="DEPT_NO" 			property="deptNo"/>
+		<result column="EMP_NO" 			property="empNo"/>
+		<result column="CREATE_DATE" 		property="createDate"/>
+		<result column="MAX_MEM" 			property="maxMem"/>
+		<result column="NOW_MEM" 			property="nowMem"/>
+		<result column="SEM_NO" 			property="semNo"/>
+		<result column="LEC_STATUS" 		property="lecStatus"/>
 		<association property="lecturePdfVO" resultMap="lecturePdf"/>
 		<association property="lectureTimeVO" resultMap="lectureTime"/>
 	</resultMap>
@@ -88,19 +88,35 @@
 			, COLL_NO
 			, DEPT_NO
 			, EMP_NO
+			<if test="maxMem != null and maxMem != 0">
 			, MAX_MEM
+			</if>
 			, SEM_NO
 		) VALUES (
-			, #{lecNo}
+			#{lecNo}
 			, #{lecName}
 			, #{lecScore}
 			, #{collNo}
 			, #{deptNo}
 			, #{empNo}
+			<if test="maxMem != null and maxMem != 0">
 			, #{maxMem}
+			</if>
 			, #{semNo}
 		)
 	</insert>
+	
+	<!-- 강의 시간 중복 체크 -->
+	<select id="lectureTimeCheck" resultMap="lectureTime">
+		SELECT TIME_NO
+		FROM LECTURE_TIME
+		WHERE LEC_DAY = #{lecDay}
+		AND (
+            (START_TIME &lt;= #{startTime} AND FINISH_DATE > #{startTime})  <!--  시작 시간이 다른 강의와 겹칠 경우 -->
+            OR (START_TIME &lt; #{finishDate} AND FINISH_DATE >= #{finishDate})   <!-- 종료 시간이 다른 강의와 겹칠 경우 -->
+            OR (START_TIME >= #{startTime} AND FINISH_DATE &lt;= #{finishDate})   <!-- 다른 강의와 시간이 완전히 겹칠 경우 -->
+        )
+	</select>
 	
 	<!-- 강의 상세 등록 : 강의 자료 -->
 	<insert id="regLecturePdf">
@@ -110,28 +126,28 @@
 			, ATTACHED_PDF_NAME
 			, LEC_NO
 		) VALUES (
-			SELECT 'PDF_'||LPAD(NVL(MAX(TO_NUMBER(SUBSTR(PDF_NO, 5))), 0) + 1, 4, '0')
-			FROM LECTURE
-			, #{lectureVO.originPdfName}
-			, #{lectureVO.attachedPdfName}
+			(SELECT 'PDF_'||LPAD(NVL(MAX(TO_NUMBER(SUBSTR(PDF_NO, 5))), 0) + 1, 4, '0')
+			FROM LECTURE_PDF)
+			, #{lecturePdfVO.originPdfName}
+			, #{lecturePdfVO.attachedPdfName}
 			, #{lecNo}
 		)
 	</insert>
 	
 	<!-- 강의 상세 등록 : 강의 날짜, 시간 -->
 	<insert id="regLectureTime">
-		INSERT INTO LECTURE_TIEM (
+		INSERT INTO LECTURE_TIME (
 			TIME_NO
 			, LEC_DAY
 			, START_TIME
 			, FINISH_DATE
 			, LEC_NO
 		) VALUES (
-			SELECT 'TIME_'||LPAD(NVL(MAX(TO_NUMBER(SUBSTR(TIME_NO, 6))), 0) + 1, 4, '0')
-			FROM LECTURE
-			, #{lecDay}
-			, #{startTime}
-			, #{finishDate}
+			(SELECT 'TIME_'||LPAD(NVL(MAX(TO_NUMBER(SUBSTR(TIME_NO, 6))), 0) + 1, 4, '0')
+			FROM LECTURE_TIME)
+			, #{lectureTimeVO.lecDay}
+			, TO_DATE(TO_CHAR(SYSDATE, 'YYYY-MM-DD') || #{lectureTimeVO.startTime}, 'YYYY-MM-DD HH24:MI')
+			, TO_DATE(TO_CHAR(SYSDATE, 'YYYY-MM-DD') || #{lectureTimeVO.finishDate}, 'YYYY-MM-DD HH24:MI')
 			, #{lecNo}
 		)
 	</insert>
