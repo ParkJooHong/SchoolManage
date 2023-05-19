@@ -1,5 +1,7 @@
 package com.study.test.stu.controller;
 
+import java.util.List;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
@@ -40,7 +42,7 @@ public class StuController {
 	
 	//내 정보 관리
 		@GetMapping("/myInfo")
-		private String myInfo(Authentication authentication, String memNo, Model model, StuVO stuVO, MemberVO memberVO, ColleageVO colleageVO) {
+		private String myInfo(Authentication authentication, String stuNo, String memNo, Model model, StuVO stuVO, MemberVO memberVO, ColleageVO colleageVO) {
 			
 			User user = (User)authentication.getPrincipal();
 			String memName = user.getUsername();
@@ -217,7 +219,7 @@ public class StuController {
 			memberVO.setMemNo(user.getUsername());
 			model.addAttribute("stuVO" , stuService.seletStu(memberVO));
 			
-			System.out.println(stuService.seletStu(memberVO));
+			System.out.println("학생 정보 : " +stuService.seletStu(memberVO));
 			
 			return "/content/stu/stu_myStu/leaveManage";
 		}
@@ -225,7 +227,7 @@ public class StuController {
 		// 휴학 신청Ajax
 		@ResponseBody
 		@PostMapping("/leaveManageAjax")
-		public String leaveManageAjax(Authentication authentication, MemberVO memberVO, String memNo, String stuStatus, String applyReason, LeaveManageVO leaveManageVO, StatusInfoVO statusInfoVO) {
+		public String leaveManageAjax(Authentication authentication, MemberVO memberVO, StuVO stuVO, String memNo, String stuStatus, String applyReason, LeaveManageVO leaveManageVO, StatusInfoVO statusInfoVO) {
 			
 			/*
 			leaveManageVO.setApplyReason(applyReason);
@@ -239,16 +241,23 @@ public class StuController {
 			// 집가서 다시
 			User user = (User)authentication.getPrincipal();
 			String memName = user.getUsername();
-			System.out.println(memName);
+			//System.out.println(memName);
+			stuVO.setMemNo(user.getUsername()); // id임
+			memberVO.setMemNo(user.getUsername());
 			stuService.seletStu(memberVO);
 			
-			statusInfoVO.setStuNo(memberVO.getStuVO().getStuNo());
+			System.out.println("학생 정보 : " +stuService.seletStu(memberVO));
+			System.out.println( "StuVO 정보 : " +stuService.seletStu(memberVO).getStuVO().getStuNo());
+			
+			System.out.println("학적 상태 : "+ stuStatus);
+			statusInfoVO.setStuNo(stuService.seletStu(memberVO).getStuVO().getStuNo());
+			
 			statusInfoVO.setNowStatus(stuStatus);
+			System.out.println("상태정보VO : " +statusInfoVO);
 			
 			stuService.leav(statusInfoVO);
-			
-			
-			return "redirect:/mainPage";
+			 
+			return statusInfoVO.getStuNo();
 		}
 		
 		// 복학 신청
@@ -342,16 +351,18 @@ public class StuController {
 		
 		// 학적신청현황조회
 		@GetMapping("/academicManage")
-		private String academicManage(Authentication authentication, MemberVO memberVO, Model model, StuVO stuVO, String memNo) {
+		private String academicManage(Authentication authentication,String stuNo, MemberVO memberVO, Model model, StuVO stuVO, String memNo) {
 			  User user = (User)authentication.getPrincipal();
 				String memName = user.getUsername();
 				stuVO.setMemNo(user.getUsername()); // id임
 				memberVO.setMemNo(user.getUsername());
 				model.addAttribute("stuVO" , stuService.seletStu(memberVO));
+				
+				stuNo = stuService.seletStu(memberVO).getStuVO().getStuNo();
 
+				System.out.println(stuService.getStatusInfo(stuNo)); 
+				model.addAttribute("stuStatus",stuService.getStatusInfo(stuNo));
 			
-			// 학적 신청 현황 조회에 들어감.
-			System.out.println(stuService.getStatusInfo(memberVO.getMemNo())); 
 
 			return "/content/stu/stu_myStu/academicManage";
 		}
