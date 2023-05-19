@@ -33,4 +33,6 @@ public interface AdminService {
 	DeptManageVO getDeptManageData(String applyNo);
 	//학적 변경 대상자 인적사항 조회
 	MemberVO getMemInfo(String memNo);
+	//학적 변경 실행
+	void updateStuCollDept(StuVO stuVO, String applyNo);
 }
