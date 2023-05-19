@@ -1,6 +1,19 @@
 init();
 
 function init() {
+	//날짜 구하기
+	const today = new Date();
+	const monthAgo = new Date(today);
+	monthAgo.setMonth(today.getMonth() - 1);
+
+
+
+	//오늘날짜 선택
+	document.querySelector('.nowDate').valueAsDate = today;
+
+	//한달 전 날짜 선택
+	document.querySelector('.monthDate').valueAsDate = monthAgo;
+
 
 	//모달창 닫히면 내부 내용 초기화
 	const major_modal = new bootstrap.Modal('#majorModal');
@@ -58,9 +71,9 @@ function allCheckControll(allCheck) {
 
 
 //전과 신청 모달
-function acceptChangeMajor() {
-	const apply_no = document.querySelector('#memApplyNo').value;
-	const mem_no = document.querySelector('#memNo').value;
+function acceptChangeMajor(count_num) {
+	const apply_no = document.querySelector(`#memApplyNo${count_num}`).value;
+	const mem_no = document.querySelector(`#memNo${count_num}`).value;
 	//ajax start
 	$.ajax({
 		url: '/admin/acceptChangeMajorAjax', //요청경로
@@ -126,10 +139,10 @@ function acceptChangeMajor() {
 			apply_reason.insertAdjacentHTML('afterbegin', deptData.applyReason);
 
 			const accept_btn = document.querySelector('#acceptBtn');
-			
-			if(deptData.processStatus == '승인완료'){
+
+			if (deptData.processStatus == '승인완료') {
 				accept_btn.value = '승인완료';
-				accept_btn.classList.add('disabled');				
+				accept_btn.classList.add('disabled');
 			}
 
 			major_modal.show();
@@ -203,9 +216,145 @@ function updateStuInfo() {
 }
 
 
+//승인상태에 따른 검색
+function searchByStatus(status) {
+	$.ajax({
+		url: '/admin/searchByStatusAjax',
+		type: 'post',
+		contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+		data: { 'processStatus': status.value },
+		success: function(result) {
+			const table_body = document.querySelector('#changeMajorBody');
+			table_body.replaceChildren();
+			let str = '';
+			result.forEach(function(dept, index) {
+				str += '<tr>';
+				str += '<td>';
+				str += `<input type="hidden" id="memApplyNo${index+1}" value="${dept.applyNo}">`;
+				str += `<input type="hidden" id="memNo${index+1}" value="${dept.memberVO.memNo}">`;
+				str += `<input type="checkbox" checked onclick="checkControll();" class="form-check-input checkboxes">`;
+				str += '</td>'
+				str += `<td>${result.length - index}</td>`;
+				str += `<td>${dept.memberVO.memName}</td>`;
+				str += `<td>${dept.memberVO.memNo}</td>`;
+				str += `<td>${dept.stuYear}</td>`;
+				str += `<td>${dept.fromCollName}</td>`;
+				str += `<td>${dept.fromDeptName}</td>`;
+				str += `<td>${dept.toCollName}</td>`;
+				str += `<td>${dept.toDeptName}</td>`;
+				str += `<td>${dept.applyDate}</td>`;
+				str += '<td class="d-grid">';
+				if (dept.processStatus == '승인대기') {
+					str += `<input type="button" value="승인" onclick="acceptChangeMajor(${index+1});" class="btn btn-primary">`;
+				}
+				if (dept.processStatus == '승인완료') {
+					str += `<input type="button" value="완료" onclick="acceptChangeMajor(${index+1});" class="btn btn-primary">`;
+				}
+				str += '</td>';
+				str += '</tr>';
+			});
+			table_body.insertAdjacentHTML('afterbegin', str);
+		},
+		error: function() {
+			alert('실패');
+		}
+	});
 
 
+}
 
+//날짜별 검색
+function searchByDate(){
+	const to_date = document.querySelector('.monthDate').value;
+	const from_date = document.querySelector('.nowDate').value;
+	
+	//ajax start
+		$.ajax({
+		   url: '/admin/searchByDateAjax', //요청경로
+		   type: 'post',
+		   async: true,
+		   //contentType : 'application/json; charset=UTF-8',
+		   contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+		   data: {'toDate':to_date,'fromDate':from_date}, //필요한 데이터
+		   success: function(result) {
+		      const table_body = document.querySelector('#changeMajorBody');
+			table_body.replaceChildren();
+			let str = '';
+			result.forEach(function(dept, index) {
+				str += '<tr>';
+				str += '<td>';
+				str += `<input type="hidden" id="memApplyNo${index+1}" value="${dept.applyNo}">`;
+				str += `<input type="hidden" id="memNo${index+1}" value="${dept.memberVO.memNo}">`;
+				str += `<input type="checkbox" value="${dept.applyNo}" checked onclick="checkControll();" class="form-check-input checkboxes">`;
+				str += '</td>'
+				str += `<td>${result.length - index}</td>`;
+				str += `<td>${dept.memberVO.memName}</td>`;
+				str += `<td>${dept.memberVO.memNo}</td>`;
+				str += `<td>${dept.stuYear}</td>`;
+				str += `<td>${dept.fromCollName}</td>`;
+				str += `<td>${dept.fromDeptName}</td>`;
+				str += `<td>${dept.toCollName}</td>`;
+				str += `<td>${dept.toDeptName}</td>`;
+				str += `<td>${dept.applyDate}</td>`;
+				str += '<td class="d-grid">';
+				if (dept.processStatus == '승인대기') {
+					str += `<input type="button" value="승인" onclick="acceptChangeMajor(${index+1});" class="btn btn-primary">`;
+				}
+				if (dept.processStatus == '승인완료') {
+					str += `<input type="button" value="완료" onclick="acceptChangeMajor(${index+1});" class="btn btn-primary">`;
+				}
+				str += '</td>';
+				str += '</tr>';
+			});
+			table_body.insertAdjacentHTML('afterbegin', str);
+		   },
+		   error: function() {
+		      alert('실패');
+		   }
+		});
+		//ajax end
+}
+
+//일괄 승인
+function checkedAccept(){
+	const checkboxes = document.querySelectorAll('#changeMajorBody input[type="checkbox"]:checked');
+	applyCodeList = [];
+	for(let i = 0; i < checkboxes.length; i++){
+		applyCodeList[i] = checkboxes[i].value;
+	};
+	applyData = {
+		'applyCodeList' : applyCodeList
+	};
+	if(applyCodeList.length == 0){
+		swal.fire({
+			title: "경고",
+			text: "선택된 내용이 없습니다!",
+			icon: 'error',
+			button: '확인',
+		})
+		return;
+	}
+	
+	else{
+		//ajax start
+		$.ajax({
+		   url: '/admin/checkedAcceptAjax', //요청경로
+		   type: 'post',
+		   async: true,
+		   contentType : 'application/json; charset=UTF-8',
+		   //contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+		   data: JSON.stringify(applyData), //필요한 데이터
+		   success: function(result) {
+		      alert('ajax 통신 성공');
+		   },
+		   error: function() {
+		      alert('실패');
+		   }
+		});
+		//ajax end
+
+	}
+}
 
 
 

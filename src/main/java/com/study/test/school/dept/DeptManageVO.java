@@ -34,6 +34,8 @@ public class DeptManageVO {
 	private String toDeptName;
 	private String doubleMajorCollName;
 	private String doubleMajorDeptName;
+	private String toDate;
+	private String fromDate;
 	
 	
 	

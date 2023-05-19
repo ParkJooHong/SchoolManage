@@ -44,6 +44,8 @@
 		<result column="TO_COLL_NAME" 					property="toCollName"/>
 		<result column="FROM_DEPT_NAME" 				property="fromDeptName"/>
 		<result column="TO_DEPT_NAME" 					property="toDeptName"/>
+		<result column="TO_DATE" 						property="toDate"/>
+		<result column="FROM_DATE" 						property="fromDate"/>
 		<result column="DOUBLE_MAJOR_COLL_NAME" 		property="doubleMajorCollName"/>
 		<result column="DOUBLE_MAJOR_DEPT_NAME" 		property="doubleMajorDeptName"/>
 		<association property="stuVO" 					resultMap="stuMapper.stu"/>
@@ -151,6 +153,15 @@
 		FROM DEPT_MANAGE DEPT, UNI_MEMBER MEM, UNI_STU STU
 		WHERE MEM.MEM_NO = STU.MEM_NO
         AND DEPT.STU_NO = STU.STU_NO
+        <if test='processStatus != null and !processStatus.equals("") and !processStatus.equals("전체")'>
+        AND PROCESS_STATUS = #{processStatus}
+        </if>
+        <if test='fromDate != null and !fromDate.equals("")'>
+        AND TO_CHAR(APPLY_DATE, 'YYYY-MM-DD') &lt;= #{fromDate}
+        </if>
+        <if test='toDate != null and !toDate.equals("")'>
+        AND TO_CHAR(APPLY_DATE, 'YYYY-MM-DD') &gt;= #{toDate} 
+        </if>
 	</select>
 	
 	<!-- 전과 신청자 조회 쿼리  -->

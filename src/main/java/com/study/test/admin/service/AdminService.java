@@ -28,7 +28,7 @@ public interface AdminService {
 	//교직원 등록
 	void regEmp(EmpVO empVO);
 	//학적관리 리스트 조회
-	List<DeptManageVO> getDeptManageList();
+	List<DeptManageVO> getDeptManageList(DeptManageVO deptManageVO);
 	//학적 변경 대상자 조회
 	DeptManageVO getDeptManageData(String applyNo);
 	//학적 변경 대상자 인적사항 조회

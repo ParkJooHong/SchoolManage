@@ -1,5 +1,6 @@
 package com.study.test.admin.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -167,11 +168,12 @@ public class AdminController {
 		return "content/admin/update_stu_info";
 	}
 
-	// 전과/복수전공
+	// 전과/복수전공페이지 이동
 	@GetMapping("/changeMajor")
 	public String changeMajor(AdminSubMenuVO adminSubMenuVO, Model model) {
 		adminSubMenuVO.setMenuCode(ConstVariable.SECOND_MENU_CODE);
-		model.addAttribute("deptManageList", adminService.getDeptManageList());
+		DeptManageVO deptManageVO = new DeptManageVO();
+		model.addAttribute("deptManageList", adminService.getDeptManageList(deptManageVO));
 		return "content/admin/change_major";
 	}
 	
@@ -206,6 +208,37 @@ public class AdminController {
 		
 		adminService.updateStuCollDept(stuVO, applyNo);
 		
+	}
+	
+	//승인상태에 따른 검색
+	@ResponseBody
+	@PostMapping("/searchByStatusAjax")
+	public List<DeptManageVO> searchByStatusAjax(String processStatus) {
+		DeptManageVO deptManageVO = new DeptManageVO();
+		deptManageVO.setProcessStatus(processStatus);
+		System.out.println(processStatus);
+		List<DeptManageVO> deptManageList = adminService.getDeptManageList(deptManageVO);
+		
+		return deptManageList;
+	}
+	//날짜별 검색
+	@ResponseBody
+	@PostMapping("/searchByDateAjax")
+	public List<DeptManageVO> searchByDateAjax(String toDate, String fromDate) {
+		DeptManageVO deptManageVO = new DeptManageVO();
+		deptManageVO.setToDate(toDate);
+		deptManageVO.setFromDate(fromDate);
+		List<DeptManageVO> deptManageList = adminService.getDeptManageList(deptManageVO);
+		
+		return deptManageList;
+	}
+	
+	//일괄승인
+	@ResponseBody
+	@PostMapping("/checkedAcceptAjax")
+	public void checkedAcceptAjax(@RequestBody Map<String, List<String>> applyMap) {
+		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"+ applyMap.get("applyCodeList"));
+		List<String> applyCodeList = new ArrayList<>();
 	}
 	
 	// 실적현황
