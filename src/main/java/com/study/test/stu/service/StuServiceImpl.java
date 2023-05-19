@@ -52,25 +52,49 @@ public class StuServiceImpl implements StuService {
 		
 	}
 
-	//학적 상태 조회
+	//학적 상태 조회 ( 재학 -> 휴학 신청 현황 조회 )
 	@Override
-	public List<StatusInfoVO> getStatusInfo(String memNo) {
-		return sqlSession.selectList("stuMapper.getStatusInfo", memNo);
+	public List<StatusInfoVO> getStatusLeaveInfo(String memNo) {
+		return sqlSession.selectList("stuMapper.getStatusLeaveInfo", memNo);
 	}
+	
+	//학적 상태 조회 ( 휴학 -> 재학 신청 현황 조회 )
+		@Override
+		public List<StatusInfoVO> getStatusReturnInfo(String memNo) {
+			return sqlSession.selectList("stuMapper.getStatusReturnInfo", memNo);
+		}
+		
+	// 학적 상태 조회 ( 전과 신청 조회 )
+		@Override
+		public List<DeptManageVO> getStatusMoveInfo(String memNo) {		
+			return sqlSession.selectList("stuMapper.getStatusMoveInfo", memNo);
+		}
+
+	/*
+	 * //휴학 신청
+	 * 
+	 * @Override public void leaveManage(LeaveManageVO leaveManageVO) {
+	 * sqlSession.insert("stuMapper.leaveManage", leaveManageVO);
+	 * 
+	 * }
+	 */
 
 	//휴학 신청
-	@Override
-	public void leaveManage(LeaveManageVO leaveManageVO) {
-		sqlSession.insert("stuMapper.leaveManage", leaveManageVO);
-		
-	}
-
-	//테스트
 	@Override
 	public void leav(StatusInfoVO statusInfoVO) {
 		sqlSession.insert("stuMapper.leav", statusInfoVO);
 		
 	}
+
+	//복학 신청
+	@Override
+	public void returnManage(StatusInfoVO statusInfoVO) {
+		sqlSession.insert("stuMapper.returnManage", statusInfoVO);
+		
+	}
+
+	
+	
 	
 
 	

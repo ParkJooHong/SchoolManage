@@ -17,6 +17,7 @@ import com.study.test.member.vo.MemberSubMenuVO;
 import com.study.test.member.vo.MemberVO;
 import com.study.test.school.colleage.ColleageVO;
 import com.study.test.school.dept.DeptManageVO;
+import com.study.test.school.dept.DeptVO;
 import com.study.test.school.service.SchoolService;
 import com.study.test.stu.service.StuService;
 import com.study.test.stu.vo.LeaveManageVO;
@@ -262,10 +263,44 @@ public class StuController {
 		
 		// 복학 신청
 		@GetMapping("/returnManage")
-		private String returnManage() {
+		private String returnManage(Authentication authentication,StuVO stuVO, MemberVO memberVO, Model model) {
 
+			User user = (User)authentication.getPrincipal();
+			String memName = user.getUsername();
+			stuVO.setMemNo(user.getUsername()); // id임
+			memberVO.setMemNo(user.getUsername());
+			model.addAttribute("stuVO" , stuService.seletStu(memberVO));
+			
+			System.out.println("학생 정보 : " +stuService.seletStu(memberVO));
+			
 			return "/content/stu/stu_myStu/returnManage";
 		}
+		
+		// 복학 신청Ajax
+			@ResponseBody
+			@PostMapping("/returnManageAjax")
+			public String returnManageAjax(Authentication authentication, MemberVO memberVO, StuVO stuVO, String memNo, String stuStatus, String applyReason, LeaveManageVO leaveManageVO, StatusInfoVO statusInfoVO) {
+				
+				User user = (User)authentication.getPrincipal();
+				String memName = user.getUsername();
+				//System.out.println(memName);
+				stuVO.setMemNo(user.getUsername()); // id임
+				memberVO.setMemNo(user.getUsername());
+				stuService.seletStu(memberVO);
+				
+				System.out.println("학생 정보 : " +stuService.seletStu(memberVO));
+				System.out.println( "StuVO 정보 : " +stuService.seletStu(memberVO).getStuVO().getStuNo());
+				
+				System.out.println("학적 상태 : "+ stuStatus);
+				statusInfoVO.setStuNo(stuService.seletStu(memberVO).getStuVO().getStuNo());
+				
+				statusInfoVO.setNowStatus(stuStatus);
+				System.out.println("상태정보VO : " +statusInfoVO);
+				
+				stuService.returnManage(statusInfoVO);
+				 
+				return statusInfoVO.getStuNo();
+			}
 		
 		// 전과신청
 		@GetMapping("/moveManage")
@@ -351,18 +386,39 @@ public class StuController {
 		
 		// 학적신청현황조회
 		@GetMapping("/academicManage")
-		private String academicManage(Authentication authentication,String stuNo, MemberVO memberVO, Model model, StuVO stuVO, String memNo) {
+		private String academicManage(Authentication authentication,String stuNo, DeptManageVO deptManageVO, MemberVO memberVO, Model model, StuVO stuVO, String memNo, String nowStatus, StatusInfoVO statusInfoVO) {
 			  User user = (User)authentication.getPrincipal();
 				String memName = user.getUsername();
 				stuVO.setMemNo(user.getUsername()); // id임
 				memberVO.setMemNo(user.getUsername());
 				model.addAttribute("stuVO" , stuService.seletStu(memberVO));
+				nowStatus = stuService.seletStu(memberVO).getStuVO().getStuStatus();
+				statusInfoVO.setNowStatus(nowStatus);
 				
 				stuNo = stuService.seletStu(memberVO).getStuVO().getStuNo();
 
-				System.out.println(stuService.getStatusInfo(stuNo)); 
-				model.addAttribute("stuStatus",stuService.getStatusInfo(stuNo));
+				
+				
+				System.out.println("휴학 신청자 " +stuService.getStatusLeaveInfo(stuNo)); 
+				// 휴학 신청자 조회
+				model.addAttribute("stuStatus",stuService.getStatusLeaveInfo(stuNo));
+				
+				
+				System.out.println("복학신청자" + stuService.getStatusReturnInfo(stuNo));
+				//복학 신청자 조회
+				model.addAttribute("stuStatusReturn", stuService.getStatusReturnInfo(stuNo));
+				
+				
+				
+				stuService.getStatusMoveInfo(stuNo);
+				deptManageVO.setMemberVO(stuService.seletStu(memberVO));
+				//전과 신청자 조회
+				System.out.println("전과 신청자" + stuService.getStatusMoveInfo(stuNo));
+				System.out.println("fsadafdsafdsafdsafds" +deptManageVO);
+				model.addAttribute("stuStatusMove", stuService.getStatusMoveInfo(stuNo));
+				
 			
+				System.out.println(statusInfoVO);
 
 			return "/content/stu/stu_myStu/academicManage";
 		}

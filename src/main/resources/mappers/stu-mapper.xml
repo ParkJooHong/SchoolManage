@@ -144,7 +144,7 @@
          , #{applyCode}
          , SYSDATE
          , #{applyReason}
-         , SYSDATE 
+         , TO_DATE('9999-12-30', 'YYYY-MM-DD')
          ,'승인대기'
          , #{fromColl}
          , #{toColl}
@@ -213,15 +213,37 @@
             FROM STATUS_INFO)
            , #{stuNo}
            , #{nowStatus}
-           , '처리되지 않음'
+           , '휴학'
+           , SYSDATE
+           , TO_DATE('9999-12-30', 'YYYY-MM-DD')
+           , '승인대기'           
+      )
+	</insert>
+	
+	<!-- 복학 신청. -->
+	<insert id="returnManage">
+		INSERT INTO STATUS_INFO(
+          STATUS_NO
+          , STU_NO
+          , NOW_STATUS
+          , AFTER_STATUS
+          , APPLY_DATE
+          , APPROVAL_DATE
+          , ING_STATUS
+      ) VALUES(
+         (SELECT 'STATUS_'||LPAD(NVL(MAX(TO_NUMBER(SUBSTR(STATUS_NO, 8))), 0) +1 , 3, '0')
+            FROM STATUS_INFO)
+           , #{stuNo}
+           , #{nowStatus}
+           , '재학'
            , SYSDATE
            , TO_DATE('9999-12-30', 'YYYY-MM-DD')
            , '승인대기'           
       )
 	</insert>
 
-	<!-- 학적 상태 조회 -->
-	<select id="getStatusInfo" resultMap="statusInfo">
+	<!-- 학적 상태 조회 (휴학 신청 상태 조회 ) -->
+	<select id="getStatusLeaveInfo" resultMap="statusInfo">
 		SELECT STATUS_NO
 			, STU_NO
 			, NOW_STATUS
@@ -231,7 +253,44 @@
 			, ING_STATUS
 		FROM STATUS_INFO
 		WHERE STU_NO = #{stuNo}
+		AND NOW_STATUS = '재학' 
 	</select>
+	
+	<!-- 학적 상태 조회 (복학 신청 상태 조회 ) -->
+	<select id="getStatusReturnInfo" resultMap="statusInfo">
+		SELECT STATUS_NO
+			, STU_NO
+			, NOW_STATUS
+			, AFTER_STATUS
+			, APPLY_DATE
+			, APPROVAL_DATE
+			, ING_STATUS
+		FROM STATUS_INFO
+		WHERE STU_NO = #{stuNo}
+		AND NOW_STATUS = '휴학'
+	</select>
+	
+	<!-- 학적 상태 조회 (전과 신청 상태 조회 ) -->
+		<select id="getStatusMoveInfo" resultMap="deptManage">
+			SELECT 
+				APPLY_NO
+				, STU_NO
+				, APPLY_CODE
+				, APPLY_DATE
+				, APPLY_REASON
+				, APPLROVAL_DATE
+				, PROCESS_STATUS
+				, FROM_COLL
+				, TO_COLL
+				, FROM_DEPT
+				, TO_DEPT
+				, DOUBLE_MAJOR_COLL
+				, DOUBLE_MAJOR_DEPT
+				, STU_YEAR
+				, STU_SEM
+			FROM DEPT_MANAGE
+			WHERE STU_NO = #{stuNo}
+		</select>
 	
 	
 </mapper>

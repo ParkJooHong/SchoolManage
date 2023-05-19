@@ -27,11 +27,20 @@ public interface StuService {
 	void moveManage(DeptManageVO deptManageVO);
 	
 	//학생 휴학 신청
-	void leaveManage(LeaveManageVO leaveManageVO);
+	//void leaveManage(LeaveManageVO leaveManageVO);
 	
-	//학적 상태 조회
-	List<StatusInfoVO> getStatusInfo(String memNo);
+	//학적 상태 조회 (재학 -> 휴학)
+	List<StatusInfoVO> getStatusLeaveInfo(String memNo);
 	
-	//테스트
+	//학적 상태 조회 ( 휴학 -> 복학)
+	List<StatusInfoVO> getStatusReturnInfo(String memNo);
+	
+	//학적 상태 조회 ( 전과 신청 조회 )
+	List<DeptManageVO> getStatusMoveInfo(String memNo);
+	
+	//휴학
 	void leav(StatusInfoVO statusInfoVO);
+	
+	//복학 신청
+	void returnManage(StatusInfoVO statusInfoVO);
 }
