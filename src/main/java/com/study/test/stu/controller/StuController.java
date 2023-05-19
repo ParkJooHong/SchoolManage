@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.study.test.board.service.BoardService;
+import com.study.test.board.vo.BoardCategoryVO;
+import com.study.test.board.vo.UniBoardVO;
 import com.study.test.member.service.MemberService;
 import com.study.test.member.vo.MemberMenuVO;
 import com.study.test.member.vo.MemberSubMenuVO;
@@ -24,7 +27,6 @@ import com.study.test.stu.vo.LeaveManageVO;
 import com.study.test.stu.vo.StatusInfoVO;
 import com.study.test.stu.vo.StuVO;
 
-import ch.qos.logback.core.net.SyslogOutputStream;
 import jakarta.annotation.Resource;
 
 @Controller
@@ -39,6 +41,9 @@ public class StuController {
 	
 	@Resource(name = "schoolService")
 	private SchoolService schoolService;
+	
+	@Resource(name = "boardService")
+	private BoardService boardService;
 	
 	
 	//내 정보 관리
@@ -113,8 +118,18 @@ public class StuController {
 		
 		//게시판
 		@GetMapping("board")
-		private String board() {
+		private String board(Authentication authentication, Model model, MemberVO memberVO, StuVO stuVO, UniBoardVO uniBoardVO, BoardCategoryVO boardCategoryVO, String cateNo) {
 
+			User user = (User)authentication.getPrincipal();
+			String memName = user.getUsername();
+			//System.out.println(memName);
+			stuVO.setMemNo(user.getUsername()); // id임
+			memberVO.setMemNo(user.getUsername());
+			stuService.seletStu(memberVO);
+			
+			boardService.getBoardCategoryList();
+			System.out.println(boardService.getBoardCategoryList());
+			model.addAttribute("uniBoardVO",boardService.getTotalBoardList()); 
 			
 			return "/content/stu/stu_board/totalBoard";
 		}
@@ -437,7 +452,18 @@ public class StuController {
 			
 		//수강신청
 		@GetMapping("application")
-		private String application() {
+		private String application(Model model, StuVO stuVO, MemberVO memberVO, Authentication authentication, String collNo) {
+			User user = (User)authentication.getPrincipal();
+			String memName = user.getUsername();
+			stuVO.setMemNo(user.getUsername()); // id임
+			memberVO.setMemNo(user.getUsername());
+			memberVO.setStuVO(stuService.getColl(user.getUsername()));
+
+			//대학 조회
+			model.addAttribute("colleageVO", schoolService.getCollList()); 
+			
+			//학과 조회
+			model.addAttribute("deptVO", schoolService.getDeptList(collNo));
 
 			return "/content/stu/stu_class/application";
 		}
@@ -454,8 +480,22 @@ public class StuController {
 		// ------ 게시판 {
 		//전체 게시판
 		@GetMapping("/totalBoard")
-		private String totalBoard() {
+		private String totalBoard(Authentication authentication, Model model, MemberVO memberVO, StuVO stuVO, UniBoardVO uniBoardVO, BoardCategoryVO boardCategoryVO, String cateNo) {
+			User user = (User)authentication.getPrincipal();
+			String memName = user.getUsername();
+			//System.out.println(memName);
+			stuVO.setMemNo(user.getUsername()); // id임
+			memberVO.setMemNo(user.getUsername());
+			stuService.seletStu(memberVO);
+			
+			boardService.getBoardCategoryList();
+			System.out.println(boardService.getBoardCategoryList());
+			model.addAttribute("uniBoardVO",boardService.getTotalBoardList()); 
+			
+			cateNo = boardCategoryVO.getCateNo();
 
+			
+			
 			return "/content/stu/stu_board/totalBoard";
 		}
 		

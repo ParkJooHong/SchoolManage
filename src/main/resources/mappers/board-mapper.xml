@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="boardMapper">
+
+	
+	<resultMap type="com.study.test.board.vo.BoardCategoryVO" id="boardCategory">
+		<id column="CATE_NO" 			property="cateNo"/>
+		<result column="CATE_NAME" 			property="cateName"/>
+		<result column="IS_USE" 			property="isUse"/>
+
+	</resultMap>
+	
+
+	<resultMap type="com.study.test.board.vo.UniBoardVO" id="uniBoard">
+		<id column="BOARD_NO" 			property="boardNo"/>
+		<result column="BOARD_TITLE" 			property="boardTitle"/>
+		<result column="BOARD_CONTENT" 			property="boardContent"/>
+		<result column="BOARD_WRITER" 			property="boardWriter"/>
+		<result column="REG_BOARD_DATE" 			property="regBoardDate"/>
+		<result column="READ_CNT" 		property="readCnt"/>
+		<result column="CATE_NO" 			property="cateNo"/>
+		<result column="REPLY_CNT" 			property="replyCnt"/>
+		<result column="IS_PRIVATE" 		property="isPrivate"/>
+		<result column="IS_NOTICE" 			property="isNotice"/>
+	</resultMap>
+	
+	<!-- 보드 게시판 카테고리 조회 -->
+		<select id="getBoardCategoryList" resultMap="boardCategory">
+			SELECT CATE_NO
+				, CATE_NAME
+				, IS_USE
+			FROM BOARD_CATEGORY
+		</select>
+		
+	<!-- 전체 게시판 조회-->
+		<select id="getTotalBoardList" resultMap="uniBoard">
+			SELECT BOARD_NO
+				, BOARD_TITLE
+				, BOARD_CONTENT
+				, BOARD_WRITER
+				, REG_BOARD_DATE
+				, READ_CNT
+				, CATE_NO
+				, REPLY_CNT
+				, IS_PRIVATE
+				, IS_NOTICE
+			FROM UNI_BOARD
+		</select>
+		
+	<!-- 보드 게시판 리스트  -->
+		<insert id="getUniBoardList">
+		INSERT INTO UNI_BOARD(
+          BOARD_NO
+          , BOARD_TITLE
+          , BOARD_CONTENT
+          , BOARD_WRITER
+          , REG_BOARD_DATE
+          , READ_CNT
+          , CATE_NO
+          , REPLY_CNT
+          , IS_PRIVATE
+          , IS_NOTICE       
+	    ) VALUES(
+	         (SELECT 'BOARD_'||LPAD(NVL(MAX(TO_NUMBER(SUBSTR(BOARD_NO, 7))), 0) +1 , 3, '0')
+	            FROM DEPT_MANAGE)
+	         , #{boardTitle}
+	         , #{boardContent}
+	         , #{stuNo}
+	         , #{regBoardDate}
+	         , #{readCnt}
+	         , #{cateNo}
+	         , #{replyCnt}
+	         , #{isPrivate}
+	         , #{isNotice}
+	    )
+		</insert>
+	
+
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
