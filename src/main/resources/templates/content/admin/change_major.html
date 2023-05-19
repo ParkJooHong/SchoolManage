@@ -100,7 +100,7 @@
 									<td>
 										<input type="hidden" th:id="memApplyNo + ${state.count}" th:value="${dept.applyNo}">
 										<input type="hidden" th:id="memNo + ${state.count}" th:value="${dept.memberVO.memNo}">
-										<input type="checkbox" checked onclick="checkControll();" th:value="${dept.applyNo}" class="form-check-input checkboxes">
+										<input type="checkbox" checked th:onclick="checkControll();" th:value="${dept.applyNo}" class="form-check-input checkboxes">
 									</td>
 									<td>[[${#lists.size(deptManageList) - state.index}]]</td>
 									<td>[[${dept.memberVO.memName}]]</td>

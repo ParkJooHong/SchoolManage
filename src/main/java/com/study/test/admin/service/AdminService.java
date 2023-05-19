@@ -35,4 +35,6 @@ public interface AdminService {
 	MemberVO getMemInfo(String memNo);
 	//학적 변경 실행
 	void updateStuCollDept(StuVO stuVO, String applyNo);
+	//변경 대상자 정보 리스트 조회
+	List<DeptManageVO> getApplyNoByStuInfoList(DeptManageVO deptManageVO);
 }

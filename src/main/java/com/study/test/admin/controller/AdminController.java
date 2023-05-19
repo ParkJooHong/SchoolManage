@@ -238,7 +238,14 @@ public class AdminController {
 	@PostMapping("/checkedAcceptAjax")
 	public void checkedAcceptAjax(@RequestBody Map<String, List<String>> applyMap) {
 		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"+ applyMap.get("applyCodeList"));
-		List<String> applyCodeList = new ArrayList<>();
+		List<String> applyNoList = applyMap.get("applyCodeList");
+		DeptManageVO deptManageVO = new DeptManageVO();
+		deptManageVO.setApplyNoList(applyNoList);
+		
+		List<DeptManageVO> applyStuDataList = adminService.getApplyNoByStuInfoList(deptManageVO);
+		//업데이트할 stuNo랑 학교,학과 조회해놓았으니깐 이제 업데이트만 UNO_STU테이블,DEPT_MANAGE
+		//테이블 업데이트 해야함!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		
 	}
 	
 	// 실적현황

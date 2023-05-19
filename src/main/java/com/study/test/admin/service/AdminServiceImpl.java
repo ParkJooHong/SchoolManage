@@ -81,6 +81,11 @@ public class AdminServiceImpl implements AdminService{
 		sqlsession.update("adminMapper.updateStuCollDept",stuVO); 
 		sqlsession.update("adminMapper.updateProcessStatus",applyNo);
 	}
+	//변경 대상자 정보 리스트 조회
+	@Override
+	public List<DeptManageVO> getApplyNoByStuInfoList(DeptManageVO deptManageVO) {
+		return sqlsession.selectList("adminMapper.getApplyNoByStuInfoList",deptManageVO);
+	}
 
 
 	
