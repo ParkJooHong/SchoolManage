@@ -37,4 +37,6 @@ public interface AdminService {
 	void updateStuCollDept(StuVO stuVO, String applyNo);
 	//변경 대상자 정보 리스트 조회
 	List<DeptManageVO> getApplyNoByStuInfoList(DeptManageVO deptManageVO);
+	//대상자들 업데이트
+	int updateStuInfoByApplyData(DeptManageVO deptManageVO);
 }

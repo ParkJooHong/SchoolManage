@@ -2,6 +2,7 @@ package com.study.test.admin.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -236,7 +237,7 @@ public class AdminController {
 	//일괄승인
 	@ResponseBody
 	@PostMapping("/checkedAcceptAjax")
-	public void checkedAcceptAjax(@RequestBody Map<String, List<String>> applyMap) {
+	public int checkedAcceptAjax(@RequestBody Map<String, List<String>> applyMap) {
 		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"+ applyMap.get("applyCodeList"));
 		List<String> applyNoList = applyMap.get("applyCodeList");
 		DeptManageVO deptManageVO = new DeptManageVO();
@@ -245,6 +246,24 @@ public class AdminController {
 		List<DeptManageVO> applyStuDataList = adminService.getApplyNoByStuInfoList(deptManageVO);
 		//업데이트할 stuNo랑 학교,학과 조회해놓았으니깐 이제 업데이트만 UNO_STU테이블,DEPT_MANAGE
 		//테이블 업데이트 해야함!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		
+		List<StuVO> updateStuList = new ArrayList<>();
+		StuVO stuVO = new StuVO();
+		for(int i = 0 ; i < applyStuDataList.size(); i ++) {			
+				stuVO.setCollNo(applyStuDataList.get(i).getToColl());
+				stuVO.setDeptNo(applyStuDataList.get(i).getToDept());
+				stuVO.setStuNo(applyStuDataList.get(i).getStuNo());
+				
+				System.out.println("데이터는 = " + stuVO);
+				updateStuList.add(stuVO);
+		}
+		for(int i = 0 ; i < updateStuList.size(); i ++) {
+			System.err.println(updateStuList.get(i));
+		}
+		
+		deptManageVO.setStuVOList(updateStuList);
+		
+		return adminService.updateStuInfoByApplyData(deptManageVO);
 		
 	}
 	

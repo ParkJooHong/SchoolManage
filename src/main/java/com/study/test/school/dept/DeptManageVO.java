@@ -39,7 +39,7 @@ public class DeptManageVO {
 	private String toDate;
 	private String fromDate;
 	private List<String> applyNoList;
-	
+	private List<StuVO> stuVOList;
 	
 	
 }

@@ -257,8 +257,17 @@
 		<foreach collection="applyNoList" item="applyCode" open="(" close=")" separator=",">
 		#{applyCode}
 		</foreach>
-		AND PROCESS_STATUS NOT LIKE '승인완료'
+		
 	</select>
+	<!--AND PROCESS_STATUS NOT LIKE '승인완료'  -->
+	<update id="updateStuInfoByApplyData">
+		<foreach collection="stuVOList" item="stuData" open="DECLARE BEGIN" close="END">
+			UPDATE UNI_STU
+			SET COLL_NO = #{stuData.collNo}
+				, DEPT_NO = #{stuData.deptNo}
+			WHERE STU_NO = #{stuData.stuNo}
+		</foreach>
+	</update>
 </mapper>
 
 

@@ -86,6 +86,14 @@ public class AdminServiceImpl implements AdminService{
 	public List<DeptManageVO> getApplyNoByStuInfoList(DeptManageVO deptManageVO) {
 		return sqlsession.selectList("adminMapper.getApplyNoByStuInfoList",deptManageVO);
 	}
+	//대상자들 stu테이블,deptManage테이블 업데이트
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public int updateStuInfoByApplyData(DeptManageVO deptManageVO) {
+		sqlsession.update("adminMapper.updateStuInfoByApplyData",deptManageVO);
+		return sqlsession.update("adminMapper.updateByApplyNoList",deptManageVO);
+
+	}
 
 
 	

@@ -230,8 +230,8 @@ function searchByStatus(status) {
 			result.forEach(function(dept, index) {
 				str += '<tr>';
 				str += '<td>';
-				str += `<input type="hidden" id="memApplyNo${index+1}" value="${dept.applyNo}">`;
-				str += `<input type="hidden" id="memNo${index+1}" value="${dept.memberVO.memNo}">`;
+				str += `<input type="hidden" id="memApplyNo${index + 1}" value="${dept.applyNo}">`;
+				str += `<input type="hidden" id="memNo${index + 1}" value="${dept.memberVO.memNo}">`;
 				str += `<input type="checkbox" checked onclick="checkControll();" class="form-check-input checkboxes">`;
 				str += '</td>'
 				str += `<td>${result.length - index}</td>`;
@@ -245,10 +245,10 @@ function searchByStatus(status) {
 				str += `<td>${dept.applyDate}</td>`;
 				str += '<td class="d-grid">';
 				if (dept.processStatus == '승인대기') {
-					str += `<input type="button" value="승인" onclick="acceptChangeMajor(${index+1});" class="btn btn-primary">`;
+					str += `<input type="button" value="승인" onclick="acceptChangeMajor(${index + 1});" class="btn btn-primary">`;
 				}
 				if (dept.processStatus == '승인완료') {
-					str += `<input type="button" value="완료" onclick="acceptChangeMajor(${index+1});" class="btn btn-primary">`;
+					str += `<input type="button" value="완료" onclick="acceptChangeMajor(${index + 1});" class="btn btn-primary">`;
 				}
 				str += '</td>';
 				str += '</tr>';
@@ -264,27 +264,27 @@ function searchByStatus(status) {
 }
 
 //날짜별 검색
-function searchByDate(){
+function searchByDate() {
 	const to_date = document.querySelector('.monthDate').value;
 	const from_date = document.querySelector('.nowDate').value;
-	
+
 	//ajax start
-		$.ajax({
-		   url: '/admin/searchByDateAjax', //요청경로
-		   type: 'post',
-		   async: true,
-		   //contentType : 'application/json; charset=UTF-8',
-		   contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-		   data: {'toDate':to_date,'fromDate':from_date}, //필요한 데이터
-		   success: function(result) {
-		      const table_body = document.querySelector('#changeMajorBody');
+	$.ajax({
+		url: '/admin/searchByDateAjax', //요청경로
+		type: 'post',
+		async: true,
+		//contentType : 'application/json; charset=UTF-8',
+		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+		data: { 'toDate': to_date, 'fromDate': from_date }, //필요한 데이터
+		success: function(result) {
+			const table_body = document.querySelector('#changeMajorBody');
 			table_body.replaceChildren();
 			let str = '';
 			result.forEach(function(dept, index) {
 				str += '<tr>';
 				str += '<td>';
-				str += `<input type="hidden" id="memApplyNo${index+1}" value="${dept.applyNo}">`;
-				str += `<input type="hidden" id="memNo${index+1}" value="${dept.memberVO.memNo}">`;
+				str += `<input type="hidden" id="memApplyNo${index + 1}" value="${dept.applyNo}">`;
+				str += `<input type="hidden" id="memNo${index + 1}" value="${dept.memberVO.memNo}">`;
 				str += `<input type="checkbox" value="${dept.applyNo}" checked onclick="checkControll();" class="form-check-input checkboxes">`;
 				str += '</td>'
 				str += `<td>${result.length - index}</td>`;
@@ -298,34 +298,34 @@ function searchByDate(){
 				str += `<td>${dept.applyDate}</td>`;
 				str += '<td class="d-grid">';
 				if (dept.processStatus == '승인대기') {
-					str += `<input type="button" value="승인" onclick="acceptChangeMajor(${index+1});" class="btn btn-primary">`;
+					str += `<input type="button" value="승인" onclick="acceptChangeMajor(${index + 1});" class="btn btn-primary">`;
 				}
 				if (dept.processStatus == '승인완료') {
-					str += `<input type="button" value="완료" onclick="acceptChangeMajor(${index+1});" class="btn btn-primary">`;
+					str += `<input type="button" value="완료" onclick="acceptChangeMajor(${index + 1});" class="btn btn-primary">`;
 				}
 				str += '</td>';
 				str += '</tr>';
 			});
 			table_body.insertAdjacentHTML('afterbegin', str);
-		   },
-		   error: function() {
-		      alert('실패');
-		   }
-		});
-		//ajax end
+		},
+		error: function() {
+			alert('실패');
+		}
+	});
+	//ajax end
 }
 
 //일괄 승인
-function checkedAccept(){
+function checkedAccept() {
 	const checkboxes = document.querySelectorAll('#changeMajorBody input[type="checkbox"]:checked');
 	applyCodeList = [];
-	for(let i = 0; i < checkboxes.length; i++){
+	for (let i = 0; i < checkboxes.length; i++) {
 		applyCodeList[i] = checkboxes[i].value;
 	};
 	applyData = {
-		'applyCodeList' : applyCodeList
+		'applyCodeList': applyCodeList
 	};
-	if(applyCodeList.length == 0){
+	if (applyCodeList.length == 0) {
 		swal.fire({
 			title: "경고",
 			text: "선택된 내용이 없습니다!",
@@ -334,27 +334,59 @@ function checkedAccept(){
 		})
 		return;
 	}
-	
-	else{
-		//ajax start
-		$.ajax({
-		   url: '/admin/checkedAcceptAjax', //요청경로
-		   type: 'post',
-		   async: true,
-		   contentType : 'application/json; charset=UTF-8',
-		   //contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-		   data: JSON.stringify(applyData), //필요한 데이터
-		   success: function(result) {
-		      alert('ajax 통신 성공');
-		   },
-		   error: function() {
-		      alert('실패');
-		   }
-		});
-		//ajax end
 
-	}
+
+	swal.fire({
+		title: "승인하시겠습니까?",
+		text: "진행하시겠습니까?",
+		icon: "question",
+		showCancelButton: true,
+		confirmButtonText: "확인",
+		cancelButtonText: "취소"
+	}).then((result) => {
+		if (result.isConfirmed) {
+			//ajax start
+			$.ajax({
+				url: '/admin/checkedAcceptAjax', //요청경로
+				type: 'post',
+				async: true,
+				contentType: 'application/json; charset=UTF-8',
+				//contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+				data: JSON.stringify(applyData), //필요한 데이터
+				success: function(result) {
+					if(result != 0){
+					swal.fire({
+						title: "승인완료",
+						text: "일괄 승인이 완료되었습니다",
+						icon: 'success',
+						button: '확인',
+					})
+						.then((result) => {
+							location.href = '/admin/changeMajor';
+						})
+					}
+				},
+				error: function() {
+					alert('실패');
+				}
+			});
+			//ajax end
+
+
+		}
+		else if (result.isDismissed) {
+			swal.fire({
+				title: "승인이 취소되었습니다.",
+				icon: 'success',
+				button: '확인',
+			});
+		}
+	});
+
 }
+
+
+
 
 
 
