@@ -1,6 +1,8 @@
 package com.study.test.stu.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.study.test.admin.vo.EmpVO;
 import com.study.test.board.service.BoardService;
 import com.study.test.board.vo.BoardCategoryVO;
 import com.study.test.board.vo.UniBoardVO;
@@ -344,6 +347,21 @@ public class StuController {
 			return "/content/stu/stu_myStu/moveManage";
 		}
 		
+		//전과 신청 전 학과 변경 AJax
+		@ResponseBody
+		@PostMapping("/deptUpdateAjax")
+		public List<DeptVO> deptUpdateAjax(String collNo, DeptVO deptVO) {
+
+			//Map<String, Object> deptMap = new HashMap<>();
+			
+			List<DeptVO> deptList = schoolService.getDeptList(collNo);
+			System.out.println(deptList);
+			
+		
+			
+			return deptList;
+		}
+		
 		//전과신청 AJax
 		 @ResponseBody
 		  @PostMapping("/moveManageAjax")
@@ -498,6 +516,14 @@ public class StuController {
 			
 			return "/content/stu/stu_board/totalBoard";
 		}
+		
+		// 전체 게시판 글쓰기
+		@GetMapping("/boardWrite")
+		private String boardWrite() {
+			
+			return "/content/stu/stu_board/totalBoardWrite";
+		}
+		
 		
 		//중고 나눔
 		@GetMapping("/donation")

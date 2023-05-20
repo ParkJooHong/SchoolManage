@@ -72,9 +72,9 @@
 	<tr>
 		<td>변경 전공 대학</td>
 		<td> 
-			<select class="colleage">
+			<select class="colleage" th:onchange="updateDept();">
 				<th:block th:each="colleage : ${colleageVO}" >
-					<option th:value="${colleage.collNo}">						
+					<option th:value="${colleage.collNo}" >						
 							[[${colleage.collName}]]		
 					</option>
 				</th:block>
