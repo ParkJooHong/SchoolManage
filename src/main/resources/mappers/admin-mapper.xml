@@ -238,6 +238,30 @@
 		WHERE APPLY_NO = #{applyNo}	
 	</update>
 	
+	<select id="getApplyNoByStuInfoList" resultMap="deptManage">
+	    SELECT TO_COLL, TO_DEPT, STU_NO
+	    FROM DEPT_MANAGE
+	    WHERE
+	        <if test="applyNoList != null and applyNoList.size() > 0">
+	            APPLY_NO IN
+	            <foreach collection="applyNoList" item="applyCode" open="(" close=")" separator=",">
+	                #{applyCode}
+	            </foreach>
+	            AND
+	        </if>
+	        PROCESS_STATUS NOT LIKE '승인완료'
+	</select>
+
+	
+	<update id="updateStuInfoByApplyData">
+		<foreach collection="stuVOList" item="stuData" open="DECLARE BEGIN" separator=";" close=";END;">
+			UPDATE UNI_STU
+			SET COLL_NO = #{stuData.collNo}
+				, DEPT_NO = #{stuData.deptNo}
+			WHERE STU_NO = #{stuData.stuNo}
+		</foreach>
+	</update>
+	
 	<update id="updateByApplyNoList">
 		UPDATE DEPT_MANAGE
 		SET PROCESS_STATUS = '승인완료'
@@ -248,26 +272,6 @@
 		</foreach>
 	</update>
 	
-	<select id="getApplyNoByStuInfoList" resultMap="deptManage">
-		SELECT TO_COLL
-			, TO_DEPT
-			, STU_NO
-		FROM DEPT_MANAGE
-		WHERE APPLY_NO IN	
-		<foreach collection="applyNoList" item="applyCode" open="(" close=")" separator=",">
-		#{applyCode}
-		</foreach>
-		
-	</select>
-	<!--AND PROCESS_STATUS NOT LIKE '승인완료'  -->
-	<update id="updateStuInfoByApplyData">
-		<foreach collection="stuVOList" item="stuData" open="DECLARE BEGIN" close="END">
-			UPDATE UNI_STU
-			SET COLL_NO = #{stuData.collNo}
-				, DEPT_NO = #{stuData.deptNo}
-			WHERE STU_NO = #{stuData.stuNo}
-		</foreach>
-	</update>
 </mapper>
 
 
