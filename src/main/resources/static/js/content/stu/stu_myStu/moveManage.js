@@ -47,12 +47,18 @@ function updateDept(){
 	$.ajax({
 		url: '/stuMenu/deptUpdateAjax', //요청경로
 		type: 'post',
-		async: false,
 		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 		data: {'collNo' : coll }, //필요한 데이터
 		success: function(result) {
-			alert("ajaxa 통신 성공");
-			alert(result);
+			if(result)
+			{
+				alert("ajaxa 통신 성공");
+				alert(result);
+			}
+			else{
+				alert("ㄴㄴ");
+			}
+			
 			
 		},
 		error: function() {

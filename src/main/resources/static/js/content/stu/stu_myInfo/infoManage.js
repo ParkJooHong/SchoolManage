@@ -1,4 +1,6 @@
-
+function save(){
+	swal("변경 성공!", "비밀번호가 변경되었습니다.", "success");
+}
 
 function plus(memNo, memName, stuYear, stuStatus){
 

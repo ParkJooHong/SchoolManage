@@ -2,6 +2,8 @@
 
 @charset "UTF-8";
 
+
+
 .detail_info {
     position: relative;
     display: flex;
@@ -19,7 +21,7 @@ table.detail_info{
 	margin: 10px;
 	padding: 10px;
 }
-table.detail_info td{
+table.detail_info td{ 
 	margin: 10px;
 	padding: 5px;
 }
@@ -35,6 +37,9 @@ table.default_info td{
 	width: 100px;
 	padding: 5px;
 }
+.lastTd {
+      text-align: right; /* 마지막 <td>를 오른쪽 정렬 */
+ }
 input[type="text"]{
 	width: 120px;
 	border-radius: 4px;

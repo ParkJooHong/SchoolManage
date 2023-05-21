@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.study.test.admin.vo.EmpVO;
+import com.study.test.board.service.BoardReplyService;
 import com.study.test.board.service.BoardService;
 import com.study.test.board.vo.BoardCategoryVO;
+import com.study.test.board.vo.BoardReplyVO;
 import com.study.test.board.vo.UniBoardVO;
 import com.study.test.member.service.MemberService;
 import com.study.test.member.vo.MemberMenuVO;
@@ -48,16 +50,19 @@ public class StuController {
 	@Resource(name = "boardService")
 	private BoardService boardService;
 	
+	@Resource(name = "boardReplyService")
+	private BoardReplyService boardReplyService;
 	
-	//내 정보 관리
+	
+	//정보
 		@GetMapping("/myInfo")
-		private String myInfo(Authentication authentication, String stuNo, String memNo, Model model, StuVO stuVO, MemberVO memberVO, ColleageVO colleageVO) {
+		public String myInfo(Authentication authentication, String stuNo, String memNo, Model model, StuVO stuVO, MemberVO memberVO, ColleageVO colleageVO) {
 			
 			User user = (User)authentication.getPrincipal();
 			String memName = user.getUsername();
 			stuVO.setMemNo(user.getUsername()); // id임
 			memberVO.setMemNo(user.getUsername());
-			
+			model.addAttribute("memberVO", stuService.seletStu(memberVO));
 			
 			stuService.getColl(user.getUsername());
 			
@@ -103,16 +108,28 @@ public class StuController {
 		
 		//학적 관리
 		@GetMapping("myStu")
-		private String myStu() {
+		private String myStu(Authentication authentication, StuVO stuVO, MemberVO memberVO, Model model) {
+			User user = (User)authentication.getPrincipal();
+			String memName = user.getUsername();
+			stuVO.setMemNo(user.getUsername()); // id임
+			memberVO.setMemNo(user.getUsername());
 			
+			model.addAttribute("memberVO" , stuService.seletStu(memberVO));
+			System.out.println("멤버 브이오 : " + memberVO);
+			System.out.println("학생 정보 : " +stuService.seletStu(memberVO));
 
 			
-			return "/content/stu/stu_myStu/my_stu";
+			return "/content/stu/stu_myStu/leaveManage";
 		}
 		
 		//교과수업
 		@GetMapping("stuClass")
-		private String stuClass() {
+		private String stuClass(Authentication authentication, StuVO stuVO, MemberVO memberVO, Model model) {
+			User user = (User)authentication.getPrincipal();
+			String memName = user.getUsername();
+			stuVO.setMemNo(user.getUsername()); // id임
+			memberVO.setMemNo(user.getUsername());
+			model.addAttribute("memberVO", stuService.seletStu(memberVO));
 			
 			return "/content/stu/stu_class/grade";
 		}
@@ -121,7 +138,7 @@ public class StuController {
 		
 		//게시판
 		@GetMapping("board")
-		private String board(Authentication authentication, Model model, MemberVO memberVO, StuVO stuVO, UniBoardVO uniBoardVO, BoardCategoryVO boardCategoryVO, String cateNo) {
+		private String board(Authentication authentication, Model model, MemberVO memberVO, StuVO stuVO, UniBoardVO uniBoardVO, BoardCategoryVO boardCategoryVO, String cateNo, String menuCode, String subMenuCode) {
 
 			User user = (User)authentication.getPrincipal();
 			String memName = user.getUsername();
@@ -129,10 +146,18 @@ public class StuController {
 			stuVO.setMemNo(user.getUsername()); // id임
 			memberVO.setMemNo(user.getUsername());
 			stuService.seletStu(memberVO);
+			model.addAttribute("memberVO", stuService.seletStu(memberVO));
+			System.out.println("학생정보 : " + stuService.seletStu(memberVO));
 			
-			boardService.getBoardCategoryList();
-			System.out.println(boardService.getBoardCategoryList());
+			model.addAttribute("boardCategoryVO", boardService.getBoardCategoryList());
+			System.out.println("보드 카테고리 정보 : " +boardService.getBoardCategoryList());
 			model.addAttribute("uniBoardVO",boardService.getTotalBoardList()); 
+			
+			cateNo = boardCategoryVO.getCateNo();
+			
+			//게시판 상세보기할때 던질 메뉴코드, 서브메뉴코드 데이터
+			model.addAttribute("menuCode" , menuCode);
+			model.addAttribute("subMenuCode", subMenuCode);
 			
 			return "/content/stu/stu_board/totalBoard";
 		}
@@ -153,14 +178,17 @@ public class StuController {
 		// ---- 내정보 관리 { 
 		//MyInfo
 		@GetMapping("infoManage")
-		private String infoManage(Authentication authentication, String memNo, Model model, StuVO stuVO, MemberVO memberVO) {
+		private String infoManage(Authentication authentication, String memNo, Model model, StuVO stuVO, MemberVO memberVO, String subMenuCode) {
 				
 			
 			  User user = (User)authentication.getPrincipal();
 				String memName = user.getUsername();
 				stuVO.setMemNo(user.getUsername()); // id임
 				memberVO.setMemNo(user.getUsername());
-				model.addAttribute("stuVO" , stuService.seletStu(memberVO));
+				
+				System.out.println("멤버 브이오 : " + memberVO);
+				model.addAttribute("memberVO", stuService.seletStu(memberVO));
+				//model.addAttribute("stuVO" , stuService.seletStu(memberVO));
 			
 			//User user = (User)authentication.getPrincipal();
 			//String memName = user.getUsername();
@@ -176,6 +204,7 @@ public class StuController {
 			System.out.println("메뉴코드는 " +menuCode.getMenuCode());
 			
 			model.addAttribute("menuCode", menuCode);
+			model.addAttribute("subMenuCode", subMenuCode);
 			
 			//에러 많음 수정 필요.
 			
@@ -191,7 +220,7 @@ public class StuController {
 			String memName = user.getUsername();
 			stuVO.setMemNo(user.getUsername()); // id임
 			memberVO.setMemNo(user.getUsername());
-			model.addAttribute("stuVO" , stuService.seletStu(memberVO));
+			model.addAttribute("memberVO" , stuService.seletStu(memberVO));
 		  
 		  //User user = (User)authentication.getPrincipal();
 		  //stuVO.setMemNo(user.getUsername()); 
@@ -236,8 +265,9 @@ public class StuController {
 			String memName = user.getUsername();
 			stuVO.setMemNo(user.getUsername()); // id임
 			memberVO.setMemNo(user.getUsername());
-			model.addAttribute("stuVO" , stuService.seletStu(memberVO));
 			
+			model.addAttribute("memberVO" , stuService.seletStu(memberVO));
+			System.out.println("멤버 브이오 : " + memberVO);
 			System.out.println("학생 정보 : " +stuService.seletStu(memberVO));
 			
 			return "/content/stu/stu_myStu/leaveManage";
@@ -287,7 +317,7 @@ public class StuController {
 			String memName = user.getUsername();
 			stuVO.setMemNo(user.getUsername()); // id임
 			memberVO.setMemNo(user.getUsername());
-			model.addAttribute("stuVO" , stuService.seletStu(memberVO));
+			model.addAttribute("memberVO" , stuService.seletStu(memberVO));
 			
 			System.out.println("학생 정보 : " +stuService.seletStu(memberVO));
 			
@@ -332,7 +362,7 @@ public class StuController {
 			stuService.getColl(user.getUsername());
 			memberVO.setStuVO(stuService.getColl(user.getUsername()));
 			System.out.println(memberVO);
-			model.addAttribute("stuVO" , stuService.seletStu(memberVO));
+			model.addAttribute("memberVO" , stuService.seletStu(memberVO));
 			
 			System.out.println(stuService.seletStu(memberVO));
 
@@ -350,16 +380,23 @@ public class StuController {
 		//전과 신청 전 학과 변경 AJax
 		@ResponseBody
 		@PostMapping("/deptUpdateAjax")
-		public List<DeptVO> deptUpdateAjax(String collNo, DeptVO deptVO) {
+		public Map<String, Object> deptUpdateAjax(String collNo, DeptVO deptVO, ColleageVO colleageVO) {
 
-			//Map<String, Object> deptMap = new HashMap<>();
+			colleageVO.setCollNo(collNo);
 			
-			List<DeptVO> deptList = schoolService.getDeptList(collNo);
-			System.out.println(deptList);
+			Map<String, Object> deptMap = new HashMap<>();
 			
+			List<DeptVO> deptList = schoolService.getDeptList(colleageVO.getCollNo());
+			System.out.println("학과 리스트 : "+deptList);
+			
+			List<ColleageVO> collList = schoolService.getCollList();
+			
+			deptMap.put("deptList", deptList);
+			deptMap.put("collList", collList);
 		
+			System.out.println("맵 데이터 :" + deptMap);
 			
-			return deptList;
+			return deptMap;
 		}
 		
 		//전과신청 AJax
@@ -412,7 +449,12 @@ public class StuController {
 		
 		// 복수전공신청
 		@GetMapping("/doubleMajorManage")
-		private String doubleMajorManage() {
+		private String doubleMajorManage(Authentication authentication, StuVO stuVO, MemberVO memberVO, Model model) {
+			User user = (User)authentication.getPrincipal();
+			String memName = user.getUsername();
+			stuVO.setMemNo(user.getUsername()); // id임
+			memberVO.setMemNo(user.getUsername());
+			model.addAttribute("memberVO", stuService.seletStu(memberVO));
 
 			return "/content/stu/stu_myStu/doubleMajorManage";
 		}
@@ -424,7 +466,7 @@ public class StuController {
 				String memName = user.getUsername();
 				stuVO.setMemNo(user.getUsername()); // id임
 				memberVO.setMemNo(user.getUsername());
-				model.addAttribute("stuVO" , stuService.seletStu(memberVO));
+				model.addAttribute("memberVO" , stuService.seletStu(memberVO));
 				nowStatus = stuService.seletStu(memberVO).getStuVO().getStuStatus();
 				statusInfoVO.setNowStatus(nowStatus);
 				
@@ -463,7 +505,13 @@ public class StuController {
 		// ---- 교과수업 { 
 		//성적조회
 			@GetMapping("grade")
-			private String grade() {
+			private String grade(Authentication authentication, StuVO stuVO, MemberVO memberVO, Model model) {
+				User user = (User)authentication.getPrincipal();
+				String memName = user.getUsername();
+				stuVO.setMemNo(user.getUsername()); // id임
+				memberVO.setMemNo(user.getUsername());
+				model.addAttribute("memberVO" , stuService.seletStu(memberVO));
+				
 				
 				return "/content/stu/stu_class/grade";
 			}
@@ -475,6 +523,7 @@ public class StuController {
 			String memName = user.getUsername();
 			stuVO.setMemNo(user.getUsername()); // id임
 			memberVO.setMemNo(user.getUsername());
+			model.addAttribute("memberVO" , stuService.seletStu(memberVO));
 			memberVO.setStuVO(stuService.getColl(user.getUsername()));
 
 			//대학 조회
@@ -488,7 +537,12 @@ public class StuController {
 		
 		//수업평가
 		@GetMapping("evaluation")
-		private String evaluation() {
+		private String evaluation(Authentication authentication, StuVO stuVO, MemberVO memberVO, Model model) {
+			User user = (User)authentication.getPrincipal();
+			String memName = user.getUsername();
+			stuVO.setMemNo(user.getUsername()); // id임
+			memberVO.setMemNo(user.getUsername());
+			model.addAttribute("memberVO" , stuService.seletStu(memberVO));
 
 			return "/content/stu/stu_class/evaluation";
 		}
@@ -498,36 +552,114 @@ public class StuController {
 		// ------ 게시판 {
 		//전체 게시판
 		@GetMapping("/totalBoard")
-		private String totalBoard(Authentication authentication, Model model, MemberVO memberVO, StuVO stuVO, UniBoardVO uniBoardVO, BoardCategoryVO boardCategoryVO, String cateNo) {
+		private String totalBoard(Authentication authentication, Model model, MemberVO memberVO, StuVO stuVO, UniBoardVO uniBoardVO, BoardCategoryVO boardCategoryVO, String cateNo, String menuCode, String subMenuCode) {
 			User user = (User)authentication.getPrincipal();
 			String memName = user.getUsername();
 			//System.out.println(memName);
 			stuVO.setMemNo(user.getUsername()); // id임
 			memberVO.setMemNo(user.getUsername());
 			stuService.seletStu(memberVO);
+			model.addAttribute("memberVO", stuService.seletStu(memberVO));
+			System.out.println("학생정보 : " + stuService.seletStu(memberVO));
 			
-			boardService.getBoardCategoryList();
-			System.out.println(boardService.getBoardCategoryList());
+			model.addAttribute("boardCategoryVO", boardService.getBoardCategoryList());
+			System.out.println("보드 카테고리 정보 : " +boardService.getBoardCategoryList());
 			model.addAttribute("uniBoardVO",boardService.getTotalBoardList()); 
 			
 			cateNo = boardCategoryVO.getCateNo();
-
+			
+			//게시판 상세보기할때 던질 메뉴코드, 서브메뉴코드 데이터
+			model.addAttribute("menuCode" , menuCode);
+			model.addAttribute("subMenuCode", subMenuCode);
 			
 			
 			return "/content/stu/stu_board/totalBoard";
 		}
 		
-		// 전체 게시판 글쓰기
-		@GetMapping("/boardWrite")
-		private String boardWrite() {
+		//게시글 상세보기
+		@GetMapping("/boardDetail")
+		private String boardDetail(Authentication authentication, String boardNo, Model model, UniBoardVO uniBoardVO, MemberVO memberVO, StuVO stuVO, String menuCode, String subMenuCode, MemberMenuVO memberMenuVO, MemberSubMenuVO memberSubMenuVO) {
+			System.out.println(" @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" +menuCode);
+			System.out.println(" @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" +subMenuCode);
 			
-			return "/content/stu/stu_board/totalBoardWrite";
+			
+			User user = (User)authentication.getPrincipal();
+			String memName = user.getUsername();
+			//System.out.println(memName);
+			stuVO.setMemNo(user.getUsername()); // id임
+			memberVO.setMemNo(user.getUsername());
+			model.addAttribute("memberVO", stuService.seletStu(memberVO));
+			
+			
+			System.out.println(boardNo);
+			boardService.boardDetail(boardNo);
+
+			
+			
+			
+			//uniBoardVO = (UniBoardVO)boardService.boardDetail(boardNo);
+			
+			System.out.println("보드VO" +uniBoardVO);
+			System.out.println("보드 상세 정보  : " +boardService.boardDetail(boardNo) );
+			model.addAttribute("uniBoardVO", boardService.boardDetail(boardNo));
+			
+			//게시판 카테고리 정보 
+			model.addAttribute("boardCategoryVO", boardService.getBoardCategoryList());
+			
+			//댓글 보기
+			model.addAttribute("boardReplyVO" , boardReplyService.selectReply(boardNo) );
+			
+			//게시판 상세보기할때 던질 메뉴코드, 서브메뉴코드 데이터
+			model.addAttribute("subMenuCode", subMenuCode);
+			model.addAttribute("menuCode" , menuCode);
+			
+			return "/content/stu/stu_board/boardDetail";
 		}
+		
+		// 댓글 쓰기
+		@GetMapping("/insertReply")
+		private String insertReply(BoardReplyVO boardReplyVO, String replyContent) {
+			
+			System.out.println(replyContent);
+			
+			return "redirect:/stuMenu/insertReply";
+		}
+		
+		//댓글 등록
+		@ResponseBody
+		@PostMapping("/replyAjax")
+		public Map<String, Object> replyAjax(String menuCode, String subMenuCode, String stuNo ,String boardNo, String replyContent, BoardReplyVO boardReplyVO, Model model) {
+			
+			boardReplyVO.setBoardNo(boardNo);
+			boardReplyVO.setReplyContent(replyContent);
+			boardReplyVO.setReplyWriter(stuNo);
+			System.out.println(boardReplyVO);
+			
+			 Map<String, Object> data = new HashMap<>();
+			 data.put("menuCode", menuCode);
+		     data.put("subMenuCode", subMenuCode);
+			
+			model.addAttribute("subMenuCode", subMenuCode);
+			model.addAttribute("menuCode" , menuCode);
+			
+			boardReplyService.insertReply(boardReplyVO);
+			
+			return data;
+			
+		}
+		
 		
 		
 		//중고 나눔
 		@GetMapping("/donation")
-		private String donation() {
+		private String donation(Authentication authentication, String boardNo, Model model, UniBoardVO uniBoardVO, MemberVO memberVO, StuVO stuVO,MemberMenuVO memberMenuVO, MemberSubMenuVO memberSubMenuVO) {
+
+			User user = (User)authentication.getPrincipal();
+			String memName = user.getUsername();
+			//System.out.println(memName);
+			stuVO.setMemNo(user.getUsername()); // id임
+			memberVO.setMemNo(user.getUsername());
+			model.addAttribute("memberVO", stuService.seletStu(memberVO));
 
 			return "/content/stu/stu_board/donation";
 		}

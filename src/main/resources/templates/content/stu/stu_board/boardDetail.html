@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+   xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+   layout:decorate="~{fragment/info_layout}">
+
+<th:block layout:fragment="content_css">
+   <link rel="stylesheet" href="/css/content/stu/stu_board/boardDetail.css">
+</th:block>
+
+<th:block layout:fragment="content">
+<div style="font-size: 15px; color: blue; font-weight: bold;">즐겨찾기 ☆</div>
+<div style="font-size: 20px; color: red; font-weight: bold;" >학생기본정보</div>
+<div class="tableAdd">
+	<table border="3" style="border-color: red;" class="default_info">
+		<tr>
+			<td>학번</td>
+			<td><input type="text" readonly></td>
+			<td>성명</td>
+			<td><input type="text" readonly></td>
+			<td>학년</td>
+			<td><input type="text" readonly></td>
+			<td>학적상태</td>
+			<td><input type="text" readonly></td>
+		</tr>
+	</table>
+</div>
+<div style="text-align: center;">
+	<button onclick="plus();" class="plus" style="width: 40px; height:30px; border-bottom-left-radius:10px; border-bottom-right-radius:10px;
+		font-size: 20px; font-weight: bold; border-color: red;  color: white; background-color: red;">
+		+
+	</button>
+</div>
+
+<th:block th:each="boardCategoryVO : ${boardCategoryVO}">
+	<div>
+	<a>카테고리 - [[${boardCategoryVO.cateName}]] </a>
+	
+	</div>
+</th:block>
+
+	<div class="detail_info" >
+	<table class="table" th:each="uni , state: ${uniBoardVO}">
+		
+		
+		<thead>
+			<tr>
+				<td colspan="3"><h1>[[${uni.boardTitle}]]</h1></td>		
+				<td><input type="hidden" th:value="${uni.boardNo}" class="boardNo"></td>		
+				<td><input type="hidden" th:value="${memberVO.stuVO.stuNo}" class="stuNo"></td>		
+			</tr>
+			<tr>
+				<td>
+					<table>
+						<tr th:each="member : ${memberVO}">
+							<td rowspan="2">😦</td>
+							<td>[[${member.memName}]] / [[${member.memNo}]]</td>
+						</tr>
+						<tr>
+							<td>[[${uni.regBoardDate}]] 조회 [[${uni.readCnt}]]</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td colspan="3" class="boardContent" >[[${uni.boardContent}]]</td>
+
+			</tr>
+		</tbody>
+		<!-- 글쓴이가 맞으면 수정, 삭제 가능 -->
+		<tr th:if="${memberVO.stuVO.stuNo == uni.boardWriter}">
+			<td class="updateOrDelete">
+				<input type="button" value="수정" class="btn btn-primary">
+				<input type="button" value="삭제" class="btn btn-danger" th:onclick="deleteBoard([[${uni.boardNo}]], [[${menuCode}]] , [[${subMenuCode}]])">
+			</td>
+		</tr>
+		
+	
+	</table>	
+		
+ 
+	</div>
+	<br>
+	<h3>댓글</h3>
+
+	<th:block th:if="${#lists.size(boardReplyVO) == 0}">
+		<table class="noReplyTable">
+			<tr >
+				<td class="noReply">달린 댓글이 없습니다. 댓글을 등록해보세요.</td>
+			</tr>
+		</table>
+		<table class="noReplyTable">
+			<tr th:each="member : ${memberVO}">
+				<td>[[${member.memName}]]  / [[${member.memNo}]]</td>
+			</tr>	
+			 <tr class="comment-form reply"> 
+			 	<td>
+		    		<textarea id="comment-input" placeholder="댓글을 남겨보세요" class="replyContent"></textarea>
+		   			<a href="javascript:void(0);" th:onclick="insertReply(	[[${menuCode}]] , [[${subMenuCode}]]);">등록</a>		   		
+		 	 	</td>
+		 	 </tr>
+		</table>	
+	</th:block>
+	<th:block th:if="${#lists.size(boardReplyVO) != 0}">
+		<table th:each="boardReply : ${boardReplyVO}">
+			<tr >
+				<td rowspan="2">🧖‍♀️</td>							
+				<td>[[${boardReply.replyWriter}]]</td>							
+			</tr>
+			<tr>
+				<td>[[${boardReply.replyContent}]]</td>
+			</tr>
+		</table>
+		<table >
+			<tr  th:each="member : ${memberVO}" class="replyTable">
+				<td>[[${member.memName}]]</td>
+			</tr>	
+			 <tr class="comment-form reply"> 
+			 	<td>
+		    		<textarea id="comment-input" placeholder="댓글을 남겨보세요" class="replyContent"></textarea>
+		   			<a href="javascript:void(0);" th:onclick="insertReply(	[[${menuCode}]] , [[${subMenuCode}]]);">등록</a>
+		   		
+		 	 	</td>
+		 	 </tr>
+		</table>	
+	</th:block>
+
+
+
+</th:block>
+
+
+<th:block layout:fragment="content_js">
+<script type="text/javascript" src="/js/content/stu/stu_board/boardDetail.js"></script>
+</th:block>
+
+</html>

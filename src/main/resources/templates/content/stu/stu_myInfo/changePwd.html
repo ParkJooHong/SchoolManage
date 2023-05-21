@@ -31,21 +31,27 @@
 	</button>
 </div>
 <br>
-<div style="text-align: center;"> 비밀번호 변경</div>
-	<th:block th:each="stu : ${stuVO}">
+	<th:block th:each="member : ${memberVO}" >
 		 <h2>비밀번호 변경</h2>
-		    <form>
-		        <label for="currentPassword">현재 비밀번호:</label>
-		        <input type="password" class="currentPassword"><br>
-		
-		        <label for="newPassword">새로운 비밀번호:</label>
-		        <input type="password" class="newPassword" ><br>
-		
-		        <label for="confirmPassword">비밀번호 확인:</label>
-		        <input type="password" class="confirmPassword" ><br>
-		
-		        <button type="button" th:onclick="changePassword([[${stu.memPw}]],[[${stu.memNo}]])">비밀번호 변경</button>
-		    </form>
+		    <table class="detail_info">
+		    	<tr>
+		        	<td>현재 비밀번호:</td>
+		       		<td><input type="password" class="currentPassword"></td>
+				</tr>
+				<tr>
+		        	<td>새로운 비밀번호:</td>
+		        	<td><input type="password" class="newPassword"></td>
+				</tr>
+				<tr>
+		        	<td>비밀번호 확인:</td>
+		       		<td><input type="password" class="confirmPassword" ></td>
+				</tr>
+		        <tr>
+		        	<td colspan="2" class="lastTd">
+		        		<button type="button" class="btn btn-primary" th:onclick="changePassword([[${member.memPw}]],[[${member.memNo}]])">비밀번호 변경</button>
+		        	</td>
+		        </tr>
+		    </table>
 	</th:block>
 </th:block>
 

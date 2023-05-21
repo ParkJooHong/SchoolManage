@@ -75,16 +75,21 @@ function changePassword(memPw, memNo){
 	
 	
 	if(currentPassword != memPw){
-		alert("현재 비밀번호가 올바르지 않습니다. \n 다시 입력해주세요.");
+		swal("변경 실패!", "현재 비밀번호가 올바르지 않습니다. \n 다시 입력해주세요. ", "error");
+			currentPassword.textContent = '';
+					newPassword.textContent = '';
+					confirmPassword.textContent = '';
+					
+					let str = '';
+					currentPassword.insertAdjacentHTML('afterbegin', str);
 	}
 	else if(newPassword != confirmPassword){
-		alert("새로운 비밀번호가 올바르지 않습니다. \n 다시 입력해주세요.");
+		swal("변경 실패!", "새로운 비밀번호가 올바르지 않습니다. \n 다시 입력해주세요. ", "error");
 	}
 	else if(currentPassword == newPassword){
-		alert("현재 비밀번호와 새로운 비밀번호가 중복입니다. \n 다시 입력해주세요.");
+		swal("변경 실패!", "현재 비밀번호와 새로운 비밀번호가 중복입니다. \n 다시 입력해주세요.", "error");
 	}
 	else{
-		alert("비밀번호를 변경합니다.");		
 		
 			$.ajax({
 			url: '/stuMenu/changePwdAjax', //요청경로
@@ -93,8 +98,9 @@ function changePassword(memPw, memNo){
 			data: {'newPassword' : newPassword, 'memNo' : memNo }, //필요한 데이터
 			success: function(result) {
 				if(result){
-					alert(result);
-					alert('사용여부가 변경되었습니다.');
+					swal("변경 성공!", "비밀번호가 변경되었습니다.", "success");
+					
+					
 				}
 				else{
 					alert('일시적 오류가 발생했습니다.');

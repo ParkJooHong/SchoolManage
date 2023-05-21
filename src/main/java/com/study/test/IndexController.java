@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import com.study.test.member.service.MemberService;
 import com.study.test.member.vo.MemberMenuVO;
+import com.study.test.member.vo.MemberSubMenuVO;
 import com.study.test.member.vo.MemberVO;
 import com.study.test.school.colleage.ColleageVO;
 import com.study.test.school.service.SchoolService;
@@ -37,10 +38,14 @@ public class IndexController {
 	}
 
 	@GetMapping("/mainPage")
-	public String index(Model model, MemberMenuVO memberMenuVO, Authentication authentication, StuVO stuVO, MemberVO memberVO) {
+	public String index(Model model, MemberMenuVO memberMenuVO, MemberSubMenuVO memberSubMenuVO, Authentication authentication, StuVO stuVO, MemberVO memberVO) {
 
 		if(memberMenuVO.getMenuCode() == null) {
 			memberMenuVO.setMenuCode("MENU_001");
+			memberSubMenuVO.setSubMenuCode("SUB_MENU_001");
+		}
+		if(memberSubMenuVO.getSubMenuCode() == null) {
+			memberSubMenuVO.setSubMenuCode("SUB_MENU_001");
 		}
 		
 		User user = (User)authentication.getPrincipal();
@@ -51,8 +56,11 @@ public class IndexController {
 		System.out.println(memberVO);
 		
 		System.out.println("학생 정보 : " + stuService.seletStu(memberVO));
+		model.addAttribute("memberVO", stuService.seletStu(memberVO));
+		
 		
 		model.addAttribute("menuList", memberService.stuMenuList());
+		model.addAttribute("subMenuList", memberService.stuSubMenuList(memberMenuVO.getMenuCode()));
 
 
 		return "/content/stu/info_main";

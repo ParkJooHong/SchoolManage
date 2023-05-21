@@ -9,6 +9,6 @@ function mainMenu(menuCode, menuUrl){
 }
 
 function subMenu(subMenuCode, subMenuUrl, menuCode){
-	location.href=`/stuMenu${subMenuUrl}?menuCode=${menuCode}`;
+	location.href=`/stuMenu${subMenuUrl}?menuCode=${menuCode}&subMenuCode=${subMenuCode} `;
 	// subMenuCode=${subMenuCode} 
 }

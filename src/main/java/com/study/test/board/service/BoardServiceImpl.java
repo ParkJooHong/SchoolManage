@@ -26,4 +26,26 @@ public class BoardServiceImpl implements BoardService {
 	public List<UniBoardVO> getTotalBoardList() {
 		return sqlSession.selectList("boardMapper.getTotalBoardList");
 	}
+
+	//보드 게시글 쓰기
+	@Override
+	public void insertBoard(UniBoardVO uniBoardVO) {
+		sqlSession.insert("boardMapper.insertBoard",uniBoardVO);
+		
+	}
+
+	//보드 글 상세보기
+	@Override
+	public List<UniBoardVO> boardDetail(String boardNo) {
+		return sqlSession.selectList("boardMapper.boardDetail" , boardNo);
+	}
+
+	//보드 게시글 삭제
+	@Override
+	public void boardDelete(String boardNo) {
+		sqlSession.delete("boardMapper.boardDelete", boardNo);
+		
+	}
+	
+	
 }

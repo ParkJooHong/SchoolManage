@@ -31,6 +31,7 @@
 	</button>
 </div>
 <br>
+
 <div style="text-align: center;"> 
 	<div style="text-align: center;"> 
 		<div class="container">
@@ -62,10 +63,13 @@
 						</td>
 		  
 						<td>
+					
 						  <div class="btn-group">
 							<button class="btn btn-primary mx-2">검색</button>
-							<button class="btn btn-danger" th:onclick="|location.href='@{/stuMenu/boardWrite}'|" >글쓰기</button>
+							<button class="btn btn-danger"><span data-bs-toggle="modal" data-bs-target="#writeModal" style="cursor: pointer;">글쓰기 </span> </button>
+							<!-- <button class="btn btn-danger" th:onclick="|location.href='@{/board/boardWrite}'|" >글쓰기</button> -->
 						  </div>
+						  
 						</td>
 					  </tr>
 					</tbody>
@@ -92,7 +96,7 @@
 						<tr th:each="uniBoard, state : ${uniBoardVO}">
 							<td>[[${state.count}]]</td>
 							<td>[[${uniBoard.regBoardDate}]]</td>
-							<td>[[${uniBoard.boardTitle}]]</td>
+							<td><a th:href="@{/stuMenu/boardDetail(menuCode=${menuCode}, subMenuCode=${subMenuCode}, boardNo=${uniBoard.boardNo} )}">[[${uniBoard.boardTitle}]]</a></td>
 							<td>[[${uniBoard.boardWriter}]]</td>
 							<td>[[${uniBoard.readCnt}]]</td>
 							<td>[[${uniBoard.replyCnt}]]</td>
@@ -122,6 +126,88 @@
 		  </div>
 	</div>
 </div>
+	<div class="row">
+		<div class="col text-end"> 
+		<!-- bootstrap에서 이미 디자인한 것을 끌어온 것이다. -->
+				
+		</div>
+	</div>
+
+
+<!-- 글쓰기 모달 -->
+<div class="modal fade" id="writeModal" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">게시글등록</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+   
+	      <div class="modal-body">
+						<form class="row g-3" th:action="@{/board/boardWrite}" method="post"> <!-- 라벨(label) 안써도됨.  -->
+							
+							<div>						
+								<label for="memId" class="form-label">작성자 : </label> 							
+								  <th:block th:each="member : ${memberVO}">
+									   <input type="hidden" th:name="boardWriter" th:value="${member.stuVO.stuNo}"> 
+									    	[[${member.memName}]] / [[${member.memNo}]] 
+
+								   </th:block>
+							</div>
+							
+							<th:block th:each="boardCategory : ${boardCategoryVO}"> 
+ 							<div class="col-9"> 
+								<label for="memId" class="form-label">카테고리</label> 
+								<select th:name="cateNo" >
+									<option th:value="${boardCategory.cateNo}">[[${boardCategory.cateName}]]</option>
+								</select>
+							</div>
+							</th:block>
+							
+							
+							<!-- <div class="my-invalid"> ID가 잘못됬어요.</div> -->
+							
+							<div class="col-12">
+								<label for="boardTitle" class="form-label">게시글 제목</label> 
+								<input type="text" class="form-text" id="boardTitle" name="boardTitle" placeholder="제목을 입력하세요.">
+							</div>
+							
+							<br>
+							<div class="col-12">
+								<label for="boardContent" class="form-label">게시글 내용</label> 
+								<textarea class="form-control" rows="10" cols="50" name="boardContent">
+									
+								</textarea>
+							</div>
+							<div class="col-12">
+								<label for="boardTitle" class="form-label">첨부 파일 </label> 
+								<input type="radio" > 예 
+							</div>
+							<div class="col-12">
+								<div class="col-3">
+									<label for="boardTitle" class="form-label">비밀글 여부 : </label> 
+									<input type="radio" id="isPrivate" name="isPrivate" value="Y"> 예 
+									<input type="radio" id="isPrivate" name="isPrivate" value="N"> 아니오
+								</div>
+								<div class="col-3">
+									<label for="boardTitle" class="form-label">공지사항 여부 : </label> 
+									<input type="radio" id="isNotice" name="isNotice" value="Y"> 예 
+									<input type="radio" id="isNotice" name="isNotice" value="N"> 아니오
+								</div>
+							</div>
+						
+							<br>
+							<div class="col-6 d-grid">
+								<input type="submit" value="게시글 등록" class="btn btn-primary">
+						</div>
+						</form>
+						
+			</div>
+
+    </div>
+  </div>
+</div>	
+
 </th:block>
 
 

@@ -1,7 +1,13 @@
 @charset "UTF-8";
 
-@charset "UTF-8";
 
+.boardContent{
+	vertical-align: top;
+	border-top: 3px solid #000;
+	border-bottom: 3px solid #000;
+	font-size: 20px;
+	height: 300px;
+}
 .detail_info {
     position: relative;
     display: flex;
@@ -35,11 +41,34 @@ table.default_info td{
 	width: 100px;
 	padding: 5px;
 }
-input[type="text"]{
-	width: 120px;
-	border-radius: 4px;
+
+/* 아래로는 댓글 기능 */
+.comment-form {
+	width: 100%;
+    margin-bottom: 20px;
 }
 
-.modal-dialog{
-	max-width: 1000px;
+.comment-form textarea {
+    width: 100%;
+    height: 100%;
+}
+
+.comment-form button {
+    margin-top: 10px;
+}
+ 
+.replyContent{
+	border-radius: 15px;
+}    
+.updateOrDelete{
+	text-align: right;
+}
+.noReplyTable{
+	margin: 10px;
+	width: 100%;
+} 
+   
+.noReply{
+	text-align: center;
+	padding: 20px;
 }

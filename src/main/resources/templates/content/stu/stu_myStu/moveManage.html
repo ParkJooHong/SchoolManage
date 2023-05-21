@@ -32,41 +32,41 @@
 </div>
 <br>
 <h3>전과 신청</h3>
-<table border="1" class="detail_info" th:each="stu : ${stuVO}">
+<table border="1" class="detail_info" th:each="member : ${memberVO}">
 	<tr>
 		<td>이름</td>
-		<td>[[${stu.memName}]]</td>
+		<td>[[${member.memName}]]</td>
 		<td>학번</td>
-		<td>[[${stu.memNo}]]</td>
+		<td>[[${member.memNo}]]</td>
 		<td>학년</td>
 		<td></td>
 	</tr>
 	<tr>
 		<td>전공대학</td>
-		<td>[[${stu.colleageVO.collName}]]</td>
+		<td>[[${member.colleageVO.collName}]]</td>
 		<td>전공학과</td>
-		<td>[[${stu.deptVO.deptName}]]</td>
+		<td>[[${member.deptVO.deptName}]]</td>
 		<td>복수전공</td>
 		<td></td>
 	</tr>
 	<tr>
 		<td>성별</td>
-		<td>[[${stu.memGender}]]</td>
+		<td>[[${member.memGender}]]</td>
 		<td>생년월일</td>
-		<td>[[${stu.stuVO.stuYear}]]</td>
+		<td>[[${member.stuVO.stuYear}]]</td>
 		<td>학적상태</td>
-		<td>[[${stu.stuVO.stuStatus}]]</td>
+		<td>[[${member.stuVO.stuStatus}]]</td>
 	</tr>
 </table>
 
-<table border="1" class="detail_info" th:each="stu : ${stuVO}">
+<table border="1" class="detail_info" th:each="member : ${memberVO}">
 	<tr>
 		<td>현재 전공 대학</td>
-		<td>[[${stu.colleageVO.collName}]]</td>
+		<td>[[${member.colleageVO.collName}]]</td>
 		<td>현재 전공 학과</td>
 		<td>
-			<input type="hidden" class="currentDept" th:value="${stu.deptVO.deptName}">
-			[[${stu.deptVO.deptName}]]
+			<input type="hidden" class="currentDept" th:value="${member.deptVO.deptName}">
+			[[${member.deptVO.deptName}]]
 		</td>
 	</tr>
 	<tr>
@@ -102,6 +102,7 @@
 	<input type="button" value="전과 신청" class="btn btn-primary" onclick="moveManage();">
 </div>
 </th:block>
+
 
 
 <th:block layout:fragment="content_js">

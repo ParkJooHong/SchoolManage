@@ -63,8 +63,8 @@
 			<th:block th:if="${#lists.size(stuStatus) != 0}">
 				<tr th:each="info, state : ${stuStatus}">
 					<td>[[${state.count}]]</td>
-					<td>[[${stuVO.colleageVO.collName}]]</td>
-					<td>[[${stuVO.deptVO.deptName}]]</td>
+					<td>[[${memberVO.colleageVO.collName}]]</td>
+					<td>[[${memberVO.deptVO.deptName}]]</td>
 					<td>[[${info.applyDate}]]</td>
 					<td>[[${info.approvalDate}]]</td>
 					<td>[[${info.ingStatus}]]</td>
@@ -105,8 +105,8 @@
 			<th:block th:if="${#lists.size(stuStatusReturn) != 0}">
 				<tr th:each="info, state : ${stuStatusReturn}">
 					<td>[[${state.count}]]</td>
-					<td>[[${stuVO.colleageVO.collName}]]</td>
-					<td>[[${stuVO.deptVO.deptName}]]</td>
+					<td>[[${memberVO.colleageVO.collName}]]</td>
+					<td>[[${memberVO.deptVO.deptName}]]</td>
 					<td>[[${info.applyDate}]]</td>
 					<td>[[${info.approvalDate}]]</td>
 					<td>[[${info.ingStatus}]]</td>

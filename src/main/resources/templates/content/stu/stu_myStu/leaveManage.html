@@ -33,12 +33,12 @@
 <br>
 <h3>휴학 신청</h3>
 
-<table border="1" class="detail_info" th:each="stu : ${stuVO}">
+<table border="1" class="detail_info" th:each="member : ${memberVO}">
 	<tr>
 		<td>이름</td>
-		<td>[[${stu.memName}]]</td>
+		<td>[[${member.memName}]]</td>
 		<td>학번</td>
-		<td>[[${stu.memNo}]]</td>
+		<td>[[${member.memNo}]]</td>
 		<td>학년</td>
 		<td></td>
 	</tr>
@@ -54,11 +54,11 @@
 		<td>성별</td>
 		<td></td>
 		<td>생년월일</td>
-		<td>[[${stu.stuVO.stuYear}]]</td>
+		<td>[[${member.stuVO.stuYear}]]</td>
 		<td>학적상태</td>
 		<td>
-			<input type="hidden" class="stuStatus" th:value="${stu.stuVO.stuStatus}">
-			[[${stu.stuVO.stuStatus}]]
+			<input type="hidden" class="stuStatus" th:value="${member.stuVO.stuStatus}">
+			[[${member.stuVO.stuStatus}]]
 		</td>
 	</tr>
 </table>
@@ -70,8 +70,8 @@
 	</tr>
 </table>
 <div style="text-align: center;">
-	<th:block th:each="stu : ${stuVO}">
-		<input type="button" value="휴학 신청" class="btn btn-primary" th:onclick="leave([[${stu.memNo}]]);">
+	<th:block th:each="member : ${memberVO}">
+		<input type="button" value="휴학 신청" class="btn btn-primary" th:onclick="leave([[${member.memNo}]]);">
 	</th:block>
 </div>
 </th:block>

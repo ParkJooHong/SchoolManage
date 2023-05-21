@@ -76,6 +76,55 @@
 	    )
 		</insert>
 	
+	<!-- 보드 게시글 쓰기 -->
+	<insert id="insertBoard">
+		INSERT INTO UNI_BOARD(
+          BOARD_NO
+          , BOARD_TITLE
+          , BOARD_CONTENT
+          , BOARD_WRITER
+          , REG_BOARD_DATE 
+          , READ_CNT 
+          , CATE_NO
+          , REPLY_CNT
+          , IS_PRIVATE 
+          , IS_NOTICE     
+	    ) VALUES(
+	         (SELECT 'BOARD_'||LPAD(NVL(MAX(TO_NUMBER(SUBSTR(BOARD_NO, 7))), 0) +1 , 3, '0')
+	            FROM UNI_BOARD)
+	         , #{boardTitle}
+	         , #{boardContent}
+	         , #{boardWriter}
+	         , SYSDATE
+	         , 0
+	         , #{cateNo}
+	         , 0
+	         , #{isPrivate}
+	         , #{isNotice}
+	    )
+	</insert>
+	
+	<!-- 게시글 상세보기 -->
+	<select id="boardDetail" resultMap="uniBoard">
+			SELECT BOARD_NO
+				, BOARD_TITLE
+				, BOARD_CONTENT
+				, BOARD_WRITER
+				, REG_BOARD_DATE
+				, READ_CNT
+				, CATE_NO
+				, REPLY_CNT
+				, IS_PRIVATE
+				, IS_NOTICE
+			FROM UNI_BOARD
+			WHERE BOARD_NO = #{boardNo}
+	</select>
+	
+	<!-- 게시글 삭제 -->
+	<delete id="boardDelete">
+		DELETE UNI_BOARD
+		WHERE BOARD_NO = #{boardNo}
+	</delete>
 
 
 </mapper>
