@@ -238,34 +238,30 @@ public class AdminController {
 	@ResponseBody
 	@PostMapping("/checkedAcceptAjax")
 	public int checkedAcceptAjax(@RequestBody Map<String, List<String>> applyMap) {
-		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"+ applyMap.get("applyCodeList"));
-		List<String> applyNoList = applyMap.get("applyCodeList");
-		DeptManageVO deptManageVO = new DeptManageVO();
-		deptManageVO.setApplyNoList(applyNoList);
-		
-		List<DeptManageVO> applyStuDataList = adminService.getApplyNoByStuInfoList(deptManageVO);
-		//업데이트할 stuNo랑 학교,학과 조회해놓았으니깐 이제 업데이트만 UNO_STU테이블,DEPT_MANAGE
-		//테이블 업데이트 해야함!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		
-		List<StuVO> updateStuList = new ArrayList<>();
-		StuVO stuVO = new StuVO();
-		for(int i = 0 ; i < applyStuDataList.size(); i ++) {			
-				stuVO.setCollNo(applyStuDataList.get(i).getToColl());
-				stuVO.setDeptNo(applyStuDataList.get(i).getToDept());
-				stuVO.setStuNo(applyStuDataList.get(i).getStuNo());
-				
-				System.out.println("데이터는 = " + stuVO);
-				updateStuList.add(stuVO);
-		}
-		for(int i = 0 ; i < updateStuList.size(); i ++) {
-			System.err.println(updateStuList.get(i));
-		}
-		
-		deptManageVO.setStuVOList(updateStuList);
-		
-		return adminService.updateStuInfoByApplyData(deptManageVO);
-		
+	    System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" + applyMap.get("applyCodeList"));
+	    List<String> applyNoList = applyMap.get("applyCodeList");
+	    DeptManageVO deptManageVO = new DeptManageVO();
+	    deptManageVO.setApplyNoList(applyNoList);
+
+	    List<DeptManageVO> applyStuDataList = adminService.getApplyNoByStuInfoList(deptManageVO);
+
+	    List<StuVO> updateStuList = new ArrayList<>();
+	    for (DeptManageVO deptManage : applyStuDataList) {
+	        StuVO stuVO = new StuVO();
+	        stuVO.setCollNo(deptManage.getToColl());
+	        stuVO.setDeptNo(deptManage.getToDept());
+	        stuVO.setStuNo(deptManage.getStuNo());
+
+	        System.out.println("데이터는 = " + stuVO);
+	        updateStuList.add(stuVO);
+	        System.out.println("업데이트된 리스트의 데이터는 = " + updateStuList);
+	    }
+
+	    deptManageVO.setStuVOList(updateStuList);
+
+	    return adminService.updateStuInfoByApplyData(deptManageVO);
 	}
+
 	
 	// 실적현황
 	@GetMapping("/performanceData")
