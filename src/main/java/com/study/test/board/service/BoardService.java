@@ -21,4 +21,7 @@ public interface BoardService {
 	
 	//보드 게시글 삭제
 	void boardDelete(String boardNo);
+	
+	//보드 수정
+	void boardUpdate(UniBoardVO uniBoardVO);
 }

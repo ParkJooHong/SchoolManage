@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.study.test.board.service.BoardReplyService;
 import com.study.test.board.service.BoardService;
+import com.study.test.board.vo.BoardReplyVO;
 import com.study.test.board.vo.UniBoardVO;
 import com.study.test.member.service.MemberService;
 import com.study.test.member.vo.MemberMenuVO;
@@ -46,33 +47,26 @@ public class BoardController {
 	private BoardReplyService boardReplyService;
 	
 	
-	// 전체 게시판 글쓰기
-	@PostMapping("/boardWrite")
-	private String boardWrite(Authentication authentication, StuVO stuVO, MemberVO memberVO, UniBoardVO uniBoardVO,
-			Model model, MemberMenuVO memberMenuVO, MemberSubMenuVO memberSubMenuVO, String menuCode) {
+	//게시글 수정
+	@ResponseBody
+	@PostMapping("/boardUpdateAjax")
+	private Map<String, Object> boardUpdateAjax(String boardNo, String newBoardContent, String newBoardTitle, String menuCode, String subMenuCode, UniBoardVO uniBoardVO) {
 		
-		
-		// memberService.stuMenuList();
-		 //memberService.stuSubMenuList(menuCode);
-		 
-		 model.addAttribute("menuCode" , menuCode);
-		 //model.addAttribute("subMenuCode", subMenuCode);
-		
-		User user = (User)authentication.getPrincipal();
-		String memName = user.getUsername();
-		stuVO.setMemNo(user.getUsername()); // id임
-		memberVO.setMemNo(user.getUsername());
-		
-		//uniBoardVO.setBoardWriter(memberVO.getStuVO().getStuNo());
-		
+		uniBoardVO.setBoardNo(boardNo);
+		uniBoardVO.setBoardTitle(newBoardTitle);
+		uniBoardVO.setBoardContent(newBoardContent);
 		System.out.println(uniBoardVO);
 		
+		Map<String, Object> data = new HashMap<>();
+		 data.put("menuCode", menuCode);
+	     data.put("subMenuCode", subMenuCode);
 		
-		boardService.insertBoard(uniBoardVO);
+	    boardService.boardUpdate(uniBoardVO);
 
-		
-		return "redirect:/stuMenu/totalBoard";
+		return data;
 	}
+	
+	
 	
 	// 보드 게시글 삭제
 	@ResponseBody
@@ -84,6 +78,40 @@ public class BoardController {
 	     data.put("subMenuCode", subMenuCode);
 		
 		boardService.boardDelete(boardNo);
+		
+		return data;
+	}
+	
+	// 보드 댓글 삭제
+	@ResponseBody
+	@PostMapping("/replyDeleteAjax")
+	private Map<String, Object> replyDeleteAjax(String replyWriter, String replyNo, String menuCode, String subMenuCode, BoardReplyVO boardReplyVO) {
+		
+		
+		
+		Map<String, Object> data = new HashMap<>();
+		 data.put("menuCode", menuCode);
+	     data.put("subMenuCode", subMenuCode);
+	     
+		
+	     boardReplyService.replyDelete(boardReplyVO);
+		
+		return data;
+	}
+	
+	// 보드 댓글 수정
+	@ResponseBody
+	@PostMapping("/replyUpdateAjax")
+	private Map<String, Object> replyUpdateAjax(String replyContent, String replyNo, String menuCode, String subMenuCode, BoardReplyVO boardReplyVO) {
+		
+		
+		
+		Map<String, Object> data = new HashMap<>();
+		 data.put("menuCode", menuCode);
+	     data.put("subMenuCode", subMenuCode);
+	     
+		
+	     boardReplyService.replyUpdate(boardReplyVO);
 		
 		return data;
 	}
