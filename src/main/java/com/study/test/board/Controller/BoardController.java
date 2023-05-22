@@ -51,10 +51,12 @@ public class BoardController {
 	private String boardWrite(Authentication authentication, StuVO stuVO, MemberVO memberVO, UniBoardVO uniBoardVO,
 			Model model, MemberMenuVO memberMenuVO, MemberSubMenuVO memberSubMenuVO, String menuCode) {
 		
-		menuCode="MENU_004";
 		
-		memberService.stuMenuList();
-		 memberService.stuSubMenuList(menuCode);
+		// memberService.stuMenuList();
+		 //memberService.stuSubMenuList(menuCode);
+		 
+		 model.addAttribute("menuCode" , menuCode);
+		 //model.addAttribute("subMenuCode", subMenuCode);
 		
 		User user = (User)authentication.getPrincipal();
 		String memName = user.getUsername();

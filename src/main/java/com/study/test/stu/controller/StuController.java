@@ -565,7 +565,6 @@ public class StuController {
 			//System.out.println(memName);
 			stuVO.setMemNo(user.getUsername()); // id임
 			memberVO.setMemNo(user.getUsername());
-			stuService.seletStu(memberVO);
 			model.addAttribute("memberVO", stuService.seletStu(memberVO));
 			System.out.println("학생정보 : " + stuService.seletStu(memberVO));
 			
@@ -579,6 +578,34 @@ public class StuController {
 			model.addAttribute("menuCode" , menuCode);
 			model.addAttribute("subMenuCode", subMenuCode);
 			
+			
+			return "/content/stu/stu_board/totalBoard";
+		}
+		
+		// 전체 게시판 글쓰기
+		@PostMapping("/boardWrite")
+		private String boardWrite(Authentication authentication, StuVO stuVO, MemberVO memberVO, UniBoardVO uniBoardVO,
+				Model model, MemberMenuVO memberMenuVO, MemberSubMenuVO memberSubMenuVO, String menuCode, String subMenuCode) {
+			
+			System.out.println(menuCode);
+			System.out.println(subMenuCode);
+
+			 //model.addAttribute("subMenuCode", subMenuCode);
+			
+			User user = (User)authentication.getPrincipal();
+			String memName = user.getUsername();
+			stuVO.setMemNo(user.getUsername()); // id임
+			memberVO.setMemNo(user.getUsername());
+			model.addAttribute("memberVO", stuService.seletStu(memberVO));
+			//uniBoardVO.setBoardWriter(memberVO.getStuVO().getStuNo());
+			
+			System.out.println(uniBoardVO);
+			//게시판 상세보기할때 던질 메뉴코드, 서브메뉴코드 데이터
+			model.addAttribute("menuCode" , menuCode);
+			model.addAttribute("subMenuCode", subMenuCode);
+			
+			boardService.insertBoard(uniBoardVO);
+
 			
 			return "/content/stu/stu_board/totalBoard";
 		}

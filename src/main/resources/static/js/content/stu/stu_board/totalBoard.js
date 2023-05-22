@@ -1,3 +1,10 @@
+
+
+function success(){
+	swal("등록 성공!", "댓글이 등록되었습니다.", "success");
+}
+
+
 function plus(){
 	const button = document.querySelector('.plus');
 	const table = document.querySelector('.tableAdd');

@@ -144,13 +144,14 @@
       </div>
    
 	      <div class="modal-body">
-						<form class="row g-3" th:action="@{/board/boardWrite}" method="post"> <!-- 라벨(label) 안써도됨.  -->
-							
+						<form class="row g-3" th:action="@{/stuMenu/boardWrite}" method="post"> <!-- 라벨(label) 안써도됨.  -->
+							<input type="hidden" th:value="${menuCode}" name="menuCode"> 
+							<input type="hidden" th:value="${subMenuCode}" name="subMenuCode"> 
 							<div>						
 								<label for="memId" class="form-label">작성자 : </label> 							
 								  <th:block th:each="member : ${memberVO}">
 									   <input type="hidden" th:name="boardWriter" th:value="${member.stuVO.stuNo}"> 
-									    	[[${member.memName}]] / [[${member.memNo}]] 
+									    	[[${member.memName}]] / [[${member.memNo}]]
 
 								   </th:block>
 							</div>
@@ -198,7 +199,7 @@
 						
 							<br>
 							<div class="col-6 d-grid">
-								<input type="submit" value="게시글 등록" class="btn btn-primary">
+								<input type="submit" value="게시글 등록" class="btn btn-primary" onclick="success();">
 						</div>
 						</form>
 						
