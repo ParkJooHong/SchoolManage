@@ -65,7 +65,7 @@ public class SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 		memberInfo.setMemNo(memNo);
 
 		HttpSession session = request.getSession();
-		session.setAttribute("memName", memberService.login(memberInfo).getMemName());
+		session.setAttribute("memberVO", memberService.login(memberInfo));
 
 		super.onAuthenticationSuccess(request, response, authentication);
 	}
