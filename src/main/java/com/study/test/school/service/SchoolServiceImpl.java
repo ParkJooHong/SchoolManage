@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.study.test.admin.vo.EmpVO;
+import com.study.test.professor.vo.LectureVO;
 import com.study.test.school.colleage.ColleageVO;
 import com.study.test.school.dept.DeptVO;
 import com.study.test.school.double_major.DoubleMajorVO;
@@ -51,6 +52,12 @@ public class SchoolServiceImpl implements SchoolService{
 	@Override
 	public List<EmpVO> getProfessor(String deptNo) {
 		return sqlsession.selectList("schoolMapper.getProfessorList", deptNo);
+	}
+
+	//강의 리스트 조회
+	@Override
+	public List<LectureVO> getLectureList(LectureVO lectureVO) {
+		return sqlsession.selectList("professorMapper.getLectureList", lectureVO);
 	}
 	 
 	

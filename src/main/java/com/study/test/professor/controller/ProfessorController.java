@@ -39,6 +39,8 @@ import com.study.test.util.ConstVariable;
 import com.study.test.util.UploadUtil;
 
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpSession;
+import jakarta.websocket.Session;
 
 
 
@@ -183,8 +185,18 @@ public class ProfessorController {
 	
 	//강의 리스트 페이지 이동
 	@GetMapping("/lectureList")
-	public String lectureList(ProfessorMenuVO professorMenuVO) {
+	public String lectureList(Model model, ProfessorMenuVO professorMenuVO, HttpSession session) {
 		professorMenuVO.setMenuCode(ConstVariable.THIRD_PROFESSOR_MENU_CODE);
+		
+		//강의 목록 조회
+		MemberVO member = (MemberVO)session.getAttribute("memberVO");
+		LectureVO lecture = new LectureVO();
+		lecture.setEmpNo(member.getMemNo());
+		List<LectureVO> lectureList = schoolService.getLectureList(lecture);
+		
+		System.out.println("@@@@@@@@@@@@@@@데이터 확인 " + lectureList);
+		
+		model.addAttribute("lectureList", lectureList);
 
 		return "content/professor/lecture_list";
 	}

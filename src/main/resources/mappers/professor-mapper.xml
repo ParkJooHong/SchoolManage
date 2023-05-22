@@ -30,8 +30,11 @@
 		<result column="NOW_MEM" 			property="nowMem"/>
 		<result column="SEM_NO" 			property="semNo"/>
 		<result column="LEC_STATUS" 		property="lecStatus"/>
+		<result column="MEM_NAME" 			property="memName"/>
 		<association property="lecturePdfVO" resultMap="lecturePdf"/>
 		<association property="lectureTimeVO" resultMap="lectureTime"/>
+		<association property="colleageVO" resultMap="schoolMapper.colleage"/>
+		<association property="deptVO" resultMap="schoolMapper.dept"/>
 	</resultMap>
 	
 	<!-- 강의 자료 -->
@@ -47,7 +50,7 @@
 		<id column="TIME_NO" 				property="timeNo"/>
 		<result column="LEC_DAY" 			property="lecDay"/>
 		<result column="START_TIME" 		property="startTime"/>
-		<result column="FINISH_TIME" 		property="finishTime"/>
+		<result column="FINISH_DATE" 		property="finishDate"/>
 		<result column="LEC_NO" 			property="lecNo"/>
 	</resultMap>
 	
@@ -151,6 +154,41 @@
 			, #{lecNo}
 		)
 	</insert>
+	
+	<!-- 강의 목록 조회 -->
+	<select id="getLectureList" resultMap="lecture">
+		SELECT LEC.LEC_NO
+			, LEC_NAME
+			, LEC_SCORE
+			, COLL_NAME
+			, DEPT_NAME
+			, MAX_MEM
+			, NOW_MEM
+			, LEC_DAY
+			, START_TIME
+			, FINISH_DATE
+			, LEC_STATUS
+			, SEM_NAME
+			, UM.MEM_NAME
+		FROM LECTURE LEC, COLLEAGE COL, DEPT DEP, UNI_MEMBER UM, LECTURE_TIME LT, SEMESTER SEM
+		WHERE LEC.COLL_NO = COL.COLL_NO
+		AND LEC.DEPT_NO = DEP.DEPT_NO
+		AND UM.MEM_NO = LEC.EMP_NO
+		AND LT.LEC_NO = LEC.LEC_NO
+		AND SEM.SEM_NO = LEC.SEM_NO
+		<if test="empNo != null and empNo != ''">
+		AND EMP_NO = #{empNo}
+		</if>
+		<if test="collNo != null and collNo != ''">
+		AND COLL_NO = #{collNo}
+		</if>
+		<if test="deptNo != null and dept != ''">
+		AND DEPT_NO = #{deptNo}
+		</if>
+		<if test="lecName != null and lecName != ''">
+		AND LEC_NAME = #{lecName}
+		</if>
+	</select>	
 	
 	
 </mapper>
