@@ -272,6 +272,23 @@
 		</foreach>
 	</update>
 	
+	<select id="getLeaveManageList" resultMap="stuMapper.leaveManage">
+		SELECT STATUS_NO
+			, STU_NO
+			, NOW_STATUS
+			, AFTER_STATUS
+			, (SELECT MEM_NAME
+				FROM UNI_MEMBER
+				WHERE STU_NO = UNI_MEMBER.MEM_NO) AS MEM_NAME
+			, APPLY_DATE
+			, APPROVAL_DATE
+			, ING_STATUS
+            , (SELECT STU_YEAR
+                FROM UNI_STU
+                WHERE STU_NO = STATUS_INFO.STU_NO) AS STU_YEAR
+		FROM STATUS_INFO
+	</select>
+	
 </mapper>
 
 

@@ -285,6 +285,7 @@ function searchByDate() {
 				str += '<td>';
 				str += `<input type="hidden" id="memApplyNo${index + 1}" value="${dept.applyNo}">`;
 				str += `<input type="hidden" id="memNo${index + 1}" value="${dept.memberVO.memNo}">`;
+				str += `<input type="hidden" th:class="deptStatus" th:value="${dept.processStatus}">`
 				str += `<input type="checkbox" value="${dept.applyNo}" checked onclick="checkControll();" class="form-check-input checkboxes">`;
 				str += '</td>'
 				str += `<td>${result.length - index}</td>`;
@@ -319,6 +320,7 @@ function searchByDate() {
 function checkedAccept() {
 	const checkboxes = document.querySelectorAll('#changeMajorBody input[type="checkbox"]:checked');
 	applyCodeList = [];
+	const dept_status = document.querySelectorAll('.deptStatus');
 	for (let i = 0; i < checkboxes.length; i++) {
 		applyCodeList[i] = checkboxes[i].value;
 	};
@@ -334,6 +336,19 @@ function checkedAccept() {
 		})
 		return;
 	}
+	for(const st of dept_status){
+		if(st.value == '승인완료'){
+			swal.fire({
+			title: "경고",
+			text: "승인된 내용이 있습니다 다시 확인해주세요.",
+			icon: 'error',
+			button: '확인',
+		})
+		
+		}
+		return;
+	}
+	
 
 
 	swal.fire({
@@ -362,7 +377,7 @@ function checkedAccept() {
 						button: '확인',
 					})
 						.then((result) => {
-							location.href = '/admin/changeMajor';
+							searchByStatus();
 						})
 					}
 				},

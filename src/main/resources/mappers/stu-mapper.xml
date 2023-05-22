@@ -49,6 +49,9 @@
 		<result column="APPLY_DATE" 			property="applyDate"/>
 		<result column="APPROVAL_DATE" 	property="approvalDate"/>
 		<result column="ING_STATUS" 			property="ingStatus"/>
+		<result column="STATUS_REASON" 			property="statusReason"/>		
+		<result column="STU_YEAR" 			property="stuYear"/>
+		<result column="STU_SEM" 			property="stuSem"/>
 	</resultMap>
 	
 	<!-- 전과신청 -->
@@ -74,13 +77,15 @@
 	
 	<!--휴학 신청  -->
 	<resultMap type="com.study.test.stu.vo.LeaveManageVO" id="leaveManage">
-		<id column="APPLY_NO" 			property="applyNo"/>
+		<id column="APPLY_NO" 				property="applyNo"/>
 		<result column="STU_NO" 			property="stuNo"/>
-		<result column="APPLY_DATE" 			property="applyDate"/>
-		<result column="STU_STATUS" 			property="stuStatus"/>		
-		<result column="APPLY_REASON" 			property="applyReason"/>
-		<result column="APPLROVAL_DATE" 			property="applrovalDate"/>
+		<result column="APPLY_DATE" 		property="applyDate"/>
+		<result column="STU_STATUS" 		property="stuStatus"/>		
+		<result column="APPLY_REASON" 		property="applyReason"/>
+		<result column="APPLROVAL_DATE" 	property="applrovalDate"/>
 		<result column="PROCESS_STATUS" 	property="processStatus"/>
+		<result column="STU_YEAR" 			property="stuYear"/>
+		<result column="STU_SEM" 			property="stuSem"/>
 	</resultMap>
 	
 	<!--  학생 정보 조회 -->

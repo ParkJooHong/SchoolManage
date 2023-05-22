@@ -8,7 +8,6 @@ import lombok.ToString;
 @Setter
 @Getter
 public class LeaveManageVO {
-
 	private String applyNo;
 	private String stuNo;
 	private String applyDate;
@@ -16,4 +15,6 @@ public class LeaveManageVO {
 	private String applrovalDate;
 	private String processStatus;
 	private String stuStatus;
+	private int stuYear;
+	private int stuSem;
 }
