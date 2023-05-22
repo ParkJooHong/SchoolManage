@@ -288,18 +288,26 @@
             , TO_CHAR(APPLY_DATE, 'YYYY-MM-DD') AS APPLY_DATE
 			, TO_CHAR(APPROVAL_DATE, 'YYYY-MM-DD') AS APPROVAL_DATE
 			, ING_STATUS
+			<if test='doubleMajorVO != null'>			
             , DM.DOUBLE_NO
             , DOUBLE_COLL
             , DOUBLE_DEPT_NAME
+			</if>
             , ATTACHED_FILE_NAME
-        FROM STATUS_INFO ST, UNI_MEMBER ME, UNI_STU STU, COLLEAGE COLL, DEPT DP, DOUBLE_MAJOR DM, MEM_IMG IMG
+        FROM STATUS_INFO ST, UNI_MEMBER ME, UNI_STU STU, COLLEAGE COLL, DEPT DP, MEM_IMG IMG
+        <if test="doubleMajorVO != null">
+        , DOUBLE_MAJOR DM
+        </if>
         WHERE ST.STU_NO = ME.MEM_NO
         AND ST.STU_NO = STU.STU_NO
         AND STU.COLL_NO = COLL.COLL_NO
         AND STU.DEPT_NO = DP.DEPT_NO
+        <if test="doubleMajorVO != null">
         AND DM.DOUBLE_NO = STU.DOUBLE_NO
+        </if>
         AND IMG.MEM_NO = STU.STU_NO
         AND AFTER_STATUS = '휴학'
+        ORDER BY STATUS_NO DESC
 	</select>
 	
 	<!-- 휴학신청대상자 조회 -->
@@ -319,17 +327,24 @@
             , TO_CHAR(APPLY_DATE, 'YYYY-MM-DD') AS APPLY_DATE
 			, TO_CHAR(APPROVAL_DATE, 'YYYY-MM-DD') AS APPROVAL_DATE
 			, ING_STATUS
+			<if test="doubleMajorVO != null">
             , DM.DOUBLE_NO
             , DOUBLE_COLL
             , DOUBLE_DEPT_NAME
+			</if>
             , ATTACHED_FILE_NAME
             , STATUS_REASON
-        FROM STATUS_INFO ST, UNI_MEMBER ME, UNI_STU STU, COLLEAGE COLL, DEPT DP, DOUBLE_MAJOR DM, MEM_IMG IMG
+        FROM STATUS_INFO ST, UNI_MEMBER ME, UNI_STU STU, COLLEAGE COLL, DEPT DP, MEM_IMG IMG
+        <if test="doubleMajorVO != null">
+        , DOUBLE_MAJOR DM
+        </if>
         WHERE ST.STU_NO = ME.MEM_NO
         AND ST.STU_NO = STU.STU_NO
         AND STU.COLL_NO = COLL.COLL_NO
         AND STU.DEPT_NO = DP.DEPT_NO
+        <if test="doubleMajorVO != null">
         AND DM.DOUBLE_NO = STU.DOUBLE_NO
+        </if>
         AND AFTER_STATUS = '휴학'
         AND IMG.MEM_NO = STU.STU_NO
         AND STATUS_NO = #{statusNo}

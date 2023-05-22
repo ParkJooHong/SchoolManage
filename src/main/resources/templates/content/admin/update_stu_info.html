@@ -94,12 +94,12 @@
 									<td>[[${leave.applyDate}]]</td>
 									<td>
 										<th:block th:if="${leave.ingStatus == '승인대기'}">
-											<input type="radio" class="form-check-input" checked id="waitRadio" name="status-2">승인대기
-											<input type="radio" class="form-check-input" id="confirmRadio" th:onclick="changeStatus([[${leave.statusNo}]],[[${leave.stuVO.stuNo}]]);" name="status-2">승인완료
+											<input type="radio" class="form-check-input" checked id="waitRadio" th:name="status+${state.index}">승인대기
+											<input type="radio" class="form-check-input" id="confirmRadio" th:onclick="changeStatus([[${leave.statusNo}]],[[${leave.stuVO.stuNo}]]);" th:name="status+${state.index}">승인완료
 										</th:block>
 										<th:block th:unless="${leave.ingStatus == '승인대기'}">
-											<input type="radio" class="form-check-input" id="waitRadio" onclick="event.preventDefault();" name="status-2">승인대기
-											<input type="radio" class="form-check-input" checked id="confirmRadio" onclick="event.preventDefault();" name="status-2">승인완료
+											<input type="radio" class="form-check-input" id="waitRadio" onclick="event.preventDefault();" th:name="status+${state.index}">승인대기
+											<input type="radio" class="form-check-input" checked id="confirmRadio" onclick="event.preventDefault();" th:name="status+${state.index}">승인완료
 										</th:block>
 									</td>
 								</tr>
