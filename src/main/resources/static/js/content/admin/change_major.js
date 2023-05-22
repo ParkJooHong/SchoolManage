@@ -319,6 +319,7 @@ function searchByDate() {
 function checkedAccept() {
 	const checkboxes = document.querySelectorAll('#changeMajorBody input[type="checkbox"]:checked');
 	applyCodeList = [];
+	const dept_status = document.querySelectorAll('.deptStatus');
 	for (let i = 0; i < checkboxes.length; i++) {
 		applyCodeList[i] = checkboxes[i].value;
 	};
@@ -334,6 +335,19 @@ function checkedAccept() {
 		})
 		return;
 	}
+	for(const st of dept_status){
+		if(st.value == '승인완료'){
+			swal.fire({
+			title: "경고",
+			text: "승인된 내용이 있습니다 다시 확인해주세요.",
+			icon: 'error',
+			button: '확인',
+		})
+		
+		}
+		return;
+	}
+	
 
 
 	swal.fire({
@@ -362,7 +376,7 @@ function checkedAccept() {
 						button: '확인',
 					})
 						.then((result) => {
-							location.href = '/admin/changeMajor';
+							searchByStatus();
 						})
 					}
 				},
