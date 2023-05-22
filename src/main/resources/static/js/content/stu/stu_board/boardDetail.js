@@ -39,7 +39,8 @@ function deleteBoard(boardNo, menuCode, subMenuCode ){
 			success: function(result) {
 				if(result){
 					swal("삭제 성공!", "게시글이 삭제되었습니다.", "success");
-					//location.href=`/stuMenu/boardDetail?menuCode=${menuCode} & subMenuCode=${subMenuCode}`;
+					
+					//location.href=`/stuMenu/myBoard?menuCode=${menuCode} & subMenuCode=${subMenuCode}`;
 				}
 				else{
 					alert('일시적 오류가 발생했습니다.');
@@ -50,4 +51,5 @@ function deleteBoard(boardNo, menuCode, subMenuCode ){
 				
 			}
 		});
+		
 }
