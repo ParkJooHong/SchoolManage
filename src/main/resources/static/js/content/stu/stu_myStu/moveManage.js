@@ -21,7 +21,7 @@ function moveManage(){
 			url: '/stuMenu/moveManageAjax', //요청경로
 			type: 'post',
 			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-			data: {'toDept' : toDept, 'toColl' : toColl , 'applyReason' : applyReason, 'fromDept' : fromDept}, //필요한 데이터
+			data: {'toDept' : toDept, 'toColl' : toColl , 'applyReason' : applyReason, 'fromDept' : fromDept }, //필요한 데이터
 			success: function(result) {
 				if(result){
 					alert('전과 신청이 완료 되었습니다.');
@@ -40,26 +40,31 @@ function moveManage(){
 }	
 
 
-function updateDept(){
+function updateDept(menuCode, subMenuCode){
 	
-	const coll = document.querySelector('.colleage').value;
+	const coll = document.querySelector('.colleage');
+	const dept = document.querySelector('.dept');
 	
 	$.ajax({
 		url: '/stuMenu/deptUpdateAjax', //요청경로
 		type: 'post',
 		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-		data: {'collNo' : coll }, //필요한 데이터
+		data: {'collNo' : coll.value , 'menuCode' : menuCode, 'subMenuCode' : subMenuCode  }, //필요한 데이터
 		success: function(result) {
 			if(result)
 			{
-				alert("ajaxa 통신 성공");
-				alert(result);
-			}
-			else{
-				alert("ㄴㄴ");
-			}
-			
-			
+				//학과 자식태그 삭제
+				dept.replaceChildren();			
+				let dept_str = '';				
+				//학과 목록
+				for(const dept of result['deptList']){
+					dept_str += `<option value="${dept.deptNo}">${dept.deptName}</option>`;
+				}				
+				dept.insertAdjacentHTML('afterbegin', dept_str);
+				}
+				else{
+					alert("에러발생");
+				}		
 		},
 		error: function() {
 			alert('실패~');

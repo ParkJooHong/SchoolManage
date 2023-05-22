@@ -72,7 +72,7 @@
 	<tr>
 		<td>변경 전공 대학</td>
 		<td> 
-			<select class="colleage" th:onchange="updateDept();">
+			<select class="colleage" th:onchange="updateDept([[${menuCode}]], [[${subMenuCode}]]);">
 				<th:block th:each="colleage : ${colleageVO}" >
 					<option th:value="${colleage.collNo}" >						
 							[[${colleage.collName}]]		
@@ -99,7 +99,7 @@
 	</tr>
 </table>
 <div style="text-align: center;">
-	<input type="button" value="전과 신청" class="btn btn-primary" onclick="moveManage();">
+	<input type="button" value="전과 신청" class="btn btn-primary" th:onclick="moveManage();">
 </div>
 </th:block>
 

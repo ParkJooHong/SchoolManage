@@ -352,7 +352,7 @@ public class StuController {
 		
 		// 전과신청
 		@GetMapping("/moveManage")
-		private String moveManage(Authentication authentication,StuVO stuVO, MemberVO memberVO, Model model, String collNo) {
+		private String moveManage(Authentication authentication,StuVO stuVO, MemberVO memberVO, Model model, String collNo, String menuCode, String subMenuCode) {
 			User user = (User)authentication.getPrincipal();
 			String memName = user.getUsername();
 			stuVO.setMemNo(user.getUsername()); // id임
@@ -374,15 +374,21 @@ public class StuController {
 			collNo = memberVO.getStuVO().getCollNo();
 			model.addAttribute("deptVO", schoolService.getDept(collNo));
 			
+			//게시판 상세보기할때 던질 메뉴코드, 서브메뉴코드 데이터
+			model.addAttribute("menuCode" , menuCode);
+			model.addAttribute("subMenuCode", subMenuCode);
+			
 			return "/content/stu/stu_myStu/moveManage";
 		}
 		
 		//전과 신청 전 학과 변경 AJax
 		@ResponseBody
 		@PostMapping("/deptUpdateAjax")
-		public Map<String, Object> deptUpdateAjax(String collNo, DeptVO deptVO, ColleageVO colleageVO) {
+		public Map<String, Object> deptUpdateAjax(String collNo, DeptVO deptVO, ColleageVO colleageVO, String menuCode, String subMenuCode) {
 
 			colleageVO.setCollNo(collNo);
+			System.out.println(menuCode);
+			System.out.println(subMenuCode);
 			
 			Map<String, Object> deptMap = new HashMap<>();
 			
@@ -390,6 +396,7 @@ public class StuController {
 			System.out.println("학과 리스트 : "+deptList);
 			
 			List<ColleageVO> collList = schoolService.getCollList();
+			System.out.println("대학 리스트 : " + collList);
 			
 			deptMap.put("deptList", deptList);
 			deptMap.put("collList", collList);
