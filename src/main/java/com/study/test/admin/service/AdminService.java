@@ -10,7 +10,7 @@ import com.study.test.school.colleage.ColleageVO;
 import com.study.test.school.dept.DeptManageVO;
 import com.study.test.school.dept.DeptVO;
 import com.study.test.school.double_major.DoubleMajorVO;
-import com.study.test.stu.vo.LeaveManageVO;
+import com.study.test.stu.vo.StatusInfoVO;
 import com.study.test.stu.vo.StuVO;
 
 public interface AdminService {
@@ -41,5 +41,19 @@ public interface AdminService {
 	//대상자들 업데이트
 	int updateStuInfoByApplyData(DeptManageVO deptManageVO);
 	//휴학 신청 대상자 조회
-	List<LeaveManageVO> getLeaveManageList();
+	List<StatusInfoVO> getLeaveManageList();
+	
+	//휴학 신청 대상자 조회
+	StatusInfoVO getLeaveManageMember(String statusNo);
+	
+	//휴학신청 승인 statusInfo
+	int updateStatusInfoByTakeOff(String statusNo, String stuNo);
+	
+	
+	
+	
+	
+	
+	
+	
 }

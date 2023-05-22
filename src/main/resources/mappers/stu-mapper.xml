@@ -42,17 +42,19 @@
 	
 	<!-- 학적 상태 -->
 	<resultMap type="com.study.test.stu.vo.StatusInfoVO" id="statusInfo">
-		<id column="STATUS_NO" 			property="statusNo"/>
-		<result column="STU_NO" 			property="stuNo"/>
+		<id column="STATUS_NO" 					property="statusNo"/>
+		<result column="STU_NO" 				property="stuNo"/>
 		<result column="NOW_STATUS" 			property="nowStatus"/>
 		<result column="AFTER_STATUS" 			property="afterStatus"/>
 		<result column="APPLY_DATE" 			property="applyDate"/>
-		<result column="APPROVAL_DATE" 	property="approvalDate"/>
+		<result column="APPROVAL_DATE" 			property="approvalDate"/>
 		<result column="ING_STATUS" 			property="ingStatus"/>
 		<result column="STATUS_REASON" 			property="statusReason"/>		
-		<result column="STU_YEAR" 			property="stuYear"/>
-		<result column="STU_SEM" 			property="stuSem"/>
-		<result column="MEM_NAME" 			property="memName"/>
+		<association property="memberVO" 		resultMap="memberMapper.member"/>
+		<association property="stuVO" 			resultMap="stuMapper.stu"/>
+		<association property="colleageVO" 		resultMap="schoolMapper.colleage"/>
+		<association property="deptVO" 			resultMap="schoolMapper.dept"/>
+		<association property="doubleMajorVO" 	resultMap="schoolMapper.doubleMajor"/>
 	</resultMap>
 	
 	<!-- 전과신청 -->

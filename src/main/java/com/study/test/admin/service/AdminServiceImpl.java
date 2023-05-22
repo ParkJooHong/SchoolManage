@@ -15,7 +15,7 @@ import com.study.test.school.colleage.ColleageVO;
 import com.study.test.school.dept.DeptManageVO;
 import com.study.test.school.dept.DeptVO;
 import com.study.test.school.double_major.DoubleMajorVO;
-import com.study.test.stu.vo.LeaveManageVO;
+import com.study.test.stu.vo.StatusInfoVO;
 import com.study.test.stu.vo.StuVO;
 
 
@@ -95,11 +95,29 @@ public class AdminServiceImpl implements AdminService{
 		return sqlsession.update("adminMapper.updateByApplyNoList",deptManageVO);
 
 	}
-	//휴학 신청자 조회
+	//휴학 신청자 리스트 조회
 	@Override
-	public List<LeaveManageVO> getLeaveManageList() {
+	public List<StatusInfoVO> getLeaveManageList() {
 		return sqlsession.selectList("adminMapper.getLeaveManageList");
 	}
+	
+	//휴학 신청 대상자 조회	
+	@Override
+	public StatusInfoVO getLeaveManageMember(String statusNo) {
+		return sqlsession.selectOne("adminMapper.getLeaveManageMember",statusNo);
+	}
+	
+	//휴학 신청 승인
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public int updateStatusInfoByTakeOff(String statusNo, String stuNo) {
+		sqlsession.update("adminMapper.updateStatusInfoByTakeOff", statusNo);
+		return sqlsession.update("adminMapper.updateStatusInfoByStuTakeOff", stuNo);
+		
+	}
+	
+
+	
 
 
 	

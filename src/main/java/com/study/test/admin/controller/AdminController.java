@@ -27,6 +27,7 @@ import com.study.test.school.dept.DeptManageVO;
 import com.study.test.school.dept.DeptVO;
 import com.study.test.school.double_major.DoubleMajorVO;
 import com.study.test.school.service.SchoolService;
+import com.study.test.stu.vo.StatusInfoVO;
 import com.study.test.stu.vo.StuVO;
 import com.study.test.util.ConstVariable;
 import com.study.test.util.UploadUtil;
@@ -168,6 +169,27 @@ public class AdminController {
 		
 		return "content/admin/update_stu_info";
 	}
+	
+	//휴학 신청 모달창 오픈
+	@PostMapping("/statusModalOpenAjax")
+	@ResponseBody
+	public StatusInfoVO statusModalOpenAjax(String statusNo) {
+		
+		StatusInfoVO statusInfo = adminService.getLeaveManageMember(statusNo);	
+		return statusInfo;
+	}
+	
+	//휴학 신청 승인
+	@PostMapping("/changeStatusAjax")
+	@ResponseBody
+	public int changeStatusAjax(String statusNo, String stuNo) {
+		
+		return adminService.updateStatusInfoByTakeOff(statusNo, stuNo);
+		
+	}
+	
+	
+	
 
 	// 전과/복수전공페이지 이동
 	@GetMapping("/changeMajor")

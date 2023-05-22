@@ -34,10 +34,10 @@
 						<tr>
 							<td>신청일</td>
 							<td>
-								<input type="date" class="form-control">
+								<input type="date" class="form-control monthDate">
 							</td>
 							<td>
-								<input type="date" class="form-control">
+								<input type="date" class="form-control nowDate">
 							</td>
 							<td>처리상태</td>
 							<td>
@@ -67,7 +67,7 @@
 						<thead>
 							<tr>
 								<td>
-									<input type="checkbox" class="form-check-input">
+									<input type="checkbox" checked id="allChk" onclick="allCheckControll(this);" class="form-check-input">
 								</td>
 								<td>No</td>
 								<td>이 름</td>
@@ -79,22 +79,28 @@
 								<td>승인여부</td>
 							</tr>
 						</thead>
-						<tbody>
+						<tbody class="leaveTbody">
 							<th:block th:each="leave,state :${leaveManageList}">
 								<tr>
 									<td>
-										<input type="checkbox" class="form-check-input">
+										<input type="checkbox" checked th:onclick="checkControll();" class="form-check-input checkboxes">
 									</td>
 									<td>[[${#lists.size(leaveManageList) - state.index}]]</td>
-									<td>[[${leave.memName}]]</td>
-									<td>[[${leave.stuNo}]]</td>
-									<td>[[${leave.stuYear}]]학년</td>
-									<td></td>
-									<td>교육학</td>
+									<td>[[${leave.memberVO.memName}]]</td>
+									<td><a href="javascript:void(0)"  th:onclick="stateModalOpen([[${leave.statusNo}]]);">[[${leave.stuVO.stuNo}]]</a></td>
+									<td>[[${leave.stuVO.stuYear}]]학년 &nbsp; [[${leave.stuVO.stuSem}]]학기</td>
+									<td>[[${leave.colleageVO.collName}]]</td>
+									<td>[[${leave.deptVO.deptName}]]</td>
 									<td>[[${leave.applyDate}]]</td>
 									<td>
-										<input type="radio" class="form-check-input" checked name="status-2">승인대기
-										<input type="radio" class="form-check-input" name="status-2">승인완료
+										<th:block th:if="${leave.ingStatus == '승인대기'}">
+											<input type="radio" class="form-check-input" checked id="waitRadio" name="status-2">승인대기
+											<input type="radio" class="form-check-input" id="confirmRadio" th:onclick="changeStatus([[${leave.statusNo}]],[[${leave.stuVO.stuNo}]]);" name="status-2">승인완료
+										</th:block>
+										<th:block th:unless="${leave.ingStatus == '승인대기'}">
+											<input type="radio" class="form-check-input" id="waitRadio" onclick="event.preventDefault();" name="status-2">승인대기
+											<input type="radio" class="form-check-input" checked id="confirmRadio" onclick="event.preventDefault();" name="status-2">승인완료
+										</th:block>
 									</td>
 								</tr>
 							</th:block>
@@ -191,11 +197,64 @@
 			</div>
 		</div>
 	</div>
+<!-- 휴학 신청 모달  -->	
+<div class="modal fade" id="stateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">휴학신청 학생정보</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+		<div class="row">
+			<div class="col-10">
+				<table class="table">
+					<colgroup>
+						<col width="10%">
+						<col width="40%">
+						<col width="10%">
+						<col width="40%">
+					</colgroup>
+					<tr>
+						<td>이름</td>
+						<td id="memInfo"></td>
+						<td>생년월일</td>
+						<td id="memBirth"></td>
+					</tr>
+					<tr>
+						<td>학년</td>
+						<td id="memYear"></td>
+						<td>전공대학</td>
+						<td id="memColl"></td>
+					</tr>
+					<tr>
+						<td>전공학과</td>
+						<td id="memDept"></td>
+						<td>복수전공</td>
+						<td id="memDouble"></td>
+					</tr>
+					<tr>
+						<td colspan="1">휴학 사유</td>
+						<td colspan="3" id="statusReason"></td>
+					</tr>
+				</table>
+			</div>
+			<div class="col-2">
+				<img id="memImg" src="" width="100%">
+			</div>
+		</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>	
 </th:block>
 
 <!-- 연결해야 할 외부 js 파일 -->
 <th:block layout:fragment="content_js">
-	<script type="text/javascript" src=""></script>
+	<script type="text/javascript" src="/js/content/admin/update_stu_info.js"></script>
 </th:block>	
 
 </html>
