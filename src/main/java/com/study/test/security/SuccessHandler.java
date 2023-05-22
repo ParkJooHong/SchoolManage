@@ -66,6 +66,7 @@ public class SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
 		HttpSession session = request.getSession();
 		session.setAttribute("memberVO", memberService.login(memberInfo));
+		System.out.println("@@@@@@@@@@@데이터 확인 : " + memberService.login(memberInfo));
 
 		super.onAuthenticationSuccess(request, response, authentication);
 	}

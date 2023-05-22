@@ -1,20 +1,84 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-   xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-   layout:decorate="~{fragment/professor_layout}">
-  
-<!-- 연결해야 할 외부 css파일 -->  
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{fragment/professor_layout}">
+
+<!-- 연결해야 할 외부 css파일 -->
 <th:block layout:fragment="content_css">
-  	<!-- <link rel="stylesheet" href=""> -->
+	<!-- <link rel="stylesheet" href=""> -->
 </th:block>
 
 <th:block layout:fragment="content">
-   강의 리스트
+	<div class="row">
+		<div class="col">
+			<div class="row mb-3 mt-5">
+				<div class="col-12">
+					<h4>강의 리스트</h4>
+				</div>
+			</div>
+			<div class="row text-end">
+				<div class="col">
+					<span class="ps-span"> ★ 버튼을 클릭하면 신청서를 볼 수 있습니다.</span>
+				</div>
+			</div>
+			<div class="row mb-5">
+				<div class="col">
+					<table class="table align-middle text-center">
+						<colgroup>
+							<col width="5%">
+							<col width="10%">
+							<col width="15%">
+							<col width="10%">
+							<col width="15%">
+							<col width="5%">
+							<col width="6%">
+							<col width="5%">
+							<col width="15%">
+							<col width="5%">
+							<col width="4%">
+						</colgroup>
+						<thead>
+							<tr>
+								<td>No</td>
+								<td>강의코드</td>
+								<td>교과목명</td>
+								<td>단과대학</td>
+								<td>학과</td>
+								<td>학점</td>
+								<td>교수</td>
+								<td>요일</td>
+								<td>시간</td>
+								<td>강의변경</td>
+								<td>삭제</td>
+							</tr>
+						</thead>
+						<tbody id="lecture_list_body">
+							<th:block th:each="lecture,state : ${lectureList}">
+								<tr>
+									<td>[[${#lists.size(lectureList) - state.index}]]</td>
+									<td>[[${lecture.lecNo}]]</td>
+									<td>[[${lecture.lecName}]]</td>
+									<td>[[${lecture.colleageVO.collName}]]</td>
+									<td>[[${lecture.deptVO.deptName}]]</td>
+									<td>[[${lecture.lecScore}]]</td>
+									<td>[[${lecture.memName}]]</td>
+									<td>[[${lecture.lectureTimeVO.lecDay}]]</td>
+									<td>[[${lecture.lectureTimeVO.startTime}]]~[[${lecture.lectureTimeVO.finishDate}]]</td>
+									<td><input class="btn btn-primary" type="button" value="강의수정"></td>
+									<td><input class="btn btn-primary" type="button" value="삭제"></td>
+								</tr>
+							</th:block>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
 </th:block>
 
 <!-- 연결해야 할 외부 js파일 -->
 <th:block layout:fragment="content_js">
-  	<!-- <script type="text/javascript" src="js/test.js"></script> -->
+	<!-- <script type="text/javascript" src="js/test.js"></script> -->
 </th:block>
 </html>

@@ -3,6 +3,7 @@ package com.study.test.school.service;
 import java.util.List;
 
 import com.study.test.admin.vo.EmpVO;
+import com.study.test.professor.vo.LectureVO;
 import com.study.test.school.colleage.ColleageVO;
 import com.study.test.school.dept.DeptVO;
 import com.study.test.school.double_major.DoubleMajorVO;
@@ -26,5 +27,8 @@ public interface SchoolService {
 	
 	//학과에 맞는 담당교수님 리스트 조회
 	List<EmpVO> getProfessor(String deptNo);
+	
+	//강의 목록 조회
+	List<LectureVO> getLectureList(LectureVO lectureVO);
 	
 }
