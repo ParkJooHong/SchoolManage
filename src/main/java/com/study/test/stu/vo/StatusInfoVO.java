@@ -16,4 +16,8 @@ public class StatusInfoVO {
 	private String applyDate;
 	private String approvalDate;
 	private String ingStatus;
+	private int stuYear;
+	private int stuSem;
+	private String statusReason;
+	private String memName;
 }

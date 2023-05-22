@@ -1,7 +1,42 @@
 
 
-function success(){
-	swal("등록 성공!", "댓글이 등록되었습니다.", "success");
+function success(menuCode, subMenuCode){
+	
+	const boardTitle = document.querySelector('.boardTitle').value;
+	const boardContent = document.querySelector('.boardContent').value;
+	//const isPrivate = document.querySelector('.isPrivate:checked').value;
+	const isPrivate = document.querySelector('input[name="isPrivate"]:checked').value;
+	const isNotice = document.querySelector('input[name="isNotice"]:checked').value;
+	const boardWriter = document.querySelector('.boardWriter').value;
+	const cateNo =document.querySelector('.cateNo').value;
+
+
+	if(boardTitle == '')
+	{
+		swal("실패", "게시글 제목을 입력해주세요.", "error");
+	}
+	if(boardContent == ''){
+		swal("실패", "게시글 내용을 입력해주세요.", "error");
+	}
+	
+	$.ajax({
+			url: '/stuMenu/boardWriteAjax', //요청경로
+			type: 'post',
+			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+			data: { 'menuCode' : menuCode, 'subMenuCode' : subMenuCode,  'boardTitle' : boardTitle, 'boardContent' : boardContent, 'isPrivate' : isPrivate, 'isNotice' : isNotice, 'boardWriter' : boardWriter, 'cateNo' : cateNo}, //필요한 데이터
+			success: function(result) {
+				if(result){
+					swal("등록 성공!", "게시글이 등록되었습니다.", "success");
+				}
+				else{
+					alert('일시적 오류가 발생했습니다.');
+				}
+			},
+			error: function() {
+				alert('실패');
+				
+			}
+		});
 }
 
 

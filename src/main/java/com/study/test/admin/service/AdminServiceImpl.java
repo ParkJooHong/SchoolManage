@@ -15,6 +15,7 @@ import com.study.test.school.colleage.ColleageVO;
 import com.study.test.school.dept.DeptManageVO;
 import com.study.test.school.dept.DeptVO;
 import com.study.test.school.double_major.DoubleMajorVO;
+import com.study.test.stu.vo.LeaveManageVO;
 import com.study.test.stu.vo.StuVO;
 
 
@@ -93,6 +94,11 @@ public class AdminServiceImpl implements AdminService{
 		sqlsession.update("adminMapper.updateStuInfoByApplyData",deptManageVO);
 		return sqlsession.update("adminMapper.updateByApplyNoList",deptManageVO);
 
+	}
+	//휴학 신청자 조회
+	@Override
+	public List<LeaveManageVO> getLeaveManageList() {
+		return sqlsession.selectList("adminMapper.getLeaveManageList");
 	}
 
 

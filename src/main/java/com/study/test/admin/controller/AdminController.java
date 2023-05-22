@@ -2,7 +2,6 @@ package com.study.test.admin.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -163,8 +162,9 @@ public class AdminController {
 	
 	// 학적변동승인(복학,휴학)
 	@GetMapping("/updateStuInfo")
-	public String updateStuInfo(AdminSubMenuVO adminSubMenuVO) {
+	public String updateStuInfo(AdminSubMenuVO adminSubMenuVO, Model model) {
 		adminSubMenuVO.setMenuCode(ConstVariable.SECOND_MENU_CODE);
+		model.addAttribute("leaveManageList",adminService.getLeaveManageList());
 		
 		return "content/admin/update_stu_info";
 	}

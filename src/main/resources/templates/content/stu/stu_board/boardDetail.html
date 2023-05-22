@@ -103,7 +103,7 @@
 		</table>	
 	</th:block>
 	<th:block th:if="${#lists.size(boardReplyVO) != 0}">
-		<table th:each="boardReply : ${boardReplyVO}">
+		<table  th:each="boardReply : ${boardReplyVO}">
 			<tr >
 				<td rowspan="2">🧖‍♀️</td>							
 				<td>[[${boardReply.replyWriter}]]</td>							
