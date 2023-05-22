@@ -80,22 +80,24 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td>
-									<input type="checkbox" class="form-check-input">
-								</td>
-								<td>1</td>
-								<td>김자바</td>
-								<td>20230005</td>
-								<td>1학년</td>
-								<td>교육대학</td>
-								<td>교육학</td>
-								<td>2023-05-17</td>
-								<td>
-									<input type="radio" class="form-check-input" checked name="status-2">승인대기
-									<input type="radio" class="form-check-input" name="status-2">승인완료
-								</td>
-							</tr>
+							<th:block th:each="leave,state :${leaveManageList}">
+								<tr>
+									<td>
+										<input type="checkbox" class="form-check-input">
+									</td>
+									<td>[[${#lists.size(leaveManageList) - state.index}]]</td>
+									<td>[[${leave.memName}]]</td>
+									<td>[[${leave.stuNo}]]</td>
+									<td>[[${leave.stuYear}]]학년</td>
+									<td></td>
+									<td>교육학</td>
+									<td>[[${leave.applyDate}]]</td>
+									<td>
+										<input type="radio" class="form-check-input" checked name="status-2">승인대기
+										<input type="radio" class="form-check-input" name="status-2">승인완료
+									</td>
+								</tr>
+							</th:block>
 						</tbody>
 					</table>
 				</div>

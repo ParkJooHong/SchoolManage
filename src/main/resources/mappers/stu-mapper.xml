@@ -52,6 +52,7 @@
 		<result column="STATUS_REASON" 			property="statusReason"/>		
 		<result column="STU_YEAR" 			property="stuYear"/>
 		<result column="STU_SEM" 			property="stuSem"/>
+		<result column="MEM_NAME" 			property="memName"/>
 	</resultMap>
 	
 	<!-- 전과신청 -->

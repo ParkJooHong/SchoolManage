@@ -19,4 +19,5 @@ public class StatusInfoVO {
 	private int stuYear;
 	private int stuSem;
 	private String statusReason;
+	private String memName;
 }

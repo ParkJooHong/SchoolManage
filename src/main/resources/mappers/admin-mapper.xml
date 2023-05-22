@@ -272,7 +272,8 @@
 		</foreach>
 	</update>
 	
-	<select id="getLeaveManageList" resultMap="stuMapper.leaveManage">
+	<!-- 휴학신청자 조회 -->
+	<select id="getLeaveManageList" resultMap="stuMapper.statusInfo">
 		SELECT STATUS_NO
 			, STU_NO
 			, NOW_STATUS
@@ -286,6 +287,9 @@
             , (SELECT STU_YEAR
                 FROM UNI_STU
                 WHERE STU_NO = STATUS_INFO.STU_NO) AS STU_YEAR
+            , (SELECT STU_SEM
+                FROM UNI_STU
+                WHERE STU_NO = STATUS_INFO.STU_NO) AS STU_SEM
 		FROM STATUS_INFO
 	</select>
 	
