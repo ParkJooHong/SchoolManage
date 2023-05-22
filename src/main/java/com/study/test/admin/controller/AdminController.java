@@ -163,8 +163,9 @@ public class AdminController {
 	
 	// 학적변동승인(복학,휴학)
 	@GetMapping("/updateStuInfo")
-	public String updateStuInfo(AdminSubMenuVO adminSubMenuVO) {
+	public String updateStuInfo(AdminSubMenuVO adminSubMenuVO, Model model) {
 		adminSubMenuVO.setMenuCode(ConstVariable.SECOND_MENU_CODE);
+		model.addAttribute("leaveManageList",adminService.getLeaveManageList());
 		
 		return "content/admin/update_stu_info";
 	}

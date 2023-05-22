@@ -285,6 +285,7 @@ function searchByDate() {
 				str += '<td>';
 				str += `<input type="hidden" id="memApplyNo${index + 1}" value="${dept.applyNo}">`;
 				str += `<input type="hidden" id="memNo${index + 1}" value="${dept.memberVO.memNo}">`;
+				str += `<input type="hidden" th:class="deptStatus" th:value="${dept.processStatus}">`
 				str += `<input type="checkbox" value="${dept.applyNo}" checked onclick="checkControll();" class="form-check-input checkboxes">`;
 				str += '</td>'
 				str += `<td>${result.length - index}</td>`;
