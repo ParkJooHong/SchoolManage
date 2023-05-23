@@ -111,7 +111,7 @@ function stateModalOpen(status_no,stu_no) {
 			mem_double.insertAdjacentHTML('afterbegin', member_info.doubleMajorVO.doubleDeptName);
 
 			const img_modal_tag = document.querySelector('#memImg');
-			img_modal_tag.src = `/image/memImg/${member_info.memberVO.memImgVO.attachedFileName}`;
+			img_modal_tag.src = `/image/memImg/${member_info.memImgVO.attachedFileName}`;
 
 			const status_reason = document.querySelector('#statusReason');
 			status_reason.insertAdjacentHTML('afterbegin', status_info.statusReason);

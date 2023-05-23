@@ -38,6 +38,7 @@
 		<association property="stuVO" resultMap="stu"/>
 		<association property="colleageVO" resultMap="schoolMapper.colleage"/>
 		<association property="deptVO" resultMap="schoolMapper.dept"/>
+		<association property="doubleMajorVO" resultMap="schoolMapper.doubleMajor"/>
 	</resultMap>
 	
 	<!-- 학적 상태 -->
