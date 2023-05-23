@@ -49,6 +49,9 @@ public interface AdminService {
 	//휴학신청 승인 statusInfo
 	int updateStatusInfoByTakeOff(String statusNo, String stuNo);
 	
+	//휴학 신청 대상자 인적사항 조회
+	MemberVO getMemInfoByState(String memNo);
+	
 	
 	
 	

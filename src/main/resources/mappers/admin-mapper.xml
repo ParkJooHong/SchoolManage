@@ -310,45 +310,53 @@
         ORDER BY STATUS_NO DESC
 	</select>
 	
-	<!-- 휴학신청대상자 조회 -->
+	<!-- 전과 신청대상자 조회 -->
 	<select id="getLeaveManageMember" resultMap="stuMapper.statusInfo">
-		SELECT STATUS_NO
-            , ME.MEM_NAME
-            , ST.STU_NO
+            SELECT STATUS_NO
+                , STU_NO
+                , NOW_STATUS
+                , AFTER_STATUS
+                , TO_CHAR(APPLY_DATE, 'YYYY-MM-DD') AS APPLY_DATE
+                , TO_CHAR(APPROVAL_DATE, 'YYYY-MM-DD') AS APPROVAL_DATE
+                , ING_STATUS
+                , STATUS_REASON
+            FROM STATUS_INFO 
+            WHERE AFTER_STATUS = '휴학'
+            AND STATUS_NO = #{statusNo}
+	</select>
+	
+	<!-- 신청자 학생 정보 조회 -->
+	
+	<select id="getMemInfoByState" resultMap="stuMapper.member">
+		SELECT STU_NO
+			, MEM_NAME
+			, MEM_TELL
+			, MEM_ADDR
+			, ATTACHED_FILE_NAME
+			, MEM.MEM_NO
+			, TO_CHAR(MEM_BIRTH, 'YYYY-MM-DD') AS MEM_BIRTH
+			, MEM_ADDR_DETAIL
+            , STU_STATUS
             , STU_YEAR
             , STU_SEM
-            , TO_CHAR(MEM_BIRTH, 'YYYY-MM-DD') AS MEM_BIRTH
-            , COLL.COLL_NO
-            , COLL_NAME
-            , DP.DEPT_NO
-            , DEPT_NAME
-			, NOW_STATUS
-			, AFTER_STATUS
-            , TO_CHAR(APPLY_DATE, 'YYYY-MM-DD') AS APPLY_DATE
-			, TO_CHAR(APPROVAL_DATE, 'YYYY-MM-DD') AS APPROVAL_DATE
-			, ING_STATUS
-			<if test="doubleMajorVO != null">
-            , DM.DOUBLE_NO
-            , DOUBLE_COLL
-            , DOUBLE_DEPT_NAME
-			</if>
-            , ATTACHED_FILE_NAME
-            , STATUS_REASON
-        FROM STATUS_INFO ST, UNI_MEMBER ME, UNI_STU STU, COLLEAGE COLL, DEPT DP, MEM_IMG IMG
-        <if test="doubleMajorVO != null">
-        , DOUBLE_MAJOR DM
-        </if>
-        WHERE ST.STU_NO = ME.MEM_NO
-        AND ST.STU_NO = STU.STU_NO
-        AND STU.COLL_NO = COLL.COLL_NO
-        AND STU.DEPT_NO = DP.DEPT_NO
-        <if test="doubleMajorVO != null">
-        AND DM.DOUBLE_NO = STU.DOUBLE_NO
-        </if>
-        AND AFTER_STATUS = '휴학'
-        AND IMG.MEM_NO = STU.STU_NO
-        AND STATUS_NO = #{statusNo}
+            , COLL_NO
+            , DEPT_NO
+            , DOUBLE_NO
+            , (SELECT COLL_NAME
+            	FROM COLLEAGE
+            	WHERE COLL_NO = STU.COLL_NO) AS COLL_NAME
+            , (SELECT DEPT_NAME
+            	FROM DEPT
+            	WHERE DEPT_NO = STU.DEPT_NO) AS DEPT_NAME
+            , (SELECT DOUBLE_DEPT_NAME
+            	FROM DOUBLE_MAJOR
+            	WHERE DOUBLE_NO = STU.DOUBLE_NO) AS DOUBLE_DEPT_NAME			
+		FROM UNI_MEMBER MEM, UNI_STU STU, MEM_IMG IMG
+		WHERE STU.MEM_NO = MEM.MEM_NO
+		AND IMG.MEM_NO = MEM.MEM_NO
+		AND MEM.MEM_NO = #{memNo}
 	</select>
+
 	
 	<!-- 휴학신청 진행완료 업데이트 -->
 	<update id="updateStatusInfoByTakeOff">

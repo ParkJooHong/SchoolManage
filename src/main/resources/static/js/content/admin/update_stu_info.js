@@ -71,7 +71,7 @@ function allCheckControll(allCheck) {
 
 
 //휴학 신청 모달창 열기
-function stateModalOpen(status_no) {
+function stateModalOpen(status_no,stu_no) {
 	const state_modal = new bootstrap.Modal('#stateModal');
 
 	//ajax start
@@ -81,38 +81,40 @@ function stateModalOpen(status_no) {
 		async: true,
 		//contentType : 'application/json; charset=UTF-8',
 		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-		data: { 'statusNo': status_no }, //필요한 데이터
+		data: { 'statusNo': status_no,'stuNo':stu_no }, //필요한 데이터
 		success: function(result) {
 			console.log(result);
+			const member_info = result['memberInfo'];
+			const status_info = result['statusInfo'];
 			let str = '';
 			const mem_info = document.querySelector('#memInfo');
-			str += `${result.memberVO.memName} (${result.stuVO.stuNo} , ${result.nowStatus})`
+			str += `${member_info.memName} (${member_info.stuVO.stuNo} , ${status_info.nowStatus})`
 
 			mem_info.insertAdjacentHTML('afterbegin', str);
 
 			const mem_birth = document.querySelector('#memBirth');
-			mem_birth.insertAdjacentHTML('afterbegin', result.memberVO.memBirth);
+			mem_birth.insertAdjacentHTML('afterbegin', member_info.memBirth);
 
 			const mem_year = document.querySelector('#memYear');
 			let str1 = '';
-			str1 += `${result.stuVO.stuYear}학년 ${result.stuVO.stuSem}학기`;
+			str1 += `${member_info.stuVO.stuYear}학년 ${member_info.stuVO.stuSem}학기`;
 
 			mem_year.insertAdjacentHTML('afterbegin', str1);
 
 			const mem_coll = document.querySelector('#memColl');
-			mem_coll.insertAdjacentHTML('afterbegin', result.colleageVO.collName);
+			mem_coll.insertAdjacentHTML('afterbegin', member_info.colleageVO.collName);
 
 			const mem_dept = document.querySelector('#memDept');
-			mem_dept.insertAdjacentHTML('afterbegin', result.deptVO.deptName);
+			mem_dept.insertAdjacentHTML('afterbegin', member_info.deptVO.deptName);
 
 			const mem_double = document.querySelector('#memDouble');
-			mem_double.insertAdjacentHTML('afterbegin', result.doubleMajorVO.doubleDeptName);
+			mem_double.insertAdjacentHTML('afterbegin', member_info.doubleMajorVO.doubleDeptName);
 
 			const img_modal_tag = document.querySelector('#memImg');
-			img_modal_tag.src = `/image/memImg/${result.memberVO.memImgVO.attachedFileName}`;
+			img_modal_tag.src = `/image/memImg/${member_info.memberVO.memImgVO.attachedFileName}`;
 
 			const status_reason = document.querySelector('#statusReason');
-			status_reason.insertAdjacentHTML('afterbegin', result.statusReason);
+			status_reason.insertAdjacentHTML('afterbegin', status_info.statusReason);
 
 			state_modal.show();
 
