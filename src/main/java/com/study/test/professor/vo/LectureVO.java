@@ -1,5 +1,7 @@
 package com.study.test.professor.vo;
 
+import java.util.List;
+
 import com.study.test.school.colleage.ColleageVO;
 import com.study.test.school.dept.DeptVO;
 
@@ -24,7 +26,7 @@ public class LectureVO {
 	private String lecStatus;
 	private String memName;
 	private LecturePdfVO lecturePdfVO;
-	private LectureTimeVO lectureTimeVO;
+	private List<LectureTimeVO> lectureTimeList;
 	private ColleageVO colleageVO;
 	private DeptVO deptVO;
 }

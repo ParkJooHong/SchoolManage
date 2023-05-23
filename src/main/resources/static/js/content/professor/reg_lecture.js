@@ -1,4 +1,4 @@
-//대학에 따른 소속학과 리스트 조회
+//대학에 따른 소속학과 스트 조회
 function getDeptList(){
 	//선택한 대학교 코드
 	const coll_tag = document.querySelector('#collSelect');
@@ -83,22 +83,29 @@ function getProfessorfList(){
 function lectureTimeCheck() {
 	console.log(pdfFileValidate());
 	//강의 상세 등록 정보를 다 입력하여야 시간 체크 기능 작동
-	if (pdfFileValidate() && lecDayValidate() && startTimeValidate() && finishDateValidate()) {
-		//강의 날짜, 강의 시작시간, 강의 종료시간
-		let lectureTimeVO = {
-			lecDay: document.querySelector('#lecDay').value,
-			startTime: document.querySelector('#startTime').value,
-			finishDate: document.querySelector('#finishDate').value
+	if (pdfFileValidate() && validateAllLectureTimes()) {
+		// 강의 시간들을 가져옵니다.
+    	const lectureTimes = document.querySelectorAll('.lecture_time_wrap');
+		// 강의 시간 체크를 위한 데이터
+		let lectureTimeVO_list = [];
+		
+		for(const lectureTime of lectureTimes){
+			let lectureTimeVO = {
+				lecDay : lectureTime.querySelector('input[name="lecDay"]').value,
+				startTime : lectureTime.querySelector('input[name="startTime"]').value,
+				finishDate : lectureTime.querySelector('input[name="finishDate"]').value
+			};
+			lectureTimeVO_list.push(lectureTimeVO);
 		}
-
-		console.log(lectureTimeVO);
+		
+		console.log(lectureTimeVO_list);
 
 		//ajax start
 		$.ajax({
 			url: '/professor/lectureTimeCheckAjax', //요청경로
 			type: 'post',
 			async: false, //동기방식으로 진행
-			data: JSON.stringify(lectureTimeVO),
+			data: JSON.stringify(lectureTimeVO_list),
 			contentType: "application/json; charset=UTF-8",
 			success: function(result) {
 				if (!result) {
@@ -127,11 +134,28 @@ function lectureTimeCheck() {
 		//ajax end
 	}
 	else{
-		lecDayValidate();
-		startTimeValidate();
-		finishDateValidate();
-		pdfFileValidate()
+		validateAllLectureTimes();
 	}
+}
+
+// 강의 시간들의 유효성을 검사하는 함수
+function validateAllLectureTimes() {
+	const lectureTimes = document.querySelectorAll('.lecture_time_wrap');
+	let isValid = true;
+
+	lectureTimes.forEach((time) => {
+		const lecDayInput = time.querySelector('input[name="lecDay"]');
+		const startTimeInput = time.querySelector('input[name="startTime"]');
+		const finishDateInput = time.querySelector('input[name="finishDate"]');
+		lecDayValidate(lecDayInput);
+		startTimeValidate(startTimeInput);
+		finishDateValidate(finishDateInput);
+		if (!lecDayValidate(lecDayInput) || !startTimeValidate(startTimeInput) || !finishDateValidate(finishDateInput)) {
+			isValid = false;
+		}
+	});
+
+	return isValid;
 }
 
 //강의 상세 등록 정보 변경시 강의 등록 버튼 disabled
@@ -142,6 +166,7 @@ function regBtnDisable(){
 //시간 체크(강의 등록 상세) 입력사항 무결성
 //0.파일 첨부
 function pdfFileValidate(){
+
 	const error_div = document.querySelector('#pdfFileValidate');
 	if(error_div != null){
 		error_div.remove();
@@ -176,8 +201,8 @@ function pdfFileValidate(){
 }
 
 //1.강의 날짜
-function lecDayValidate(){
-	const error_div = document.querySelector('#lecDayValidate');
+function lecDayValidate(check){
+	const error_div = check.closest('tr').querySelector('#lecDayValidate');
 	if(error_div != null){
 		error_div.remove();
 	}
@@ -189,7 +214,7 @@ function lecDayValidate(){
 	let str_lec_day = '';
 	
 	//강의 날짜 태그 가져오기
-	const lec_day = document.querySelector('#lecDay');
+	const lec_day = check;
 	
 	//강의 날짜 정규식
 	const exp_lec_day = /^[월화수목금토]$/;
@@ -220,8 +245,8 @@ function lecDayValidate(){
 }
 
 //2.강의 시작시간
-function startTimeValidate(){
-	const error_div = document.querySelector('#startTimeValidate');
+function startTimeValidate(check){
+	const error_div = check.closest('tr').querySelector('#startTimeValidate');
 	if(error_div != null){
 		error_div.remove();
 	}
@@ -233,14 +258,14 @@ function startTimeValidate(){
 	let str_start_time = '';
 	
 	//강의 날짜 태그 가져오기
-	const start_time = document.querySelector('#startTime');
+	const start_time = check;
 	
 	//강의 날짜 정규식
 	const exp_start_time = /^([01]?[0-9]|2[0-3]):[0][0]$/;
 	
 	//입력값이 없을때	
 	if(start_time.value == ''){
-		str_start_time = '강의 날짜는 필수 입력입니다.';
+		str_start_time = '강의 시간은 필수 입력입니다.';
 		start_time.style.border = '1px solid red';
 		result_start_time = false;
 	}
@@ -264,8 +289,8 @@ function startTimeValidate(){
 }
 
 //3.강의 종료시간
-function finishDateValidate(){
-	const error_div = document.querySelector('#finishDateValidate');
+function finishDateValidate(check){
+	const error_div = check.closest('tr').querySelector('#finishDateValidate');
 	if(error_div != null){
 		error_div.remove();
 	}
@@ -277,18 +302,18 @@ function finishDateValidate(){
 	let str_finish_date = '';
 	
 	//강의 날짜 태그 가져오기
-	const finish_date = document.querySelector('#finishDate');
+	const finish_date = check;
 	
 	//강의 날짜 정규식
 	const exp_finish_date = /^([01]?[0-9]|2[0-3]):[0][0]$/;
 	
 	//입력값이 없을때	
 	if(finish_date.value == ''){
-		str_finish_date = '강의 날짜는 필수 입력입니다.';
+		str_finish_date = '강의 시간은 필수 입력입니다.';
 		finish_date.style.border = '1px solid red';
 		result_finish_date = false;
 	}
-	else if(finish_date.value < document.querySelector('#startTime').value){
+	else if(finish_date.value < check.closest('tr').querySelector('#startTime').value){
 		str_finish_date = '강의시간은 시작시간보다 뒤어야 합니다.';
 		finish_date.style.border = '1px solid red';
 		result_finish_date = false;
@@ -403,7 +428,42 @@ function maxMemValidate(){
 	return result_max_mem;
 }
  
+function addLectureTime(add_btn){
+	const tbody_tag = add_btn.closest('tbody');
+	const tr_tag = add_btn.closest('tr');
+	
+	//태그에 추가할 내용
+	let str = '';
+	
+	str += '<tr class="lecture_time_wrap">'
+	str += '<td>강의 날짜</td>'                                                                                         
+	str += '<td><input class="lecture_time" type="text" name="lecDay" id="lecDay" required placeholder="예)월" onchange="regBtnDisable()" onkeyup="lecDayValidate(this)" onblur="lecDayValidate(this)"> '
+	str += '</td>'                                                                                        
+	str += '<td>강의 시작시간</td>'                                                                              
+	str += '<td><input class="lecture_time" type="text" name="startTime" id="startTime" required placeholder="예)14:00" onchange="regBtnDisable()" onkeyup="startTimeValidate(this)" onblur="startTimeValidate(this)"></td>'
+	str += '<td>강의 종료시간</td>'
+	str += '<td><input class="lecture_time" type="text" name="finishDate" id="finishDate" required placeholder="예)16:00" onchange="regBtnDisable()" onkeyup="finishDateValidate(this)" onblur="finishDateValidate(this)"></td>'
+	str += '<td class="add_btn_wrap">'
+	str += '<div><input class="btn btn-primary" type="button" value="삭제" onclick="removeLectureTime(this)"></div>'
+	str += '</td>'
+	str += '</tr>'
+	
+	tr_tag.insertAdjacentHTML('afterend', str);
+}
 
-
-
+function removeLectureTime(remove_btn){
+	const tr_tags = remove_btn.closest('tbody').querySelectorAll('tr');
+	if(tr_tags.length < 3){
+		swal.fire({
+			title:'삭제 불가',
+			text:'더이상 삭제할 수 없습니다.',
+			icon:'warning',
+			button:'확인'
+		});
+	}
+	else{
+		const tr_tag = remove_btn.closest('tr');
+		tr_tag.remove();		
+	}
+}
 

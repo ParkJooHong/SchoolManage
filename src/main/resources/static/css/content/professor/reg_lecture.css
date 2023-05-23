@@ -57,4 +57,12 @@ table.default_info td{
 	color: black;
 }
 
+.lecture_time{
+	width: 150px;
+}
+
+.add_btn_wrap > div{
+	display: inline-block;
+}
+
 

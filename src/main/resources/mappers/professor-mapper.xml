@@ -32,9 +32,9 @@
 		<result column="LEC_STATUS" 		property="lecStatus"/>
 		<result column="MEM_NAME" 			property="memName"/>
 		<association property="lecturePdfVO" resultMap="lecturePdf"/>
-		<association property="lectureTimeVO" resultMap="lectureTime"/>
 		<association property="colleageVO" resultMap="schoolMapper.colleage"/>
 		<association property="deptVO" resultMap="schoolMapper.dept"/>
+		<collection property="lectureTimeList" resultMap="lectureTime"/>
 	</resultMap>
 	
 	<!-- 강의 자료 -->
@@ -52,6 +52,7 @@
 		<result column="START_TIME" 		property="startTime"/>
 		<result column="FINISH_DATE" 		property="finishDate"/>
 		<result column="LEC_NO" 			property="lecNo"/>
+		<result column="LEC_Duration" 			property="lecDuration"/>
 	</resultMap>
 	
 	<!-- 교수 메뉴 -->
@@ -138,21 +139,24 @@
 	</insert>
 	
 	<!-- 강의 상세 등록 : 강의 날짜, 시간 -->
-	<insert id="regLectureTime">
+	<insert id="regLectureTime" parameterType="java.util.List">
 		INSERT INTO LECTURE_TIME (
 			TIME_NO
 			, LEC_DAY
 			, START_TIME
 			, FINISH_DATE
 			, LEC_NO
-		) VALUES (
-			(SELECT 'TIME_'||LPAD(NVL(MAX(TO_NUMBER(SUBSTR(TIME_NO, 6))), 0) + 1, 4, '0')
-			FROM LECTURE_TIME)
-			, #{lectureTimeVO.lecDay}
-			, #{lectureTimeVO.startTime}
-			, #{lectureTimeVO.finishDate}
-			, #{lecNo}
+			, LEC_DURATION
 		)
+		<foreach item="lectureTimeVO" collection="lectureTimeList" separator="UNION ALL" index="i">
+				SELECT (SELECT 'TIME_'||LPAD(NVL(MAX(TO_NUMBER(SUBSTR(TIME_NO, 6))), 0) + 1 + #{i}, 4, '0')
+				FROM LECTURE_TIME)
+				, #{lectureTimeVO.lecDay}
+				, #{lectureTimeVO.startTime}
+				, #{lectureTimeVO.finishDate}
+				, #{lecNo}
+				FROM DUAL
+		</foreach>
 	</insert>
 	
 	<!-- 강의 목록 조회 -->
@@ -170,6 +174,7 @@
 			, LEC_STATUS
 			, SEM_NAME
 			, UM.MEM_NAME
+			, LEC_DURATION
 		FROM LECTURE LEC, COLLEAGE COL, DEPT DEP, UNI_MEMBER UM, LECTURE_TIME LT, SEMESTER SEM
 		WHERE LEC.COLL_NO = COL.COLL_NO
 		AND LEC.DEPT_NO = DEP.DEPT_NO

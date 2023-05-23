@@ -1,5 +1,6 @@
 package com.study.test.professor.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -128,22 +129,16 @@ public class ProfessorController {
 	//강의 시간 중복 체크
 	@ResponseBody
 	@PostMapping("/lectureTimeCheckAjax")
-	public boolean lectureTimeCheckAjax(@RequestBody LectureTimeVO lectureTimeVO) {
+	public boolean lectureTimeCheckAjax(@RequestBody List<LectureTimeVO> lectureTimeVO_list) {
 		
-		String timeNo = professorService.lectureTimeCheck(lectureTimeVO);
+		boolean timeCheck = true;
 		
-		boolean timeCheck = false;
-		
-		System.out.println("@@@@@@@@@@데이터확인" + timeNo);
-		
-		if(timeNo == null) {
-			timeCheck = true;
+		for(LectureTimeVO lectureTimeVO : lectureTimeVO_list) {
+			if(professorService.lectureTimeCheck(lectureTimeVO) != null) {
+				timeCheck = false;
+			}
 		}
-		else {
-			timeCheck = false;
-		}
-		
-		System.out.println("@@@@@@@@@@중복 확인" + timeCheck);
+		System.out.println("@@@@@@@@@@데이터확인" + timeCheck);
 		
 		return timeCheck;
 	}
@@ -154,8 +149,6 @@ public class ProfessorController {
 	public String regLecture(LectureVO lectureVO, LectureTimeVO lectureTimeVO, MultipartFile pdfFile) {
 		//UploadUtill 객체 호출해서(util패키지에 만들어놓음)LecturePdfVO객체에 받음
 		LecturePdfVO attachedPdfVO = UploadUtil.uploadPdfFile(pdfFile);
-
-		System.out.println("@@@@@@@@@@데이터 확인 : " + attachedPdfVO);
 	
 		//다음 강의 넘버값
 		String nextLecNo = professorService.getNextLecNo();
@@ -164,12 +157,28 @@ public class ProfessorController {
 		//lectureVO안에있는 lecturePdfVO에 UploadUtill로 불러온 데이터 넣음(트랜잭션처리때문에)
 		lectureVO.setLecturePdfVO(attachedPdfVO);
 		//lectureVO안에있는 lectureTimeVO에 form태그로 가져온 데이터 넣음(트랜잭션처리때문에)
-		lectureVO.setLectureTimeVO(lectureTimeVO);
+		//lectureTimeVO는 복수로 요일 시간이 들어가므로 List생성
+		List<LectureTimeVO> lectureTimeList = new ArrayList<>();
+		String[] lecDayArr = lectureTimeVO.getLecDay().split(",");
+		String[] lecStartTime = lectureTimeVO.getStartTime().split(",");
+		String[] lecFinishDate = lectureTimeVO.getFinishDate().split(",");
+		
+		for(int i = 0; i < lecDayArr.length; i++) {
+			LectureTimeVO lectureTime = new LectureTimeVO();
+			lectureTime.setLecDay(lecDayArr[i]);
+			lectureTime.setStartTime(lecStartTime[i]);
+			lectureTime.setFinishDate(lecFinishDate[i]);
+			lectureTimeList.add(lectureTime);
+		}
+		
+		lectureVO.setLectureTimeList(lectureTimeList);
+		
+		
+		System.out.println("@@@@@@@@@@데이터 확인 : " + lectureVO);
 		
 		//강의 등록 쿼리 실행
 		professorService.regLecture(lectureVO);
 		
-		System.out.println("@@@@@@@@@@데이터 확인 : " + lectureVO);
 		
 		return "redirect:/professor/regLecture";
 	}
@@ -177,8 +186,18 @@ public class ProfessorController {
 	
 	//강의 시간표 페이지 이동
 	@GetMapping("/lectureSchedule")
-	public String lectureSchedule(ProfessorMenuVO professorMenuVO) {
+	public String lectureSchedule(Model model, ProfessorMenuVO professorMenuVO, HttpSession session) {
 		professorMenuVO.setMenuCode(ConstVariable.SECOND_PROFESSOR_MENU_CODE);
+		
+		//강의 목록 조회
+		MemberVO member = (MemberVO)session.getAttribute("memberVO");
+		LectureVO lecture = new LectureVO();
+		lecture.setEmpNo(member.getMemNo());
+		List<LectureVO> lectureList = schoolService.getLectureList(lecture);
+		
+		System.out.println("@@@@@@@@@@@@데이터 확인 :" + lectureList);
+		
+		//model.addAttribute("lectureList", lectureList);
 		
 		return "content/professor/lecture_schedule";
 	}

@@ -30,7 +30,7 @@
 						</colgroup>
 						<thead>
 							<tr>
-								<td></td>
+								<td>시간</td>
 								<td>월</td>
 								<td>화</td>
 								<td>수</td>
@@ -38,6 +38,54 @@
 								<td>금</td>
 							</tr>
 						</thead>
+						<tbody>
+							<!-- 시간 범위를 정의합니다 (09:00부터 18:00까지 1시간 단위) -->
+							<th:block th:each="hour : ${#numbers.sequence(9, 18)}">
+								<tr>
+									<!-- 시간을 표시합니다 -->
+									<td th:text="${#strings.format('%02d:00', hour)}">
+									</td>
+									<td
+										th:text="${lectureList.?[lectureTimeVO.lecDay eq '월' && lectureTimeVO.startTime == hour + ':00' && lectureTimeVO.lecDuration == 1].![lecName]}"></td>
+									<td
+										th:text="${lectureList.?[lectureTimeVO.lecDay eq '화' && lectureTimeVO.startTime == hour + ':00' && lectureTimeVO.lecDuration == 1].![lecName]}"></td>
+									<td
+										th:text="${lectureList.?[lectureTimeVO.lecDay eq '수' && lectureTimeVO.startTime == hour + ':00' && lectureTimeVO.lecDuration == 1].![lecName]}"></td>
+									<td
+										th:text="${lectureList.?[lectureTimeVO.lecDay eq '목' && lectureTimeVO.startTime == hour + ':00' && lectureTimeVO.lecDuration == 1].![lecName]}"></td>
+									<td
+										th:text="${lectureList.?[lectureTimeVO.lecDay eq '금' && lectureTimeVO.startTime == hour + ':00' && lectureTimeVO.lecDuration == 1].![lecName]}"></td>
+								</tr>
+								<tr th:if="${hour + 1 <= 18}">
+									<!-- 두 번째 시간 슬롯 -->
+									<th></th>
+									<td
+										th:text="${lectureList.?[lectureTimeVO.lecDay eq '월' && lectureTimeVO.startTime == (hour + 1) + ':00' && lectureTimeVO.lecDuration == 1].![lecName]}"></td>
+									<td
+										th:text="${lectureList.?[lectureTimeVO.lecDay eq '화' && lectureTimeVO.startTime == (hour + 1) + ':00' && lectureTimeVO.lecDuration == 1].![lecName]}"></td>
+									<td
+										th:text="${lectureList.?[lectureTimeVO.lecDay eq '수' && lectureTimeVO.startTime == (hour + 1) + ':00' && lectureTimeVO.lecDuration == 1].![lecName]}"></td>
+									<td
+										th:text="${lectureList.?[lectureTimeVO.lecDay eq '목' && lectureTimeVO.startTime == (hour + 1) + ':00' && lectureTimeVO.lecDuration == 1].![lecName]}"></td>
+									<td
+										th:text="${lectureList.?[lectureTimeVO.lecDay eq '금' && lectureTimeVO.startTime == (hour + 1) + ':00' && lectureTimeVO.lecDuration == 1].![lecName]}"></td>
+								</tr>
+								<tr th:if="${hour + 2 <= 18}">
+									<!-- 세 번째 시간 슬롯 -->
+									<th></th>
+									<td
+										th:text="${lectureList.?[lectureTimeVO.lecDay eq '월' && lectureTimeVO.startTime == (hour + 2) + ':00' && lectureTimeVO.lecDuration == 1].![lecName]}"></td>
+									<td
+										th:text="${lectureList.?[lectureTimeVO.lecDay eq '화' && lectureTimeVO.startTime == (hour + 2) + ':00' && lectureTimeVO.lecDuration == 1].![lecName]}"></td>
+									<td
+										th:text="${lectureList.?[lectureTimeVO.lecDay eq '수' && lectureTimeVO.startTime == (hour + 2) + ':00' && lectureTimeVO.lecDuration == 1].![lecName]}"></td>
+									<td
+										th:text="${lectureList.?[lectureTimeVO.lecDay eq '목' && lectureTimeVO.startTime == (hour + 2) + ':00' && lectureTimeVO.lecDuration == 1].![lecName]}"></td>
+									<td
+										th:text="${lectureList.?[lectureTimeVO.lecDay eq '금' && lectureTimeVO.startTime == (hour + 2) + ':00' && lectureTimeVO.lecDuration == 1].![lecName]}"></td>
+								</tr>
+							</th:block>
+						</tbody>
 					</table>
 				</div>
 			</div>
