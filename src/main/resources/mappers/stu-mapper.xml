@@ -90,6 +90,8 @@
 		<result column="PROCESS_STATUS" 	property="processStatus"/>
 		<result column="STU_YEAR" 			property="stuYear"/>
 		<result column="STU_SEM" 			property="stuSem"/>
+		<result column="STATUS_REASON" 			property="statusReson"/>
+		
 	</resultMap>
 	
 	<!--  학생 정보 조회 -->
@@ -176,6 +178,7 @@
           , APPLY_REASON
           , APPLROVAL_DATE
           , PROCESS_STATUS
+
       ) VALUES(
          (SELECT 'APPLY_'||LPAD(NVL(MAX(TO_NUMBER(SUBSTR(APPLY_NO, 7))), 0) +1 , 3, '0')
             FROM DEPT_MANAGE)
@@ -184,7 +187,8 @@
            , SYSDATE
            , #{applyReason}
            , TO_DATE('9999-12-30', 'YYYY-MM-DD')
-           , '승인대기'   
+           , '승인대기'
+
             
       )
 	</insert>
@@ -217,6 +221,7 @@
           , APPLY_DATE
           , APPROVAL_DATE
           , ING_STATUS
+          , STATUS_REASON
       ) VALUES(
          (SELECT 'STATUS_'||LPAD(NVL(MAX(TO_NUMBER(SUBSTR(STATUS_NO, 8))), 0) +1 , 3, '0')
             FROM STATUS_INFO)
@@ -225,7 +230,8 @@
            , '휴학'
            , SYSDATE
            , TO_DATE('9999-12-30', 'YYYY-MM-DD')
-           , '승인대기'           
+           , '승인대기'     
+           , #{statusReason}
       )
 	</insert>
 	
@@ -247,7 +253,7 @@
            , '재학'
            , SYSDATE
            , TO_DATE('9999-12-30', 'YYYY-MM-DD')
-           , '승인대기'           
+           , '승인대기'  
       )
 	</insert>
 

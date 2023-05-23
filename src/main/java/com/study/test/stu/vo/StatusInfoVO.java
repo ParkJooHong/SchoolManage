@@ -28,4 +28,5 @@ public class StatusInfoVO {
 	private DeptVO deptVO;
 	private DoubleMajorVO doubleMajorVO;
 
+
 }
