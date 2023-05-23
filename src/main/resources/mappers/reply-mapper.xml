@@ -42,6 +42,20 @@
 		)
 	</insert>
 	
+	<!-- 댓글 삭제  // 작성자 또는 게시글 주인(아직 미구현) -->
+	<delete id="replyDelete">
+		DELETE BOARD_REPLY
+		WHERE REPLY_WRITER = #{replyWriter}
+		AND REPLY_NO = #{replyNo}
+	</delete>
+	
+	<!-- 댓글 수정 -->
+	<update id="replyUpdate">
+		UPDATE BOARD_REPLY
+		SET REPLY_CONTENT = #{replyContent}
+		WHERE REPLY_NO = #{replyNo}
+	</update>
+
 
 
 </mapper>

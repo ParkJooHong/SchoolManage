@@ -15,6 +15,9 @@ public class BoardReplyServiceImpl implements BoardReplyService {
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 	
+	//게시글 수정
+	
+	
 	//댓글 조회
 	@Override
 	public List<BoardReplyVO> selectReply(String boardNo) {
@@ -27,6 +30,20 @@ public class BoardReplyServiceImpl implements BoardReplyService {
 	@Override
 	public void insertReply(BoardReplyVO boardReplyVO) {
 		sqlSession.insert("replyMapper.insertReply", boardReplyVO);
+		
+	}
+
+	//댓글 삭제
+	@Override
+	public void replyDelete(BoardReplyVO boardReplyVO) {
+		sqlSession.delete("replyMapper.replyDelete", boardReplyVO);
+		
+	}
+
+	//댓글 수정
+	@Override
+	public void replyUpdate(BoardReplyVO boardReplyVO) {
+		sqlSession.update("replyMapper.replyUpdate", boardReplyVO);
 		
 	}
 

@@ -120,12 +120,21 @@
 			WHERE BOARD_NO = #{boardNo}
 	</select>
 	
+	<!-- 게시글 수정  -->
+	<update id="boardUpdate">
+		UPDATE UNI_BOARD
+		SET BOARD_CONTENT = #{boardContent}
+			, BOARD_TITLE = #{boardTitle}
+		WHERE BOARD_NO = #{boardNo}
+	</update>
+	
 	<!-- 게시글 삭제 -->
 	<delete id="boardDelete">
 		DELETE UNI_BOARD
 		WHERE BOARD_NO = #{boardNo}
 	</delete>
 
+	
 
 </mapper>
 

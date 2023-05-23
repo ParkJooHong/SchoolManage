@@ -46,6 +46,13 @@ public class BoardServiceImpl implements BoardService {
 		sqlSession.delete("boardMapper.boardDelete", boardNo);
 		
 	}
+
+	//보드 수정
+	@Override
+	public void boardUpdate(UniBoardVO uniBoardVO) {
+		sqlSession.update("boardMapper.boardUpdate", uniBoardVO);
+		
+	}
 	
 	
 }

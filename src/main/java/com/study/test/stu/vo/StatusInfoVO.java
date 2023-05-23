@@ -1,5 +1,10 @@
 package com.study.test.stu.vo;
 
+import com.study.test.member.vo.MemberVO;
+import com.study.test.school.colleage.ColleageVO;
+import com.study.test.school.dept.DeptVO;
+import com.study.test.school.double_major.DoubleMajorVO;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -16,8 +21,11 @@ public class StatusInfoVO {
 	private String applyDate;
 	private String approvalDate;
 	private String ingStatus;
-	private int stuYear;
-	private int stuSem;
 	private String statusReason;
-	private String memName;
+	private MemberVO memberVO;
+	private StuVO stuVO;
+	private ColleageVO colleageVO;
+	private DeptVO deptVO;
+	private DoubleMajorVO doubleMajorVO;
+
 }

@@ -57,6 +57,10 @@ table.default_info td{
     margin-top: 10px;
 }
 
+.reply{
+	margin: 10px;
+	width: 100%;
+}
  
 .replyContent{
 	border-radius: 15px;
