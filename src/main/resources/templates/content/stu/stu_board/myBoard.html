@@ -79,9 +79,9 @@
 					<thead>
 					  <tr>
 						<th>No</th>
-						<th>작성일</th>
 						<th>글 제목</th>
 						<th>글쓴이</th>
+						<th>작성일</th>
 						<th>조회수</th>
 						<th>댓글수</th>
 					  </tr>
@@ -95,9 +95,9 @@
 					<th:block th:if="${#lists.size(uniBoardVO) != 0}">
 						<tr th:each="uniBoard, state : ${uniBoardVO}">
 							<td>[[${state.count}]]</td>
-							<td>[[${uniBoard.regBoardDate}]]</td>
 							<td><a th:href="@{/stuMenu/boardDetail(menuCode=${menuCode}, subMenuCode=${subMenuCode}, boardNo=${uniBoard.boardNo} )}">[[${uniBoard.boardTitle}]]</a></td>
 							<td>[[${uniBoard.boardWriter}]]</td>
+							<td>[[${uniBoard.regBoardDate}]]</td>
 							<td>[[${uniBoard.readCnt}]]</td>
 							<td>[[${uniBoard.replyCnt}]]</td>
 						</tr>

@@ -165,7 +165,10 @@ public class AdminController {
 	@GetMapping("/updateStuInfo")
 	public String updateStuInfo(AdminSubMenuVO adminSubMenuVO, Model model) {
 		adminSubMenuVO.setMenuCode(ConstVariable.SECOND_MENU_CODE);
-		model.addAttribute("leaveManageList",adminService.getLeaveManageList());
+		List<StatusInfoVO> statusInfoList = adminService.getLeaveManageList();
+		
+		model.addAttribute("leaveManageList",statusInfoList);
+		
 		
 		return "content/admin/update_stu_info";
 	}
@@ -173,10 +176,16 @@ public class AdminController {
 	//휴학 신청 모달창 오픈
 	@PostMapping("/statusModalOpenAjax")
 	@ResponseBody
-	public StatusInfoVO statusModalOpenAjax(String statusNo) {
+	public Map<String, Object> statusModalOpenAjax(String statusNo, String stuNo) {
+		Map<String, Object> statusMap = new HashMap<>();
 		
-		StatusInfoVO statusInfo = adminService.getLeaveManageMember(statusNo);	
-		return statusInfo;
+		StatusInfoVO statusInfo = adminService.getLeaveManageMember(statusNo);
+		MemberVO memberInfo = adminService.getMemInfoByState(stuNo);
+		
+		statusMap.put("statusInfo", statusInfo);
+		statusMap.put("memberInfo", memberInfo);
+		
+		return statusMap;
 	}
 	
 	//휴학 신청 승인

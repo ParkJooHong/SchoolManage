@@ -1,5 +1,9 @@
 package com.study.test.stu.vo;
 
+import com.study.test.school.colleage.ColleageVO;
+import com.study.test.school.dept.DeptVO;
+import com.study.test.school.double_major.DoubleMajorVO;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -21,6 +25,9 @@ public class StuVO {
 	private String parentTell;
 	private String stuBankName;
 	private String stuBankAccount;
+	private ColleageVO colleageVO;
+	private DeptVO deptVO;
+	private DoubleMajorVO doubleMajorVO;
 
 	
 	

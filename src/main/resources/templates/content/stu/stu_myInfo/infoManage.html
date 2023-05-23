@@ -42,7 +42,12 @@
 	<tr style="justify-content: space-between;">
 		<td>융합연계(복)</td>
 		<td><input type="text"></td>
-		<td rowspan="3" style="text-align: left;"><img src="/image/khLogo.png" style="width: 140px;"> 왼쪽 --사진들어갈 공간임 임시</td>
+		<td rowspan="3" style="text-align: left;">
+			<form action="/upload" method="post" enctype="multipart/form-data">
+		        <input type="file" name="image" accept="image/*" required><br>
+		        <input type="submit" value="업로드">
+		    </form></td>
+		<!-- <td><img src="/image/khLogo.png" style="width: 140px;"></td> -->
 	</tr>
 	<tr>
 		<td>융합연계(부)</td>

@@ -87,7 +87,7 @@
 									</td>
 									<td>[[${#lists.size(leaveManageList) - state.index}]]</td>
 									<td>[[${leave.memberVO.memName}]]</td>
-									<td><a href="javascript:void(0)"  th:onclick="stateModalOpen([[${leave.statusNo}]]);">[[${leave.stuVO.stuNo}]]</a></td>
+									<td><a href="javascript:void(0)"  th:onclick="stateModalOpen([[${leave.statusNo}]],[[${leave.stuVO.stuNo}]]);">[[${leave.stuVO.stuNo}]]</a></td>
 									<td>[[${leave.stuVO.stuYear}]]학년 &nbsp; [[${leave.stuVO.stuSem}]]학기</td>
 									<td>[[${leave.colleageVO.collName}]]</td>
 									<td>[[${leave.deptVO.deptName}]]</td>

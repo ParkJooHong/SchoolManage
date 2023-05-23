@@ -115,6 +115,11 @@ public class AdminServiceImpl implements AdminService{
 		return sqlsession.update("adminMapper.updateStatusInfoByStuTakeOff", stuNo);
 		
 	}
+	//휴학 신청 대상자 인적사항 조회
+	@Override
+	public MemberVO getMemInfoByState(String memNo) {
+		return sqlsession.selectOne("adminMapper.getMemInfoByState",memNo);
+	}
 	
 
 	

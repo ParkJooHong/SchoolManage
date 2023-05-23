@@ -54,7 +54,7 @@
 					<table>
 						<tr th:each="member : ${memberVO}">
 							<td rowspan="2">😦</td>
-							<td>[[${member.memName}]] / [[${member.memNo}]]</td>
+							<td> [[${uni.boardWriter}]]</td>
 						</tr>
 						<tr>
 							<td>[[${uni.regBoardDate}]] 조회 [[${uni.readCnt}]]</td>
@@ -65,7 +65,7 @@
 		</thead>
 		<tbody>
 			<tr>
-				<td colspan="3" class="boardContent" >[[${uni.boardContent}]]</td>
+				<td colspan="3" class="boardContent">[[${uni.boardContent}]]</td>
 
 			</tr>
 		</tbody>
@@ -104,7 +104,7 @@
 		</table>	
 	</th:block>
 	<th:block th:if="${#lists.size(boardReplyVO) != 0}">
-		<table  th:each="boardReply : ${boardReplyVO}">
+		<table th:each="boardReply : ${boardReplyVO}">
 			<tr >
 				<input type="hidden" th:value="${boardReply.replyNo}" class="replyNo" >
 				<input type="hidden" th:value="${menuCode}" class="menuCode" >
@@ -121,8 +121,8 @@
 			</tr>
 		</table>
 		<table >
-			<tr  th:each="member : ${memberVO}" class="replyTable">
-				<td >[[${member.memName}]]</td>
+			<tr class="replyTable" th:each="member : ${memberVO}">
+				<td>[[${member.memNo}]]</td>
 			</tr>	
 			 <tr class="comment-form reply"> 
 			 	<td>
