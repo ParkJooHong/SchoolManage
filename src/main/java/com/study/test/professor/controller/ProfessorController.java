@@ -174,7 +174,6 @@ public class ProfessorController {
 		lectureVO.setLectureTimeList(lectureTimeList);
 		
 		
-		System.out.println("@@@@@@@@@@데이터 확인 : " + lectureVO);
 		
 		//강의 등록 쿼리 실행
 		professorService.regLecture(lectureVO);
@@ -188,19 +187,25 @@ public class ProfessorController {
 	@GetMapping("/lectureSchedule")
 	public String lectureSchedule(Model model, ProfessorMenuVO professorMenuVO, HttpSession session) {
 		professorMenuVO.setMenuCode(ConstVariable.SECOND_PROFESSOR_MENU_CODE);
-		
-		//강의 목록 조회
-		MemberVO member = (MemberVO)session.getAttribute("memberVO");
-		LectureVO lecture = new LectureVO();
-		lecture.setEmpNo(member.getMemNo());
-		List<LectureVO> lectureList = schoolService.getLectureList(lecture);
-		
-		System.out.println("@@@@@@@@@@@@데이터 확인 :" + lectureList);
-		
-		//model.addAttribute("lectureList", lectureList);
-		
 		return "content/professor/lecture_schedule";
 	}
+	
+	//강의 시간표 목록 조회 ajax
+	@ResponseBody
+	@PostMapping("/lectureScheduleAjax")
+	public List<Map<String, Object>> lectureScheduleAjax(HttpSession session){
+		//강의 목록 조회
+		MemberVO member = (MemberVO) session.getAttribute("memberVO");
+		LectureVO lecture = new LectureVO();
+		lecture.setEmpNo(member.getMemNo());
+		List<Map<String, Object>> lectureList = professorService.getLectureListMap(lecture);
+		
+		System.out.println("@@@@@@@@@@데이터 확인 :" + lectureList);
+		
+		return lectureList;
+	}
+	
+	
 	
 	//강의 리스트 페이지 이동
 	@GetMapping("/lectureList")

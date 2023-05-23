@@ -1,9 +1,8 @@
 package com.study.test.professor.service;
 
 import java.util.List;
+import java.util.Map;
 
-import com.study.test.admin.vo.AdminMenuVO;
-import com.study.test.admin.vo.AdminSubMenuVO;
 import com.study.test.professor.vo.LectureTimeVO;
 import com.study.test.professor.vo.LectureVO;
 import com.study.test.professor.vo.ProfessorMenuVO;
@@ -28,5 +27,8 @@ public interface ProfessorService {
 
 	//강의 등록
 	void regLecture(LectureVO lectureVO);
+	
+	//강의 목록 조회(map 시간표용)
+	List<Map<String, Object>> getLectureListMap(LectureVO lectureVO);
 	
 }
