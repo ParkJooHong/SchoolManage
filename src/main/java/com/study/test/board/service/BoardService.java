@@ -25,6 +25,9 @@ public interface BoardService {
 	//보드 수정
 	void boardUpdate(UniBoardVO uniBoardVO);
 	
+	//보드 조회 수
+	void readCnt(UniBoardVO uniBoardVO);
+	
 	//보드 개수 조회
 	int totalBoardCount();
 }

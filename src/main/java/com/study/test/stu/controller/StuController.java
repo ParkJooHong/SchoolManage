@@ -638,7 +638,7 @@ public class StuController {
 		// 게시글 비밀번호 확인
 		@ResponseBody
 		@PostMapping("/pwdAjax")
-		public Map<String, Object> pwdAjax(String menuCode, String subMenuCode, String isPrivate, String boardNo , Model model ) {
+		public Map<String, Object> pwdAjax(String menuCode, String subMenuCode, String isPrivate, String boardNo , Model model, int readCnt ) {
 			
 			System.out.println(isPrivate);
 			
@@ -648,6 +648,8 @@ public class StuController {
 			
 			model.addAttribute("subMenuCode", subMenuCode);
 			model.addAttribute("menuCode" , menuCode);
+			
+			++readCnt;
 			
 			return data;
 		}
@@ -688,7 +690,10 @@ public class StuController {
 		
 		//게시글 상세보기
 		@GetMapping("/boardDetail")
-		private String boardDetail(Authentication authentication, String boardNo, Model model, UniBoardVO uniBoardVO, MemberVO memberVO, StuVO stuVO, String menuCode, String subMenuCode, MemberMenuVO memberMenuVO, MemberSubMenuVO memberSubMenuVO) {
+		private String boardDetail(Authentication authentication, String boardNo, Model model, UniBoardVO uniBoardVO, BoardReplyVO boardReplyVO,
+				MemberVO memberVO, StuVO stuVO, String menuCode, String subMenuCode, MemberMenuVO memberMenuVO, MemberSubMenuVO memberSubMenuVO, int readCnt, int replyCnt) {
+
+			
 			model.addAttribute("menuCode" , menuCode);
 			model.addAttribute("subMenuCode", subMenuCode);
 			System.out.println(" @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" +menuCode);
@@ -705,14 +710,21 @@ public class StuController {
 			
 			System.out.println(boardNo);
 			boardService.boardDetail(boardNo);
-
+			
+			//게시판 조회 수 업데이트
+			readCnt +=1;
+			uniBoardVO.setReadCnt(readCnt);
+			boardService.readCnt(uniBoardVO);
 			
 			
+			//댓글 수 업데이트
+			System.out.println(boardReplyVO);
+			boardReplyService.replyCnt(boardReplyVO);
 			
 			//uniBoardVO = (UniBoardVO)boardService.boardDetail(boardNo);
 			
 			System.out.println("보드VO" +uniBoardVO);
-			System.out.println("보드 상세 정보  : " +boardService.boardDetail(boardNo) );
+			System.out.println("보드 상세 정보  : " +boardService.boardDetail(boardNo));
 			model.addAttribute("uniBoardVO", boardService.boardDetail(boardNo));
 			
 			//게시판 카테고리 정보 

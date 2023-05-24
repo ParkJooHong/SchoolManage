@@ -47,5 +47,12 @@ public class BoardReplyServiceImpl implements BoardReplyService {
 		
 	}
 
+	//게시판 댓글 수
+	@Override
+	public void replyCnt(BoardReplyVO boardReplyVO) {
+		sqlSession.update("replyMapper.replyCnt", boardReplyVO);
+		
+	}
+
 	
 }

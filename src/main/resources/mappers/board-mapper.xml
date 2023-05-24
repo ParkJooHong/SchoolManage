@@ -129,6 +129,20 @@
 			WHERE BOARD_NO = #{boardNo}
 	</select>
 	
+	<!-- 게시글 조회 수 -->
+	<update id="readCnt">
+		UPDATE UNI_BOARD
+		SET READ_CNT = #{readCnt}
+		WHERE BOARD_NO = #{boardNo}
+	</update>
+	
+	<!-- 게시글 댓글 수 -->
+	<update id="replyCnt">
+		UPDATE UNI_BOARD
+		SET REPLY_CNT = #{replyCnt}
+		WHERE BOARD_NO = #{boardNo}
+	</update>
+	
 	<!-- 게시글 수정  -->
 	<update id="boardUpdate">
 		UPDATE UNI_BOARD

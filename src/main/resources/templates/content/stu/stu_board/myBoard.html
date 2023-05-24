@@ -97,10 +97,10 @@
 							<td>[[${state.count}]]</td>
 							<td>[[${uniBoard.boardWriter}]]</td>
 							<td th:if="${uniBoard.isPrivate !='N'}">
-								<a href="#" th:onclick="checkPwd( [[${uniBoard.isPrivate}]] , [[${uniBoard.boardNo}]], [[${menuCode}]], [[${subMenuCode}]]);" class="title"> 🔒 [[${uniBoard.boardTitle}]]</a>
+								<a href="#" th:onclick="checkPwd( [[${uniBoard.isPrivate}]] , [[${uniBoard.boardNo}]], [[${menuCode}]], [[${subMenuCode}]], [[${uniBoard.readCnt}]]);" class="title"> 🔒 [[${uniBoard.boardTitle}]]</a>
 							</td>
 							<td th:if="${uniBoard.isPrivate =='N'}">
-								<a th:href="@{/stuMenu/boardDetail(menuCode=${menuCode}, subMenuCode=${subMenuCode}, boardNo=${uniBoard.boardNo} )}" class="title">[[${uniBoard.boardTitle}]]</a>
+								<a th:href="@{/stuMenu/boardDetail(menuCode=${menuCode}, subMenuCode=${subMenuCode}, boardNo=${uniBoard.boardNo}, readCnt=${uniBoard.readCnt} )}" class="title">[[${uniBoard.boardTitle}]]</a>
 							</td>
 							<td>[[${uniBoard.regBoardDate}]]</td>
 							<td>[[${uniBoard.readCnt}]]</td>
