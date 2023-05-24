@@ -35,7 +35,7 @@
 <H3>교과목 검색 및 신청 </H3>
 <div>
 	단과대학
-	<select class="colleage">
+	<select class="colleage" th:onchange="updateDept([[${menuCode}]], [[${subMenuCode}]])">
 		<th:block th:each="colleage : ${colleageVO}" >
 			<option th:value="${colleage.collNo}">						
 					[[${colleage.collName}]]		
@@ -43,7 +43,7 @@
 		</th:block>
 	</select>
 	소속학과
-	<select class="colleage">
+	<select class="dept" th:onchange="updateLecture([[${menuCode}]], [[${subMenuCode}]])">
 		<th:block th:each="dept : ${deptVO}" >
 			<option th:value="${dept.deptName}">						
 					[[${dept.deptName}]]		
@@ -73,16 +73,16 @@
 		<thead>
 			<tr>
 				<td>강의코드</td>
-				<td>교과목명</td>
-				<td>학점</td>
+				<td>강의명</td>
+				<td>강의 학점</td>
 				<td>단과대학</td>
 				<td>학과</td>
-				<td>교수</td>
-				<td>강의 요일/시간</td>
 				<td>최대인원</td>
 				<td>현재인원</td>
-				<td>수강 학기</td>
-				<td>수강 신청</td>
+				<td>강의 날짜</td>
+				<td>강의 시간</td>
+				<td>강의 마치는 시간</td>
+				<td>수강 현황</td>
 			</tr>
 		</thead>
 		<tbody>
@@ -91,19 +91,21 @@
 					<td colspan="11">수강 신청 날이 아닙니다.</td>
 				</tr>
 			</th:block>
-			<th:block>
-				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
+			<th:block >
+				<tr th:each="lectureList : ${lectureListVO}">
+					<td>[[${lectureList.lecNo}]]</td>
+					<td>[[${lectureList.lecName}]]</td>
+					<td>[[${lectureList.lecScore}]]</td>
+					<td>[[${lectureList.colleageVO.collName}]]</td>
+					<td>[[${lectureList.deptVO.deptName}]]</td>
+					<td>[[${lectureList.maxMem}]]</td>
+					<td>[[${lectureList.nowMem}]]</td>
+					<td>[[${lectureList.lectureTimeList[0].lecDay}]]</td>
+					<td>[[${lectureList.lectureTimeList[0].startTime}]]</td>
+					<td>[[${lectureList.lectureTimeList[0].finishDate}]]</td>
+					<td>[[${lectureList.lecStatus}]]</td>
+					<td>없음.</td>
+					<td>[[${lectureList.memName}]]</td>
 				</tr>
 			</th:block>
 		</tbody>

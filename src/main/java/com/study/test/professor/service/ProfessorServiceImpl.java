@@ -1,6 +1,7 @@
 package com.study.test.professor.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +59,12 @@ public class ProfessorServiceImpl implements ProfessorService{
 		sqlsession.insert("professorMapper.regLecture", lectureVO);
 		sqlsession.insert("professorMapper.regLecturePdf", lectureVO);
 		sqlsession.insert("professorMapper.regLectureTime", lectureVO);
+	}
+
+	//강의 목록 조회(map 시간표용)
+	@Override
+	public List<Map<String, Object>> getLectureListMap(LectureVO lectureVO) {
+		return sqlsession.selectList("professorMapper.getLectureListMap", lectureVO);
 	}
 	
 	

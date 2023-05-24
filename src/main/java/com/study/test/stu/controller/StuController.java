@@ -23,6 +23,7 @@ import com.study.test.member.service.MemberService;
 import com.study.test.member.vo.MemberMenuVO;
 import com.study.test.member.vo.MemberSubMenuVO;
 import com.study.test.member.vo.MemberVO;
+import com.study.test.professor.vo.LectureVO;
 import com.study.test.school.colleage.ColleageVO;
 import com.study.test.school.dept.DeptManageVO;
 import com.study.test.school.dept.DeptVO;
@@ -290,7 +291,6 @@ public class StuController {
 			
 			stuService.leaveManage(leaveManageVO);
 			*/
-			// 집가서 다시
 			User user = (User)authentication.getPrincipal();
 			String memName = user.getUsername();
 			//System.out.println(memName);
@@ -303,6 +303,8 @@ public class StuController {
 			
 			System.out.println("학적 상태 : "+ stuStatus);
 			statusInfoVO.setStuNo(stuService.seletStu(memberVO).getStuVO().getStuNo());
+			
+			statusInfoVO.setStatusReason(applyReason);
 			
 			statusInfoVO.setNowStatus(stuStatus);
 			System.out.println("상태정보VO : " +statusInfoVO);
@@ -384,7 +386,7 @@ public class StuController {
 			return "/content/stu/stu_myStu/moveManage";
 		}
 		
-		//전과 신청 전 학과 변경 AJax
+		//전과 신청 , 수강신청 전 학과 변경 AJax
 		@ResponseBody
 		@PostMapping("/deptUpdateAjax")
 		public Map<String, Object> deptUpdateAjax(String collNo, DeptVO deptVO, ColleageVO colleageVO, String menuCode, String subMenuCode) {
@@ -528,7 +530,7 @@ public class StuController {
 			
 		//수강신청
 		@GetMapping("application")
-		private String application(Model model, StuVO stuVO, MemberVO memberVO, Authentication authentication, String collNo) {
+		private String application(String menuCode, String subMenuCode, Model model, StuVO stuVO, MemberVO memberVO, Authentication authentication, String collNo, LectureVO lectureVO) {
 			User user = (User)authentication.getPrincipal();
 			String memName = user.getUsername();
 			stuVO.setMemNo(user.getUsername()); // id임
@@ -542,8 +544,18 @@ public class StuController {
 			//학과 조회
 			model.addAttribute("deptVO", schoolService.getDeptList(collNo));
 
+			
+			//수강 조회
+			model.addAttribute("lectureListVO", schoolService.getLectureList(lectureVO));
+			System.out.println(schoolService.getLectureList(lectureVO));
+			
+			model.addAttribute("menuCode" , menuCode);
+			model.addAttribute("subMenuCode", subMenuCode);
+
 			return "/content/stu/stu_class/application";
 		}
+		
+		
 		
 		//수업평가
 		@GetMapping("evaluation")

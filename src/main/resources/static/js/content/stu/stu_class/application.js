@@ -1,3 +1,74 @@
+
+//대학에 따른 소속 학과 변경
+function updateDept(menuCode, subMenuCode){
+	
+	const coll = document.querySelector('.colleage');
+	const dept = document.querySelector('.dept');
+	
+	$.ajax({
+		url: '/stuMenu/deptUpdateAjax', //요청경로
+		type: 'post',
+		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+		data: {'collNo' : coll.value , 'menuCode' : menuCode, 'subMenuCode' : subMenuCode  }, //필요한 데이터
+		success: function(result) {
+			if(result)
+			{
+				//학과 자식태그 삭제
+				dept.replaceChildren();			
+				let dept_str = '';				
+				//학과 목록
+				for(const dept of result['deptList']){
+					dept_str += `<option value="${dept.deptNo}">${dept.deptName}</option>`;
+				}				
+				dept.insertAdjacentHTML('afterbegin', dept_str);
+				}
+				else{
+					alert("에러발생");
+				}		
+		},
+		error: function() {
+			alert('실패~');
+		}
+	});
+
+}
+
+
+// 소속학과에 따른 강의 수강 리스트 변경
+function updateLecture(){
+	const coll = document.querySelector('.colleage');
+	const dept = document.querySelector('.dept');
+	
+	$.ajax({
+		url: '/stuMenu/lectureUpdateAjax', //요청경로
+		type: 'post',
+		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+		data: {'collNo' : coll.value , 'menuCode' : menuCode, 'subMenuCode' : subMenuCode  }, //필요한 데이터
+		success: function(result) {
+			if(result)
+			{
+				//학과 자식태그 삭제
+				dept.replaceChildren();			
+				let dept_str = '';				
+				//학과 목록
+				for(const dept of result['deptList']){
+					dept_str += `<option value="${dept.deptNo}">${dept.deptName}</option>`;
+				}				
+				dept.insertAdjacentHTML('afterbegin', dept_str);
+				}
+				else{
+					alert("에러발생");
+				}		
+		},
+		error: function() {
+			alert('실패~');
+		}
+	});
+}
+
+
+
+
 function plus(){
 	const button = document.querySelector('.plus');
 	const table = document.querySelector('.tableAdd');

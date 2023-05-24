@@ -34,6 +34,7 @@
 		<association property="lecturePdfVO" resultMap="lecturePdf"/>
 		<association property="colleageVO" resultMap="schoolMapper.colleage"/>
 		<association property="deptVO" resultMap="schoolMapper.dept"/>
+		<association property="semesterVO" resultMap="schoolMapper.semester"/>
 		<collection property="lectureTimeList" resultMap="lectureTime"/>
 	</resultMap>
 	
@@ -52,7 +53,6 @@
 		<result column="START_TIME" 		property="startTime"/>
 		<result column="FINISH_DATE" 		property="finishDate"/>
 		<result column="LEC_NO" 			property="lecNo"/>
-		<result column="LEC_Duration" 			property="lecDuration"/>
 	</resultMap>
 	
 	<!-- 교수 메뉴 -->
@@ -146,7 +146,6 @@
 			, START_TIME
 			, FINISH_DATE
 			, LEC_NO
-			, LEC_DURATION
 		)
 		<foreach item="lectureTimeVO" collection="lectureTimeList" separator="UNION ALL" index="i">
 				SELECT (SELECT 'TIME_'||LPAD(NVL(MAX(TO_NUMBER(SUBSTR(TIME_NO, 6))), 0) + 1 + #{i}, 4, '0')
@@ -174,7 +173,6 @@
 			, LEC_STATUS
 			, SEM_NAME
 			, UM.MEM_NAME
-			, LEC_DURATION
 		FROM LECTURE LEC, COLLEAGE COL, DEPT DEP, UNI_MEMBER UM, LECTURE_TIME LT, SEMESTER SEM
 		WHERE LEC.COLL_NO = COL.COLL_NO
 		AND LEC.DEPT_NO = DEP.DEPT_NO
@@ -195,6 +193,17 @@
 		</if>
 	</select>	
 	
+	<!-- 강의 목록 조회(맵이용) -->
+	<select id="getLectureListMap" resultType="HashMap">
+		SELECT LEC.LEC_NO
+			, LEC_NAME
+			, LEC_DAY
+			, START_TIME
+			, FINISH_DATE
+		FROM LECTURE LEC, LECTURE_TIME LT
+		WHERE LEC.LEC_NO = LT.LEC_NO 
+		AND EMP_NO = #{empNo}
+	</select>
 	
 </mapper>
 

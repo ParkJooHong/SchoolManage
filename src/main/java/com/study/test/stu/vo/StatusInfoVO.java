@@ -30,4 +30,5 @@ public class StatusInfoVO {
 	private String fromDate;
 	private String toDate;
 
+
 }
