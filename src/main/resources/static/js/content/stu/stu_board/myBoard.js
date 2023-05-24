@@ -31,6 +31,7 @@ function success(menuCode, subMenuCode){
 	const cateNo =document.querySelector('.cateNo').value;
 	
 	//비밀번호 등록
+	if()
 	const inputPwd = document.querySelector('.inputPwd').value;
 
 
