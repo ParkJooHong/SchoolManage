@@ -41,16 +41,16 @@
 							</td>
 							<td>처리상태</td>
 							<td>
-								<input type="radio" class="form-check-input" name="status-1" checked>전체
+								<input type="radio" class="form-check-input" onclick="selectByStatus('');" value="" name="status-1" checked>전체
 							</td>
 							<td>
-								<input type="radio" class="form-check-input" name="status-1">승인대기							
+								<input type="radio" class="form-check-input" onclick="selectByStatus('승인대기');" value="승인대기" name="status-1">승인대기							
 							</td>
 							<td>
-								<input type="radio" class="form-check-input" name="status-1">승인완료
+								<input type="radio" class="form-check-input" onclick="selectByStatus('승인완료');" value="승인완료" name="status-1">승인완료
 							</td>
 							<td class="d-grid">
-								<input type="button" class="btn btn-primary" value="search">
+								<input type="button" class="btn btn-primary" onclick="selectByDateStatusInfo();" value="search">
 							</td>
 						</tr>
 					</table>

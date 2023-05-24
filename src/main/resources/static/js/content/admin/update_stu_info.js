@@ -71,7 +71,7 @@ function allCheckControll(allCheck) {
 
 
 //휴학 신청 모달창 열기
-function stateModalOpen(status_no,stu_no) {
+function stateModalOpen(status_no, stu_no) {
 	const state_modal = new bootstrap.Modal('#stateModal');
 
 	//ajax start
@@ -81,7 +81,7 @@ function stateModalOpen(status_no,stu_no) {
 		async: true,
 		//contentType : 'application/json; charset=UTF-8',
 		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-		data: { 'statusNo': status_no,'stuNo':stu_no }, //필요한 데이터
+		data: { 'statusNo': status_no, 'stuNo': stu_no }, //필요한 데이터
 		success: function(result) {
 			console.log(result);
 			const member_info = result['memberInfo'];
@@ -108,7 +108,12 @@ function stateModalOpen(status_no,stu_no) {
 			mem_dept.insertAdjacentHTML('afterbegin', member_info.deptVO.deptName);
 
 			const mem_double = document.querySelector('#memDouble');
-			mem_double.insertAdjacentHTML('afterbegin', member_info.doubleMajorVO.doubleDeptName);
+
+			let double_major_data = member_info.doubleMajorVO.doubleDeptName;
+			if (double_major_data == null) {
+				double_major_data = '없음';
+			}
+			mem_double.insertAdjacentHTML('afterbegin', double_major_data);
 
 			const img_modal_tag = document.querySelector('#memImg');
 			img_modal_tag.src = `/image/memImg/${member_info.memImgVO.attachedFileName}`;
@@ -191,7 +196,133 @@ function changeStatus(status_no, stu_no) {
 		});
 }
 
+//승인 상태에 따른 검색
+function selectByStatus(status_data) {
+	console.log(status_data);
+	//ajax start
+	$.ajax({
+		url: '/admin/selectByStatusAjax', //요청경로
+		type: 'post',
+		async: true,
+		contentType: 'application/json; charset=UTF-8',
+		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+		data: { 'statusData': status_data }, //필요한 데이터
+		success: function(result) {
+			console.log(result);
+			const leave_tbody = document.querySelector('.leaveTbody');
+			leave_tbody.replaceChildren();
 
+			str = '';
+			result.forEach(function(sta, index) {
+			str += '<tr>';
+			str += '<td>';
+			str += '<input type="checkbox" checked onclick="checkControll();" class="form-check-input checkboxes">';
+			str += '</td>';
+			str += `<td>${result.length - index}</td>`;
+			str += `<td>${sta.memberVO.memName}</td>`;
+			str += `<td><a href="javascript:void(0);" onclick="stateModalOpen('${sta.statusNo}', '${sta.stuVO.stuNo}');">${sta.stuVO.stuNo}</a></td>`;
+			str += `<td>${sta.stuVO.stuYear}학년 ${sta.stuVO.stuSem}학기</td>`;
+			str += `<td>${sta.colleageVO.collName}</td>`;
+			str += `<td>${sta.deptVO.deptName}</td>`;
+			str += `<td>${sta.applyDate}</td>`;
+			str += '<td>';
+			if(sta.ingStatus == '승인대기'){
+				str += `<input type="radio" class="form-check-input" checked id="waitRadio" name="status+${index}">승인대기`;
+				str += `<input type="radio" class="form-check-input" id="confirmRadio" onclick="changeStatus('${sta.statusNo}', '${sta.stuVO.stuNo}');" name="status+${index}">승인완료`;
+			}
+			else{
+				str += `<input type="radio" class="form-check-input" id="waitRadio" onclick="event.preventDefault();" name="status+${index}">승인대기`;
+				str += `<input type="radio" class="form-check-input" checked id="confirmRadio" onclick="event.preventDefault();" name="status+${index}">승인완료`;
+			}
+			str += '</td>';
+			str += '</tr>';		
+			})
+			
+			leave_tbody.insertAdjacentHTML('afterbegin',str);
+
+		},
+		error: function() {
+			alert('실패');
+		}
+	});
+	//ajax end
+}
+
+//휴학 신청자 날짜별 검색
+function selectByDateStatusInfo(){
+	const month_date = document.querySelector('.monthDate').value;
+	const now_date = document.querySelector('.nowDate').value;
+	const status_data = document.querySelector('input[name="status-1"]:checked').value;
+	console.log(now_date);
+	console.log(month_date);
+	console.log(status_data);
+	data = {
+		'ingStatus':status_data,
+		'fromDate':now_date,
+		'toDate':month_date,		
+	}
+		//ajax start
+		$.ajax({
+		   url: '/admin/selectByDateStatusInfoAjax', //요청경로
+		   type: 'post',
+		   async: true,
+		   contentType : 'application/json; charset=UTF-8',
+		  // contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+		   data: JSON.stringify(data), //필요한 데이터
+		   success: function(result) {
+		      			console.log(result);
+			const leave_tbody = document.querySelector('.leaveTbody');
+			leave_tbody.replaceChildren();
+
+			str = '';
+			result.forEach(function(sta, index) {
+			str += '<tr>';
+			str += '<td>';
+			str += '<input type="checkbox" checked onclick="checkControll();" class="form-check-input checkboxes">';
+			str += '</td>';
+			str += `<td>${result.length - index}</td>`;
+			str += `<td>${sta.memberVO.memName}</td>`;
+			str += `<td><a href="javascript:void(0);" onclick="stateModalOpen('${sta.statusNo}', '${sta.stuVO.stuNo}');">${sta.stuVO.stuNo}</a></td>`;
+			str += `<td>${sta.stuVO.stuYear}학년 ${sta.stuVO.stuSem}학기</td>`;
+			str += `<td>${sta.colleageVO.collName}</td>`;
+			str += `<td>${sta.deptVO.deptName}</td>`;
+			str += `<td>${sta.applyDate}</td>`;
+			str += '<td>';
+			if(sta.ingStatus == '승인대기'){
+				str += `<input type="radio" class="form-check-input" checked id="waitRadio" name="status+${index}">승인대기`;
+				str += `<input type="radio" class="form-check-input" id="confirmRadio" onclick="changeStatus('${sta.statusNo}', '${sta.stuVO.stuNo}');" name="status+${index}">승인완료`;
+			}
+			else{
+				str += `<input type="radio" class="form-check-input" id="waitRadio" onclick="event.preventDefault();" name="status+${index}">승인대기`;
+				str += `<input type="radio" class="form-check-input" checked id="confirmRadio" onclick="event.preventDefault();" name="status+${index}">승인완료`;
+			}
+			str += '</td>';
+			str += '</tr>';		
+			})
+			
+			leave_tbody.insertAdjacentHTML('afterbegin',str);
+		   },
+		   error: function() {
+		      alert('실패');
+		   }
+		});
+		//ajax end
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+}
 
 
 

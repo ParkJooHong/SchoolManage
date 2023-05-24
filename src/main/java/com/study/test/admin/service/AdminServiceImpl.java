@@ -97,8 +97,8 @@ public class AdminServiceImpl implements AdminService{
 	}
 	//휴학 신청자 리스트 조회
 	@Override
-	public List<StatusInfoVO> getLeaveManageList() {
-		return sqlsession.selectList("adminMapper.getLeaveManageList");
+	public List<StatusInfoVO> getLeaveManageList(StatusInfoVO statusInfoVO) {
+		return sqlsession.selectList("adminMapper.getLeaveManageList",statusInfoVO);
 	}
 	
 	//휴학 신청 대상자 조회	

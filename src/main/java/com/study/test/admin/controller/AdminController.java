@@ -165,7 +165,8 @@ public class AdminController {
 	@GetMapping("/updateStuInfo")
 	public String updateStuInfo(AdminSubMenuVO adminSubMenuVO, Model model) {
 		adminSubMenuVO.setMenuCode(ConstVariable.SECOND_MENU_CODE);
-		List<StatusInfoVO> statusInfoList = adminService.getLeaveManageList();
+		StatusInfoVO statusInfoVO = new StatusInfoVO();
+		List<StatusInfoVO> statusInfoList = adminService.getLeaveManageList(statusInfoVO);
 		
 		model.addAttribute("leaveManageList",statusInfoList);
 		
@@ -187,6 +188,33 @@ public class AdminController {
 		
 		return statusMap;
 	}
+	
+	//휴학 신청 상태에 따른 검색
+	@PostMapping("/selectByStatusAjax")
+	@ResponseBody
+	public List<StatusInfoVO> selectByStatusAjax(String statusData) {
+		StatusInfoVO statusInfoVO = new StatusInfoVO();
+		statusInfoVO.setIngStatus(statusData);
+		System.out.println(statusInfoVO.getIngStatus());
+		return adminService.getLeaveManageList(statusInfoVO);
+	}
+	//휴학 신청 날짜별 검색
+	@PostMapping("/selectByDateStatusInfoAjax")
+	@ResponseBody
+	public List<StatusInfoVO> selectByDateStatusInfoAjax(@RequestBody Map<String, String> stateMap) {
+		StatusInfoVO statusInfoVO = new StatusInfoVO();
+		statusInfoVO.setIngStatus(stateMap.get("ingStatus"));
+		statusInfoVO.setFromDate(stateMap.get("fromDate"));
+		statusInfoVO.setToDate(stateMap.get("toDate"));
+		List<StatusInfoVO> statusInfoList = adminService.getLeaveManageList(statusInfoVO);
+		
+		return statusInfoList;
+	}
+	
+	
+	
+	
+	
 	
 	//휴학 신청 승인
 	@PostMapping("/changeStatusAjax")

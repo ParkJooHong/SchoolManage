@@ -41,7 +41,7 @@ public interface AdminService {
 	//대상자들 업데이트
 	int updateStuInfoByApplyData(DeptManageVO deptManageVO);
 	//휴학 신청 대상자 조회
-	List<StatusInfoVO> getLeaveManageList();
+	List<StatusInfoVO> getLeaveManageList(StatusInfoVO statusInfoVO);
 	
 	//휴학 신청 대상자 조회
 	StatusInfoVO getLeaveManageMember(String statusNo);
