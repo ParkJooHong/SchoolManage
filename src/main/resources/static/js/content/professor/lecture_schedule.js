@@ -11,23 +11,34 @@ function lecScheduleAjax() {
         success: function(lecTimeList) {
          
             lecTimeList.forEach(function(lecTime, index) {
-                lecTimeList[index]['FIRST_TIME'] = parseInt(lecTime['FIRST_TIME']);
-                lecTimeList[index]['LAST_TIME'] = parseInt(lecTime['LAST_TIME']);
+                lecTimeList[index]['START_TIME'] = parseInt(lecTime['START_TIME']);
+                lecTimeList[index]['FINISH_TIME'] = parseInt(lecTime['FINISH_TIME']);
                 lecTimeList[index]['LEC_DAY'] = parseInt(lecTime['LEC_DAY']);
+                lecTimeList[index]['LEC_NAME'] = lecTime['LEC_NAME'];
             });
             console.log(lecTimeList);
             
          let str = '';          
          
-         for(let t = 1; t<9; t++){
+         str += `<tr>`
+         str += `	<td></td>`
+         str += `	<td>월</td>`
+         str += `	<td>화</td>`
+         str += `	<td>수</td>`
+         str += `	<td>목</td>`
+         str += `	<td>금</td>`
+         str += `</tr>`
+         	
+         for(let t = 1; t<10; t++){
             str += `<tr style="height: 40px;">`;  
             str += `   <td>`;  
-            str += `       ${t+'교시'}`;  
+            str += `       <div>${t+'교시'}</div>`;  
+            str += `       <div>${(t+8)+':00'}</div>`;  
             str += `    </td> `;  
             for(let num = 1; num<6; num++){
                str += `<td class="tdTag"> `;  
                for(let i = 0; i<lecTimeList.length; i++){
-                  if(lecTimeList[i]['LEC_DAY']==num && lecTimeList[i]['FIRST_TIME']<=t && lecTimeList[i]['LAST_TIME']>=t){
+                  if(lecTimeList[i]['LEC_DAY']==num && lecTimeList[i]['START_TIME']<=t+8 && lecTimeList[i]['FINISH_TIME']>=t+8){
                      str += `<span id="${'span'+i+num}">${lecTimeList[i]['LEC_NAME']}</span>`;
                   }
                }
@@ -35,7 +46,7 @@ function lecScheduleAjax() {
             }
             str += `</tr>`;
          }
-             document.querySelector('#tbodyTag').insertAdjacentHTML('afterend', str);
+             document.querySelector('tbody').insertAdjacentHTML('afterend', str);
             
         },
         error: function() {

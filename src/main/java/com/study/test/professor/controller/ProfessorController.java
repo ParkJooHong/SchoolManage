@@ -37,6 +37,7 @@ import com.study.test.school.dept.DeptVO;
 import com.study.test.school.semester.SemesterVO;
 import com.study.test.school.service.SchoolService;
 import com.study.test.util.ConstVariable;
+import com.study.test.util.DateUtil;
 import com.study.test.util.UploadUtil;
 
 import jakarta.annotation.Resource;
@@ -63,9 +64,21 @@ public class ProfessorController {
 		//메뉴코드 등록
 		professorMenuVO.setMenuCode(ConstVariable.DEFAULT_PROFESSOR_MENU_CODE);
 		
-		//학기리스트 조회
-		List<SemesterVO> semeList = schoolService.getSemeList();
-		model.addAttribute("semeList", semeList);
+		
+		//지금 학기 조회
+		//학기 정보를 지정하기 위해 오늘 날짜 데이터 조회
+		SemesterVO currentSemester = new SemesterVO();
+		//현재 연도 저장
+		currentSemester.setSemYear(DateUtil.getYear());
+		//현재 달에 따른 학기 저장
+		if(DateUtil.getMonth()<7) {
+			currentSemester.setSemester(1);
+		}
+		else {
+			currentSemester.setSemester(2);
+		}
+		List<SemesterVO> semester = schoolService.getSemeList(currentSemester);
+		model.addAttribute("semester", semester);
 		
 		//대학리스트 조회
 		List<ColleageVO> collList = schoolService.getCollList();
@@ -161,13 +174,13 @@ public class ProfessorController {
 		List<LectureTimeVO> lectureTimeList = new ArrayList<>();
 		String[] lecDayArr = lectureTimeVO.getLecDay().split(",");
 		String[] lecStartTime = lectureTimeVO.getStartTime().split(",");
-		String[] lecFinishDate = lectureTimeVO.getFinishDate().split(",");
+		String[] lecFinishDate = lectureTimeVO.getFinishTime().split(",");
 		
 		for(int i = 0; i < lecDayArr.length; i++) {
 			LectureTimeVO lectureTime = new LectureTimeVO();
 			lectureTime.setLecDay(lecDayArr[i]);
 			lectureTime.setStartTime(lecStartTime[i]);
-			lectureTime.setFinishDate(lecFinishDate[i]);
+			lectureTime.setFinishTime(lecFinishDate[i]);
 			lectureTimeList.add(lectureTime);
 		}
 		

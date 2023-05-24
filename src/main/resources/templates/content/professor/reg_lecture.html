@@ -43,11 +43,12 @@
 							</tr>
 							<tr>
 								<td>강의학기</td>
-								<td class="d-grid"><select name="semNo">
-										<th:block th:each="seme : ${semeList}">
-											<option th:value="${seme.semNo}">[[${seme.semName}]]</option>
-										</th:block>
-								</select></td>
+								<td class="d-grid">
+									<th:block th:each="seme : ${semester}">
+										<input type="hidden" name="semNo" value="seme.semNo">
+										[[${seme.semName}]]
+									</th:block>
+								</td>
 							</tr>
 							<tr>
 								<td>단과대학</td>
@@ -119,9 +120,9 @@
 									required placeholder="예)14:00"
 									onchange="regBtnDisable(this)" onkeyup="startTimeValidate(this)" onblur="startTimeValidate(this)"></td>
 									<td>강의 종료시간</td>
-								<td><input class="lecture_time" type="text" name="finishDate" id="finishDate"
+								<td><input class="lecture_time" type="text" name="finishTime" id="finishTime"
 									required placeholder="예)16:00"
-									onchange="regBtnDisable(this)" onkeyup="finishDateValidate(this)" onblur="finishDateValidate(this)"></td>
+									onchange="regBtnDisable(this)" onkeyup="finishTimeValidate(this)" onblur="finishTimeValidate(this)"></td>
 								<td class="add_btn_wrap">
 									<div><input class="btn btn-primary" type="button" value="추가" onclick="addLectureTime(this)"></div>
 									<div><input class="btn btn-primary" type="button" value="삭제" onclick="removeLectureTime(this)"></div>

@@ -17,46 +17,52 @@
 					<h4>강의 리스트</h4>
 				</div>
 			</div>
-			<div class="row text-end">
-				<div class="col">
-					<span class="ps-span"> ★ 버튼을 클릭하면 신청서를 볼 수 있습니다.</span>
+			<div class="row text-center mb-3 align-middle">
+				<div class="col-3">
+					<span class="mr-1"><input type="radio">전체</span>						
+					<span class="mr-1"><input type="radio">강의중</span>						
+					<span class="mr-1"><input type="radio">폐강</span>					
+				</div>
+				<div class="col-4">
+					<select>
+						<th:block th:each="">
+							<option></option>
+						</th:block>
+					</select>
 				</div>
 			</div>
 			<div class="row mb-5">
 				<div class="col">
 					<table class="table align-middle text-center">
 						<colgroup>
+							<col width="8%">
+							<col width="15%">
+							<col width="8%">
+							<col width="15%">
 							<col width="5%">
-							<col width="10%">
+							<col width="8%">
 							<col width="15%">
 							<col width="10%">
-							<col width="15%">
 							<col width="5%">
-							<col width="6%">
 							<col width="5%">
-							<col width="15%">
-							<col width="5%">
-							<col width="4%">
 						</colgroup>
 						<thead>
 							<tr>
-								<td>No</td>
 								<td>강의코드</td>
 								<td>교과목명</td>
 								<td>단과대학</td>
 								<td>학과</td>
 								<td>학점</td>
 								<td>교수</td>
-								<td>요일</td>
-								<td>시간</td>
+								<td>강의시간</td>
+								<td>강의상태</td>
 								<td>강의변경</td>
-								<td>삭제</td>
+								<td>폐강</td>
 							</tr>
 						</thead>
 						<tbody id="lecture_list_body">
 							<th:block th:each="lecture,state : ${lectureList}">
 								<tr>
-									<td>[[${#lists.size(lectureList) - state.index}]]</td>
 									<td>[[${lecture.lecNo}]]</td>
 									<td>[[${lecture.lecName}]]</td>
 									<td>[[${lecture.colleageVO.collName}]]</td>
@@ -65,16 +71,19 @@
 									<td>[[${lecture.memName}]]</td>
 									<td>
 										<th:block th:each="lectureTime: ${lecture.lectureTimeList}">
-											<div>[[${lectureTime.lecDay}]]</div>
+											<div>[[${lectureTime.lecDay}]] / [[${lectureTime.startTime}]]~[[${lectureTime.finishTime}]]</div>
 										</th:block>
 									</td>
 									<td>
-										<th:block th:each="lectureTime: ${lecture.lectureTimeList}">
-											<div>[[${lectureTime.startTime}]]~[[${lectureTime.finishDate}]]</div>
+										<th:block th:if="${lecture.lecStatus == 'Y'}">
+											강의중
+										</th:block>
+										<th:block th:unless="${lecture.lecStatus == 'Y'}">
+											폐강
 										</th:block>
 									</td>
 									<td><input class="btn btn-primary" type="button" value="강의수정"></td>
-									<td><input class="btn btn-primary" type="button" value="삭제"></td>
+									<td><input class="btn btn-primary" type="button" value="폐강"></td>
 								</tr>
 							</th:block>
 						</tbody>

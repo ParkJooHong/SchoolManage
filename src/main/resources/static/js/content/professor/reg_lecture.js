@@ -93,7 +93,7 @@ function lectureTimeCheck() {
 			let lectureTimeVO = {
 				lecDay : lectureTime.querySelector('input[name="lecDay"]').value,
 				startTime : lectureTime.querySelector('input[name="startTime"]').value,
-				finishDate : lectureTime.querySelector('input[name="finishDate"]').value
+				finishTime : lectureTime.querySelector('input[name="finishTime"]').value
 			};
 			lectureTimeVO_list.push(lectureTimeVO);
 		}
@@ -146,11 +146,11 @@ function validateAllLectureTimes() {
 	lectureTimes.forEach((time) => {
 		const lecDayInput = time.querySelector('input[name="lecDay"]');
 		const startTimeInput = time.querySelector('input[name="startTime"]');
-		const finishDateInput = time.querySelector('input[name="finishDate"]');
+		const finishTimeInput = time.querySelector('input[name="finishTime"]');
 		lecDayValidate(lecDayInput);
 		startTimeValidate(startTimeInput);
-		finishDateValidate(finishDateInput);
-		if (!lecDayValidate(lecDayInput) || !startTimeValidate(startTimeInput) || !finishDateValidate(finishDateInput)) {
+		finishTimeValidate(finishTimeInput);
+		if (!lecDayValidate(lecDayInput) || !startTimeValidate(startTimeInput) || !finishTimeValidate(finishTimeInput)) {
 			isValid = false;
 		}
 	});
@@ -289,52 +289,52 @@ function startTimeValidate(check){
 }
 
 //3.강의 종료시간
-function finishDateValidate(check){
-	const error_div = check.closest('tr').querySelector('#finishDateValidate');
+function finishTimeValidate(check){
+	const error_div = check.closest('tr').querySelector('#finishTimeValidate');
 	if(error_div != null){
 		error_div.remove();
 	}
 	
 	//함수의 리턴 결과를 저장하는 변수
-	let result_finish_date = false;
+	let result_finish_time = false;
 	
 	//에러 메세지
-	let str_finish_date = '';
+	let str_finish_time = '';
 	
 	//강의 날짜 태그 가져오기
-	const finish_date = check;
+	const finish_time = check;
 	
 	//강의 날짜 정규식
-	const exp_finish_date = /^([01]?[0-9]|2[0-3]):[0][0]$/;
+	const exp_finish_time = /^([01]?[0-9]|2[0-3]):[0][0]$/;
 	
 	//입력값이 없을때	
-	if(finish_date.value == ''){
-		str_finish_date = '강의 시간은 필수 입력입니다.';
-		finish_date.style.border = '1px solid red';
-		result_finish_date = false;
+	if(finish_time.value == ''){
+		str_finish_time = '강의 시간은 필수 입력입니다.';
+		finish_time.style.border = '1px solid red';
+		result_finish_time = false;
 	}
-	else if(finish_date.value < check.closest('tr').querySelector('#startTime').value){
-		str_finish_date = '강의시간은 시작시간보다 뒤어야 합니다.';
-		finish_date.style.border = '1px solid red';
-		result_finish_date = false;
+	else if(finish_time.value < check.closest('tr').querySelector('#startTime').value){
+		str_finish_time = '강의시간은 시작시간보다 뒤어야 합니다.';
+		finish_time.style.border = '1px solid red';
+		result_finish_time = false;
 	}
-	else if(!exp_finish_date.test(finish_date.value)){
-		str_finish_date = '강의시간은 해당 예와같이 입력해주세요 예)16:00';
-		finish_date.style.border = '1px solid red';
-		result_finish_date = false;
+	else if(!exp_finish_time.test(finish_time.value)){
+		str_finish_time = '강의시간은 해당 예와같이 입력해주세요 예)16:00';
+		finish_time.style.border = '1px solid red';
+		result_finish_time = false;
 	}
 	else{
-		finish_date.style.border = '';
-		result_finish_date = true;
+		finish_time.style.border = '';
+		result_finish_time = true;
 	}
 	
 	//결과가 false일때 에러메세지 출력
-	if(!result_finish_date){
-		const errorHTML = `<div id="finishDateValidate" class="my-invalid">${str_finish_date}</div>`
-		finish_date.insertAdjacentHTML('afterend',errorHTML);
+	if(!result_finish_time){
+		const errorHTML = `<div id="finishTimeValidate" class="my-invalid">${str_finish_time}</div>`
+		finish_time.insertAdjacentHTML('afterend',errorHTML);
 	}
 	
-	return result_finish_date;
+	return result_finish_time;
 }
 
 //-----------------강의 등록 무결성 검사---------------
@@ -442,7 +442,7 @@ function addLectureTime(add_btn){
 	str += '<td>강의 시작시간</td>'                                                                              
 	str += '<td><input class="lecture_time" type="text" name="startTime" id="startTime" required placeholder="예)14:00" onchange="regBtnDisable()" onkeyup="startTimeValidate(this)" onblur="startTimeValidate(this)"></td>'
 	str += '<td>강의 종료시간</td>'
-	str += '<td><input class="lecture_time" type="text" name="finishDate" id="finishDate" required placeholder="예)16:00" onchange="regBtnDisable()" onkeyup="finishDateValidate(this)" onblur="finishDateValidate(this)"></td>'
+	str += '<td><input class="lecture_time" type="text" name="finishTime" id="finishTime" required placeholder="예)16:00" onchange="regBtnDisable()" onkeyup="finishTimeValidate(this)" onblur="finishTimeValidate(this)"></td>'
 	str += '<td class="add_btn_wrap">'
 	str += '<div><input class="btn btn-primary" type="button" value="삭제" onclick="removeLectureTime(this)"></div>'
 	str += '</td>'

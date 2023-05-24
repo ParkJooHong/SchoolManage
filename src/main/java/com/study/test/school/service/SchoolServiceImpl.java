@@ -20,7 +20,7 @@ public class SchoolServiceImpl implements SchoolService{
 
 	//학기 리스트
 	@Override
-	public List<SemesterVO> getSemeList() {
+	public List<SemesterVO> getSemeList(SemesterVO semesterVO) {
 		return sqlsession.selectList("schoolMapper.getSemeList");
 	}
 

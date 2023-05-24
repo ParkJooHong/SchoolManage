@@ -51,7 +51,7 @@
 		<id column="TIME_NO" 				property="timeNo"/>
 		<result column="LEC_DAY" 			property="lecDay"/>
 		<result column="START_TIME" 		property="startTime"/>
-		<result column="FINISH_DATE" 		property="finishDate"/>
+		<result column="FINISH_TIME" 		property="finishTime"/>
 		<result column="LEC_NO" 			property="lecNo"/>
 	</resultMap>
 	
@@ -116,9 +116,9 @@
 		FROM LECTURE_TIME
 		WHERE LEC_DAY = #{lecDay}
 		AND (
-            (START_TIME &lt;= #{startTime} AND FINISH_DATE > #{startTime})  <!--  시작 시간이 다른 강의와 겹칠 경우 -->
-            OR (START_TIME &lt; #{finishDate} AND FINISH_DATE >= #{finishDate})   <!-- 종료 시간이 다른 강의와 겹칠 경우 -->
-            OR (START_TIME >= #{startTime} AND FINISH_DATE &lt;= #{finishDate})   <!-- 다른 강의와 시간이 완전히 겹칠 경우 -->
+            (START_TIME &lt;= #{startTime} AND FINISH_TIME > #{startTime})  <!--  시작 시간이 다른 강의와 겹칠 경우 -->
+            OR (START_TIME &lt; #{finishTime} AND FINISH_TIME >= #{finishTime})   <!-- 종료 시간이 다른 강의와 겹칠 경우 -->
+            OR (START_TIME >= #{startTime} AND FINISH_TIME &lt;= #{finishTime})   <!-- 다른 강의와 시간이 완전히 겹칠 경우 -->
         )
 	</select>
 	
@@ -144,7 +144,7 @@
 			TIME_NO
 			, LEC_DAY
 			, START_TIME
-			, FINISH_DATE
+			, FINISH_TIME
 			, LEC_NO
 		)
 		<foreach item="lectureTimeVO" collection="lectureTimeList" separator="UNION ALL" index="i">
@@ -152,7 +152,7 @@
 				FROM LECTURE_TIME)
 				, #{lectureTimeVO.lecDay}
 				, #{lectureTimeVO.startTime}
-				, #{lectureTimeVO.finishDate}
+				, #{lectureTimeVO.finishTime}
 				, #{lecNo}
 				FROM DUAL
 		</foreach>
@@ -169,7 +169,8 @@
 			, NOW_MEM
 			, LEC_DAY
 			, START_TIME
-			, FINISH_DATE
+			, FINISH_TIME
+			, TO_CHAR(CREATE_DATE, 'YYYY') AS CREATE_DATE
 			, LEC_STATUS
 			, SEM_NAME
 			, UM.MEM_NAME
@@ -197,9 +198,9 @@
 	<select id="getLectureListMap" resultType="HashMap">
 		SELECT LEC.LEC_NO
 			, LEC_NAME
-			, LEC_DAY
+			, DECODE(LEC_DAY, '월', '1', '화', '2', '수', '3', '목', '4', '금', '5') AS LEC_DAY
 			, START_TIME
-			, FINISH_DATE
+			, FINISH_TIME
 		FROM LECTURE LEC, LECTURE_TIME LT
 		WHERE LEC.LEC_NO = LT.LEC_NO 
 		AND EMP_NO = #{empNo}

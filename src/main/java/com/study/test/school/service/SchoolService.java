@@ -11,7 +11,7 @@ import com.study.test.school.semester.SemesterVO;
 
 public interface SchoolService {
 	//학기 리스트
-	List<SemesterVO> getSemeList();
+	List<SemesterVO> getSemeList(SemesterVO semesterVO);
 	
 	//대학 리스트 조회
 	List<ColleageVO> getCollList();
