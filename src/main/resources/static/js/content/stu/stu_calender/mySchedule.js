@@ -1,3 +1,11 @@
+
+
+
+
+
+
+
+
 function plus(){
 	const button = document.querySelector('.plus');
 	const table = document.querySelector('.tableAdd');

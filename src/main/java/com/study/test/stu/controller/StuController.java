@@ -634,6 +634,23 @@ public class StuController {
 			return "/content/stu/stu_board/totalBoard";
 		}
 		
+		// 게시글 비밀번호 확인
+		@ResponseBody
+		@PostMapping("/pwdAjax")
+		public Map<String, Object> pwdAjax(String menuCode, String subMenuCode, String isPrivate, String boardNo , Model model ) {
+			
+			System.out.println(isPrivate);
+			
+			Map<String, Object> data = new HashMap<>();
+			 data.put("menuCode", menuCode);
+		     data.put("subMenuCode", subMenuCode);
+			
+			model.addAttribute("subMenuCode", subMenuCode);
+			model.addAttribute("menuCode" , menuCode);
+			
+			return data;
+		}
+		
 		//글쓰기
 		@ResponseBody
 		@PostMapping("/boardWriteAjax")

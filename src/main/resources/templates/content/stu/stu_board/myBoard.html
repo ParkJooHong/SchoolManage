@@ -4,7 +4,7 @@
    layout:decorate="~{fragment/info_layout}">
 
 <th:block layout:fragment="content_css">
-   <link rel="stylesheet" href="/css/content/stu/stu_board/totalBoard.css">
+   <link rel="stylesheet" href="/css/content/stu/stu_board/myBoard.css">
 </th:block>
 
 <th:block layout:fragment="content">
@@ -79,8 +79,8 @@
 					<thead>
 					  <tr>
 						<th>No</th>
-						<th>글 제목</th>
 						<th>글쓴이</th>
+						<th>글 제목</th>
 						<th>작성일</th>
 						<th>조회수</th>
 						<th>댓글수</th>
@@ -95,8 +95,13 @@
 					<th:block th:if="${#lists.size(uniBoardVO) != 0}">
 						<tr th:each="uniBoard, state : ${uniBoardVO}">
 							<td>[[${state.count}]]</td>
-							<td><a th:href="@{/stuMenu/boardDetail(menuCode=${menuCode}, subMenuCode=${subMenuCode}, boardNo=${uniBoard.boardNo} )}">[[${uniBoard.boardTitle}]]</a></td>
 							<td>[[${uniBoard.boardWriter}]]</td>
+							<td th:if="${uniBoard.isPrivate !='N'}">
+								<a href="#" th:onclick="checkPwd( [[${uniBoard.isPrivate}]] , [[${uniBoard.boardNo}]], [[${menuCode}]], [[${subMenuCode}]]);" class="title"> 🔒 [[${uniBoard.boardTitle}]]</a>
+							</td>
+							<td th:if="${uniBoard.isPrivate =='N'}">
+								<a th:href="@{/stuMenu/boardDetail(menuCode=${menuCode}, subMenuCode=${subMenuCode}, boardNo=${uniBoard.boardNo} )}" class="title">[[${uniBoard.boardTitle}]]</a>
+							</td>
 							<td>[[${uniBoard.regBoardDate}]]</td>
 							<td>[[${uniBoard.readCnt}]]</td>
 							<td>[[${uniBoard.replyCnt}]]</td>
@@ -189,7 +194,7 @@
 									<input type="radio" class="isPrivate" name="isPrivate" value="N" checked onclick="noPrivate();"> 아니오
 								</div>
 								<div class="pwd">
-									<span></span>
+									<span class="inputPwd"></span>
 								</div>
 								<div class="col-3">
 									<label for="boardTitle" class="form-label">공지사항 여부 : </label> 
@@ -202,15 +207,13 @@
 							<div class="col-6 d-grid">
 								<input type="button" value="게시글 등록" class="btn btn-primary" th:onclick="success([[${menuCode}]], [[${subMenuCode}]]);">
 						</div>
-						</form>
-						
+						</form>					
 			</div>
-
     </div>
   </div>
 </div>	
 
-</th:block>
+
 
 
 <th:block layout:fragment="content_js">
