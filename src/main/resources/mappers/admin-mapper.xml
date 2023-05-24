@@ -307,6 +307,16 @@
         </if>
         AND IMG.MEM_NO = STU.STU_NO
         AND AFTER_STATUS = '휴학'
+        <if test='ingStatus != null and !ingStatus.equals("")'>
+        AND ING_STATUS = #{ingStatus}
+        </if>
+        <if test='fromDate != null and !fromDate.equals("")'>
+        AND TO_CHAR(APPROVAL_DATE, 'YYYY-MM-DD') &lt;= #{fromDate}
+        </if>
+        <if test='toDate != null and !toDate.equals("")'>
+        AND TO_CHAR(APPROVAL_DATE, 'YYYY-MM-DD') &gt;= #{toDate}
+        </if>
+        
         ORDER BY STATUS_NO DESC
 	</select>
 	

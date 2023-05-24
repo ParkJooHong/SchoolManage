@@ -27,5 +27,7 @@ public class StatusInfoVO {
 	private ColleageVO colleageVO;
 	private DeptVO deptVO;
 	private DoubleMajorVO doubleMajorVO;
+	private String fromDate;
+	private String toDate;
 
 }

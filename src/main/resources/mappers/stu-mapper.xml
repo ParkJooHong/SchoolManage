@@ -50,7 +50,9 @@
 		<result column="APPLY_DATE" 			property="applyDate"/>
 		<result column="APPROVAL_DATE" 			property="approvalDate"/>
 		<result column="ING_STATUS" 			property="ingStatus"/>
-		<result column="STATUS_REASON" 			property="statusReason"/>		
+		<result column="STATUS_REASON" 			property="statusReason"/>
+		<result column="FROM_DATE" 				property="fromDate"/>		
+		<result column="TO_DATE" 				property="toDate"/>		
 		<association property="memberVO" 		resultMap="memberMapper.member"/>
 		<association property="stuVO" 			resultMap="stuMapper.stu"/>
 		<association property="colleageVO" 		resultMap="schoolMapper.colleage"/>
