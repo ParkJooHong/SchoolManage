@@ -183,14 +183,17 @@
 								<input type="radio" > 예 
 							</div>
 							<div class="col-12">
-								<div class="col-3">
+								<div class="col-3" >
 									<label for="boardTitle" class="form-label">비밀글 여부 : </label> 
-									<input type="radio" class="isPrivate" name="isPrivate" value="Y"> 예 
-									<input type="radio" class="isPrivate" name="isPrivate" value="N" checked> 아니오
+									<input type="radio" class="isPrivate" name="isPrivate" value="Y" onclick="private();"> 예 
+									<input type="radio" class="isPrivate" name="isPrivate" value="N" checked onclick="noPrivate();"> 아니오
+								</div>
+								<div class="pwd">
+									<span></span>
 								</div>
 								<div class="col-3">
 									<label for="boardTitle" class="form-label">공지사항 여부 : </label> 
-									<input type="radio" class="isNotice" name="isNotice" value="Y"> 예 
+									<input type="radio" class="isNotice" name="isNotice" value="Y" > 예 
 									<input type="radio" class="isNotice" name="isNotice" value="N" checked> 아니오
 								</div>
 							</div>
@@ -211,7 +214,7 @@
 
 
 <th:block layout:fragment="content_js">
-<script type="text/javascript" src="/js/content/stu/stu_board/totalBoard.js"></script>
+<script type="text/javascript" src="/js/content/stu/stu_board/myBoard.js"></script>
 </th:block>
 
 </html>

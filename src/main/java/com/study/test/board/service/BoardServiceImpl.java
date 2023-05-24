@@ -53,6 +53,12 @@ public class BoardServiceImpl implements BoardService {
 		sqlSession.update("boardMapper.boardUpdate", uniBoardVO);
 		
 	}
+
+	//보드 개수 조회
+	@Override
+	public int totalBoardCount() {
+		return sqlSession.selectOne("boardMapper.totalBoardCount");
+	}
 	
 	
 }

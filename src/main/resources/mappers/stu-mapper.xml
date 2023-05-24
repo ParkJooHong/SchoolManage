@@ -96,6 +96,23 @@
 		
 	</resultMap>
 	
+	<!-- 멤버 조회 -->
+	<select id="selectMember" resultMap="member">
+		SELECT MEM_NO
+			, MEM_PW
+			, MEM_NAME
+			, MEM_EMAIL
+			, MEM_ADDR
+			, MEM_ADDR_DETAIL
+			, MEM_TELL
+			, MEM_IMAGE
+			, MEM_GENDER
+			, MEM_BIRTH
+			, MEM_ROLE
+		FROM UNI_MEMBER
+		WHERE MEM_NO = #{memNo}
+	</select>
+	
 	<!--  학생 정보 조회 -->
 <!-- 	<select id="seletStu" resultType="String"> -->
 	<select id="seletStu" resultMap="member">
@@ -204,6 +221,14 @@
 			, STU_BANK_NAME = #{stuBankName}
 			, STU_BANK_ACCOUNT = #{stuBankAccount}
 		WHERE MEM_NO = #{memNo} 
+	</update>
+	
+	<!-- 학생 이미지 변경 -->
+	<update id="updateStuImg">
+		UPDATE MEM_IMG
+		SET ORIGIN_FILE_NAME = #{originFileName}
+			, ATTACHED_FILE_NAME = #{attachedFileName}
+		WHERE MEM_NO = #{memNo}
 	</update>
 	
 	<!-- 학생 비밀번호 변경 -->
