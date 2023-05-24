@@ -35,6 +35,7 @@
 		<association property="colleageVO" resultMap="schoolMapper.colleage"/>
 		<association property="deptVO" resultMap="schoolMapper.dept"/>
 		<collection property="lectureTimeList" resultMap="lectureTime"/>
+		<association property="semesterVO" resultMap="schoolMapper.semester"/>
 	</resultMap>
 	
 	<!-- 강의 자료 -->
