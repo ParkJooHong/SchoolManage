@@ -218,8 +218,6 @@ public class ProfessorController {
 		return lectureList;
 	}
 	
-	
-	
 	//강의 리스트 페이지 이동
 	@GetMapping("/lectureList")
 	public String lectureList(Model model, ProfessorMenuVO professorMenuVO, HttpSession session) {
@@ -231,12 +229,70 @@ public class ProfessorController {
 		lecture.setEmpNo(member.getMemNo());
 		List<LectureVO> lectureList = schoolService.getLectureList(lecture);
 		
-		System.out.println("@@@@@@@@@@@@@@@데이터 확인 " + lectureList);
+		//강의 학기 조회
+		SemesterVO semesterVO = new SemesterVO();
+		List<SemesterVO> semesterList = schoolService.getSemeList(semesterVO);
+		model.addAttribute("semesterList", semesterList);
 		
 		model.addAttribute("lectureList", lectureList);
 
 		return "content/professor/lecture_list";
 	}
+	
+	//강의 목록 조회(ajax)
+	@ResponseBody
+	@PostMapping("/getLectureListAjax")
+	public List<LectureVO> getLectureListAjax(@RequestBody LectureVO lectureVO, HttpSession session){
+		//로그인 정보 불러오기
+		MemberVO member = (MemberVO)session.getAttribute("memberVO");
+		lectureVO.setEmpNo(member.getMemNo());
+		
+		System.out.println("@@@@@@@@@@데이터 확인 " + lectureVO);
+		
+		//1.강의 상태에 따른 목록조회
+		List<LectureVO> lectureList = schoolService.getLectureList(lectureVO);
+		
+		return lectureList;
+	}
+	
+	//강의 수정 : 수정할 정보 불러오기(ajax)
+	@ResponseBody
+	@PostMapping("/updateLectureInfoAjax")
+	public List<LectureVO> updateLectureAjax(LectureVO lectureVO) {
+		List<LectureVO> lecture = schoolService.getLectureList(lectureVO);
+		
+		return lecture;
+	}
+	
+	//강의 수정
+	@ResponseBody
+	@PostMapping("/updateLectureAjax")
+	public boolean updateLecture(LectureVO lectureVO, LectureTimeVO lectureTimeVO) {
+		
+		//데이터 저장할 객체 생성
+		List<LectureTimeVO> lecTimeList = new ArrayList<>();
+		//lecDay = 월,화,수 이런식으로 넘어오기때문에 다 분할해서 저장
+		String[] timeNoArr = lectureTimeVO.getTimeNo().split(",");
+		String[] lecDayArr = lectureTimeVO.getLecDay().split(",");
+		String[] lecStartTime = lectureTimeVO.getStartTime().split(",");
+		String[] lecFinishDate = lectureTimeVO.getFinishTime().split(",");
+		
+		for(int i = 0; i < lecDayArr.length; i++) {
+			LectureTimeVO lectureTime = new LectureTimeVO();
+			lectureTime.setTimeNo(timeNoArr[i]);
+			lectureTime.setLecDay(lecDayArr[i]);
+			lectureTime.setStartTime(lecStartTime[i]);
+			lectureTime.setFinishTime(lecFinishDate[i]);
+			lecTimeList.add(lectureTime);
+		}
+		//강의 시간 리스트를 lectureVO에 저장
+		lectureVO.setLectureTimeList(lecTimeList);
+		
+		boolean result = professorService.updateLecture(lectureVO);
+		
+		return result;
+	}
+	
 	
 	//성적 등록 페이지 이동
 	@GetMapping("/regGrade")
@@ -245,66 +301,5 @@ public class ProfessorController {
 
 		return "content/professor/reg_grade";
 	}
-	
-	
-	//회원등록
-	@PostMapping("/join")
-	public String join(MemberVO memberVO, MultipartFile mainImg) {
-		//UploadUtill 객체 호출해서(util패키지에 만들어놓음)MemImgVO 객체에 받음
-		MemImgVO attachedImgVO = UploadUtil.uploadFile(mainImg);
-		//memberVO에서 받아온 memNo memImgVO에 넣음
-		attachedImgVO.setMemNo(memberVO.getMemNo());
-		//다음에 들어갈 img코드 호출해서 세팅
-		attachedImgVO.setImgCode(memberService.getNextImgCode());
-		//memberVO.memImage에 imgCode 세팅
-		memberVO.setMemImage(attachedImgVO.getImgCode());
-		//memberVO안에있는 memImgVO에 UploadUtill로 불러온 데이터 넣음(트랜잭션처리때문에)
-		memberVO.setMemImgVO(attachedImgVO);
-		System.out.println("@@@@@@@@@@@@@@"+ memberVO);
-		memberService.regMember(memberVO);
-		
-		
-		return "redirect:/admin/join";
-	}
-	
-	//학적변동승인(복학,휴학)
-	@GetMapping("/updateStuInfo")
-	public String updateStuInfo(AdminSubMenuVO adminSubMenuVO) {
-		adminSubMenuVO.setMenuCode(ConstVariable.SECOND_MENU_CODE);
-
-		return "content/admin/update_stu_info";
-	}
-	
-	//전과/복수전공
-	@GetMapping("/changeMajor")
-	public String changeMajor(AdminSubMenuVO adminSubMenuVO) {
-		adminSubMenuVO.setMenuCode(ConstVariable.SECOND_MENU_CODE);
-		
-		return "content/admin/change_major";
-	}
-	
-	//실적현황
-	@GetMapping("/performanceData")
-	public String performanceData(AdminSubMenuVO adminSubMenuVO) {
-		adminSubMenuVO.setMenuCode(ConstVariable.SECOND_MENU_CODE);
-		
-		return "content/admin/performance_data";
-	}
-	
-	//학사경고,제적
-	@GetMapping("/updateStuOut")
-	public String updateStuOut(AdminSubMenuVO adminSubMenuVO) {
-		adminSubMenuVO.setMenuCode(ConstVariable.THIRD_MENU_CODE);
-		
-		return "content/admin/update_stu_out";
-	}
-	//제적처리 페이지
-	@GetMapping("/dismissal")
-	public String dismissal(AdminSubMenuVO adminSubMenuVO) {
-		adminSubMenuVO.setMenuCode(ConstVariable.THIRD_MENU_CODE);
-		
-		return "content/admin/dismissal";
-	}
-	
 	
 }

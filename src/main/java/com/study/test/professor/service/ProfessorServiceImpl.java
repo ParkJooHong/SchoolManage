@@ -66,6 +66,22 @@ public class ProfessorServiceImpl implements ProfessorService{
 	public List<Map<String, Object>> getLectureListMap(LectureVO lectureVO) {
 		return sqlsession.selectList("professorMapper.getLectureListMap", lectureVO);
 	}
-	
+
+	//강의 수정
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public boolean updateLecture(LectureVO lectureVO) {
+		boolean result = true;
+		if(sqlsession.update("professorMapper.updateLecture", lectureVO) == 0) {
+			result = false;
+		}
+		for(LectureTimeVO lectureTimeVO : lectureVO.getLectureTimeList()) {
+			if(sqlsession.update("professorMapper.updateLectureTime", lectureTimeVO) == 0) {
+				result = false;
+			}
+		}
+		
+		return result;
+	}
 	
 }

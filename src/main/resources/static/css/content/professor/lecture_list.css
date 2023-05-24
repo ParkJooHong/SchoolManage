@@ -1,0 +1,9 @@
+@charset "UTF-8";
+
+.search_radio span{
+	margin-right: 5px;
+}
+
+.update_table td:first-child{
+	width: 100px;
+}
