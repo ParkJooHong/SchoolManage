@@ -63,18 +63,37 @@
 	</tr>
 </table>
 
+
 <table border="1" class="detail_info">
 	<tr>
 		<td>휴학 사유</td>
 		<td><textarea placeholder="휴학 사유를 작성하세요." rows="4" cols="100" class="applyReason" ></textarea></td>
 	</tr>
 </table>
-<div style="text-align: center;">
-	<th:block th:each="member : ${memberVO}">
-		<input type="button" value="휴학 신청" class="btn btn-primary" th:onclick="leave([[${member.memNo}]]);">
-	</th:block>
-</div>
+
+
+<!-- <th:block th:if="${#lists.size(stuStatus) == null}">
+	<tr>
+		<td class="beforeIngStatus">
+			<input type="text" th:value="9">
+		</td>
+	</tr>
 </th:block>
+<th:block th:if="${#lists.size(stuStatus) != 0}">
+	<tr th:each="stuStatus, state : ${stuStatus}">
+		<td>
+			<input type="text" th:value="${stuStatus.ingStatus}" class="ingStatus">
+		</td>
+	</tr>
+</th:block> -->
+
+
+
+<div style="text-align: center;">
+	<th:block th:each="member : ${memberVO}">		
+		<input type="button" value="휴학 신청" class="btn btn-primary" th:onclick="leave([[${member.memNo}]]);">
+	</th:block>	
+</div>
 
 
 <th:block layout:fragment="content_js">

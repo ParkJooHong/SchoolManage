@@ -283,6 +283,7 @@
            , #{statusReason}
       )
 	</insert>
+	
 
 	<!-- 학적 상태 조회 (휴학 신청 상태 조회 ) -->
 	<select id="getStatusLeaveInfo" resultMap="statusInfo">

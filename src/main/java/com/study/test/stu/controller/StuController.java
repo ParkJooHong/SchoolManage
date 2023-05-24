@@ -261,17 +261,22 @@ public class StuController {
 	  
 	  	//휴학신청
 		@GetMapping("/leaveManage")
-		private String leaveManage(Authentication authentication,StuVO stuVO, MemberVO memberVO, Model model) {
+		private String leaveManage(Authentication authentication,StuVO stuVO, MemberVO memberVO, Model model, String stuNo) {
 
 			
 			User user = (User)authentication.getPrincipal();
 			String memName = user.getUsername();
 			stuVO.setMemNo(user.getUsername()); // id임
 			memberVO.setMemNo(user.getUsername());
+			stuNo = stuService.seletStu(memberVO).getStuVO().getStuNo();
 			
 			model.addAttribute("memberVO" , stuService.seletStu(memberVO));
 			System.out.println("멤버 브이오 : " + memberVO);
 			System.out.println("학생 정보 : " +stuService.seletStu(memberVO));
+			
+			// 휴학 신청자 조회
+			model.addAttribute("stuStatus",stuService.getStatusLeaveInfo(stuNo));
+			System.out.println("@@@@@#!@#@#" + stuService.getStatusLeaveInfo(stuNo));
 			
 			return "/content/stu/stu_myStu/leaveManage";
 		}
@@ -279,7 +284,8 @@ public class StuController {
 		// 휴학 신청Ajax
 		@ResponseBody
 		@PostMapping("/leaveManageAjax")
-		public String leaveManageAjax(Authentication authentication, MemberVO memberVO, StuVO stuVO, String memNo, String stuStatus, String applyReason, LeaveManageVO leaveManageVO, StatusInfoVO statusInfoVO) {
+		public String leaveManageAjax(Authentication authentication, MemberVO memberVO, StuVO stuVO, String memNo, 
+				String stuStatus, String applyReason, LeaveManageVO leaveManageVO, StatusInfoVO statusInfoVO, String ingStatus) {
 			
 			/*
 			leaveManageVO.setApplyReason(applyReason);
@@ -307,8 +313,14 @@ public class StuController {
 			
 			statusInfoVO.setNowStatus(stuStatus);
 			System.out.println("상태정보VO : " +statusInfoVO);
+
+			
+			System.out.println("휴학 신청하기 : " +ingStatus);
+			
 			
 			stuService.leav(statusInfoVO);
+		
+			
 			 
 			return statusInfoVO.getStuNo();
 		}
