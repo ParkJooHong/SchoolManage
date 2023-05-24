@@ -31,4 +31,7 @@ public interface ProfessorService {
 	//강의 목록 조회(map 시간표용)
 	List<Map<String, Object>> getLectureListMap(LectureVO lectureVO);
 	
+	//강의 수정
+	boolean updateLecture(LectureVO lectureVO);
+	
 }

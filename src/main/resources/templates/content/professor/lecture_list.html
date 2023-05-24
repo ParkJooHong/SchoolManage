@@ -6,7 +6,7 @@
 
 <!-- 연결해야 할 외부 css파일 -->
 <th:block layout:fragment="content_css">
-	<!-- <link rel="stylesheet" href=""> -->
+	 <link rel="stylesheet" href="/css/content/professor/lecture_list.css">
 </th:block>
 
 <th:block layout:fragment="content">
@@ -17,18 +17,24 @@
 					<h4>강의 리스트</h4>
 				</div>
 			</div>
-			<div class="row text-center mb-3 align-middle">
-				<div class="col-3">
-					<span class="mr-1"><input type="radio">전체</span>						
-					<span class="mr-1"><input type="radio">강의중</span>						
-					<span class="mr-1"><input type="radio">폐강</span>					
+			<div class="row text-center mb-3 justify-content-around">
+				<div class="col-2 d-flex align-items-center justify-content-center search_radio">
+					<span><input class="lec_status" type="radio" name="lecStatus" value="all" checked>전체 </span>						
+					<span><input class="lec_status" type="radio" name="lecStatus" value="Y">강의중 </span>						
+					<span><input class="lec_status" type="radio" name="lecStatus" value="N">폐강</span>					
 				</div>
-				<div class="col-4">
+				<div class="col-4 d-grid">
 					<select>
-						<th:block th:each="">
-							<option></option>
+						<th:block th:each="seme : ${semesterList}">
+							<option class="semNo" th:value="${seme.semNo}">[[${seme.semName}]]</option>
 						</th:block>
 					</select>
+				</div>
+				<div class="col-4 d-grid">
+					<input type="text" id="lecName" placeholder="교과목명을 입력하세요.">
+				</div>
+				<div class="col-2 d-grid">
+					<input class="btn btn-primary" type="button" value="검색" onclick="getLetureList()">
 				</div>
 			</div>
 			<div class="row mb-5">
@@ -36,15 +42,14 @@
 					<table class="table align-middle text-center">
 						<colgroup>
 							<col width="8%">
-							<col width="15%">
+							<col width="18%">
 							<col width="8%">
 							<col width="15%">
 							<col width="5%">
 							<col width="8%">
-							<col width="15%">
+							<col width="18%">
 							<col width="10%">
-							<col width="5%">
-							<col width="5%">
+							<col width="10%">
 						</colgroup>
 						<thead>
 							<tr>
@@ -57,33 +62,40 @@
 								<td>강의시간</td>
 								<td>강의상태</td>
 								<td>강의변경</td>
-								<td>폐강</td>
 							</tr>
 						</thead>
 						<tbody id="lecture_list_body">
-							<th:block th:each="lecture,state : ${lectureList}">
+							<th:block th:if="${#lists.size(lectureList) != 0}">
+								<th:block th:each="lecture,state : ${lectureList}">
+									<tr>
+										<td>[[${lecture.lecNo}]]</td>
+										<td>[[${lecture.lecName}]]</td>
+										<td>[[${lecture.colleageVO.collName}]]</td>
+										<td>[[${lecture.deptVO.deptName}]]</td>
+										<td>[[${lecture.lecScore}]]</td>
+										<td>[[${lecture.memName}]]</td>
+										<td>
+											<th:block th:each="lectureTime: ${lecture.lectureTimeList}">
+												<div>[[${lectureTime.lecDay}]] / [[${lectureTime.startTime}]]~[[${lectureTime.finishTime}]]</div>
+											</th:block>
+										</td>
+										<td>
+											<th:block th:if="${lecture.lecStatus == 'Y'}">
+												강의중
+											</th:block>
+											<th:block th:unless="${lecture.lecStatus == 'Y'}">
+												폐강
+											</th:block>
+										</td>
+										<td><button class="btn btn-primary" th:onclick="updateLecModal([[${lecture.lecNo}]])">강의수정</button></td>
+									</tr>
+								</th:block>
+							</th:block>
+							<th:block th:unless="${#lists.size(lectureList) != 0}">
 								<tr>
-									<td>[[${lecture.lecNo}]]</td>
-									<td>[[${lecture.lecName}]]</td>
-									<td>[[${lecture.colleageVO.collName}]]</td>
-									<td>[[${lecture.deptVO.deptName}]]</td>
-									<td>[[${lecture.lecScore}]]</td>
-									<td>[[${lecture.memName}]]</td>
-									<td>
-										<th:block th:each="lectureTime: ${lecture.lectureTimeList}">
-											<div>[[${lectureTime.lecDay}]] / [[${lectureTime.startTime}]]~[[${lectureTime.finishTime}]]</div>
-										</th:block>
+									<td colspan="10">
+										조회된 강의가 없습니다.
 									</td>
-									<td>
-										<th:block th:if="${lecture.lecStatus == 'Y'}">
-											강의중
-										</th:block>
-										<th:block th:unless="${lecture.lecStatus == 'Y'}">
-											폐강
-										</th:block>
-									</td>
-									<td><input class="btn btn-primary" type="button" value="강의수정"></td>
-									<td><input class="btn btn-primary" type="button" value="폐강"></td>
 								</tr>
 							</th:block>
 						</tbody>
@@ -92,10 +104,33 @@
 			</div>
 		</div>
 	</div>
+	<!-- 강의 수정 모달 -->
+	<div class="modal fade" id="updateLecModal" data-bs-keyboard="false"
+		tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="staticBackdropLabel">강의수정</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body" style="text-align: center;">
+					<form id="updateLecForm" method="post">
+						<div class="modal-body" id="updateLecModalBody" style="text-align: center;">
+						</div>
+						<div class="modal-footer">
+					        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+					        <button type="button" class="btn btn-primary" onclick="updateLecture()">강의수정</button>
+				      	</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
 </th:block>
 
 <!-- 연결해야 할 외부 js파일 -->
 <th:block layout:fragment="content_js">
-	<!-- <script type="text/javascript" src="js/test.js"></script> -->
+	 <script type="text/javascript" src="/js/content/professor/lecture_list.js"></script> 
 </th:block>
 </html>

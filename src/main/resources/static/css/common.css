@@ -43,15 +43,18 @@ body{
 	background-color: #897c76;
 	color: white;	
 	border-color: #897c76;
+	box-shadow: 0 2px 4px #897c76;
 }
 
 .btn-primary:hover{
 	background-color: #554d4a;
+	box-shadow: 0 2px 4px #554d4a;
 }
 
 .btn-primary:disabled{
 	background-color: #c9c0bb;
 	border-color: #c9c0bb;
+	box-shadow: 0 2px 4px #c9c0bb;
 }
 
 /* 인풋태그 */
@@ -81,4 +84,11 @@ input[type="text"]:focus
 	margin-top: 0px !important;
 	font-size: 0.9rem;
 	color: red;
+}
+
+/* 테이블 헤드 */
+thead{
+	background-color: #897c76;
+	color: white;
+	font-weight: 600;
 }
