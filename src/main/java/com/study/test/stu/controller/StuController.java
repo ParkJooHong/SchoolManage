@@ -345,6 +345,7 @@ public class StuController {
 				
 				System.out.println("학적 상태 : "+ stuStatus);
 				statusInfoVO.setStuNo(stuService.seletStu(memberVO).getStuVO().getStuNo());
+				statusInfoVO.setStatusReason(applyReason);
 				
 				statusInfoVO.setNowStatus(stuStatus);
 				System.out.println("상태정보VO : " +statusInfoVO);

@@ -206,9 +206,7 @@
            , SYSDATE
            , #{applyReason}
            , TO_DATE('9999-12-30', 'YYYY-MM-DD')
-           , '승인대기'
-
-            
+           , '승인대기'         
       )
 	</insert>
 	
@@ -272,6 +270,7 @@
           , APPLY_DATE
           , APPROVAL_DATE
           , ING_STATUS
+          , STATUS_REASON
       ) VALUES(
          (SELECT 'STATUS_'||LPAD(NVL(MAX(TO_NUMBER(SUBSTR(STATUS_NO, 8))), 0) +1 , 3, '0')
             FROM STATUS_INFO)
@@ -281,6 +280,7 @@
            , SYSDATE
            , TO_DATE('9999-12-30', 'YYYY-MM-DD')
            , '승인대기'  
+           , #{statusReason}
       )
 	</insert>
 
