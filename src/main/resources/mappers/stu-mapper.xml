@@ -6,18 +6,18 @@
 	
 	<!-- MEM_STU  -> 찐 학생 메뉴 -->
 	<resultMap type="com.study.test.stu.vo.StuVO" id="stu">
-		<id column="STU_NO" 			property="stuNo"/>
+		<id column="STU_NO" 				property="stuNo"/>
 		<result column="COLL_NO" 			property="collNo"/>
 		<result column="DEPT_NO" 			property="deptNo"/>
 		<result column="DOUBLE_NO" 			property="doubleNo"/>
 		<result column="STU_YEAR" 			property="stuYear"/>
-		<result column="STU_SEM" 		property="stuSem"/>
-		<result column="STU_STATUS" 			property="stuStatus"/>
+		<result column="STU_SEM" 			property="stuSem"/>
+		<result column="STU_STATUS" 		property="stuStatus"/>
 		<result column="MEM_NO" 			property="memNo"/>
 		<result column="PARENT_NAME" 		property="parentName"/>
-		<result column="PARENT_TELL" 			property="parentTell"/>
-		<result column="STU_BANK_NAME" 			property="stuBankName"/>
-		<result column="STU_BANK_ACCOUNT" 			property="stuBankAccount"/>
+		<result column="PARENT_TELL" 		property="parentTell"/>
+		<result column="STU_BANK_NAME" 		property="stuBankName"/>
+		<result column="STU_BANK_ACCOUNT" 	property="stuBankAccount"/>
 		
 	</resultMap>
 	
@@ -34,10 +34,8 @@
 		<result column="MEM_GENDER" 		property="memGender"/>
 		<result column="MEM_BIRTH" 			property="memBirth"/>
 		<result column="MEM_ROLE" 			property="memRole"/>
-		<association property="memImgVO" resultMap="memberMapper.memImg"/>
-		<association property="stuVO" resultMap="stu"/>
-		<association property="colleageVO" resultMap="schoolMapper.colleage"/>
-		<association property="deptVO" resultMap="schoolMapper.dept"/>
+		<association property="memImgVO" 	resultMap="memberMapper.memImg"/>
+		<association property="stuVO" 		resultMap="stu"/>
 		<association property="doubleMajorVO" resultMap="schoolMapper.doubleMajor"/>
 	</resultMap>
 	
@@ -62,23 +60,25 @@
 	
 	<!-- 전과신청 -->
 	<resultMap type="com.study.test.school.dept.DeptManageVO" id="deptManage">
-		<id column="APPLY_NO" 			property="applyNo"/>
-		<result column="STU_NO" 	property="stuNo"/>
-		<result column="APPLY_CODE" 	property="applyCode"/>
-		<result column="APPLY_DATE" 	property="applyDate"/>
-		<result column="APPLY_REASON" 	property="applyReason"/>
+		<id column="APPLY_NO" 				property="applyNo"/>
+		<result column="STU_NO" 			property="stuNo"/>
+		<result column="APPLY_CODE" 		property="applyCode"/>
+		<result column="APPLY_DATE" 		property="applyDate"/>
+		<result column="APPLY_REASON" 		property="applyReason"/>
 		<result column="APPLROVAL_DATE" 	property="applrovalDate"/>
 		<result column="PROCESS_STATUS" 	property="processStatus"/>
-		<result column="FROM_COLL" 	property="fromColl"/>
-		<result column="TO_COLL" 	property="toColl"/>
-		<result column="FROM_DEPT" 	property="fromDept"/>
-		<result column="TO_DEPT" 	property="toDept"/>
+		<result column="FROM_COLL" 			property="fromColl"/>
+		<result column="TO_COLL" 			property="toColl"/>
+		<result column="FROM_DEPT" 			property="fromDept"/>
+		<result column="TO_DEPT" 			property="toDept"/>
 		<result column="DOUBLE_MAJOR_COLL" 	property="doubleMajorColl"/>
 		<result column="DOUBLE_MAJOR_DEPT" 	property="doubleMajorDept"/>
-		<result column="STU_YEAR" 	property="stuYear"/>
-		<result column="STU_SEM" 	property="stuSem"/>
-		<association property="memberVO" resultMap="memberMapper.member"/>
-		<association property="stuVO" resultMap="stuMapper.stu"/>
+		<result column="STU_YEAR" 			property="stuYear"/>
+		<result column="STU_SEM" 			property="stuSem"/>
+		<association property="memberVO" 	resultMap="memberMapper.member"/>
+		<association property="stuVO" 		resultMap="stuMapper.stu"/>
+		<association property="colleageVO" 	resultMap="schoolMapper.colleage"/>
+		<association property="deptVO" 		resultMap="schoolMapper.dept"/>
 	</resultMap>
 	
 	<!--휴학 신청  -->
@@ -92,7 +92,7 @@
 		<result column="PROCESS_STATUS" 	property="processStatus"/>
 		<result column="STU_YEAR" 			property="stuYear"/>
 		<result column="STU_SEM" 			property="stuSem"/>
-		<result column="STATUS_REASON" 			property="statusReson"/>
+		<result column="STATUS_REASON" 		property="statusReson"/>
 		
 	</resultMap>
 	

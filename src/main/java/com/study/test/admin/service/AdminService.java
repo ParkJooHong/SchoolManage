@@ -44,19 +44,25 @@ public interface AdminService {
 	List<StatusInfoVO> getLeaveManageList(StatusInfoVO statusInfoVO);
 	
 	//휴학 신청 대상자 조회
-	StatusInfoVO getLeaveManageMember(String statusNo);
+	StatusInfoVO getLeaveManageMember(StatusInfoVO statusInfoVO);
 	
 	//휴학신청 승인 statusInfo
-	int updateStatusInfoByTakeOff(String statusNo, String stuNo);
+	int updateStatusInfoByTakeOff(StatusInfoVO statusInfoVO);
 	
 	//휴학 신청 대상자 인적사항 조회
 	MemberVO getMemInfoByState(String memNo);
 	
+	//휴학 신청 승인 완료 일괄 업데이트
+	int updateStatusNoListByTakeOff(StatusInfoVO statusInfoVO);
 	
+	//복학 신청 대상자 리스트 조회
+	List<StatusInfoVO> getRollBackManageList(StatusInfoVO statusInfoVO);
 	
+	//복학 신청 승인 완료 일괄 업데이트
+	int updateStatusNoListByTakeOn(StatusInfoVO statusInfoVO);
 	
-	
-	
+	//복수 전공 신청자 리스트 조회
+	List<DeptManageVO> getDoubleMajorRequestList();
 	
 	
 }
