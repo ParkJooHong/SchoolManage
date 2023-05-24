@@ -1,7 +1,5 @@
 @charset "UTF-8";
 
-@charset "UTF-8";
-
 .detail_info {
     position: relative;
     display: flex;
@@ -39,5 +37,18 @@ input[type="text"]{
 	width: 120px;
 	border-radius: 4px;
 }
+
+.modal-dialog{
+	max-width: 1000px;
+}
+
+.title{
+	font-size: 20px;
+	font-weight: bold;
+}
+
+
+
+
 
 

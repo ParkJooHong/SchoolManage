@@ -24,4 +24,7 @@ public interface BoardReplyService {
 	//댓글 수정
 	void replyUpdate(BoardReplyVO boardReplyVO);
 	
+	//댓글 개수
+	void replyCnt(BoardReplyVO boardReplyVO);
+	
 }

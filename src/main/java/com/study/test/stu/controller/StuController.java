@@ -17,9 +17,11 @@ import com.study.test.admin.vo.EmpVO;
 import com.study.test.board.service.BoardReplyService;
 import com.study.test.board.service.BoardService;
 import com.study.test.board.vo.BoardCategoryVO;
+import com.study.test.board.vo.BoardListSearchVO;
 import com.study.test.board.vo.BoardReplyVO;
 import com.study.test.board.vo.UniBoardVO;
 import com.study.test.member.service.MemberService;
+import com.study.test.member.vo.MemImgVO;
 import com.study.test.member.vo.MemberMenuVO;
 import com.study.test.member.vo.MemberSubMenuVO;
 import com.study.test.member.vo.MemberVO;
@@ -100,8 +102,10 @@ public class StuController {
 		
 		// 내정보 수정
 		@PostMapping("/updateMyInfo")
-		public String updateMyInfo(StuVO stuVO) {
-			stuService.updateStu(stuVO);		
+		public String updateMyInfo(StuVO stuVO, MemImgVO memImgVO) {
+			stuService.updateStu(stuVO);
+			stuService.updateStuImg(memImgVO);
+			
 			
 			return "redirect:/mainPage";
 					
@@ -192,14 +196,9 @@ public class StuController {
 				
 				System.out.println("멤버 브이오 : " + memberVO);
 				model.addAttribute("memberVO", stuService.seletStu(memberVO));
-				//model.addAttribute("stuVO" , stuService.seletStu(memberVO));
-			
-			//User user = (User)authentication.getPrincipal();
-			//String memName = user.getUsername();
-			//stuVO.setMemNo(user.getUsername()); // id임
-			
-			//model.addAttribute("stuVO" , stuService.seletStu(stuVO.getMemNo()));
-			//System.out.println("@@@@@@@@@@" + stuService.seletStu(stuVO.getMemNo()));
+				model.addAttribute("memberData",stuService.selectMember(memberVO));
+				System.out.println("멤버데이터 왜 안나옴 : " +model.addAttribute("memberData",stuService.selectMember(memberVO)));
+
 			System.out.println("아뒤 : " + memName);
 			
 			MemberMenuVO menuCode = new MemberMenuVO();
@@ -346,6 +345,7 @@ public class StuController {
 				
 				System.out.println("학적 상태 : "+ stuStatus);
 				statusInfoVO.setStuNo(stuService.seletStu(memberVO).getStuVO().getStuNo());
+				statusInfoVO.setStatusReason(applyReason);
 				
 				statusInfoVO.setNowStatus(stuStatus);
 				System.out.println("상태정보VO : " +statusInfoVO);
@@ -574,7 +574,7 @@ public class StuController {
 		// ------ 게시판 {
 		//나의 게시판
 		@GetMapping("/myBoard")
-		private String myBoard(Authentication authentication, Model model, MemberVO memberVO, StuVO stuVO, UniBoardVO uniBoardVO, BoardCategoryVO boardCategoryVO, String cateNo, String menuCode, String subMenuCode) {
+		private String myBoard(Authentication authentication, Model model, MemberVO memberVO, StuVO stuVO, UniBoardVO uniBoardVO, BoardCategoryVO boardCategoryVO, String cateNo, String menuCode, String subMenuCode, BoardListSearchVO boardListSearchVO) {
 			System.out.println(menuCode);
 			System.out.println(subMenuCode);
 			
@@ -589,6 +589,15 @@ public class StuController {
 			model.addAttribute("boardCategoryVO", boardService.getBoardCategoryList());
 			System.out.println("보드 카테고리 정보 : " +boardService.getBoardCategoryList());
 			model.addAttribute("uniBoardVO",boardService.getTotalBoardList()); 
+			
+			//보드 개시판 개수 조회
+			int totalDataCnt = boardService.totalBoardCount();
+			System.out.println("보드 개수 : " +  boardService.totalBoardCount());
+			
+			//페이지 정보 세팅
+			boardListSearchVO.setTotalDataCnt(totalDataCnt);
+			boardListSearchVO.setPageInfo();
+			System.out.println(boardListSearchVO);
 			
 			cateNo = boardCategoryVO.getCateNo();
 			
@@ -626,14 +635,40 @@ public class StuController {
 			return "/content/stu/stu_board/totalBoard";
 		}
 		
+		// 게시글 비밀번호 확인
+		@ResponseBody
+		@PostMapping("/pwdAjax")
+		public Map<String, Object> pwdAjax(String menuCode, String subMenuCode, String isPrivate, String boardNo , Model model, int readCnt ) {
+			
+			System.out.println(isPrivate);
+			
+			Map<String, Object> data = new HashMap<>();
+			 data.put("menuCode", menuCode);
+		     data.put("subMenuCode", subMenuCode);
+			
+			model.addAttribute("subMenuCode", subMenuCode);
+			model.addAttribute("menuCode" , menuCode);
+			
+			++readCnt;
+			
+			return data;
+		}
+		
 		//글쓰기
 		@ResponseBody
 		@PostMapping("/boardWriteAjax")
-		public Map<String, Object> boardWrite(String menuCode, String subMenuCode, String boardTitle, String boardContent, String isPrivate, String isNotice, String cateNo,UniBoardVO uniBoardVO, Model model) {
+		public Map<String, Object> boardWrite(String menuCode, String subMenuCode, String boardTitle, String boardContent, String isPrivate, String isNotice, String cateNo,UniBoardVO uniBoardVO, Model model, String inputPwd) {
 			
 			uniBoardVO.setBoardTitle(boardTitle);
 			uniBoardVO.setBoardContent(boardContent);
-			uniBoardVO.setIsPrivate(isPrivate);
+			
+			if(inputPwd != null) {
+				uniBoardVO.setIsPrivate(inputPwd);
+			}
+			else {
+				uniBoardVO.setIsPrivate(isPrivate);
+			}		
+			
 			uniBoardVO.setIsNotice(isNotice);
 			
 			System.out.println(uniBoardVO);
@@ -655,7 +690,10 @@ public class StuController {
 		
 		//게시글 상세보기
 		@GetMapping("/boardDetail")
-		private String boardDetail(Authentication authentication, String boardNo, Model model, UniBoardVO uniBoardVO, MemberVO memberVO, StuVO stuVO, String menuCode, String subMenuCode, MemberMenuVO memberMenuVO, MemberSubMenuVO memberSubMenuVO) {
+		private String boardDetail(Authentication authentication, String boardNo, Model model, UniBoardVO uniBoardVO, BoardReplyVO boardReplyVO,
+				MemberVO memberVO, StuVO stuVO, String menuCode, String subMenuCode, MemberMenuVO memberMenuVO, MemberSubMenuVO memberSubMenuVO, int readCnt, int replyCnt) {
+
+			
 			model.addAttribute("menuCode" , menuCode);
 			model.addAttribute("subMenuCode", subMenuCode);
 			System.out.println(" @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" +menuCode);
@@ -672,14 +710,21 @@ public class StuController {
 			
 			System.out.println(boardNo);
 			boardService.boardDetail(boardNo);
-
+			
+			//게시판 조회 수 업데이트
+			readCnt +=1;
+			uniBoardVO.setReadCnt(readCnt);
+			boardService.readCnt(uniBoardVO);
 			
 			
+			//댓글 수 업데이트
+			System.out.println(boardReplyVO);
+			boardReplyService.replyCnt(boardReplyVO);
 			
 			//uniBoardVO = (UniBoardVO)boardService.boardDetail(boardNo);
 			
 			System.out.println("보드VO" +uniBoardVO);
-			System.out.println("보드 상세 정보  : " +boardService.boardDetail(boardNo) );
+			System.out.println("보드 상세 정보  : " +boardService.boardDetail(boardNo));
 			model.addAttribute("uniBoardVO", boardService.boardDetail(boardNo));
 			
 			//게시판 카테고리 정보 

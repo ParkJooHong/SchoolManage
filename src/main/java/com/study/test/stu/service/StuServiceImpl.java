@@ -6,6 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.study.test.member.vo.MemImgVO;
 import com.study.test.member.vo.MemberVO;
 import com.study.test.school.dept.DeptManageVO;
 import com.study.test.stu.vo.LeaveManageVO;
@@ -19,6 +20,13 @@ public class StuServiceImpl implements StuService {
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 
+	//멤버 정보
+	@Override
+	public MemberVO selectMember(MemberVO memberVO) {
+		sqlSession.selectOne("stuMapper.selectMember", memberVO);
+		return null;
+	}
+	
 	//학생 정보
 	@Override
 	public MemberVO seletStu(MemberVO memberVO) {
@@ -31,6 +39,14 @@ public class StuServiceImpl implements StuService {
 		sqlSession.update("stuMapper.updateStu", stuVO);
 		
 	}
+	
+	//학생 이미지 변경
+	@Override
+	public void updateStuImg(MemImgVO memImgVO) {
+		sqlSession.update("stuMapper.updateStuImg", memImgVO);
+		
+	}
+	
 	
 	//학생 비밀번호 변경
 	@Override
@@ -92,6 +108,10 @@ public class StuServiceImpl implements StuService {
 		sqlSession.insert("stuMapper.returnManage", statusInfoVO);
 		
 	}
+
+	
+
+
 
 	
 	
