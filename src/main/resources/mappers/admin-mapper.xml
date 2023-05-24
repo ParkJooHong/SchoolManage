@@ -153,6 +153,7 @@
 		FROM DEPT_MANAGE DEPT, UNI_MEMBER MEM, UNI_STU STU
 		WHERE MEM.MEM_NO = STU.MEM_NO
         AND DEPT.STU_NO = STU.STU_NO
+        AND DEPT.FROM_DEPT IS NOT NULL
         <if test='processStatus != null and !processStatus.equals("") and !processStatus.equals("전체")'>
         AND PROCESS_STATUS = #{processStatus}
         </if>
@@ -204,6 +205,7 @@
 		WHERE MEM.MEM_NO = STU.MEM_NO
         AND DEPT.STU_NO = STU.STU_NO
         AND APPLY_NO = #{applyNo}
+        AND DEPT.FROM_DEPT IS NOT NULL
 	</select>
 	<!-- 신청학생 데이터 -->
 	<select id="getMemInfo" resultMap="memberMapper.member">
@@ -223,21 +225,21 @@
 		AND IMG.MEM_NO = MEM.MEM_NO
 		AND MEM.MEM_NO = #{memNo}
 	</select>
-	
+	<!-- 전과 신청 학생정보 업데이트 -->
 	<update id="updateStuCollDept">
 		UPDATE UNI_STU
 		SET COLL_NO = #{collNo}
 			, DEPT_NO = #{deptNo}
 		WHERE STU_NO = #{stuNo}
 	</update>
-	
+	<!-- 전과 신청 테이블 업데이트 -->
 	<update id="updateProcessStatus">
 		UPDATE DEPT_MANAGE
 		SET PROCESS_STATUS = '승인완료'
 			, APPLROVAL_DATE = SYSDATE
 		WHERE APPLY_NO = #{applyNo}	
 	</update>
-	
+	<!-- 승인 완료 안된 학생 데이터 조회 -->
 	<select id="getApplyNoByStuInfoList" resultMap="deptManage">
 	    SELECT TO_COLL, TO_DEPT, STU_NO
 	    FROM DEPT_MANAGE
@@ -249,7 +251,7 @@
 	            </foreach>
 	            AND
 	        </if>
-	        PROCESS_STATUS NOT LIKE '승인완료'
+	    PROCESS_STATUS NOT LIKE '승인완료'
 	</select>
 
 	
@@ -305,7 +307,7 @@
         <if test="doubleMajorVO != null">
         AND DM.DOUBLE_NO = STU.DOUBLE_NO
         </if>
-        AND IMG.MEM_NO = STU.STU_NO
+        AND IMG.MEM_NO = STU.STU_NO       
         AND AFTER_STATUS = '휴학'
         <if test='ingStatus != null and !ingStatus.equals("")'>
         AND ING_STATUS = #{ingStatus}
@@ -315,12 +317,11 @@
         </if>
         <if test='toDate != null and !toDate.equals("")'>
         AND TO_CHAR(APPROVAL_DATE, 'YYYY-MM-DD') &gt;= #{toDate}
-        </if>
-        
+        </if>        
         ORDER BY STATUS_NO DESC
 	</select>
 	
-	<!-- 전과 신청대상자 조회 -->
+	<!-- 휴학 신청대상자 조회 (모달)-->
 	<select id="getLeaveManageMember" resultMap="stuMapper.statusInfo">
             SELECT STATUS_NO
                 , STU_NO
@@ -331,12 +332,11 @@
                 , ING_STATUS
                 , STATUS_REASON
             FROM STATUS_INFO 
-            WHERE AFTER_STATUS = '휴학'
+            WHERE AFTER_STATUS = #{afterStatus}
             AND STATUS_NO = #{statusNo}
 	</select>
 	
-	<!-- 신청자 학생 정보 조회 -->
-	
+	<!-- 신청자 학생 정보 조회 -->	
 	<select id="getMemInfoByState" resultMap="stuMapper.member">
 		SELECT STU_NO
 			, MEM_NAME
@@ -378,9 +378,137 @@
 	<!-- 휴학신청 학생정보 업데이트 -->
 	<update id="updateStatusInfoByStuTakeOff">
 		UPDATE UNI_STU
-		SET STU_STATUS = '휴학'
+		SET STU_STATUS = #{stuVO.stuStatus}
 		WHERE STU_NO = #{stuNo}
 	</update>
+	
+	<!-- 휴학신청 승인완료 일괄 업데이트 -->
+	<update id="updateStatusNoListByTakeOff">
+		UPDATE STATUS_INFO
+		SET ING_STATUS = '승인완료'
+		    , APPROVAL_DATE = SYSDATE
+		WHERE STATUS_NO IN 
+		<foreach collection="statusNoList" item="statusNo" open="(" close=")" separator=",">
+			#{statusNo}
+		</foreach>	
+	</update>
+	
+	<!-- 휴학신청 학생정보 일괄 업데이트  -->
+	<update id="updateStatusInfoListByStuTakeOff">
+		UPDATE UNI_STU
+		SET STU_STATUS = '휴학'
+		WHERE STU_NO IN
+		<foreach collection="stuNoList" item="stuNo" open="(" close=")" separator=",">
+			#{stuNo}
+		</foreach>
+	</update>
+	
+	<!-- 복학신청자리스트 조회 -->
+	<select id="getRollBackManageList" resultMap="stuMapper.statusInfo">
+        SELECT STATUS_NO
+            , ME.MEM_NAME
+            , ST.STU_NO
+            , STU_YEAR
+            , STU_SEM
+            , COLL.COLL_NO
+            , COLL_NAME
+            , DP.DEPT_NO
+            , DEPT_NAME
+			, NOW_STATUS
+			, AFTER_STATUS
+            , TO_CHAR(APPLY_DATE, 'YYYY-MM-DD') AS APPLY_DATE
+			, TO_CHAR(APPROVAL_DATE, 'YYYY-MM-DD') AS APPROVAL_DATE
+			, ING_STATUS
+			<if test='doubleMajorVO != null'>			
+            , DM.DOUBLE_NO
+            , DOUBLE_COLL
+            , DOUBLE_DEPT_NAME
+			</if>
+            , ATTACHED_FILE_NAME
+        FROM STATUS_INFO ST, UNI_MEMBER ME, UNI_STU STU, COLLEAGE COLL, DEPT DP, MEM_IMG IMG
+        <if test="doubleMajorVO != null">
+        , DOUBLE_MAJOR DM
+        </if>
+        WHERE ST.STU_NO = ME.MEM_NO
+        AND ST.STU_NO = STU.STU_NO
+        AND STU.COLL_NO = COLL.COLL_NO
+        AND STU.DEPT_NO = DP.DEPT_NO
+        <if test="doubleMajorVO != null">
+        AND DM.DOUBLE_NO = STU.DOUBLE_NO
+        </if>
+        AND IMG.MEM_NO = STU.STU_NO
+        AND AFTER_STATUS = '재학'
+        <if test='ingStatus != null and !ingStatus.equals("")'>
+        AND ING_STATUS = #{ingStatus}
+        </if>
+        <if test='fromDate != null and !fromDate.equals("")'>
+        AND TO_CHAR(APPROVAL_DATE, 'YYYY-MM-DD') &lt;= #{fromDate}
+        </if>
+        <if test='toDate != null and !toDate.equals("")'>
+        AND TO_CHAR(APPROVAL_DATE, 'YYYY-MM-DD') &gt;= #{toDate}
+        </if>        
+        ORDER BY STATUS_NO DESC
+	</select>
+	
+	<!-- 복학신청 승인완료 일괄 업데이트 -->
+	<update id="updateStatusNoListByTakeOn">
+		UPDATE STATUS_INFO
+		SET ING_STATUS = '승인완료'
+		    , APPROVAL_DATE = SYSDATE
+		WHERE STATUS_NO IN 
+		<foreach collection="statusNoList" item="statusNo" open="(" close=")" separator=",">
+			#{statusNo}
+		</foreach>	
+	</update>
+	
+	<!-- 휴학신청 학생정보 일괄 업데이트  -->
+	<update id="updateStatusInfoListByStuTakeOn">
+		UPDATE UNI_STU
+		SET STU_STATUS = '재학'
+		WHERE STU_NO IN
+		<foreach collection="stuNoList" item="stuNo" open="(" close=")" separator=",">
+			#{stuNo}
+		</foreach>
+	</update>
+	
+	<!--복수 전공 신청자 리스트 조회  -->
+	<select id="getDoubleMajorRequestList" resultMap="deptManage">
+		SELECT APPLY_NO
+			, MEM.MEM_NAME
+            , STU.STU_NO
+			, APPLY_CODE
+			, TO_CHAR(APPLY_DATE, 'YYYY-MM-DD') AS APPLY_DATE
+			, APPLY_REASON
+			, TO_CHAR(APPLROVAL_DATE, 'YYYY-MM-DD') AS APPLROVAL_DATE
+			, PROCESS_STATUS
+			, STU.STU_YEAR
+			, STU.STU_SEM
+            , STU.COLL_NO
+            , (SELECT COLL_NAME
+                FROM COLLEAGE
+                WHERE COLL_NO = STU.COLL_NO) AS COLL_NAME
+            , STU.DEPT_NO
+            , (SELECT DEPT_NAME
+                FROM DEPT
+                WHERE DEPT_NO = STU.DEPT_NO) AS DEPT_NAME
+            , DOUBLE_MAJOR_COLL
+            , (SELECT COLL_NAME
+                FROM COLLEAGE
+                WHERE COLL_NO = DEPT.DOUBLE_MAJOR_COLL) AS DOUBLE_MAJOR_COLL_NAME
+            , DOUBLE_MAJOR_DEPT
+            , (SELECT DEPT_NAME
+                FROM DEPT
+                WHERE DEPT_NO = DEPT.DOUBLE_MAJOR_DEPT) AS DOUBLE_MAJOR_DEPT_NAME
+		FROM DEPT_MANAGE DEPT, UNI_MEMBER MEM, UNI_STU STU, COLLEAGE COLL, DEPT DP
+		WHERE MEM.MEM_NO = STU.MEM_NO
+        AND DEPT.STU_NO = STU.STU_NO
+        AND DP.DEPT_NO = STU.DEPT_NO
+        AND COLL.COLL_NO = STU.COLL_NO
+        AND STU.DOUBLE_NO = '없음'
+        AND DEPT.FROM_DEPT IS NULL
+	</select>
+	
+	
 	
 </mapper>
 

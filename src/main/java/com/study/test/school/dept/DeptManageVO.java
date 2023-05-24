@@ -3,6 +3,7 @@ package com.study.test.school.dept;
 import java.util.List;
 
 import com.study.test.member.vo.MemberVO;
+import com.study.test.school.colleage.ColleageVO;
 import com.study.test.stu.vo.StuVO;
 
 import lombok.Getter;
@@ -38,6 +39,8 @@ public class DeptManageVO {
 	private String doubleMajorDeptName;
 	private String toDate;
 	private String fromDate;
+	private ColleageVO colleageVO;
+	private DeptVO deptVO;
 	private List<String> applyNoList;
 	private List<StuVO> stuVOList;
 	

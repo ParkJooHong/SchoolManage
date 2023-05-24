@@ -106,7 +106,7 @@
 									<td>[[${#lists.size(deptManageList) - state.index}]]</td>
 									<td>[[${dept.memberVO.memName}]]</td>
 									<td>[[${dept.memberVO.memNo}]]</td>
-									<td>[[${dept.stuYear}]]</td>
+									<td>[[${dept.stuYear}]]학년</td>
 									<td>[[${dept.fromCollName}]]</td>
 									<td>[[${dept.fromDeptName}]]</td>
 									<td>[[${dept.toCollName}]]</td>
@@ -182,10 +182,23 @@
 			<div class="row mb-5">
 				<div class="col">
 					<table class="table align-middle">
+						<colgroup>
+							<col width="5%">
+							<col width="5%">
+							<col width="7%">
+							<col width="10%">
+							<col width="7%">
+							<col width="10%">
+							<col width="10%">
+							<col width="12%">
+							<col width="10%">
+							<col width="10%">
+							<col width="10%">
+						</colgroup>
 						<thead>
 							<tr>
 								<td>
-									<input type="checkbox" class="form-check-input">
+									<input type="checkbox" id="dAllCheck" class="form-check-input">
 								</td>
 								<td>No</td>
 								<td>이 름</td>
@@ -193,33 +206,38 @@
 								<td>학 년</td>
 								<td>전공대학</td>
 								<td>전공학과</td>
-								<td>변경대학</td>
-								<td>변경학과</td>
+								<td>복수전공요청대학</td>
+								<td>복수전공요청학과</td>
 								<td>신청일</td>
 								<td>승인</td>
 							</tr>
 						</thead>
-						<tbody>
-							<tr>
-								<td>
-									<input type="checkbox" class="form-check-input">
-								</td>
-								<td>1</td>
-								<td>김자바</td>
-								<td>20230005</td>
-								<td>1학년</td>
-								<td>교육대학</td>
-								<td>교육학</td>
-								<td>공학대학</td>
-								<td>기계공학</td>
-								<td>2023-05-17</td>
-								<td class="d-grid">
-									<input type="button" value="승인" class="btn btn-primary">
-								</td>
-							</tr>
+						<tbody id="doubleTbody">
+							<th:block th:each="double,dState :${doubleRequestList}">
+								<tr>
+									<td>
+										<input type="checkbox" class="form-check-input">
+									</td>
+									<td>[[${#lists.size(doubleRequestList) - dState.index}]]</td>
+									<td>[[${double.memberVO.memName}]]</td>
+									<td>[[${double.stuVO.stuNo}]]</td>
+									<td>[[${double.stuVO.stuYear}]]학년&nbsp;[[${double.stuVO.stuSem}]]학기</td>
+									<td>[[${double.colleageVO}]]</td>
+									<td>[[${double.deptVO}]]</td>
+									<td>[[${double.doubleMajorCollName}]]</td>
+									<td>[[${double.doubleMajorDeptName}]]</td>
+									<td>[[${double.applyDate}]]</td>
+									<td class="d-grid">
+										<input type="button" value="승인" class="btn btn-primary">
+									</td>
+								</tr>
+							</th:block>
 						</tbody>
 					</table>
 				</div>
+			</div>
+			<div>
+			[[${doubleRequestList}]]
 			</div>
 		</div>
 	</div>

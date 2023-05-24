@@ -40,6 +40,7 @@ function init() {
 //체크박스 바디 꺼지면 상단 꺼지는 기능
 function checkControll() {
 	const all_check = document.querySelector('#allChk');
+	const double_all_check = document.querySelector('#dAllCheck');
 	const total_cnt = document.querySelectorAll('.checkboxes').length;
 	const checked_cnt = document.querySelectorAll('.checkboxes:checked').length;
 

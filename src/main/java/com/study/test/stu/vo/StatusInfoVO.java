@@ -1,5 +1,7 @@
 package com.study.test.stu.vo;
 
+import java.util.List;
+
 import com.study.test.member.vo.MemberVO;
 import com.study.test.school.colleage.ColleageVO;
 import com.study.test.school.dept.DeptVO;
@@ -29,6 +31,8 @@ public class StatusInfoVO {
 	private DoubleMajorVO doubleMajorVO;
 	private String fromDate;
 	private String toDate;
+	private List<String> statusNoList;
+	private List<String> stuNoList;
 
 
 }

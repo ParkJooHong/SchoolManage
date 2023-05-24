@@ -167,8 +167,9 @@ public class AdminController {
 		adminSubMenuVO.setMenuCode(ConstVariable.SECOND_MENU_CODE);
 		StatusInfoVO statusInfoVO = new StatusInfoVO();
 		List<StatusInfoVO> statusInfoList = adminService.getLeaveManageList(statusInfoVO);
-		
+		List<StatusInfoVO> rollBackManageList = adminService.getRollBackManageList(statusInfoVO);
 		model.addAttribute("leaveManageList",statusInfoList);
+		model.addAttribute("rollBackManageList",rollBackManageList);
 		
 		
 		return "content/admin/update_stu_info";
@@ -177,11 +178,13 @@ public class AdminController {
 	//휴학 신청 모달창 오픈
 	@PostMapping("/statusModalOpenAjax")
 	@ResponseBody
-	public Map<String, Object> statusModalOpenAjax(String statusNo, String stuNo) {
+	public Map<String, Object> statusModalOpenAjax(@RequestBody Map<String, String> dataMap) {
 		Map<String, Object> statusMap = new HashMap<>();
-		
-		StatusInfoVO statusInfo = adminService.getLeaveManageMember(statusNo);
-		MemberVO memberInfo = adminService.getMemInfoByState(stuNo);
+		StatusInfoVO statusInfoVO = new StatusInfoVO();
+		statusInfoVO.setStatusNo(dataMap.get("statusNo"));
+		statusInfoVO.setAfterStatus(dataMap.get("afterStatus"));
+		StatusInfoVO statusInfo = adminService.getLeaveManageMember(statusInfoVO);
+		MemberVO memberInfo = adminService.getMemInfoByState(dataMap.get("stuNo"));
 		
 		statusMap.put("statusInfo", statusInfo);
 		statusMap.put("memberInfo", memberInfo);
@@ -198,6 +201,7 @@ public class AdminController {
 		System.out.println(statusInfoVO.getIngStatus());
 		return adminService.getLeaveManageList(statusInfoVO);
 	}
+	
 	//휴학 신청 날짜별 검색
 	@PostMapping("/selectByDateStatusInfoAjax")
 	@ResponseBody
@@ -211,17 +215,70 @@ public class AdminController {
 		return statusInfoList;
 	}
 	
+	//복학 신청 상태에 따른 검색
+	@PostMapping("/selectByStatusRollAjax")
+	@ResponseBody
+	public List<StatusInfoVO> selectByStatusRollAjax(String statusData) {
+		StatusInfoVO statusInfoVO = new StatusInfoVO();
+		statusInfoVO.setIngStatus(statusData);
+		return adminService.getRollBackManageList(statusInfoVO);
+	}
 	
+	//복학 신청 날짜에 따른 검색
+	@PostMapping("/selectByDateStatusRollInfoAjax")
+	@ResponseBody
+	public List<StatusInfoVO> selectByDateStatusRollInfoAjax(@RequestBody Map<String, String> stateMap) {
+		StatusInfoVO statusInfoVO = new StatusInfoVO();
+		statusInfoVO.setIngStatus(stateMap.get("ingStatus"));
+		statusInfoVO.setFromDate(stateMap.get("fromDate"));
+		statusInfoVO.setToDate(stateMap.get("toDate"));
+		List<StatusInfoVO> statusInfoList = adminService.getRollBackManageList(statusInfoVO);
+		
+		return statusInfoList;
+	}
 	
-	
-	
-	
-	//휴학 신청 승인
+	//휴학/복학 신청 승인
 	@PostMapping("/changeStatusAjax")
 	@ResponseBody
-	public int changeStatusAjax(String statusNo, String stuNo) {
+	public int changeStatusAjax(@RequestBody Map<String, String> statusMap) {
+		StuVO stuVO = new StuVO();
+		stuVO.setStuStatus(statusMap.get("stuStatus"));
+		StatusInfoVO statusInfoVO = new StatusInfoVO();
+		statusInfoVO.setStatusNo(statusMap.get("statusNo"));
+		statusInfoVO.setStuNo(statusMap.get("stuNo"));
+		statusInfoVO.setStuVO(stuVO);
+		return adminService.updateStatusInfoByTakeOff(statusInfoVO);
 		
-		return adminService.updateStatusInfoByTakeOff(statusNo, stuNo);
+	}
+	
+	//휴학 신청 일괄 승인
+	@PostMapping("/checkedAcceptByStatusAjax")
+	@ResponseBody
+	public int checkedAcceptByStatusAjax(@RequestBody Map<String, List<String>> acceptDataMap) {
+		//statusNOList 
+		List<String> statusNoList = (List<String>)acceptDataMap.get("statusNoList");
+		List<String> stuNoList = (List<String>)acceptDataMap.get("stuNoList");
+		System.out.println("data@@@@@@@@@@@@@@@@@@@@@" + statusNoList);
+		System.out.println("data2@@@@@@@@@@@@@@@@@@@@@@" + stuNoList);
+		StatusInfoVO statusInfoVO = new StatusInfoVO();
+		statusInfoVO.setStatusNoList(statusNoList);
+		statusInfoVO.setStuNoList(stuNoList);
+		return adminService.updateStatusNoListByTakeOff(statusInfoVO);
+		
+		
+	}
+	
+	//복학 신청 일괄 승인
+	@PostMapping("/checkedAcceptByStatusRollAjax")
+	@ResponseBody
+	public int checkedAcceptByStatusRollAjax(@RequestBody Map<String, List<String>> acceptDataMap) {
+		List<String> statusNoList = (List<String>)acceptDataMap.get("statusNoList");
+		List<String> stuNoList = (List<String>)acceptDataMap.get("stuNoList");
+		StatusInfoVO statusInfoVO = new StatusInfoVO();
+		statusInfoVO.setStatusNoList(statusNoList);
+		statusInfoVO.setStuNoList(stuNoList);
+		return adminService.updateStatusNoListByTakeOn(statusInfoVO);
+		
 		
 	}
 	
@@ -234,6 +291,7 @@ public class AdminController {
 		adminSubMenuVO.setMenuCode(ConstVariable.SECOND_MENU_CODE);
 		DeptManageVO deptManageVO = new DeptManageVO();
 		model.addAttribute("deptManageList", adminService.getDeptManageList(deptManageVO));
+		model.addAttribute("doubleRequestList", adminService.getDoubleMajorRequestList());
 		return "content/admin/change_major";
 	}
 	
@@ -301,7 +359,8 @@ public class AdminController {
 	    List<String> applyNoList = applyMap.get("applyCodeList");
 	    DeptManageVO deptManageVO = new DeptManageVO();
 	    deptManageVO.setApplyNoList(applyNoList);
-
+	    
+	    //승인 완료 안된 학생 데이터 조회
 	    List<DeptManageVO> applyStuDataList = adminService.getApplyNoByStuInfoList(deptManageVO);
 
 	    List<StuVO> updateStuList = new ArrayList<>();

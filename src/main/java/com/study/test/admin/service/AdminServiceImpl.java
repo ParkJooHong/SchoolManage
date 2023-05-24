@@ -103,22 +103,46 @@ public class AdminServiceImpl implements AdminService{
 	
 	//휴학 신청 대상자 조회	
 	@Override
-	public StatusInfoVO getLeaveManageMember(String statusNo) {
-		return sqlsession.selectOne("adminMapper.getLeaveManageMember",statusNo);
+	public StatusInfoVO getLeaveManageMember(StatusInfoVO statusInfoVO) {
+		return sqlsession.selectOne("adminMapper.getLeaveManageMember",statusInfoVO);
 	}
 	
-	//휴학 신청 승인
+	//휴학/복학 신청 승인
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public int updateStatusInfoByTakeOff(String statusNo, String stuNo) {
-		sqlsession.update("adminMapper.updateStatusInfoByTakeOff", statusNo);
-		return sqlsession.update("adminMapper.updateStatusInfoByStuTakeOff", stuNo);
+	public int updateStatusInfoByTakeOff(StatusInfoVO statusInfoVO) {
+		sqlsession.update("adminMapper.updateStatusInfoByTakeOff", statusInfoVO);
+		return sqlsession.update("adminMapper.updateStatusInfoByStuTakeOff", statusInfoVO);
 		
 	}
 	//휴학 신청 대상자 인적사항 조회
 	@Override
 	public MemberVO getMemInfoByState(String memNo) {
 		return sqlsession.selectOne("adminMapper.getMemInfoByState",memNo);
+	}
+	//휴학 신청 일괄 승인
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public int updateStatusNoListByTakeOff(StatusInfoVO statusInfoVO) {
+		sqlsession.update("adminMapper.updateStatusNoListByTakeOff", statusInfoVO);	
+		return sqlsession.update("adminMapper.updateStatusInfoListByStuTakeOff", statusInfoVO);
+	}
+	//복학 신청 대상자 리스트 조회
+	@Override
+	public List<StatusInfoVO> getRollBackManageList(StatusInfoVO statusInfoVO) {
+		return sqlsession.selectList("adminMapper.getRollBackManageList",statusInfoVO);
+	}
+	//복학 신청 일괄 승인
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public int updateStatusNoListByTakeOn(StatusInfoVO statusInfoVO) {
+		sqlsession.update("adminMapper.updateStatusNoListByTakeOn",statusInfoVO);
+		return sqlsession.update("adminMapper.updateStatusInfoListByStuTakeOn",statusInfoVO);
+	}
+	//복수 전공 신청자 리스트 조회
+	@Override
+	public List<DeptManageVO> getDoubleMajorRequestList() {
+		return sqlsession.selectList("adminMapper.getDoubleMajorRequestList");
 	}
 	
 
