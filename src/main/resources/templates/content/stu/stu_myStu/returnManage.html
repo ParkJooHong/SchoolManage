@@ -69,6 +69,24 @@
 		<td><textarea placeholder="복학 사유를 작성하세요." rows="4" cols="100" class="applyReason" ></textarea></td>
 	</tr>
 </table>
+
+<!-- 복학 중복체크 -->
+<th:block th:if="${#lists.size(stuStatus) == 0}">
+	<tr>
+		<td class="beforeIngStatus">
+			<input type="hidden" class="ingStatus" value="0">
+		</td>
+	</tr>
+</th:block>
+<th:block th:if="${#lists.size(stuStatus) != 0}">
+	<tr th:each="stuStatus, state : ${stuStatus}">
+		<td>
+			<input type="hidden" class="ingStatus" th:value=${stuStatus.ingStatus}>
+		</td>
+	</tr>
+</th:block> 
+
+
 <div style="text-align: center;">
 	<th:block th:each="member : ${memberVO}">
 		<input type="button" value="복학 신청" class="btn btn-primary" th:onclick="returnManage([[${member.memNo}]]);">

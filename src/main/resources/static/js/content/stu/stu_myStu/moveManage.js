@@ -24,7 +24,10 @@ function moveManage(){
 			data: {'toDept' : toDept, 'toColl' : toColl , 'applyReason' : applyReason, 'fromDept' : fromDept }, //필요한 데이터
 			success: function(result) {
 				if(result){
-					alert('전과 신청이 완료 되었습니다.');
+					swal("신청 완료!", "전과 신청이 완료되었습니다.", "success");
+					setTimeout(function() {
+						location.reload();
+						}, 500);
 				}
 				else{
 					alert('일시적 오류가 발생했습니다.');

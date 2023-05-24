@@ -72,21 +72,20 @@
 </table>
 
 
-<!-- <th:block th:if="${#lists.size(stuStatus) == null}">
+ <th:block th:if="${#lists.size(stuStatus) == 0}">
 	<tr>
 		<td class="beforeIngStatus">
-			<input type="text" th:value="9">
+			<input type="hidden" class="ingStatus" value="0">
 		</td>
 	</tr>
 </th:block>
 <th:block th:if="${#lists.size(stuStatus) != 0}">
 	<tr th:each="stuStatus, state : ${stuStatus}">
 		<td>
-			<input type="text" th:value="${stuStatus.ingStatus}" class="ingStatus">
+			<input type="hidden" class="ingStatus" th:value=${stuStatus.ingStatus}>
 		</td>
 	</tr>
-</th:block> -->
-
+</th:block> 
 
 
 <div style="text-align: center;">

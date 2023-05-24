@@ -113,15 +113,19 @@ public class StuController {
 		
 		//학적 관리
 		@GetMapping("myStu")
-		private String myStu(Authentication authentication, StuVO stuVO, MemberVO memberVO, Model model) {
+		private String myStu(Authentication authentication, StuVO stuVO, MemberVO memberVO, Model model, String stuNo) {
 			User user = (User)authentication.getPrincipal();
 			String memName = user.getUsername();
 			stuVO.setMemNo(user.getUsername()); // id임
 			memberVO.setMemNo(user.getUsername());
+			stuNo = stuService.seletStu(memberVO).getStuVO().getStuNo();
 			
 			model.addAttribute("memberVO" , stuService.seletStu(memberVO));
 			System.out.println("멤버 브이오 : " + memberVO);
 			System.out.println("학생 정보 : " +stuService.seletStu(memberVO));
+			
+			// 휴학 신청자 조회
+			model.addAttribute("stuStatus",stuService.getStatusLeaveInfo(stuNo));
 
 			
 			return "/content/stu/stu_myStu/leaveManage";
@@ -276,7 +280,6 @@ public class StuController {
 			
 			// 휴학 신청자 조회
 			model.addAttribute("stuStatus",stuService.getStatusLeaveInfo(stuNo));
-			System.out.println("@@@@@#!@#@#" + stuService.getStatusLeaveInfo(stuNo));
 			
 			return "/content/stu/stu_myStu/leaveManage";
 		}
@@ -327,15 +330,19 @@ public class StuController {
 		
 		// 복학 신청
 		@GetMapping("/returnManage")
-		private String returnManage(Authentication authentication,StuVO stuVO, MemberVO memberVO, Model model) {
+		private String returnManage(Authentication authentication,StuVO stuVO, MemberVO memberVO, Model model, String stuNo) {
 
 			User user = (User)authentication.getPrincipal();
 			String memName = user.getUsername();
 			stuVO.setMemNo(user.getUsername()); // id임
 			memberVO.setMemNo(user.getUsername());
+			stuNo = stuService.seletStu(memberVO).getStuVO().getStuNo();
 			model.addAttribute("memberVO" , stuService.seletStu(memberVO));
 			
 			System.out.println("학생 정보 : " +stuService.seletStu(memberVO));
+			
+			// 복학 신청자 조회
+			model.addAttribute("stuStatus",stuService.getStatusLeaveInfo(stuNo));
 			
 			return "/content/stu/stu_myStu/returnManage";
 		}
@@ -586,7 +593,10 @@ public class StuController {
 		// ------ 게시판 {
 		//나의 게시판
 		@GetMapping("/myBoard")
-		private String myBoard(Authentication authentication, Model model, MemberVO memberVO, StuVO stuVO, UniBoardVO uniBoardVO, BoardCategoryVO boardCategoryVO, String cateNo, String menuCode, String subMenuCode, BoardListSearchVO boardListSearchVO) {
+		private String myBoard(Authentication authentication, Model model, MemberVO memberVO, StuVO stuVO
+				, UniBoardVO uniBoardVO, BoardCategoryVO boardCategoryVO, String cateNo, String menuCode
+				, String subMenuCode, BoardListSearchVO boardListSearchVO) {
+			
 			System.out.println(menuCode);
 			System.out.println(subMenuCode);
 			
@@ -703,7 +713,8 @@ public class StuController {
 		//게시글 상세보기
 		@GetMapping("/boardDetail")
 		private String boardDetail(Authentication authentication, String boardNo, Model model, UniBoardVO uniBoardVO, BoardReplyVO boardReplyVO,
-				MemberVO memberVO, StuVO stuVO, String menuCode, String subMenuCode, MemberMenuVO memberMenuVO, MemberSubMenuVO memberSubMenuVO, int readCnt, int replyCnt) {
+				MemberVO memberVO, StuVO stuVO, String menuCode, String subMenuCode, MemberMenuVO memberMenuVO,
+				MemberSubMenuVO memberSubMenuVO, int readCnt) {
 
 			
 			model.addAttribute("menuCode" , menuCode);
@@ -730,8 +741,8 @@ public class StuController {
 			
 			
 			//댓글 수 업데이트
-			System.out.println(boardReplyVO);
-			boardReplyService.replyCnt(boardReplyVO);
+			//System.out.println(boardReplyVO);
+			//boardReplyService.replyCnt(boardReplyVO);
 			
 			//uniBoardVO = (UniBoardVO)boardService.boardDetail(boardNo);
 			
