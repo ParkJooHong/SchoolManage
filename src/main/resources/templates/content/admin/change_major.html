@@ -106,7 +106,7 @@
 									<td>[[${#lists.size(deptManageList) - state.index}]]</td>
 									<td>[[${dept.memberVO.memName}]]</td>
 									<td>[[${dept.memberVO.memNo}]]</td>
-									<td>[[${dept.stuYear}]]학년</td>
+									<td>[[${dept.stuYear}]]학년 &nbsp;[[${dept.stuSem}]]학기</td>
 									<td>[[${dept.fromCollName}]]</td>
 									<td>[[${dept.fromDeptName}]]</td>
 									<td>[[${dept.toCollName}]]</td>
@@ -222,8 +222,8 @@
 									<td>[[${double.memberVO.memName}]]</td>
 									<td>[[${double.stuVO.stuNo}]]</td>
 									<td>[[${double.stuVO.stuYear}]]학년&nbsp;[[${double.stuVO.stuSem}]]학기</td>
-									<td>[[${double.colleageVO}]]</td>
-									<td>[[${double.deptVO}]]</td>
+									<td>[[${double.colleageVO.collName}]]</td>
+									<td>[[${double.deptVO.deptName}]]</td>
 									<td>[[${double.doubleMajorCollName}]]</td>
 									<td>[[${double.doubleMajorDeptName}]]</td>
 									<td>[[${double.applyDate}]]</td>
@@ -235,9 +235,6 @@
 						</tbody>
 					</table>
 				</div>
-			</div>
-			<div>
-			[[${doubleRequestList}]]
 			</div>
 		</div>
 	</div>

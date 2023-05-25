@@ -50,6 +50,8 @@
 		<result column="DOUBLE_MAJOR_DEPT_NAME" 		property="doubleMajorDeptName"/>
 		<association property="stuVO" 					resultMap="stuMapper.stu"/>
 		<association property="memberVO" 				resultMap="memberMapper.member"/>
+		<association property="colleageVO" 				resultMap="schoolMapper.colleage"/>
+		<association property="deptVO" 					resultMap="schoolMapper.dept"/>
 	</resultMap>
 
 	
