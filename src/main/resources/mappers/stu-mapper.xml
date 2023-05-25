@@ -37,6 +37,8 @@
 		<association property="memImgVO" 	resultMap="memberMapper.memImg"/>
 		<association property="stuVO" 		resultMap="stu"/>
 		<association property="doubleMajorVO" resultMap="schoolMapper.doubleMajor"/>
+		<association property="colleageVO" 		resultMap="schoolMapper.colleage"/>
+		<association property="deptVO" 			resultMap="schoolMapper.dept"/>
 	</resultMap>
 	
 	<!-- 학적 상태 -->

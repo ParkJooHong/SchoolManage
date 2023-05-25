@@ -1,29 +1,156 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- jQuery CDN 추가 -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<link rel="stylesheet" href="/css/content/stu/weather/WeatherStyle.css">
+	<link rel="stylesheet" type="text/css" href="/css/content/chatbot/chatbot.css">
+</head>
+<body>
+    <th:block th:fragment="headerFragment">
 
-<th:block th:fragment="headerFragment">
+        <div class="col" style="background-color: white; display: flex; justify-content: space-between; height: 45px; align-items: center; width: 90%;">
+            <span style="text-align: left; font-size:25px;">
+                <a th:href="@{/mainPage}"><img src="/image/khLogo3.png" style="width: 250px;"> 학사행정웹서비스</a>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#weatherModal">
+                    날씨정보
+                </button>
+
+				<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#chatModal">
+                    학생챗봇도우미
+                </button>
 
 
-<div class="col"  style="background-color: white; display: flex; justify-content: space-between; height: 45px;  align-items: center; width: 90%; "  >
-	<span style="text-align: left;  font-size:25px;" >
-		<a th:href="@{/mainPage}">  <img src="/image/khLogo3.png" style="width: 250px;"> 학사행정웹서비스</a>
-	</span>	
-	<span>
-		<span>🕦 남은 시간 : 34:22</span>
-		<input type="button" value="연장">
-		<span class="btn-group name">
-			<button class="btn btn-secondary btn-lg dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" >
-		  		[[${session.memberVO.memName}]]
-		 	</button>
-		  	
-			  <ul class="dropdown-menu">
-			    <li>색 변경 공간.</li>
-			    <li>비밀번호 변경<hr></li>
-			    <li><a th:href="@{/}">로그아웃</a></li>
-			  </ul>
-		 </span>
-	</span>
-</div>
-</th:block>
+            </span>
 
+            <span>
+                <span>🕦 남은 시간: 34:22</span>
+                <input type="button" value="연장">
+                <span class="btn-group name">
+                    <button class="btn btn-secondary btn-lg dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        [[${session.memberVO.memName}]]
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li>색 변경 공간.</li>
+                        <li>비밀번호 변경<hr></li>
+                        <li><a th:href="@{/}">로그아웃</a></li>
+                    </ul>
+                </span>
+            </span>
+
+
+			<div class="modal fade" id="weatherModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog" style="position: fixed; top: 5%; left: 5%; right: 5%; bottom: 5%; display: flex; align-items: center; justify-content: center; width: 80%; height: 80%;">
+				  <div class="modal-content" style="max-width: 100%; max-height: 100%; background: #fff; padding: 20px; border-radius: 8px; overflow: auto;">
+					<div class="modal-header" style="margin-bottom: 20px;">
+					  <h1 class="modal-title fs-5" id="exampleModalLabel">날씨정보</h1>
+					  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<!-- 날씨 클릭했을 때 모달 바디 안에 들어갈 날씨 API 내용 -->
+					<div class="weathermodal-body">
+						<link rel="stylesheet" href="/css/content/stu/weather/WeatherStyle.css">
+						<div container = "weatherModal-container">
+						<div class="weathersearch-box">
+							<i class="fa-solid fa-location-dot"></i>
+							<input type="text" placeholder="영문으로 위치 입력!">
+							<button class="fa-solid fa-magnifying-glass"></button>
+						  </div>
+				
+						  <div class="not-found">
+							<img src="/image/weatherimage/404.png" alt="Weather Image">
+							<p>날씨정보가 없어요! :/</p>
+						  </div>
+				
+						  <div class="weather-box">
+							<img src="">
+							<p class="temperature"></p>
+							<p class="description"></p>
+						  </div>
+				
+						  <div class="weather-details">
+							<div class="humidity">
+							  <i class="fa-solid fa-water"></i>
+							  <div class="text">
+								<span></span>
+								<p>습도</p>
+							  </div>
+							</div>
+							<div class="wind">
+							  <i class="fa-solid fa-wind"></i>
+							  <div class="text">
+								<span></span>
+								<p>풍속</p>
+							  </div>
+							</div>
+						  </div>
+						</div>
+						<script src="https://kit.fontawesome.com/7c8801c017.js" crossorigin="anonymous"></script>
+						<script src="/js/content/weather/weatherFunction.js"></script>
+					</div>
+						
+
+				
+					<div class="modal-footer">
+					  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+					</div>
+				  </div>
+				</div>
+			  </div>
+        </div>
+	
+
+		<!-- Chatgpt Modal 쳇지피티 모달 -->
+		<!-- 모달 요소 -->
+		<div class="modal fade" id="chatModal" tabindex="-1" aria-labelledby="chatModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+			  <div class="modal-content">
+				<!-- 모달 헤더 부분 추가 -->
+				<div class="modal-header">
+				  <h5 class="modal-title mx-auto" id="chatModalLabel">KH대학교</h5>
+				  <button type="button" class="btn-close" data-bs-dismiss="modal"
+				   aria-label="Close"></button>
+				</div>
+		  
+				<!-- 모달 바디 부분에 코드 추가 -->
+				<div class="Chatmodal-body">
+					<link rel="stylesheet" type="text/css" href="/css/content/chatbot/chatbot.css">
+				  <div class="AllChatcontainer">
+					<div class="Chatheader">
+					  <h3>KH대학교 학생 웹 서비스 챗봇</h3>
+					</div>
+		  
+					<div class="info">
+					  <a href="" target="_blank"> 학사관리 시스템 </a>
+					  <!-- 학사 관리 시스템으로 리다이렉트 -->
+					</div>
+		  
+					<div class="chat-container">
+					  <div id="chat-log"></div>
+					</div>
+		  
+					<div class="input-container">
+					  <input type="text" id="user-input" placeholder="메세지를 보내주세요." />
+					  <button id="send-button">
+						<i class="fa-solid fa-paper-plane" id="button-icon"></i>
+					  </button>
+					</div>
+				  </div>
+				</div>
+
+               <script src="/js/content/chatbot/chatbot.js"></script>
+
+				<!-- 모달 푸터 부분 추가-->
+				<div class="modal-footer">
+				  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+				</div>
+			  </div>
+			</div>
+		  </div>
+		  
+
+
+
+
+    </th:block>   
+</body>
 </html>
