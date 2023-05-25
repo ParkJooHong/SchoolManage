@@ -39,6 +39,7 @@
 		<association property="doubleMajorVO" resultMap="schoolMapper.doubleMajor"/>
 		<association property="colleageVO" 		resultMap="schoolMapper.colleage"/>
 		<association property="deptVO" 			resultMap="schoolMapper.dept"/>
+		<association property="memImgVO" 			resultMap="memberMapper.memImg"/>
 	</resultMap>
 	
 	<!-- 학적 상태 -->
@@ -137,10 +138,15 @@
 			, STU_BANK_ACCOUNT
 			, COLL_NAME
 			, DEPT_NAME
-		FROM UNI_STU US, UNI_MEMBER UM, COLLEAGE C, DEPT D
+			, IMG_CODE
+			, ORIGIN_FILE_NAME
+			, ATTACHED_FILE_NAME
+			, IS_MAIN
+		FROM UNI_STU US, UNI_MEMBER UM, COLLEAGE C, DEPT D, MEM_IMG MI
 		WHERE US.COLL_NO = C.COLL_NO
 		AND UM.MEM_NO = US.MEM_NO
 		AND D.DEPT_NO = US.DEPT_NO
+		AND UM.MEM_NO = MI.MEM_NO
 		AND UM.MEM_NO = #{memNo}
 	</select>
 	

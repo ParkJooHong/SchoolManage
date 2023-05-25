@@ -6,8 +6,11 @@ function leave(memNo){
 	
 	const ingStatus = document.querySelector('.ingStatus').value;
 
-	
-	if(ingStatus == 0)
+// 1. ㅈ ㅐ학인데 재학신청 불가
+// 2. 휴학인데 휴학신청 불가
+// 3. 신청중인 데이터 있으면 불가.
+	// 신청자 학생 정보 조회 쿼리.
+	if(ingStatus == '승인대기')
 	{
 		
 		$.ajax({

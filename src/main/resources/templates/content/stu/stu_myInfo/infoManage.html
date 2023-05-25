@@ -44,11 +44,14 @@
 	<tr style="justify-content: space-between;">
 		<td>융합연계(복)</td>
 		<td><input type="text"></td>
-		<td rowspan="3" style="text-align: left;">
+		<td rowspan="3" style="text-align: right;">
+			<img th:src="${'/image/memImg/' + member.memImgVO.attachedFileName}" height="90px;" width="80px;">
 			<form action="/upload" method="post" enctype="multipart/form-data">
-		        <input type="file" name="image" accept="image/*" required><br>
-		        <input type="submit" value="업로드">
-		    </form></td>
+			<input type="file" class="mainImg" required>
+		        <input type="submit" class="btn btn-primary" value="이미지 저장" onclick="updateImg();" >
+		    </form>
+		</td>
+		<td></td>
 		<!-- <td><img src="/image/khLogo.png" style="width: 140px;"></td> -->
 	</tr>
 	<tr>
@@ -64,7 +67,7 @@
 	<tr>
 		<td>개명 후 성명</td>
 		<td><input type="text"></td>
-		<td><input type="button" value="신청 접수" class="btn btn-primary"></td>
+		<td><input type="button" value="신청 접수" class="btn btn-danger"></td>
 		<td></td>
 	</tr>
 	<tr>

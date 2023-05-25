@@ -1,3 +1,12 @@
+
+
+function updateImg(){
+	
+	const mainImg = document.querySelector('.mainImg').value;
+	alert(mainImg);	
+}
+
+
 function save(){
 	swal("변경 성공!", "비밀번호가 변경되었습니다.", "success");
 }

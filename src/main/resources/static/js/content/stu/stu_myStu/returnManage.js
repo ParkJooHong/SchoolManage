@@ -5,7 +5,7 @@ function returnManage(memNo){
 	
 	const ingStatus = document.querySelector('.ingStatus').value;
 	
-	if(ingStatus == 0){
+	if(ingStatus == '승인대기'){
 		$.ajax({
 			url: '/stuMenu/returnManageAjax', //요청경로
 			type: 'post',
