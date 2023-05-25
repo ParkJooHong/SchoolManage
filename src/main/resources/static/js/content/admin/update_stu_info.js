@@ -163,7 +163,7 @@ function stateModalOpen(status_no, stu_no, after_status) {
 
 }
 //휴학 신청
-function changeStatus(status_no, stu_no) {
+function changeStatus(status_no, stu_no, idx) {
 	const stu_status = '휴학';
 	const changeStatusData = {
 		'statusNo': status_no,
@@ -188,8 +188,8 @@ function changeStatus(status_no, stu_no) {
 					url: '/admin/changeStatusAjax', //요청경로
 					type: 'post',
 					async: true,
-					//contentType : 'application/json; charset=UTF-8',
-					contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+					contentType : 'application/json; charset=UTF-8',
+					//contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 					data: JSON.stringify(changeStatusData), //필요한 데이터
 					success: function(result) {
 						if (result != 0) {
@@ -200,14 +200,14 @@ function changeStatus(status_no, stu_no) {
 								button: '확인'
 							})
 								.then((result) => {
-									document.querySelector('#waitRadio').addEventListener('click', function(event) {
+									document.querySelector(`#waitRadio${idx}`).addEventListener('click', function(event) {
 										event.preventDefault();
 									});
 
-									document.querySelector('#confirmRadio').addEventListener('click', function(event) {
+									document.querySelector(`#confirmRadio${idx}`).addEventListener('click', function(event) {
 										event.preventDefault();
 									});
-
+									selectByStatus();
 								})
 						}
 					},
@@ -227,8 +227,8 @@ function changeStatus(status_no, stu_no) {
 					button: '확인',
 				})
 					.then((result) => {
-						document.querySelector('#waitRadio').checked = true;
-						document.querySelector('#confirmRadio').checked = false;
+						document.querySelector(`#waitRadio${idx}`).checked = true;
+						document.querySelector(`#confirmRadio${idx}`).checked = false;
 					})
 			}
 		});
@@ -265,12 +265,12 @@ function selectByStatus(status_data) {
 				str += `<td>${sta.applyDate}</td>`;
 				str += '<td>';
 				if (sta.ingStatus == '승인대기') {
-					str += `<input type="radio" class="form-check-input" checked id="waitRadio" name="status+${index}">승인대기`;
-					str += `<input type="radio" class="form-check-input" id="confirmRadio" onclick="changeStatus('${sta.statusNo}', '${sta.stuVO.stuNo}');" name="status+${index}">승인완료`;
+					str += `<input type="radio" class="form-check-input" checked id="waitRadio${index}" name="status${index}">승인대기`;
+					str += `<input type="radio" class="form-check-input" id="confirmRadio${index}" onclick="changeStatus('${sta.statusNo}', '${sta.stuVO.stuNo}', ${index});" name="status${index}">승인완료`;
 				}
 				else {
-					str += `<input type="radio" class="form-check-input" id="waitRadio" onclick="event.preventDefault();" name="status+${index}">승인대기`;
-					str += `<input type="radio" class="form-check-input" checked id="confirmRadio" onclick="event.preventDefault();" name="status+${index}">승인완료`;
+					str += `<input type="radio" class="form-check-input" id="waitRadio" onclick="event.preventDefault();" name="status${index}">승인대기`;
+					str += `<input type="radio" class="form-check-input" checked id="confirmRadio" onclick="event.preventDefault();" name="status${index}">승인완료`;
 				}
 				str += '</td>';
 				str += '</tr>';
@@ -327,12 +327,12 @@ function selectByDateStatusInfo() {
 				str += `<td>${sta.applyDate}</td>`;
 				str += '<td>';
 				if (sta.ingStatus == '승인대기') {
-					str += `<input type="radio" class="form-check-input" checked id="waitRadio" name="status+${index}">승인대기`;
-					str += `<input type="radio" class="form-check-input" id="confirmRadio" onclick="changeStatus('${sta.statusNo}', '${sta.stuVO.stuNo}');" name="status+${index}">승인완료`;
+					str += `<input type="radio" class="form-check-input" checked id="waitRadio${index}" name="status${index}">승인대기`;
+					str += `<input type="radio" class="form-check-input" id="confirmRadio${index}" onclick="changeStatus('${sta.statusNo}', '${sta.stuVO.stuNo}', ${index});" name="status${index}">승인완료`;
 				}
 				else {
-					str += `<input type="radio" class="form-check-input" id="waitRadio" onclick="event.preventDefault();" name="status+${index}">승인대기`;
-					str += `<input type="radio" class="form-check-input" checked id="confirmRadio" onclick="event.preventDefault();" name="status+${index}">승인완료`;
+					str += `<input type="radio" class="form-check-input" id="waitRadio${index}" onclick="event.preventDefault();" name="status${index}">승인대기`;
+					str += `<input type="radio" class="form-check-input" checked id="confirmRadio${index}" onclick="event.preventDefault();" name="status${index}">승인완료`;
 				}
 				str += '</td>';
 				str += '</tr>';
@@ -444,7 +444,7 @@ function checkedAcceptByStatus() {
 }
 
 //복학신청
-function changeStatusRoll(status_no, stu_no) {
+function changeStatusRoll(status_no, stu_no, idx) {
 	const stu_status = '재학';
 	const changeStatusData = {
 		'statusNo': status_no,
@@ -508,8 +508,8 @@ function changeStatusRoll(status_no, stu_no) {
 					button: '확인',
 				})
 					.then((result) => {
-						document.querySelector('#rollWaitRadio').checked = true;
-						document.querySelector('#rollConfirmRadio').checked = false;
+						document.querySelector(`#rollWaitRadio${idx}`).checked = true;
+						document.querySelector(`#rollConfirmRadio${idx}`).checked = false;
 					})
 			}
 		});
@@ -546,12 +546,12 @@ function selectByStatusRoll(status_data) {
 				str += `<td>${sta.applyDate}</td>`;
 				str += '<td>';
 				if (sta.ingStatus == '승인대기') {
-					str += `<input type="radio" class="form-check-input" checked id="waitRadio" name="status+${index}">승인대기`;
-					str += `<input type="radio" class="form-check-input" id="confirmRadio" onclick="changeStatus('${sta.statusNo}', '${sta.stuVO.stuNo}');" name="status+${index}">승인완료`;
+					str += `<input type="radio" class="form-check-input" checked id="waitRadio${index}" name="status${index}">승인대기`;
+					str += `<input type="radio" class="form-check-input" id="confirmRadio${index}" onclick="changeStatusRoll('${sta.statusNo}', '${sta.stuVO.stuNo}', '${index}');" name="status${index}">승인완료`;
 				}
 				else {
-					str += `<input type="radio" class="form-check-input" id="waitRadio" onclick="event.preventDefault();" name="status+${index}">승인대기`;
-					str += `<input type="radio" class="form-check-input" checked id="confirmRadio" onclick="event.preventDefault();" name="status+${index}">승인완료`;
+					str += `<input type="radio" class="form-check-input" id="waitRadio" onclick="event.preventDefault();" name="status${index}">승인대기`;
+					str += `<input type="radio" class="form-check-input" checked id="confirmRadio" onclick="event.preventDefault();" name="status${index}">승인완료`;
 				}
 				str += '</td>';
 				str += '</tr>';
@@ -607,12 +607,12 @@ function selectByDateStatusRollInfo(){
 				str += `<td>${sta.applyDate}</td>`;
 				str += '<td>';
 				if (sta.ingStatus == '승인대기') {
-					str += `<input type="radio" class="form-check-input" checked id="waitRadio" name="status+${index}">승인대기`;
-					str += `<input type="radio" class="form-check-input" id="confirmRadio" onclick="changeStatus('${sta.statusNo}', '${sta.stuVO.stuNo}');" name="status+${index}">승인완료`;
+					str += `<input type="radio" class="form-check-input" checked id="waitRadio${index}" name="status${index}">승인대기`;
+					str += `<input type="radio" class="form-check-input" id="confirmRadio${index}" onclick="changeStatusRoll('${sta.statusNo}', '${sta.stuVO.stuNo}', '${index}');" name="status${index}">승인완료`;
 				}
 				else {
-					str += `<input type="radio" class="form-check-input" id="waitRadio" onclick="event.preventDefault();" name="status+${index}">승인대기`;
-					str += `<input type="radio" class="form-check-input" checked id="confirmRadio" onclick="event.preventDefault();" name="status+${index}">승인완료`;
+					str += `<input type="radio" class="form-check-input" id="waitRadio" onclick="event.preventDefault();" name="status${index}">승인대기`;
+					str += `<input type="radio" class="form-check-input" checked id="confirmRadio" onclick="event.preventDefault();" name="status${index}">승인완료`;
 				}
 				str += '</td>';
 				str += '</tr>';
