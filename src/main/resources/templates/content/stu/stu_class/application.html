@@ -73,18 +73,16 @@
 		<thead>
 			<tr>
 				<td>강의코드</td>
-				<td>강의명</td>
+				<td>교과목명</td>
 				<td>강의 학점</td>
 				<td>단과대학</td>
 				<td>학과</td>
+				<td>교수</td>
+				<td>강의 날짜 / 시간</td>
 				<td>최대인원</td>
 				<td>현재인원</td>
-				<td>강의 날짜</td>
-				<td>강의 시작 시간</td>
-				<td>강의 마치는 시간</td>
-				<td>수강 현황</td>
 				<td>학기</td>
-				<td>교수</td>
+				<td>수강 신청</td>
 			</tr>
 		</thead>
 		<tbody>
@@ -100,21 +98,58 @@
 					<td>[[${lectureList.lecScore}]]</td>
 					<td>[[${lectureList.colleageVO.collName}]]</td>
 					<td>[[${lectureList.deptVO.deptName}]]</td>
+					<td>[[${lectureList.memName}]]</td>
+					<td>[[${lectureList.lectureTimeList[0].lecDay}]] / [[${lectureList.lectureTimeList[0].startTime}]] ~ [[${lectureList.lectureTimeList[0].finishTime}]]  </td>
 					<td>[[${lectureList.maxMem}]]</td>
 					<td>[[${lectureList.nowMem}]]</td>
-					<td>[[${lectureList.lectureTimeList[0].lecDay}]]</td>
-					<td>[[${lectureList.lectureTimeList[0].startTime}]]</td>
-					<td>[[${lectureList.lectureTimeList[0].finishTime}]]</td>
-					<td>[[${lectureList.lecStatus}]]</td>
 					<td>[[${lectureList.semesterVO.semName}]]</td>
-					<td>[[${lectureList.memName}]]</td>
+					<td><input type="button" value="수강신청" class="btn btn-primary" th:onclick="apllication([[${lectureList}]])"></td>
+					<td>[[${lectureList.lecStatus}]]</td>
 				</tr>
 			</th:block>
 		</tbody>
 	</table>
 </div>
-
-
+<br>
+<h8>🌐 수강 신청 내역 확인</h8>
+<table class="table table-striped table-hover text-center align-middle">
+		<!-- align-middle 하면 테이블 중간에 표시. -->
+		<colgroup>
+			<col width="*">
+			<col width="*">
+			<col width="*">
+			<col width="*">
+			<col width="*">
+			<col width="*">
+			<col width="*">
+			<col width="*">
+			<col width="*">
+			<col width="*">
+			<col width="*">
+		</colgroup>
+		<thead>
+			<tr>
+				<td>강의코드</td>
+				<td>교과목명</td>
+				<td>강의 학점</td>
+				<td>단과대학</td>
+				<td>학과</td>
+				<td>교수</td>
+				<td>강의 날짜 / 시간</td>
+				<td>최대인원</td>
+				<td>현재인원</td>
+				<td>학기</td>
+				<td>수강 신청</td>
+			</tr>
+		</thead>
+		<tbody>
+			<th:block>
+				<tr>
+					<td colspan="13">수강 신청 내역이 없습니다.</td>
+				</tr>
+			</th:block>
+			</tbody>
+	</table>
 </th:block>
 
 

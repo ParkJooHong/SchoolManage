@@ -1,4 +1,10 @@
 
+//수강 신청 클릭
+function apllication(lectureList){
+	alert(lectureList);
+}
+
+
 //대학에 따른 소속 학과 변경
 function updateDept(menuCode, subMenuCode){
 	

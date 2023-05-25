@@ -19,6 +19,10 @@ repositories {
 }
 
 dependencies {
+	implementation 'com.oracle.database.security:osdt_cert:21.3.0.0'   //오라클 클라우드
+    implementation 'com.oracle.database.security:oraclepki:21.3.0.0'   //오라클 클라우드
+    implementation 'com.oracle.database.security:osdt_core:21.3.0.0'   //오라클 클라우드 그래들에 dependency에 이거 추가하고
+
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'

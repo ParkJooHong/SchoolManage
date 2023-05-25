@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.study.test.board.vo.BoardReplyVO;
+import com.study.test.board.vo.UniBoardVO;
 
 
 public interface BoardReplyService {
@@ -25,6 +26,12 @@ public interface BoardReplyService {
 	void replyUpdate(BoardReplyVO boardReplyVO);
 	
 	//댓글 개수
-	void replyCnt(BoardReplyVO boardReplyVO);
+	List<BoardReplyVO> replyCount(String boardNo);
+	
+	//댓글 수 ++
+	void replyPlus(String boardNo);
+	
+	//댓글 수 --
+	void replyDecrease(String boardNo);
 	
 }

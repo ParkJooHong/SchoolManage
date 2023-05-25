@@ -31,12 +31,19 @@
 	</button>
 </div>
 
-<th:block th:each="boardCategoryVO : ${boardCategoryVO}">
-	<div>
-	<a>카테고리 - [[${boardCategoryVO.cateName}]] </a>
+
+<div>
 	
+		
+	
+</div>
+
+<th:block th:each="boardCategoryVO : ${boardCategoryVO}">
+	<div>		
+		<span th:text="${boardCategoryVO.cateName}"></span>
 	</div>
 </th:block>
+
 	<input type="hidden" th:value="${menuCode}" class="menuCode" >
 	<input type="hidden" th:value="${subMenuCode}" class="subMenuCode" >
 	<div class="detail_info" >
@@ -80,7 +87,7 @@
 	
 	</table>	
 		
- 
+
 	</div>
 	<br>
 	<h3>댓글</h3>

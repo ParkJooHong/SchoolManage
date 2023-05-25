@@ -19,4 +19,5 @@ public class UniBoardVO {
 	private int replyCnt;
 	private String isPrivate;
 	private String isNotice;
+	private BoardReplyVO boardReplyVO;
 }

@@ -179,11 +179,13 @@ function updateReplyGo(replyNo, menuCode, subMenuCode){
 
 //댓글 삭제.
 function replyDelete(replyWriter, replyNo, menuCode, subMenuCode){
+	const boardNo = document.querySelector('.boardNo').value;
+	alert(boardNo);
 		$.ajax({
 			url: '/board/replyDeleteAjax', //요청경로
 			type: 'post',
 			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-			data: {'replyWriter' : replyWriter, 'menuCode' : menuCode, 'subMenuCode' : subMenuCode, 'replyNo' : replyNo }, //필요한 데이터
+			data: {'replyWriter' : replyWriter, 'menuCode' : menuCode, 'subMenuCode' : subMenuCode, 'replyNo' : replyNo, 'boardNo' : boardNo }, //필요한 데이터
 			success: function(result) {
 				if(result){
 					swal("삭제 성공!", "댓글이 삭제되었습니다.", "success");

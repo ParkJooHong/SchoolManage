@@ -25,6 +25,14 @@
 		<result column="IS_NOTICE" 			property="isNotice"/>
 	</resultMap>
 	
+<!-- 	<resultMap type="com.study.test.board.vo.BoardReplyVO" id="reply">
+		<id column="REPLY_NO" 			property="replyNo"/>
+		<result column="BOARD_NO" 			property="boardNo"/>
+		<result column="REPLY_CONTENT" 			property="replyContent"/>
+		<result column="REPLY_WRITER" 			property="replyWriter"/>
+		<result column="IS_PRIVATE" 			property="isPrivate"/>
+	</resultMap> -->
+	
 	<!-- 보드 게시판 카테고리 조회 -->
 		<select id="getBoardCategoryList" resultMap="boardCategory">
 			SELECT CATE_NO
@@ -129,6 +137,8 @@
 			WHERE BOARD_NO = #{boardNo}
 	</select>
 	
+	
+	
 	<!-- 게시글 조회 수 -->
 	<update id="readCnt">
 		UPDATE UNI_BOARD
@@ -136,13 +146,14 @@
 		WHERE BOARD_NO = #{boardNo}
 	</update>
 	
+	
 	<!-- 게시글 댓글 수 -->
-	<update id="replyCnt">
+	<!-- <update id="replyCnt">
 		UPDATE UNI_BOARD
 		SET REPLY_CNT = #{replyCnt}
 		WHERE BOARD_NO = #{boardNo}
 	</update>
-	
+	 -->
 	<!-- 게시글 수정  -->
 	<update id="boardUpdate">
 		UPDATE UNI_BOARD

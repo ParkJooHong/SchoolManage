@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.study.test.board.vo.BoardReplyVO;
+import com.study.test.board.vo.UniBoardVO;
 
 
 @Service("boardReplyService")
@@ -47,10 +48,24 @@ public class BoardReplyServiceImpl implements BoardReplyService {
 		
 	}
 
-	//게시판 댓글 수
+
+	//댓글 개수
 	@Override
-	public void replyCnt(BoardReplyVO boardReplyVO) {
-		sqlSession.update("replyMapper.replyCnt", boardReplyVO);
+	public List<BoardReplyVO> replyCount(String boardNo) {
+		return sqlSession.selectList("replyMapper.replyCount", boardNo);
+	}
+
+	//댓글 수 ++
+	@Override
+	public void replyPlus(String boardNo) {
+		sqlSession.update("replyMapper.replyPlus", boardNo);
+		
+	}
+
+	//댓글수 --
+	@Override
+	public void replyDecrease(String boardNo) {
+		sqlSession.update("replyMapper.replyDecrease", boardNo);
 		
 	}
 

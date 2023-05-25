@@ -85,7 +85,7 @@ public class BoardController {
 	// 보드 댓글 삭제
 	@ResponseBody
 	@PostMapping("/replyDeleteAjax")
-	private Map<String, Object> replyDeleteAjax(String replyWriter, String replyNo, String menuCode, String subMenuCode, BoardReplyVO boardReplyVO) {
+	private Map<String, Object> replyDeleteAjax(String replyWriter, String replyNo, String menuCode, String subMenuCode, BoardReplyVO boardReplyVO, String boardNo) {
 		
 		
 		
@@ -93,7 +93,10 @@ public class BoardController {
 		 data.put("menuCode", menuCode);
 	     data.put("subMenuCode", subMenuCode);
 	     
+	     //댓글 수 감소
+		boardReplyService.replyDecrease(boardNo);
 		
+		//댓글 삭제
 	     boardReplyService.replyDelete(boardReplyVO);
 		
 		return data;

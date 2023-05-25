@@ -392,6 +392,7 @@ public class StuController {
 
 			//대학 리스트 조회
 			model.addAttribute("colleageVO", schoolService.getCollList());
+			System.out.println("전과신청 학과 조회 :  " + schoolService.getCollList());
 			
 			//학과 리스트 조회
 			System.out.println("대학 코드 : " +memberVO.getStuVO().getCollNo() );
@@ -595,7 +596,7 @@ public class StuController {
 		@GetMapping("/myBoard")
 		private String myBoard(Authentication authentication, Model model, MemberVO memberVO, StuVO stuVO
 				, UniBoardVO uniBoardVO, BoardCategoryVO boardCategoryVO, String cateNo, String menuCode
-				, String subMenuCode, BoardListSearchVO boardListSearchVO) {
+				, String subMenuCode, BoardListSearchVO boardListSearchVO,  String boardNo) {
 			
 			System.out.println(menuCode);
 			System.out.println(subMenuCode);
@@ -615,6 +616,12 @@ public class StuController {
 			//보드 개시판 개수 조회
 			int totalDataCnt = boardService.totalBoardCount();
 			System.out.println("보드 개수 : " +  boardService.totalBoardCount());
+			
+			//System.out.println(boardNo);
+			//System.out.println("댓글 수 : " + boardReplyService.replyCount(boardNo));
+			
+			//boardReplyService.replyCount(boardNo);
+			
 			
 			//페이지 정보 세팅
 			boardListSearchVO.setTotalDataCnt(totalDataCnt);
@@ -681,6 +688,8 @@ public class StuController {
 		@PostMapping("/boardWriteAjax")
 		public Map<String, Object> boardWrite(String menuCode, String subMenuCode, String boardTitle, String boardContent, String isPrivate, String isNotice, String cateNo,UniBoardVO uniBoardVO, Model model, String inputPwd) {
 			
+			System.out.println("카테고리 코드 : " + cateNo );
+			
 			uniBoardVO.setBoardTitle(boardTitle);
 			uniBoardVO.setBoardContent(boardContent);
 			
@@ -712,7 +721,7 @@ public class StuController {
 		
 		//게시글 상세보기
 		@GetMapping("/boardDetail")
-		private String boardDetail(Authentication authentication, String boardNo, Model model, UniBoardVO uniBoardVO, BoardReplyVO boardReplyVO,
+		private String boardDetail(Authentication authentication, String cateNo, String boardNo, Model model, UniBoardVO uniBoardVO, BoardReplyVO boardReplyVO,
 				MemberVO memberVO, StuVO stuVO, String menuCode, String subMenuCode, MemberMenuVO memberMenuVO,
 				MemberSubMenuVO memberSubMenuVO, int readCnt) {
 
@@ -740,8 +749,9 @@ public class StuController {
 			boardService.readCnt(uniBoardVO);
 			
 			
+			
 			//댓글 수 업데이트
-			//System.out.println(boardReplyVO);
+			System.out.println(boardReplyVO);
 			//boardReplyService.replyCnt(boardReplyVO);
 			
 			//uniBoardVO = (UniBoardVO)boardService.boardDetail(boardNo);
@@ -750,6 +760,13 @@ public class StuController {
 			System.out.println("보드 상세 정보  : " +boardService.boardDetail(boardNo));
 			model.addAttribute("uniBoardVO", boardService.boardDetail(boardNo));
 			
+			//게시글 댓글 수
+			System.out.println(boardNo);
+			boardReplyService.replyCount(boardNo);
+			System.out.println("댓글 수 : " + boardReplyService.replyCount(boardNo));
+			
+			
+			cateNo = uniBoardVO.getCateNo();
 			//게시판 카테고리 정보 
 			model.addAttribute("boardCategoryVO", boardService.getBoardCategoryList());
 			
@@ -771,7 +788,12 @@ public class StuController {
 		//댓글 등록
 		@ResponseBody
 		@PostMapping("/replyAjax")
-		public Map<String, Object> replyAjax(String menuCode, String subMenuCode, String stuNo ,String boardNo, String replyContent, BoardReplyVO boardReplyVO, Model model) {
+		public Map<String, Object> replyAjax(String menuCode, String subMenuCode, String stuNo ,
+				String boardNo, String replyContent, BoardReplyVO boardReplyVO, Model model) {
+			
+			//댓글 수 ++
+			boardReplyService.replyPlus(boardNo);
+
 			
 			boardReplyVO.setBoardNo(boardNo);
 			boardReplyVO.setReplyContent(replyContent);

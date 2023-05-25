@@ -23,6 +23,14 @@
 		FROM BOARD_REPLY
 		WHERE BOARD_NO = #{boardNo}
 	</select>
+	
+	<!-- 게시글 댓글 수 -->
+	<select id="replyCount" resultType="int">
+		SELECT COUNT(REPLY_NO)
+		FROM BOARD_REPLY
+		WHERE BOARD_NO = #{boardNo}
+	</select>
+	
 
 	<!-- 댓글등록 -->
 	<insert id="insertReply">
@@ -56,6 +64,19 @@
 		WHERE REPLY_NO = #{replyNo}
 	</update>
 
+	<!-- 댓글 등록마다 해당 테이블 댓글 수 1 증가 -->
+	<update id="replyPlus">
+		UPDATE UNI_BOARD
+		SET REPLY_CNT = REPLY_CNT + 1
+		WHERE BOARD_NO = #{boardNo}
+	</update>
+	
+	<!-- 댓글 삭제마다 해당 테이블 댓글 수 1 감소 -->
+	<update id="replyDecrease">
+		UPDATE UNI_BOARD
+		SET REPLY_CNT = REPLY_CNT - 1
+		WHERE BOARD_NO = #{boardNo}
+	</update>
 
 
 </mapper>

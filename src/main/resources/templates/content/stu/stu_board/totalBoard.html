@@ -87,6 +87,7 @@
 					  </tr>
 					</thead>
 					<tbody>
+					<tbody>
 					<th:block th:if="${#lists.size(uniBoardVO) == null}">
 						<tr>
 							<td colspan="6">작성된 게시글 없습니다.</td>
@@ -95,11 +96,20 @@
 					<th:block th:if="${#lists.size(uniBoardVO) != 0}">
 						<tr th:each="uniBoard, state : ${uniBoardVO}">
 							<td>[[${state.count}]]</td>
-							<td><a th:href="@{/stuMenu/boardDetail(menuCode=${menuCode}, subMenuCode=${subMenuCode}, boardNo=${uniBoard.boardNo} )}">[[${uniBoard.boardTitle}]]</a></td>
 							<td>[[${uniBoard.boardWriter}]]</td>
+							<td th:if="${uniBoard.isPrivate !='N'}">
+								<a href="#" th:onclick="checkPwd( [[${uniBoard.isPrivate}]] , [[${uniBoard.boardNo}]], [[${menuCode}]], [[${subMenuCode}]], [[${uniBoard.readCnt}]]);" class="title"> 
+									🔒 [[${uniBoard.boardTitle}]] [ [[${uniBoard.replyCnt}]] ]
+								</a>
+							</td>
+							<td th:if="${uniBoard.isPrivate =='N'}">
+								<a th:href="@{/stuMenu/boardDetail(menuCode=${menuCode}, subMenuCode=${subMenuCode}, boardNo=${uniBoard.boardNo}, readCnt=${uniBoard.readCnt} )}" class="title">
+									[[${uniBoard.boardTitle}]] [ [[${uniBoard.replyCnt}]] ]
+								</a>
+							</td>
 							<td>[[${uniBoard.regBoardDate}]]</td>
 							<td>[[${uniBoard.readCnt}]]</td>
-							<td>[[${uniBoard.replyCnt}]]</td>
+
 						</tr>
 					</th:block>
 					</tbody>
@@ -156,14 +166,16 @@
 								   </th:block>
 							</div>
 							
-							<th:block th:each="boardCategory : ${boardCategoryVO}"> 
+						
  							<div class="col-9"> 
 								<label for="memId" class="form-label">카테고리</label> 
 								<select th:name="cateNo" >
-									<option class="cateNo" th:value="${boardCategory.cateNo}">[[${boardCategory.cateName}]]</option>
+									<th:block th:each="boardCategory : ${boardCategoryVO}">
+										<option class="cateNo" th:value="${boardCategory.cateNo}">[[${boardCategory.cateName}]]</option>
+									</th:block>
 								</select>
 							</div>
-							</th:block>
+							
 							
 							
 							<!-- <div class="my-invalid"> ID가 잘못됬어요.</div> -->
