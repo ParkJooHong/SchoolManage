@@ -62,7 +62,22 @@ public interface AdminService {
 	int updateStatusNoListByTakeOn(StatusInfoVO statusInfoVO);
 	
 	//복수 전공 신청자 리스트 조회
-	List<DeptManageVO> getDoubleMajorRequestList();
+	List<DeptManageVO> getDoubleMajorRequestList(DeptManageVO deptManageVO);
+	
+	//복수 전공 신청 대상자 정보 조회	
+	DeptManageVO getDoubletManageData(String applyNo);
+	
+	//복수전공 코드 조회
+	String getDoubleNo(String doubleMajorDeptNo);
+	
+	//학생 복수전공 업데이트
+	int updateStuDouble(DeptManageVO deptManageVO);
+	
+	//복수전공 코드 리스트 가져오기
+	List<DoubleMajorVO> getDoubleNoByDeptList(DoubleMajorVO doubleMajorVO);
+	
+	//복수전공 리스트 승인
+	int updateDoubleMajorList(DeptManageVO deptManageVO);
 	
 	
 }

@@ -385,7 +385,6 @@ function checkedAcceptByStatus() {
 		return;
 	}
 
-
 	swal.fire({
 		title: "승인하시겠습니까?",
 		text: "진행하시겠습니까?",

@@ -152,23 +152,23 @@
 						<tr>
 							<td>신청일</td>
 							<td>
-								<input type="date" class="form-control">
+								<input type="date" class="form-control dbMonthDate">
 							</td>
 							<td>
-								<input type="date" class="form-control">
+								<input type="date" class="form-control dbNowDate">
 							</td>
 							<td>처리상태</td>
 							<td>
-								<input type="radio" class="form-check-input" name="status-3" checked>전체
+								<input type="radio" class="form-check-input" onclick="searchByDoubleStatus('');" value=""  name="status-3" checked>전체
 							</td>
 							<td>
-								<input type="radio" class="form-check-input" name="status-3">승인대기							
+								<input type="radio" class="form-check-input" onclick="searchByDoubleStatus('승인대기');" value="승인대기" name="status-3">승인대기							
 							</td>
 							<td>
-								<input type="radio" class="form-check-input" name="status-3">승인완료
+								<input type="radio" class="form-check-input" onclick="searchByDoubleStatus('승인완료');" value="승인완료"  name="status-3">승인완료
 							</td>
 							<td class="d-grid">
-								<input type="button" class="btn btn-primary" value="search">
+								<input type="button" class="btn btn-primary" onclick="searchByDateDouble();" value="search">
 							</td>
 						</tr>
 					</table>
@@ -198,7 +198,7 @@
 						<thead>
 							<tr>
 								<td>
-									<input type="checkbox" id="dAllCheck" class="form-check-input">
+									<input type="checkbox" id="dAllCheck" onclick="doubleCheckControll(this);" checked class="form-check-input">
 								</td>
 								<td>No</td>
 								<td>이 름</td>
@@ -216,7 +216,9 @@
 							<th:block th:each="double,dState :${doubleRequestList}">
 								<tr>
 									<td>
-										<input type="checkbox" class="form-check-input">
+										<input type="hidden" th:id="dmemApplyNo + ${dState.count}" th:value="${double.applyNo}">
+										<input type="hidden" th:id="dmemNo + ${dState.count}" th:value="${double.stuVO.stuNo}">
+										<input type="checkbox" checked th:onclick="checkControll();" th:value="${double.applyNo}" th:data-process-status="${double.processStatus}" th:data-stu-no="${double.stuVO.stuNo}" th:data-double-dept-no="${double.doubleMajorDept}" class="form-check-input doubleCheckboxes">
 									</td>
 									<td>[[${#lists.size(doubleRequestList) - dState.index}]]</td>
 									<td>[[${double.memberVO.memName}]]</td>
@@ -228,12 +230,22 @@
 									<td>[[${double.doubleMajorDeptName}]]</td>
 									<td>[[${double.applyDate}]]</td>
 									<td class="d-grid">
-										<input type="button" value="승인" class="btn btn-primary">
+										<th:block th:if="${double.processStatus == '승인대기'}">
+											<input type="button" value="승인" th:onclick="acceptDoubleMajor([[${dState.count}]]);" class="btn btn-primary">
+										</th:block>
+										<th:block th:unless="${double.processStatus == '승인대기'}">
+											<input type="button" value="완료" th:onclick="acceptDoubleMajor([[${dState.count}]]);" class="btn btn-primary">
+										</th:block>
 									</td>
 								</tr>
 							</th:block>
 						</tbody>
 					</table>
+				</div>
+			</div>
+			<div class="row text-center mb-5">
+				<div class="col">
+					<input type="button" value="일괄승인" onclick="checkedByDoubleMajor();" class="btn btn-primary">
 				</div>
 			</div>
 		</div>
@@ -330,9 +342,77 @@
        </div>
      </div>
    </div>
+<!-- 복수전공 신청 모달  -->   
+<div class="modal fade" id="doubleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+     <div class="modal-dialog modal-dialog modal-xl">
+       <div class="modal-content">
+         <div class="modal-header">
+           <h1 class="modal-title" ><span style="font-size: 25px; font-weight: bold;">복수전공 신청서</span></h1>
+           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+         </div>
+         <div class="modal-body">
+          	<div class="row">
+          		<div class="col-10">
+          			<table class="table modalTable">
+          				<colgroup>
+          					<col width="15%">
+          					<col width="35%">
+          					<col width="15%">
+          					<col width="35%">
+          				</colgroup>
+          				<tr>
+          					<td colspan="4" id="doubleMemInfo"></td>
+          				</tr>
+          				<tr>
+          					<td>주소</td>
+          					<td id="doubleMemAddr" colspan="3"></td>
+          				</tr>
+          				<tr>
+          					<td>연락처</td>
+          					<td id="doubleMemTell" colspan="3"></td>
+          				</tr>
+          				<tr>
+          					<td>학년</td>
+          					<td id="doubleMemYear"></td>
+          					<td>학적</td>
+          					<td id="doubleMemStatus"></td>
+          				</tr>
+          				<tr>
+          					<td>전공학과</td>
+          					<td id="doubleMemDept"></td>
+          					<td>복수전공</td>
+          					<td id="doubleMemDbDept"></td>
+          				</tr>
+          			</table>
+          		</div>
+          		<div class="col-2">
+          			<img id="doubleMemImg" src="" width="100%;">
+          		</div>
+          	</div>
+          	<div class="row">
+          		<div class="col">
+          			<table class="table">
+          				<colgroup>
+          					<col width="50%">
+          					<col width="50%">
+          				</colgroup>
+          				<tr>
+          					<td>신청사유</td>
+          					<td id="doubleReason"></td>
+          				</tr>
+          			</table>
+          		</div>
+          	</div>
+          	<div class="row">
+          		<div class="col-12 d-grid">
+	          			<input type="button" id="acceptDoubleBtn" value="승인" onclick="updateStuInfoByDouble();" class="btn btn-primary">
+          		</div>
+          	</div>
+         </div>
+       </div>
+     </div>
+   </div>
 
-	
-	
 </th:block>
 
 <!-- 연결해야 할 외부 js 파일 -->
