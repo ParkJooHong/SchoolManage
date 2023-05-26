@@ -35,6 +35,9 @@ public interface StuService {
 	//학생 휴학 신청
 	//void leaveManage(LeaveManageVO leaveManageVO);
 	
+	//학적 상태 조회
+	List<StatusInfoVO> getStatusInfo(String stuNo);
+	
 	//학적 상태 조회 (재학 -> 휴학)
 	List<StatusInfoVO> getStatusLeaveInfo(String memNo);
 	
@@ -52,4 +55,7 @@ public interface StuService {
 	
 	// 복학에서 휴학신청할 떄 신청상태 변경
 	void ingStatusUpdate(String stuNo);
+	
+	//수 번호
+	int IngStatusWait(String stuNo);
 }

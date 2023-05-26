@@ -289,16 +289,7 @@ public class StuController {
 		@PostMapping("/leaveManageAjax")
 		public String leaveManageAjax(Authentication authentication, MemberVO memberVO, StuVO stuVO, String memNo, 
 				String stuStatus, String applyReason, LeaveManageVO leaveManageVO, StatusInfoVO statusInfoVO, String stuNo) {
-			
-			/*
-			leaveManageVO.setApplyReason(applyReason);
-			leaveManageVO.setStuNo(memNo);
-			leaveManageVO.setStuStatus(stuStatus);
-			
-			System.out.println(leaveManageVO);
-			
-			stuService.leaveManage(leaveManageVO);
-			*/
+
 			User user = (User)authentication.getPrincipal();
 			String memName = user.getUsername();
 			//System.out.println(memName);
@@ -334,7 +325,8 @@ public class StuController {
 		
 		// 복학 신청
 		@GetMapping("/returnManage")
-		private String returnManage(Authentication authentication,StuVO stuVO, MemberVO memberVO, Model model, String stuNo, String menuCode, String subMenuCode) {
+		private String returnManage(Authentication authentication,StuVO stuVO, MemberVO memberVO, Model model, String stuNo, 
+				String menuCode, String subMenuCode, StatusInfoVO statusInfoVO, String ingStatus) {
 
 			User user = (User)authentication.getPrincipal();
 			String memName = user.getUsername();
@@ -347,6 +339,15 @@ public class StuController {
 			
 			// 복학 신청자 조회
 			model.addAttribute("stuStatus",stuService.getStatusLeaveInfo(stuNo));
+			
+			stuService.getStatusInfo(stuNo);
+			
+			System.out.println("fsadafsdasdfafsdafsd" + stuService.IngStatusWait(stuNo) );
+			
+			System.out.println("statusInfoVO 상태 : " + statusInfoVO);
+			
+			System.out.println("학번 : " +stuNo);
+			System.out.println("승인상태 : " + ingStatus);
 			
 			//복학 신청 Ajax떄매 던짐
 			model.addAttribute("menuCode" , menuCode);

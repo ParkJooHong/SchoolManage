@@ -3,6 +3,7 @@ package com.study.test.member.vo;
 import com.study.test.school.colleage.ColleageVO;
 import com.study.test.school.dept.DeptVO;
 import com.study.test.school.double_major.DoubleMajorVO;
+import com.study.test.stu.vo.StatusInfoVO;
 import com.study.test.stu.vo.StuVO;
 
 import lombok.Getter;
@@ -29,4 +30,5 @@ public class MemberVO {
 	private ColleageVO colleageVO;
 	private DeptVO deptVO;
 	private DoubleMajorVO doubleMajorVO;
+	private StatusInfoVO statusInfoVO;
 }

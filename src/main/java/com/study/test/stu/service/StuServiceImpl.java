@@ -115,6 +115,18 @@ public class StuServiceImpl implements StuService {
 		sqlSession.update("stuMapper.ingStatusUpdate", stuNo);
 		
 	}
+	
+	//학적 상태 조회
+	@Override
+	public List<StatusInfoVO> getStatusInfo(String stuNo) {
+		return sqlSession.selectOne("stuMapper.getStatusInfo" , stuNo);
+	}
+
+	//개수 조회
+	@Override
+	public int IngStatusWait(String stuNo) {
+		return sqlSession.selectOne("stuMapper.IngStatusWait", stuNo);
+	}
 
 	
 
