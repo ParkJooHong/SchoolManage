@@ -12,7 +12,7 @@ function moveManage(){
 		alert("변경하려는 학과가 현재와 동일 합니다. \n 다시 입력해주세요.");
 	}
 	if(applyReason == ''){
-		alert("전과 사유를 작성해 주세요.");
+		swal("실패", "전과 사유를 작성해주세요.", "error");
 	}
 	else{
 		alert("전과 신청이 접수되었습니다.");		

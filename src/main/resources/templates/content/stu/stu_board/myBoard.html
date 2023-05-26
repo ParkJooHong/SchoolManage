@@ -107,7 +107,6 @@
 							</td>
 							<td>[[${uniBoard.regBoardDate}]]</td>
 							<td>[[${uniBoard.readCnt}]]</td>
-
 						</tr>
 					</th:block>
 					</tbody>
@@ -163,8 +162,6 @@
 
 								   </th:block>
 							</div>
-							
-
  							<div class="col-9"> 
 								<label for="memId" class="form-label">카테고리</label> 
 								<select th:name="cateNo">
@@ -172,17 +169,13 @@
 										<option class="cateNo" th:value="${boardCategory.cateNo}">[[${boardCategory.cateName}]]</option>
 									</th:block>
 								</select>
-							</div>
-						
-							
-							
+							</div>						
 							<!-- <div class="my-invalid"> ID가 잘못됬어요.</div> -->
 							
 							<div class="col-12">
 								<label for="boardTitle" class="form-label">게시글 제목</label> 
 								<input type="text" class="form-text boardTitle" id="boardTitle" name="boardTitle" placeholder="제목을 입력하세요.">
-							</div>
-							
+							</div>							
 							<br>
 							<div class="col-12">
 								<label for="boardContent" class="form-label">게시글 내용</label> 
@@ -206,8 +199,7 @@
 									<input type="radio" class="isNotice" name="isNotice" value="Y" > 예 
 									<input type="radio" class="isNotice" name="isNotice" value="N" checked> 아니오
 								</div>
-							</div>
-						
+							</div>					
 							<br>
 							<div class="col-6 d-grid">
 								<input type="button" value="게시글 등록" class="btn btn-primary" th:onclick="success([[${menuCode}]], [[${subMenuCode}]]);">
