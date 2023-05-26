@@ -289,16 +289,7 @@ public class StuController {
 		@PostMapping("/leaveManageAjax")
 		public String leaveManageAjax(Authentication authentication, MemberVO memberVO, StuVO stuVO, String memNo, 
 				String stuStatus, String applyReason, LeaveManageVO leaveManageVO, StatusInfoVO statusInfoVO, String stuNo) {
-			
-			/*
-			leaveManageVO.setApplyReason(applyReason);
-			leaveManageVO.setStuNo(memNo);
-			leaveManageVO.setStuStatus(stuStatus);
-			
-			System.out.println(leaveManageVO);
-			
-			stuService.leaveManage(leaveManageVO);
-			*/
+
 			User user = (User)authentication.getPrincipal();
 			String memName = user.getUsername();
 			//System.out.println(memName);
@@ -349,9 +340,9 @@ public class StuController {
 			// 복학 신청자 조회
 			model.addAttribute("stuStatus",stuService.getStatusLeaveInfo(stuNo));
 			
-
+			stuService.getStatusInfo(stuNo);
 			
-			stuService.getStatusLeaveInfo(stuNo);
+			System.out.println("fsadafsdasdfafsdafsd" + stuService.IngStatusWait(stuNo) );
 			
 			System.out.println("statusInfoVO 상태 : " + statusInfoVO);
 			

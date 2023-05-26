@@ -122,6 +122,12 @@ public class StuServiceImpl implements StuService {
 		return sqlSession.selectOne("stuMapper.getStatusInfo" , stuNo);
 	}
 
+	//개수 조회
+	@Override
+	public int IngStatusWait(String stuNo) {
+		return sqlSession.selectOne("stuMapper.IngStatusWait", stuNo);
+	}
+
 	
 
 
