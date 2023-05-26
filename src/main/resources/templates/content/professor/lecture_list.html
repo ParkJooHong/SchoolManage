@@ -71,7 +71,7 @@
 								<th:block th:each="lecture,state : ${lectureList}">
 									<tr>
 										<td>[[${lecture.lecNo}]]</td>
-										<td th:onclick="getPdf([[${lecture.lecturePdfVO.attachedPdfName}]])">[[${lecture.lecName}]]</td>
+										<td th:onclick="getPdfAjax([[${lecture.lecNo}]])">[[${lecture.lecName}]]</td>
 										<td>[[${lecture.colleageVO.collName}]]</td>
 										<td>[[${lecture.deptVO.deptName}]]</td>
 										<td>[[${lecture.lecScore}]]</td>

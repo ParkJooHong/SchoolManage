@@ -255,11 +255,22 @@ public class ProfessorController {
 	}
 	
 	//교과목 클릭시 강의 자료 다운
-	@GetMapping("/getPdf")
-	public String getPdf(String attachedPdfName, HttpServletResponse response) {
-		System.out.println("@@@@@@@@@@@@@데이터 확인" + attachedPdfName);
-		UploadUtil.downloadPdfFile(attachedPdfName, response);
-		return "redirect:/professor/lectureList";
+	@GetMapping("/getPdfAjax")
+	public void getPdf(LectureVO lectureVO, HttpServletResponse response, HttpSession session) {
+ 		//로그인 정보 불러오기
+		MemberVO member = (MemberVO)session.getAttribute("memberVO");
+		lectureVO.setEmpNo(member.getMemNo());
+		
+		List<LectureVO> lectureList = schoolService.getLectureList(lectureVO);
+		
+		//어짜피 한개 밖에 조회가 안되므로 lectureVO로 변환
+		for(LectureVO lecture : lectureList) {
+			lectureVO = lecture;
+		}
+		
+		System.out.println("@@@@@@@@@@데잍처" + lectureVO);
+		
+		UploadUtil.downloadPdfFile(lectureVO, response);
 	}
 	
 	//강의 수정 : 수정할 정보 불러오기(ajax)
