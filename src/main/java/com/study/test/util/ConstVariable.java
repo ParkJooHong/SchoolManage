@@ -29,4 +29,5 @@ public class ConstVariable {
 	public static final String THIRD_PROFESSOR_MENU_CODE = "MENU_003";
 	
 	public static final String FOURTH_PROFESSOR_MENU_CODE = "MENU_004";
+	
 }
