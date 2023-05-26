@@ -52,8 +52,7 @@ function returnManage(memNo){
 					swal("신청 완료!", "복학 신청이 완료되었습니다.", "success");
 					setTimeout(function() {
 						location.reload();
-						}, 500);
-					
+						}, 500);					
 				}
 				else{
 					swal("실패", "이미 신청이 접수되었습니다.", "error");

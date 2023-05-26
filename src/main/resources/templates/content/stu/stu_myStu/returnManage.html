@@ -87,7 +87,7 @@
 <th:block th:if="${#lists.size(stuStatus) != 0}">
 	<tr th:each="stuStatus, state : ${stuStatus}">
 		<td>
-			<input type="hidden" class="ingStatus" th:value=${stuStatus.ingStatus}>
+			<input type="text" class="ingStatus" th:value=${stuStatus.ingStatus}>
 		</td>
 	</tr>
 </th:block> 

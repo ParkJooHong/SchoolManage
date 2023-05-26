@@ -19,15 +19,12 @@ function leave(memNo){
 			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 			data: {'memNo' : memNo, 'stuStatus' : stuStatus , 'applyReason' : applyReason, 'ingStatus' : ingStatus}, //필요한 데이터
 			success: function(result) {
-				if(result){
 					swal("신청 완료!", "휴학 신청이 완료되었습니다.", "success");
 					setTimeout(function() {
 					location.reload();
 					}, 500);
-				}
-				else{
-					swal("실패", "이미 휴학 신청을 하셨습니다.", "error");
-				}
+		
+
 			},
 			error: function() {
 				alert('실패');
@@ -42,15 +39,12 @@ function leave(memNo){
 			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 			data: {'memNo' : memNo, 'stuStatus' : stuStatus , 'applyReason' : applyReason, 'ingStatus' : ingStatus}, //필요한 데이터
 			success: function(result) {
-				if(result == "승인완료"){
+
 					swal("신청 완료!", "휴학 신청이 완료되었습니다.", "success");
 					setTimeout(function() {
 					location.reload();
 					}, 500);
-				}
-				else{
-					swal("실패", "이미 휴학 신청을 하셨습니다.", "error");
-				}
+
 			},
 			error: function() {
 				alert('실패');

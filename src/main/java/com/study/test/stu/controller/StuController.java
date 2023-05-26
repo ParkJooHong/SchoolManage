@@ -383,16 +383,19 @@ public class StuController {
 				System.out.println("상태정보VO : " +statusInfoVO);
 				
 				stuNo = statusInfoVO.getStuNo();
-				
+				System.out.println(stuNo);
+
 				if(stuStatus.equals("휴학") && ingStatus.equals("승인완료")) {
 					stuService.returnManage(statusInfoVO);
+					//승인 대기로 다시 변경
 					stuService.ingStatusUpdate(stuNo);
-					
 				}
 				
 				else if(ingStatus.equals("휴학") && ingStatus.equals("승인완료")) {
 					stuService.returnManage(statusInfoVO);
+					//승인 대기로 다시 변경
 					stuService.ingStatusUpdate(stuNo);
+					
 				}
 				
 				else{
