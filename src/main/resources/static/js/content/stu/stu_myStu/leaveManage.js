@@ -1,4 +1,8 @@
 
+// 1. ㅈ ㅐ학인데 재학신청 불가
+// 2. 휴학인데 휴학신청 불가
+// 3. 신청중인 데이터 있으면 불가.
+	// 신청자 학생 정보 조회 쿼리.
 function leave(memNo){
 	
 	const applyReason = document.querySelector('.applyReason').value;
@@ -7,64 +11,63 @@ function leave(memNo){
 	const ingStatus = document.querySelector('.ingStatus').value;
 	alert(stuStatus);
 	alert(ingStatus);
-// 1. ㅈ ㅐ학인데 재학신청 불가
-// 2. 휴학인데 휴학신청 불가
-// 3. 신청중인 데이터 있으면 불가.
-	// 신청자 학생 정보 조회 쿼리.
-	if(ingStatus == 0 && stuStatus == '재학')
-	{	
-		$.ajax({
-			url: '/stuMenu/leaveManageAjax', //요청경로
-			type: 'post',
-			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-			data: {'memNo' : memNo, 'stuStatus' : stuStatus , 'applyReason' : applyReason, 'ingStatus' : ingStatus}, //필요한 데이터
-			success: function(result) {
-					swal("신청 완료!", "휴학 신청이 완료되었습니다.", "success");
-					setTimeout(function() {
-					location.reload();
-					}, 500);
-		
-
-			},
-			error: function() {
-				alert('실패');
-				
-			}
-		});
-	}
-	else if(ingStatus == '승인완료' && stuStatus == '재학'){
-		$.ajax({
-			url: '/stuMenu/leaveManageAjax', //요청경로
-			type: 'post',
-			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-			data: {'memNo' : memNo, 'stuStatus' : stuStatus , 'applyReason' : applyReason, 'ingStatus' : ingStatus}, //필요한 데이터
-			success: function(result) {
-
-					swal("신청 완료!", "휴학 신청이 완료되었습니다.", "success");
-					setTimeout(function() {
-					location.reload();
-					}, 500);
-
-			},
-			error: function() {
-				alert('실패');
-				
-			}
-		});
-	}
-	else if(ingStatus == '승인대기' && stuStatus == '휴학'){
-		swal("실패", "이미 휴학중인 상태입니다.", "error");
-	}
-	
-	else if(ingStatus == '승인완료' && stuStatus == '휴학'){
-		swal("실패", "이미 휴학중인 상태입니다.", "error");
-	}
-	else if(ingStatus == '승인대기' && stuStatus == '재학'){
-		swal("실패", "이미 처리중인 신청이 있습니다.", "error");
+	if(applyReason.length == 0){
+		swal("실패", "휴학 사유를 입력해주세요.", "error");
 	}
 	else{
-		swal("실패", "이미 휴학중인 상태입니다.", "error");
+		if(ingStatus == 0 && stuStatus == '재학'){	
+			$.ajax({
+				url: '/stuMenu/leaveManageAjax', //요청경로
+				type: 'post',
+				contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+				data: {'memNo' : memNo, 'stuStatus' : stuStatus , 'applyReason' : applyReason, 'ingStatus' : ingStatus}, //필요한 데이터
+				success: function(result) {
+						swal("신청 완료!", "휴학 신청이 완료되었습니다.", "success");
+						setTimeout(function() {
+						location.reload();
+						}, 500);
+				},
+				error: function() {
+					alert('실패');
+					
+				}
+			});
+		}
+		else if(ingStatus == '승인완료' && stuStatus == '재학'){
+			$.ajax({
+				url: '/stuMenu/leaveManageAjax', //요청경로
+				type: 'post',
+				contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+				data: {'memNo' : memNo, 'stuStatus' : stuStatus , 'applyReason' : applyReason, 'ingStatus' : ingStatus}, //필요한 데이터
+				success: function(result) {
+	
+						swal("신청 완료!", "휴학 신청이 완료되었습니다.", "success");
+						setTimeout(function() {
+						location.reload();
+						}, 500);
+	
+				},
+				error: function() {
+					alert('실패');
+					
+				}
+			});
+		}
+		else if(ingStatus == '승인대기' && stuStatus == '휴학'){
+			swal("실패", "이미 휴학중인 상태입니다.", "error");
+		}
+		
+		else if(ingStatus == '승인완료' && stuStatus == '휴학'){
+			swal("실패", "이미 휴학중인 상태입니다.", "error");
+		}
+		else if(ingStatus == '승인대기' && stuStatus == '재학'){
+			swal("실패", "이미 처리중인 신청이 있습니다.", "error");
+		}
+		else{
+			swal("실패", "이미 휴학중인 상태입니다.", "error");
+		}
 	}
+	
 	/*
 	else if(ingStatus =='0'  && stuStatus == '휴학'){
 		swal("실패", "이미 휴학중인 상태입니다.", "error");

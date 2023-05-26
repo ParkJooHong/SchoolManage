@@ -341,9 +341,7 @@ public class StuController {
 			model.addAttribute("stuStatus",stuService.getStatusLeaveInfo(stuNo));
 			
 			stuService.getStatusInfo(stuNo);
-			
-			System.out.println("fsadafsdasdfafsdafsd" + stuService.IngStatusWait(stuNo) );
-			
+
 			System.out.println("statusInfoVO 상태 : " + statusInfoVO);
 			
 			System.out.println("학번 : " +stuNo);
@@ -606,7 +604,7 @@ public class StuController {
 			
 			//수강 조회
 			model.addAttribute("lectureListVO", schoolService.getLectureList(lectureVO));
-			System.out.println(schoolService.getLectureList(lectureVO));
+			System.out.println("수업데이터 : " +schoolService.getLectureList(lectureVO));
 			
 			model.addAttribute("menuCode" , menuCode);
 			model.addAttribute("subMenuCode", subMenuCode);
