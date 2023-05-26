@@ -256,11 +256,8 @@ public class ProfessorController {
 	
 	//교과목 클릭시 강의 자료 다운
 	@GetMapping("/getPdfAjax")
-	public void getPdf(LectureVO lectureVO, HttpServletResponse response, HttpSession session) {
- 		//로그인 정보 불러오기
-		MemberVO member = (MemberVO)session.getAttribute("memberVO");
-		lectureVO.setEmpNo(member.getMemNo());
-		
+	public void getPdf(LectureVO lectureVO, HttpServletResponse response) {
+		//강의 정보 조회
 		List<LectureVO> lectureList = schoolService.getLectureList(lectureVO);
 		
 		//어짜피 한개 밖에 조회가 안되므로 lectureVO로 변환
@@ -329,8 +326,15 @@ public class ProfessorController {
 		SemesterVO semesterVO = new SemesterVO();
 		List<SemesterVO> semesterList = schoolService.getSemeList(semesterVO);
 		model.addAttribute("semesterList", semesterList);
-
+		
 		return "content/professor/reg_grade";
+	}
+	
+	//성적등록 탭에서 강의리스트에서 교과목명 선택시 수강목록 조회
+	@ResponseBody
+	@PostMapping("/lecStuList")
+	public void getLecStuList() {
+		
 	}
 	
 }
