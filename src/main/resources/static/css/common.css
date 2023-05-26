@@ -3,7 +3,7 @@
 @font-face {
     font-family: 'NotoKrR';
     font-style: normal;
-    font-weight: 300;
+    font-weight: normal;
     src: url('./images/notokr-regular.eot');
     src: url('./images/notokr-regular.eot?#iefix') format('embedded-opentype'),
          url('./images/notokr-regular.woff2') format('woff2'),
@@ -103,4 +103,9 @@ thead{
 /* 테이블 tr 호버시 색 변경 */
 table tbody tr:hover{
 	background-color: #f2f2f2;
+}
+
+/* 온클릭 커서 */
+onclick{
+	cursor: pointer;
 }

@@ -95,6 +95,11 @@ function getLetureList() {
 	//ajax end 
 }
 
+//강의자료 다운로드
+function getPdf(pdf_attached_name){
+	location.href = '/professor/getPdf?attachedPdfName='+pdf_attached_name;
+}
+
 //강의 수정 모달창
 function updateLecModal(lecNo) {
 

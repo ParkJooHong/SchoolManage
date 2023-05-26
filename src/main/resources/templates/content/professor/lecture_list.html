@@ -42,12 +42,12 @@
 					<table class="table align-middle text-center">
 						<colgroup>
 							<col width="5%">
-							<col width="18%">
+							<col width="15%">
 							<col width="8%">
 							<col width="15%">
-							<col width="5%">
-							<col width="5%">
-							<col width="5%">
+							<col width="6%">
+							<col width="8%">
+							<col width="8%">
 							<col width="15%">
 							<col width="10%">
 							<col width="10%">
@@ -71,12 +71,12 @@
 								<th:block th:each="lecture,state : ${lectureList}">
 									<tr>
 										<td>[[${lecture.lecNo}]]</td>
-										<td>[[${lecture.lecName}]]</td>
+										<td th:onclick="getPdf([[${lecture.lecturePdfVO.attachedPdfName}]])">[[${lecture.lecName}]]</td>
 										<td>[[${lecture.colleageVO.collName}]]</td>
 										<td>[[${lecture.deptVO.deptName}]]</td>
 										<td>[[${lecture.lecScore}]]</td>
-										<td></td>
-										<td></td>
+										<td>[[${lecture.maxMem}]]</td>
+										<td>[[${lecture.nowMem}]]</td>
 										<td>
 											<th:block th:each="lectureTime: ${lecture.lectureTimeList}">
 												<div>[[${lectureTime.lecDay}]] / [[${lectureTime.startTime}]]~[[${lectureTime.finishTime}]]</div>

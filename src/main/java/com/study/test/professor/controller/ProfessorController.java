@@ -41,6 +41,7 @@ import com.study.test.util.DateUtil;
 import com.study.test.util.UploadUtil;
 
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.websocket.Session;
 
@@ -247,12 +248,18 @@ public class ProfessorController {
 		MemberVO member = (MemberVO)session.getAttribute("memberVO");
 		lectureVO.setEmpNo(member.getMemNo());
 		
-		System.out.println("@@@@@@@@@@데이터 확인 " + lectureVO);
-		
 		//1.강의 상태에 따른 목록조회
 		List<LectureVO> lectureList = schoolService.getLectureList(lectureVO);
 		
 		return lectureList;
+	}
+	
+	//교과목 클릭시 강의 자료 다운
+	@GetMapping("/getPdf")
+	public String getPdf(String attachedPdfName, HttpServletResponse response) {
+		System.out.println("@@@@@@@@@@@@@데이터 확인" + attachedPdfName);
+		UploadUtil.downloadPdfFile(attachedPdfName, response);
+		return "redirect:/professor/lectureList";
 	}
 	
 	//강의 수정 : 수정할 정보 불러오기(ajax)
