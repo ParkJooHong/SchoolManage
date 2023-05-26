@@ -41,7 +41,6 @@
 		<association property="colleageVO" 		resultMap="schoolMapper.colleage"/>
 		<association property="deptVO" 			resultMap="schoolMapper.dept"/>
 		<association property="memImgVO" 			resultMap="memberMapper.memImg"/>
-		<association property="statusInfoVO" 			resultMap="statusInfo"/>
 	</resultMap>
 	
 	<!-- 학적 상태 -->
@@ -57,7 +56,9 @@
 		<result column="FROM_DATE" 				property="fromDate"/>		
 		<result column="TO_DATE" 				property="toDate"/>		
 		<association property="memberVO" 		resultMap="memberMapper.member"/>
-
+		<association property="colleageVO" 		resultMap="schoolMapper.colleage"/>
+		<association property="deptVO" 		resultMap="schoolMapper.dept"/>
+		<association property="stuVO" 		resultMap="stu"/>
 	</resultMap>
 	
 	<!-- 전과신청 -->

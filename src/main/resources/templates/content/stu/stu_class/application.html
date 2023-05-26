@@ -91,15 +91,22 @@
 					<td colspan="13">수강 신청 날이 아닙니다.</td>
 				</tr>
 			</th:block>
+			<div>교과목 명</div>
 			<th:block  th:each="lectureList : ${lectureListVO}">
 				<tr>
 					<td>[[${lectureList.lecNo}]]</td>
-					<td><span data-bs-toggle="modal" data-bs-target="#lectureModal" style="font-weight: bold; color: red;">[[${lectureList.lecName}]]</span></td>
+					<td><a th:href=@{/professor/getPdfAjax(lecNo=${lectureList.lecNo})}>[[${lectureList.lecName}]]</a></td>
 					<td>[[${lectureList.lecScore}]]</td>
 					<td>[[${lectureList.colleageVO.collName}]]</td>
 					<td>[[${lectureList.deptVO.deptName}]]</td>
 					<td>[[${lectureList.memName}]]</td>
-					<td>[[${lectureList.lectureTimeList[0].lecDay}]] / [[${lectureList.lectureTimeList[0].startTime}]] ~ [[${lectureList.lectureTimeList[0].finishTime}]]</td>
+					<td>
+						<th:block th:each="lecTime : ${lectureList.lectureTimeList}">
+							<div>
+								[[${lecTime.lecDay}]] / [[${lecTime.startTime}]] ~ [[${lecTime.finishTime}]]
+							</div>
+						</th:block>
+					</td>
 					<td>[[${lectureList.maxMem}]]</td>
 					<td>[[${lectureList.nowMem}]]</td>
 					<td>[[${lectureList.semesterVO.semName}]]</td>
@@ -151,31 +158,7 @@
 			</tbody>
 	</table>
 
-<!-- 강의 폼 모달 -->
-<div class="modal fade" id="lectureModal" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="staticBackdropLabel">강의 파일</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-       <div class="modal-body">
-		<form class="row g-3" th:action="@{/stuMenu/boardWrite}" method="post"> <!-- 라벨(label) 안써도됨.  -->			
-				<table>
-					<tr th:each="lectureList : ${lectureListVO}">
-						<td>[[${lectureList}]]</td>				
-								
-					</tr>
-					<th:block th:each="key : ${lectureList}">
-							<td>[[${key.value}]]</td>
-					</th:block>
-				</table>	
-		</form>					
-	 </div>
-    </div>
-  </div>
-</div>		
-	
+
 	
 	
 </th:block>
