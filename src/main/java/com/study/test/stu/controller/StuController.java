@@ -334,7 +334,8 @@ public class StuController {
 		
 		// 복학 신청
 		@GetMapping("/returnManage")
-		private String returnManage(Authentication authentication,StuVO stuVO, MemberVO memberVO, Model model, String stuNo, String menuCode, String subMenuCode) {
+		private String returnManage(Authentication authentication,StuVO stuVO, MemberVO memberVO, Model model, String stuNo, 
+				String menuCode, String subMenuCode, StatusInfoVO statusInfoVO, String ingStatus) {
 
 			User user = (User)authentication.getPrincipal();
 			String memName = user.getUsername();
@@ -347,6 +348,15 @@ public class StuController {
 			
 			// 복학 신청자 조회
 			model.addAttribute("stuStatus",stuService.getStatusLeaveInfo(stuNo));
+			
+
+			
+			stuService.getStatusLeaveInfo(stuNo);
+			
+			System.out.println("statusInfoVO 상태 : " + statusInfoVO);
+			
+			System.out.println("학번 : " +stuNo);
+			System.out.println("승인상태 : " + ingStatus);
 			
 			//복학 신청 Ajax떄매 던짐
 			model.addAttribute("menuCode" , menuCode);

@@ -28,6 +28,7 @@ public class StuVO {
 	private ColleageVO colleageVO;
 	private DeptVO deptVO;
 	private DoubleMajorVO doubleMajorVO;
+	
 
 	
 	

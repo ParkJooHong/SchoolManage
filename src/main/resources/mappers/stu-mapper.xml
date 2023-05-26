@@ -19,6 +19,7 @@
 		<result column="STU_BANK_NAME" 		property="stuBankName"/>
 		<result column="STU_BANK_ACCOUNT" 	property="stuBankAccount"/>
 		
+		
 	</resultMap>
 	
 		<!-- 사용자 메뉴 -->
@@ -40,6 +41,7 @@
 		<association property="colleageVO" 		resultMap="schoolMapper.colleage"/>
 		<association property="deptVO" 			resultMap="schoolMapper.dept"/>
 		<association property="memImgVO" 			resultMap="memberMapper.memImg"/>
+		<association property="statusInfoVO" 			resultMap="statusInfo"/>
 	</resultMap>
 	
 	<!-- 학적 상태 -->
@@ -55,10 +57,7 @@
 		<result column="FROM_DATE" 				property="fromDate"/>		
 		<result column="TO_DATE" 				property="toDate"/>		
 		<association property="memberVO" 		resultMap="memberMapper.member"/>
-		<association property="stuVO" 			resultMap="stuMapper.stu"/>
-		<association property="colleageVO" 		resultMap="schoolMapper.colleage"/>
-		<association property="deptVO" 			resultMap="schoolMapper.dept"/>
-		<association property="doubleMajorVO" 	resultMap="schoolMapper.doubleMajor"/>
+
 	</resultMap>
 	
 	<!-- 전과신청 -->
@@ -125,7 +124,7 @@
 			, MEM_ADDR_DETAIL
 			, MEM_ROLE
 			, MEM_NAME
-			, STU_NO
+			, US.STU_NO
 			, US.COLL_NO
 			, US.DEPT_NO
 			, DOUBLE_NO
@@ -142,11 +141,14 @@
 			, ORIGIN_FILE_NAME
 			, ATTACHED_FILE_NAME
 			, IS_MAIN
-		FROM UNI_STU US, UNI_MEMBER UM, COLLEAGE C, DEPT D, MEM_IMG MI
+			, STATUS_NO
+			, ING_STATUS
+		FROM UNI_STU US, UNI_MEMBER UM, COLLEAGE C, DEPT D, MEM_IMG MI , STATUS_INFO SI
 		WHERE US.COLL_NO = C.COLL_NO
 		AND UM.MEM_NO = US.MEM_NO
 		AND D.DEPT_NO = US.DEPT_NO
 		AND UM.MEM_NO = MI.MEM_NO
+		AND SI.STU_NO = US.STU_NO
 		AND UM.MEM_NO = #{memNo}
 	</select>
 	
@@ -217,6 +219,20 @@
            , '승인대기'         
       )
 	</insert>
+	
+	<!-- 학적 상태 조회  X-->
+	<select id="getStatusInfo" resultMap="statusInfo" >
+		SELECT STATUS_NO
+			, STU_NO
+			, NOW_STATUS
+			, AFTER_STATUS
+			, APPLY_DATE
+			, APPROVAL_DATE
+			, ING_STATUS
+			, STATUS_REASON
+		FROM STATUS_INFO
+		WHERE STU_NO = #{stuNo}
+	</select>
 	
 	
 	<!-- 학생 정보 변경 -->
