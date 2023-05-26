@@ -52,17 +52,16 @@ function getLetureList() {
 			//검색한 목록 추가
 			let str = '';
 
-			console.log(lecture_list);
-
 			if (lecture_list.length != 0) {
 				for (const lecture of lecture_list) {
 					str += `<tr>`;
 					str += `<td>${lecture.lecNo}</td>`;
-					str += `<td>${lecture.lecName}</td>`;
+					str += `<td onclick="getPdfAjax('${lecture.lecNo}')">${lecture.lecName}</td>`;
 					str += `<td>${lecture.colleageVO.collName}</td>`;
 					str += `<td>${lecture.deptVO.deptName}</td>`;
 					str += `<td>${lecture.lecScore}</td>`;
-					str += `<td>${lecture.memName}</td>`;
+					str += `<td>${lecture.maxMem}</td>`;
+					str += `<td>${lecture.nowMem}</td>`;
 					str += `<td>`;
 					for (const lecTime of lecture.lectureTimeList) {
 						str += `<div>${lecTime.lecDay} / ${lecTime.startTime}~${lecTime.finishTime}</div>`
@@ -96,8 +95,8 @@ function getLetureList() {
 }
 
 //강의자료 다운로드
-function getPdf(pdf_attached_name){
-	location.href = '/professor/getPdf?attachedPdfName='+pdf_attached_name;
+function getPdfAjax(lec_no) {
+	location.href='/professor/getPdfAjax?lecNo=' + lec_no;
 }
 
 //강의 수정 모달창
