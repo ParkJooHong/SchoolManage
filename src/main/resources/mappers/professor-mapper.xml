@@ -113,8 +113,13 @@
 	<!-- 강의 시간 중복 체크 -->
 	<select id="lectureTimeCheck" resultType="String">
 		SELECT TIME_NO
-		FROM LECTURE_TIME
-		WHERE LEC_DAY = #{lecDay}
+		FROM LECTURE_TIME LT, LECTURE LEC
+		WHERE LT.LEC_NO = LEC.LEC_NO 
+		AND LEC_DAY = #{lecDay}
+		AND LEC_STATUS = 'Y'
+		<if test="lecNo != null and lecNo != ''">
+		AND LEC.LEC_NO != #{lecNo}
+		</if>
 		AND (
             (START_TIME &lt;= #{startTime} AND FINISH_TIME > #{startTime})  <!--  시작 시간이 다른 강의와 겹칠 경우 -->
             OR (START_TIME &lt; #{finishTime} AND FINISH_TIME >= #{finishTime})   <!-- 종료 시간이 다른 강의와 겹칠 경우 -->
@@ -212,6 +217,7 @@
 		FROM LECTURE LEC, LECTURE_TIME LT
 		WHERE LEC.LEC_NO = LT.LEC_NO 
 		AND EMP_NO = #{empNo}
+		AND LEC_STATUS = 'Y'
 		<if test="lecStatus != null and lecStatus != ''">
 		AND LEC_STATUS = #{lecStatus}
 		</if>

@@ -65,6 +65,7 @@ public class SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 		memberInfo.setMemNo(memNo);
 
 		HttpSession session = request.getSession();
+		session.setMaxInactiveInterval(1800);
 		session.setAttribute("memberVO", memberService.login(memberInfo));
 		System.out.println("@@@@@@@@@@@데이터 확인 : " + memberService.login(memberInfo));
 

@@ -17,7 +17,7 @@
 					<h4>강의 리스트</h4>
 				</div>
 			</div>
-			<div class="row text-center mb-3 justify-content-around">
+			<div class="row text-center mb-3 justify-content-around search_row">
 				<div class="col-2 d-flex align-items-center justify-content-center search_radio">
 					<span><input class="lec_status" type="radio" name="lecStatus" value="all" checked>전체 </span>						
 					<span><input class="lec_status" type="radio" name="lecStatus" value="Y">강의중 </span>						
@@ -41,13 +41,14 @@
 				<div class="col">
 					<table class="table align-middle text-center">
 						<colgroup>
-							<col width="8%">
+							<col width="5%">
 							<col width="18%">
 							<col width="8%">
 							<col width="15%">
 							<col width="5%">
-							<col width="8%">
-							<col width="18%">
+							<col width="5%">
+							<col width="5%">
+							<col width="15%">
 							<col width="10%">
 							<col width="10%">
 						</colgroup>
@@ -58,7 +59,8 @@
 								<td>단과대학</td>
 								<td>학과</td>
 								<td>학점</td>
-								<td>교수</td>
+								<td>최대인원</td>
+								<td>현재인원</td>
 								<td>강의시간</td>
 								<td>강의상태</td>
 								<td>강의변경</td>
@@ -73,7 +75,8 @@
 										<td>[[${lecture.colleageVO.collName}]]</td>
 										<td>[[${lecture.deptVO.deptName}]]</td>
 										<td>[[${lecture.lecScore}]]</td>
-										<td>[[${lecture.memName}]]</td>
+										<td></td>
+										<td></td>
 										<td>
 											<th:block th:each="lectureTime: ${lecture.lectureTimeList}">
 												<div>[[${lectureTime.lecDay}]] / [[${lectureTime.startTime}]]~[[${lectureTime.finishTime}]]</div>

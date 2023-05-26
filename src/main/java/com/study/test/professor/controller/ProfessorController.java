@@ -296,8 +296,21 @@ public class ProfessorController {
 	
 	//성적 등록 페이지 이동
 	@GetMapping("/regGrade")
-	public String regGrade(ProfessorMenuVO professorMenuVO) {
+	public String regGrade(Model model, ProfessorMenuVO professorMenuVO, HttpSession session, LectureVO lectureVO) {
 		professorMenuVO.setMenuCode(ConstVariable.FOURTH_PROFESSOR_MENU_CODE);
+		
+		//로그인 정보 불러오기
+		MemberVO member = (MemberVO)session.getAttribute("memberVO");
+		lectureVO.setEmpNo(member.getMemNo());
+		
+		//강의 목록 조회
+		List<LectureVO> lectureList = schoolService.getLectureList(lectureVO);
+		model.addAttribute("lectureList", lectureList);
+		
+		//강의 학기 조회
+		SemesterVO semesterVO = new SemesterVO();
+		List<SemesterVO> semesterList = schoolService.getSemeList(semesterVO);
+		model.addAttribute("semesterList", semesterList);
 
 		return "content/professor/reg_grade";
 	}

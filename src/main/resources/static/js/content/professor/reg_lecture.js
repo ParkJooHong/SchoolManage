@@ -206,6 +206,17 @@ function lecDayValidate(check){
 	if(error_div != null){
 		error_div.remove();
 	}
+	//입력한 요일 값들 가져오기
+	const lec_days = document.querySelectorAll('.lecDay');
+	const lec_day_ids = Array.from(lec_days).map((element) => element.id);
+	const lec_day_values = [];
+	
+	
+	for(let i = 0; i < lec_day_ids.length; i++){
+		if(lec_day_ids[i] != check.id){
+			lec_day_values.push(lec_days[i].value);
+		}
+	}
 	
 	//함수의 리턴 결과를 저장하는 변수
 	let result_lec_day = false;
@@ -230,10 +241,16 @@ function lecDayValidate(check){
 		lec_day.style.border = '1px solid red';
 		result_lec_day = false;
 	}
+	else if(lec_day_values.includes(lec_day.value)){
+		str_lec_day = '중복된 강의 요일이 있습니다.';
+		lec_day.style.border = '1px solid red';
+		result_lec_day = false;
+	}
 	else{
 		lec_day.style.border = '';
 		result_lec_day = true;
 	}
+	
 	
 	//결과가 false일때 에러메세지 출력
 	if(!result_lec_day){
@@ -242,6 +259,11 @@ function lecDayValidate(check){
 	}
 	
 	return result_lec_day;
+}
+
+//1-1 중복 요일있는지 검사
+function lecDayDuple(check){
+	
 }
 
 //2.강의 시작시간
@@ -261,7 +283,7 @@ function startTimeValidate(check){
 	const start_time = check;
 	
 	//강의 날짜 정규식
-	const exp_start_time = /^([01]?[0-9]|2[0-3]):[0][0]$/;
+	const exp_start_time = /^(0[0-9]|1[0-9]|2[0-3]):[0][0]$/;
 	
 	//입력값이 없을때	
 	if(start_time.value == ''){
@@ -305,7 +327,7 @@ function finishTimeValidate(check){
 	const finish_time = check;
 	
 	//강의 날짜 정규식
-	const exp_finish_time = /^([01]?[0-9]|2[0-3]):[0][0]$/;
+	const exp_finish_time = /^(0[0-9]|1[0-9]|2[0-3]):[0][0]$/;
 	
 	//입력값이 없을때	
 	if(finish_time.value == ''){
@@ -313,7 +335,7 @@ function finishTimeValidate(check){
 		finish_time.style.border = '1px solid red';
 		result_finish_time = false;
 	}
-	else if(finish_time.value < check.closest('tr').querySelector('#startTime').value){
+	else if(finish_time.value <= check.closest('tr').querySelector('#startTime').value){
 		str_finish_time = '강의시간은 시작시간보다 뒤어야 합니다.';
 		finish_time.style.border = '1px solid red';
 		result_finish_time = false;
@@ -431,13 +453,17 @@ function maxMemValidate(){
 function addLectureTime(add_btn){
 	const tbody_tag = add_btn.closest('tbody');
 	const tr_tag = add_btn.closest('tr');
+	//tbody의 마지막 tr태그
+	const last_tr_tag = tbody_tag.lastElementChild;
+	//마지막 tr태그의 lecDay의 아이디값의 번호
+	const last_tr_num = parseInt(last_tr_tag.querySelector('.lecDay').id.substring(7));
 	
 	//태그에 추가할 내용
 	let str = '';
 	
 	str += '<tr class="lecture_time_wrap">'
 	str += '<td>강의 날짜</td>'                                                                                         
-	str += '<td><input class="lecture_time" type="text" name="lecDay" id="lecDay" required placeholder="예)월" onchange="regBtnDisable()" onkeyup="lecDayValidate(this)" onblur="lecDayValidate(this)"> '
+	str += `<td><input class="lecture_time lecDay" id = "lecDay-${last_tr_num+1}" type="text" name="lecDay" required placeholder="예)월" onchange="regBtnDisable()" onkeyup="lecDayValidate(this)" onblur="lecDayValidate(this)"> `
 	str += '</td>'                                                                                        
 	str += '<td>강의 시작시간</td>'                                                                              
 	str += '<td><input class="lecture_time" type="text" name="startTime" id="startTime" required placeholder="예)14:00" onchange="regBtnDisable()" onkeyup="startTimeValidate(this)" onblur="startTimeValidate(this)"></td>'
