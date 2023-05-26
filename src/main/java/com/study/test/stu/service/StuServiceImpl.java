@@ -108,6 +108,13 @@ public class StuServiceImpl implements StuService {
 		sqlSession.insert("stuMapper.returnManage", statusInfoVO);
 		
 	}
+	
+	// 복학에서 휴학신청할 떄 신청상태 변경
+	@Override
+	public void ingStatusUpdate(String stuNo) {
+		sqlSession.update("stuMapper.ingStatusUpdate", stuNo);
+		
+	}
 
 	
 

@@ -70,6 +70,12 @@
 	</tr>
 </table>
 
+
+<div style="text-align: center;">
+	<th:block th:each="member : ${memberVO}">
+		<input type="button" value="복학 신청" class="btn btn-primary" th:onclick="returnManage([[${member.memNo}]]);">
+	</th:block>
+</div>
 <!-- 복학 중복체크 -->
 <th:block th:if="${#lists.size(stuStatus) == 0}">
 	<tr>
@@ -86,7 +92,14 @@
 	</tr>
 </th:block> 
 
+<th:block th:each="menuCode : ${menuCode}">
+		<input type="button" th:value="${menuCode}" class="menuCode">
+</th:block>
+<th:block th:each="subMenuCode : ${subMenuCode}">
+		<input type="button" th:value="${subMenuCode}" class="subMenuCode">
+</th:block>
 
+</th:block>
 <div style="text-align: center;">
 	<th:block th:each="member : ${memberVO}">
 		<input type="button" value="복학 신청" class="btn btn-primary" th:onclick="returnManage([[${member.memNo}]]);">

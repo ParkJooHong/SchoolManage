@@ -288,7 +288,7 @@ public class StuController {
 		@ResponseBody
 		@PostMapping("/leaveManageAjax")
 		public String leaveManageAjax(Authentication authentication, MemberVO memberVO, StuVO stuVO, String memNo, 
-				String stuStatus, String applyReason, LeaveManageVO leaveManageVO, StatusInfoVO statusInfoVO, String ingStatus) {
+				String stuStatus, String applyReason, LeaveManageVO leaveManageVO, StatusInfoVO statusInfoVO, String stuNo) {
 			
 			/*
 			leaveManageVO.setApplyReason(applyReason);
@@ -309,6 +309,9 @@ public class StuController {
 			System.out.println("학생 정보 : " +stuService.seletStu(memberVO));
 			System.out.println( "StuVO 정보 : " +stuService.seletStu(memberVO).getStuVO().getStuNo());
 			
+			//System.out.println("승인 상태 : " + ingStatus);
+			
+			
 			System.out.println("학적 상태 : "+ stuStatus);
 			statusInfoVO.setStuNo(stuService.seletStu(memberVO).getStuVO().getStuNo());
 			
@@ -318,19 +321,20 @@ public class StuController {
 			System.out.println("상태정보VO : " +statusInfoVO);
 
 			
-			System.out.println("휴학 신청하기 : " +ingStatus);
+			//System.out.println("휴학 신청하기 : " +ingStatus);
 			
 			
 			stuService.leav(statusInfoVO);
 		
-			
+			stuNo = statusInfoVO.getStuNo();
+			System.out.println("asfdasfd" +statusInfoVO.getStuNo());
 			 
 			return statusInfoVO.getStuNo();
 		}
 		
 		// 복학 신청
 		@GetMapping("/returnManage")
-		private String returnManage(Authentication authentication,StuVO stuVO, MemberVO memberVO, Model model, String stuNo) {
+		private String returnManage(Authentication authentication,StuVO stuVO, MemberVO memberVO, Model model, String stuNo, String menuCode, String subMenuCode) {
 
 			User user = (User)authentication.getPrincipal();
 			String memName = user.getUsername();
@@ -344,13 +348,21 @@ public class StuController {
 			// 복학 신청자 조회
 			model.addAttribute("stuStatus",stuService.getStatusLeaveInfo(stuNo));
 			
+			//복학 신청 Ajax떄매 던짐
+			model.addAttribute("menuCode" , menuCode);
+			model.addAttribute("subMenuCode", subMenuCode);
+			
 			return "/content/stu/stu_myStu/returnManage";
 		}
 		
 		// 복학 신청Ajax
 			@ResponseBody
 			@PostMapping("/returnManageAjax")
-			public String returnManageAjax(Authentication authentication, MemberVO memberVO, StuVO stuVO, String memNo, String stuStatus, String applyReason, LeaveManageVO leaveManageVO, StatusInfoVO statusInfoVO) {
+			public Map<String, Object> returnManageAjax(Authentication authentication, MemberVO memberVO, StuVO stuVO, String memNo, String stuNo,
+					String stuStatus, String ingStatus, String applyReason, LeaveManageVO leaveManageVO, StatusInfoVO statusInfoVO, String menuCode, String subMenuCode) {
+				
+				System.out.println(menuCode);
+				System.out.println(subMenuCode);
 				
 				User user = (User)authentication.getPrincipal();
 				String memName = user.getUsername();
@@ -363,15 +375,38 @@ public class StuController {
 				System.out.println( "StuVO 정보 : " +stuService.seletStu(memberVO).getStuVO().getStuNo());
 				
 				System.out.println("학적 상태 : "+ stuStatus);
+				System.out.println("승인 상태 : "+ ingStatus);
 				statusInfoVO.setStuNo(stuService.seletStu(memberVO).getStuVO().getStuNo());
 				statusInfoVO.setStatusReason(applyReason);
 				
 				statusInfoVO.setNowStatus(stuStatus);
 				System.out.println("상태정보VO : " +statusInfoVO);
 				
-				stuService.returnManage(statusInfoVO);
+				stuNo = statusInfoVO.getStuNo();
+				
+				if(stuStatus.equals("휴학") && ingStatus.equals("승인완료")) {
+					stuService.returnManage(statusInfoVO);
+					stuService.ingStatusUpdate(stuNo);
+					
+				}
+				
+				else if(ingStatus.equals("휴학") && ingStatus.equals("승인완료")) {
+					stuService.returnManage(statusInfoVO);
+					stuService.ingStatusUpdate(stuNo);
+				}
+				
+				else{
+					statusInfoVO.setIngStatus("승인대기");
+				}
+				System.out.println(statusInfoVO.getIngStatus());
+
+				Map<String, Object> data = new HashMap<>();
+				 data.put("menuCode", menuCode);
+			     data.put("subMenuCode", subMenuCode);
+
+			     data.put("ingStatus", statusInfoVO.getIngStatus());
 				 
-				return statusInfoVO.getStuNo();
+				return data;
 			}
 		
 		// 전과신청

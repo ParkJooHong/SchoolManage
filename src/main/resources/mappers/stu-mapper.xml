@@ -343,7 +343,12 @@
 			WHERE STU_NO = #{stuNo}
 		</select>
 	
-	
+	<!-- 복학에서 휴학 신청할 때 승인상태 변경 -->
+	<update id="ingStatusUpdate">
+		UPDATE STATUS_INFO
+		SET ING_STATUS = '승인대기'
+		WHERE STU_NO = #{stuNo}
+	</update>
 	
 	
 </mapper>
