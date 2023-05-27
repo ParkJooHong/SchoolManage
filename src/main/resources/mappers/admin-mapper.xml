@@ -209,6 +209,7 @@
         AND APPLY_NO = #{applyNo}
         AND DEPT.FROM_DEPT IS NOT NULL
 	</select>
+	
 	<!-- 신청학생 데이터 -->
 	<select id="getMemInfo" resultMap="memberMapper.member">
 		SELECT STU_NO
@@ -506,11 +507,92 @@
         AND DEPT.STU_NO = STU.STU_NO
         AND DP.DEPT_NO = STU.DEPT_NO
         AND COLL.COLL_NO = STU.COLL_NO
-        AND STU.DOUBLE_NO = '없음'
+        AND DEPT.FROM_DEPT IS NULL
+        <if test='processStatus != null and !processStatus.equals("")'>
+        AND PROCESS_STATUS = #{processStatus}
+        </if>
+        <if test='fromDate != null and !fromDate.equals("")'>
+        AND TO_CHAR(APPLY_DATE, 'YYYY-MM-DD') &lt;= #{fromDate}
+        </if>
+        <if test='toDate != null and !toDate.equals("")'>
+        AND TO_CHAR(APPLY_DATE, 'YYYY-MM-DD') &gt;= #{toDate} 
+        </if>
+	</select>
+	
+	<!-- 복수전공 신청자 조회 쿼리  -->
+	<select id="getDoubletManageData" resultMap="deptManage">
+		SELECT APPLY_NO
+			, MEM.MEM_NAME AS MEM_NAME
+            , MEM.MEM_NO AS MEM_NO
+			, APPLY_CODE
+			, TO_CHAR(APPLY_DATE, 'YYYY-MM-DD') AS APPLY_DATE
+			, APPLY_REASON
+			, TO_CHAR(APPLROVAL_DATE, 'YYYY-MM-DD') AS APPLROVAL_DATE
+			, PROCESS_STATUS
+			, DEPT.STU_YEAR
+			, DEPT.STU_SEM
+			, DEPT_NAME
+			, DOUBLE_MAJOR_COLL
+			, DOUBLE_MAJOR_DEPT
+		FROM DEPT_MANAGE DEPT, UNI_MEMBER MEM, UNI_STU STU, DEPT DP
+		WHERE MEM.MEM_NO = STU.MEM_NO
+        AND DEPT.STU_NO = STU.STU_NO
+        AND STU.DEPT_NO = DP.DEPT_NO
+        AND APPLY_NO = #{applyNo}
         AND DEPT.FROM_DEPT IS NULL
 	</select>
 	
+	<!--업데이트할 DOUBLE_NO코드 가져오기  -->
+	<select id="getDoubleNo" resultType="String">
+		SELECT DOUBLE_NO
+		FROM DOUBLE_MAJOR
+		WHERE DOUBLE_NO LIKE '%'||#{doubleMajorDeptNo}||'%' 
+	</select>
+		
+	<!-- 복수전공 대상자 dept_manage 업데이트 -->
+	<update id="updateDoubleMajor">
+		UPDATE DEPT_MANAGE
+		SET PROCESS_STATUS = '승인완료'
+			, APPLROVAL_DATE = SYSDATE
+		WHERE APPLY_NO = #{applyNo}
+	</update>
 	
+	<!-- 복수전공 대상자 uni_stu 업데이트  -->
+	<update id="updateStuDouble">
+		UPDATE UNI_STU
+		SET DOUBLE_NO = #{stuVO.doubleNo}
+		WHERE STU_NO = #{stuVO.stuNo}
+	</update>
+	
+	<!-- 일괄 승인 DOUBLE_NO 코드 가져오기 -->
+	<select id="getDoubleNoByDeptList" resultMap="schoolMapper.doubleMajor">
+	  SELECT DOUBLE_NO
+	  FROM DOUBLE_MAJOR
+	  WHERE
+	    <foreach collection="doubleMajorDeptNoList" item="doubleDeptNo" separator="OR">
+	      DOUBLE_NO LIKE ('%'||#{doubleDeptNo}|| '%')
+	    </foreach>
+	</select>
+	
+	<!-- 복수 전공 대상자 dept_manage 업데이트 -->
+	<update id="updateDoubleMajorList">
+		UPDATE DEPT_MANAGE
+		SET PROCESS_STATUS = '승인완료'
+			, APPLROVAL_DATE = SYSDATE
+		WHERE APPLY_NO IN
+		<foreach collection="applyNoList" item="applyNo" open="(" close=")" separator=",">
+			#{applyNo}
+		</foreach>
+	</update>
+	
+	<!-- 복수 전공 대상자 학생정보 업데이트  -->
+	<update id="updateDoubleMajorStudentList">
+		<foreach collection="stuVOList" item="stuData" open="DECLARE BEGIN" separator=";" close=";END;">
+			UPDATE UNI_STU
+			SET DOUBLE_NO = #{stuData.doubleNo}
+			WHERE STU_NO = #{stuData.stuNo}
+		</foreach>
+	</update>
 	
 </mapper>
 

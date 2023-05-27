@@ -141,9 +141,40 @@ public class AdminServiceImpl implements AdminService{
 	}
 	//복수 전공 신청자 리스트 조회
 	@Override
-	public List<DeptManageVO> getDoubleMajorRequestList() {
-		return sqlsession.selectList("adminMapper.getDoubleMajorRequestList");
+	public List<DeptManageVO> getDoubleMajorRequestList(DeptManageVO deptManageVO) {
+		return sqlsession.selectList("adminMapper.getDoubleMajorRequestList", deptManageVO);
 	}
+	//복수 전공 신청 대상자 조회
+	@Override
+	public DeptManageVO getDoubletManageData(String applyNo) {
+		return sqlsession.selectOne("adminMapper.getDoubletManageData",applyNo);
+	}
+	//업데이트할 doubleNo 가져오기
+	@Override
+	public String getDoubleNo(String doubleMajorDeptNo) {		
+		return sqlsession.selectOne("adminMapper.getDoubleNo",doubleMajorDeptNo);
+	}
+	//학생정보, 복수전공 테이블 업데이트
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public int updateStuDouble(DeptManageVO deptManageVO) {
+		sqlsession.update("adminMapper.updateDoubleMajor", deptManageVO);
+		return sqlsession.update("adminMapper.updateStuDouble", deptManageVO);
+		
+	}
+	//복수전공 코드 리스트 가져오기
+	@Override
+	public List<DoubleMajorVO> getDoubleNoByDeptList(DoubleMajorVO doubleMajorVO) {
+		return sqlsession.selectList("adminMapper.getDoubleNoByDeptList", doubleMajorVO);
+	}
+	//복수전공 일괄 업데이트
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public int updateDoubleMajorList(DeptManageVO deptManageVO) {
+		sqlsession.update("adminMapper.updateDoubleMajorList", deptManageVO);
+		return sqlsession.update("adminMapper.updateDoubleMajorStudentList", deptManageVO);
+	}
+
 	
 
 	

@@ -282,16 +282,13 @@ public class AdminController {
 		
 	}
 	
-	
-	
-
 	// 전과/복수전공페이지 이동
 	@GetMapping("/changeMajor")
 	public String changeMajor(AdminSubMenuVO adminSubMenuVO, Model model) {
 		adminSubMenuVO.setMenuCode(ConstVariable.SECOND_MENU_CODE);
 		DeptManageVO deptManageVO = new DeptManageVO();
 		model.addAttribute("deptManageList", adminService.getDeptManageList(deptManageVO));
-		model.addAttribute("doubleRequestList", adminService.getDoubleMajorRequestList());
+		model.addAttribute("doubleRequestList", adminService.getDoubleMajorRequestList(deptManageVO));
 		return "content/admin/change_major";
 	}
 	
@@ -310,6 +307,21 @@ public class AdminController {
 		return data;
 	}
 	
+	//복수전공 모달 Ajax
+	@ResponseBody
+	@PostMapping("/acceptDoubleMajorAjax")
+	public Map<String, Object> acceptDoubleMajorAjax(String applyNo, String memNo) {
+		Map<String, Object> data = new HashMap<>();
+		DeptManageVO acceptData = adminService.getDoubletManageData(applyNo);
+		MemberVO acceptInfoData = adminService.getMemInfo(memNo);
+		data.put("acceptData", acceptData);
+		data.put("acceptInfoData", acceptInfoData);
+		
+		return data;
+		
+	}
+	
+	
 	//전과신청 업데이트
 	@ResponseBody
 	@PostMapping("/updateStuInfoAjax")
@@ -327,6 +339,24 @@ public class AdminController {
 		adminService.updateStuCollDept(stuVO, applyNo);
 		
 	}
+	//복수전공 신청 업데이트
+	@ResponseBody
+	@PostMapping("/updateStuInfoByDoubleAjax")
+	public int updateStuInfoByDoubleAjax(@RequestBody Map<String, String> stuMap) {
+		DeptManageVO deptManageVO = new DeptManageVO();
+		StuVO stuVO = new StuVO();
+		deptManageVO.setApplyNo(stuMap.get("applyNo"));
+		String doubleMajorDeptNo = stuMap.get("doubleMajorDeptNo");
+		//업데이트할 DOUBLE_NO 코드 가져오기
+		String doubleNo = adminService.getDoubleNo(doubleMajorDeptNo);
+		stuVO.setStuNo(stuMap.get("memNo"));
+		stuVO.setDoubleNo(doubleNo);
+		deptManageVO.setStuVO(stuVO);
+
+		return adminService.updateStuDouble(deptManageVO);
+	}
+	
+	
 	
 	//승인상태에 따른 검색
 	@ResponseBody
@@ -339,6 +369,19 @@ public class AdminController {
 		
 		return deptManageList;
 	}
+	
+	//승인상태에 따른 복수전공 신청자 검색
+	@ResponseBody
+	@PostMapping("/searchByDoubleStatusAjax")
+	public List<DeptManageVO> searchByDoubleStatusAjax(String processStatus) {
+		System.out.println(processStatus);
+		DeptManageVO deptManageVO = new DeptManageVO();
+		deptManageVO.setProcessStatus(processStatus);
+		List<DeptManageVO> doubleManageList = adminService.getDoubleMajorRequestList(deptManageVO);
+	
+		return doubleManageList;
+	}
+	
 	//날짜별 검색
 	@ResponseBody
 	@PostMapping("/searchByDateAjax")
@@ -349,6 +392,16 @@ public class AdminController {
 		List<DeptManageVO> deptManageList = adminService.getDeptManageList(deptManageVO);
 		
 		return deptManageList;
+	}
+	//날짜별 복수전공자 검색
+	@ResponseBody
+	@PostMapping("/searchByDateDoubleAjax")
+	public List<DeptManageVO> searchByDateDoubleAjax(String toDate, String fromDate) {
+		DeptManageVO deptManageVO = new DeptManageVO();
+		deptManageVO.setToDate(toDate);
+		deptManageVO.setFromDate(fromDate);
+		List<DeptManageVO> doubleManageList = adminService.getDoubleMajorRequestList(deptManageVO);
+		return doubleManageList;
 	}
 	
 	//일괄승인
@@ -379,7 +432,36 @@ public class AdminController {
 
 	    return adminService.updateStuInfoByApplyData(deptManageVO);
 	}
-
+	
+	//복수 전공 일괄 승인
+	@PostMapping("/checkedByDoubleMajorAjax")
+	@ResponseBody
+	public int checkedByDoubleMajorAjax(@RequestBody Map<String, List<String>> applyMap) {
+		System.out.println("@@@@@@@@@@@@@@@@@@@@@@"+ applyMap);
+		List<String> applyCodeList = applyMap.get("applyCodeList");
+		List<String> stuNoList = applyMap.get("stuNoList");
+		List<String> doubleMajorDeptNoList = applyMap.get("doubleMajorDeptNoList");
+		//빈 객체
+		List<StuVO> updateStuList = new ArrayList<>();
+		//빈 객체
+		DeptManageVO deptManageVO = new DeptManageVO();
+		deptManageVO.setApplyNoList(applyCodeList);
+		DoubleMajorVO doubleMajorVO = new DoubleMajorVO();
+		doubleMajorVO.setDoubleMajorDeptNoList(doubleMajorDeptNoList);
+		List<DoubleMajorVO> doubleNoList = adminService.getDoubleNoByDeptList(doubleMajorVO);
+		for(int i = 0 ; i < doubleNoList.size(); i++) {
+			StuVO stuVO = new StuVO();
+			stuVO.setDoubleNo(doubleNoList.get(i).getDoubleNo());
+			stuVO.setStuNo(stuNoList.get(i));
+			updateStuList.add(stuVO);
+		}
+		deptManageVO.setStuVOList(updateStuList);
+		System.out.println(deptManageVO);
+		
+		return adminService.updateDoubleMajorList(deptManageVO);
+		
+	}
+	
 	
 	// 실적현황
 	@GetMapping("/performanceData")
