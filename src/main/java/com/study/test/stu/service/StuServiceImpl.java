@@ -39,6 +39,11 @@ public class StuServiceImpl implements StuService {
 		sqlSession.update("stuMapper.updateStu", stuVO);
 		
 	}
+	@Override
+	public void updateMem(MemberVO memberVO) {
+		sqlSession.update("stuMapper.updateMem", memberVO);
+		
+	}
 	
 	//학생 이미지 변경
 	@Override
@@ -119,7 +124,7 @@ public class StuServiceImpl implements StuService {
 	//학적 상태 조회
 	@Override
 	public List<StatusInfoVO> getStatusInfo(String stuNo) {
-		return sqlSession.selectOne("stuMapper.getStatusInfo" , stuNo);
+		return sqlSession.selectList("stuMapper.getStatusInfo" , stuNo);
 	}
 
 	//개수 조회
@@ -127,6 +132,8 @@ public class StuServiceImpl implements StuService {
 	public int IngStatusWait(String stuNo) {
 		return sqlSession.selectOne("stuMapper.IngStatusWait", stuNo);
 	}
+
+	
 
 	
 

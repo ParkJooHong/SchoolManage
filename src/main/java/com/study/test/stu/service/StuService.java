@@ -17,11 +17,13 @@ public interface StuService {
 	//학생 정보
 	MemberVO seletStu(MemberVO memberVO);
 	
+	
 	//대학 코드 갖고오기.
 	StuVO getColl(String memNo);
 	
 	//학생, MyInfo 변경
 	void updateStu(StuVO stuVO);
+	void updateMem(MemberVO memberVO);
 	
 	//학생 IMG 변경
 	void updateStuImg(MemImgVO memImgVO);

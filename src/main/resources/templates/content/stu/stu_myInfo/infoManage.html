@@ -26,7 +26,8 @@
 </div>
 <div style="text-align: center;">
 <th:block th:each="member : ${memberVO}">
-	<button th:onclick="plus([[${member.memNo}]], [[${member.memName}]], [[${member.stuVO.stuYear}]] , [[${member.stuVO.stuStatus}]] );" class="plus" style="width: 40px; height:30px; border-bottom-left-radius:10px; border-bottom-right-radius:10px;
+	
+	<button th:onclick="plus([[${member.memNo}]], [[${member.memName}]], [[${member.stuVO.stuYear}]] , [[${member.stuVO.stuStatus}]] , [[${memberVO.stuVO.deptNo}]] , [[${memberVO.deptVO.deptName}]]  );" class="plus" style="width: 40px; height:30px; border-bottom-left-radius:10px; border-bottom-right-radius:10px;
 		font-size: 20px; font-weight: bold; border-color: red;  color: white; background-color: red;">
 		+
 	</button>
@@ -116,13 +117,13 @@
 		</tr>
 		<tr>
 			<td>우편번호</td>
-			<td><input type="text"></td>
-			<td><input type="button" value="우편번호 검색" class="faxSearch" onclick="searchAddr();"></td>
+			<td><input type="text" readonly style="background-color: #D3D3D3;" th:value="${member.memAddr}" id="memAddr" name="memAddr"></td>
+			<td><input type="button" value="우편번호 검색" class="btn btn-danger" onclick="searchAddr();"></td>
 		</tr>
 		<tr>
 			<td >주소</td>
-			<td><input type="text" readonly style="background-color: #D3D3D3;" th:value="${member.memAddr}"></td>
-			<td><input type="text" placeholder="상세 주소를 입력해주세요." style="width: 250px;" th:value="${member.memAddrDetail}"></td>
+			<td colspan="2"><input type="text" placeholder="상세 주소를 입력해주세요." style="width: 250px;" th:value="${member.memAddrDetail}" name="memAddrDetail"></td>
+
 		</tr>
 		<tr>
 			<td>계좌은행</td>

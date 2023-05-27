@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.study.test.board.vo.BoardCategoryVO;
+import com.study.test.board.vo.SearchVO;
 import com.study.test.board.vo.UniBoardVO;
 
 @Service("boardService")
@@ -20,12 +21,30 @@ public class BoardServiceImpl implements BoardService {
 	public List<BoardCategoryVO> getBoardCategoryList() {
 		return sqlSession.selectList("boardMapper.getBoardCategoryList");
 	}
+	
+	//내가쓴 보드 전체 리스트 조회
+	@Override
+	public List<UniBoardVO> getTotalMyBoardList(UniBoardVO uniBoardVO) {
+		return sqlSession.selectList("boardMapper.getTotalMyBoardList", uniBoardVO);
+	}
+	
+	//내가 쓴 보드 개수 조회
+	@Override
+	public int totalBoardCount(UniBoardVO uniBoardVO) {
+		return sqlSession.selectOne("boardMapper.totalBoardCount", uniBoardVO);
+	}
 
 	// 보드 전체 게시판 조회
 	@Override
 	public List<UniBoardVO> getTotalBoardList() {
 		return sqlSession.selectList("boardMapper.getTotalBoardList");
 	}
+	
+	//전체 게시판페이징
+		@Override
+		public int totalBoardPage(SearchVO searchVO) {	
+			return sqlSession.selectOne("boardMapper.totalBoardPage", searchVO);
+		}
 
 	//보드 게시글 쓰기
 	@Override
@@ -54,11 +73,7 @@ public class BoardServiceImpl implements BoardService {
 		
 	}
 
-	//보드 개수 조회
-	@Override
-	public int totalBoardCount() {
-		return sqlSession.selectOne("boardMapper.totalBoardCount");
-	}
+	
 
 	//보드 조회 수 
 	@Override
@@ -66,6 +81,16 @@ public class BoardServiceImpl implements BoardService {
 		sqlSession.insert("boardMapper.readCnt", uniBoardVO);
 		
 	}
+
+	//보드 최근 개월 수에 따른 조회
+	@Override
+	public List<UniBoardVO> getMonthBoardList(int month) {
+		return sqlSession.selectList("boardMapper.getMonthBoardList", month);
+	}
+
+	
+
+	
 	
 	
 }

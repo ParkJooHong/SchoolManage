@@ -11,7 +11,7 @@ function save(){
 	swal("변경 성공!", "비밀번호가 변경되었습니다.", "success");
 }
 
-function plus(memNo, memName, stuYear, stuStatus){
+function plus(memNo, memName, stuYear, stuStatus, deptNo, deptName){
 
 
 	const button = document.querySelector('.plus');
@@ -40,9 +40,9 @@ function plus(memNo, memName, stuYear, stuStatus){
 		str2 +=`</tr>`;
 		str2 +=`<tr>`;
 		str2 +=`	<td>학과코드</td>`;
-		str2 +=`	<td><input type="text" readonly></td>`;
+		str2 +=`	<td><input type="text" readonly value="${deptNo}"></td>`;
 		str2 +=`	<td>전공</td>`;
-		str2 +=`	<td><input type="text" readonly></td>`;
+		str2 +=`	<td><input type="text" readonly value="${deptName}"></td>`;
 		str2 +=`	<td>복수전공</td>`;
 		str2 +=`	<td><input type="text" readonly></td>`;
 		str2 +=`	<td>부전공</td>`;
@@ -84,8 +84,9 @@ function plus(memNo, memName, stuYear, stuStatus){
 function searchAddr(){
 	new daum.Postcode({
         oncomplete: function(data) {
-            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
-            // 예제를 참고하여 다양한 활용법을 확인해 보세요.
+	
+             var roadAddr = data.roadAddress;
+            document.querySelector('#memAddr').value = roadAddr;
         }
     }).open();
 }

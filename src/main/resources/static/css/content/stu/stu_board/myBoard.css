@@ -48,7 +48,13 @@ input[type="text"]{
 }
 
 
+.replyColor{
+	font-size: 15px;
+	color: purple;
+	font-weight: bold;
+}
 
-
-
+.order{
+	text-align: left;
+}
 

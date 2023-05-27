@@ -8,7 +8,28 @@ function leave(memNo){
 	const applyReason = document.querySelector('.applyReason').value;
 	const stuStatus = document.querySelector('.stuStatus').value;
 	
-	const ingStatus = document.querySelector('.ingStatus').value;
+	const menuCode = document.querySelector('.menuCode').value;
+	const subMenuCode = document.querySelector('.subMenuCode').value;
+	
+	/*
+	let ingStatusInputs = document.querySelectorAll('.ingStatus');
+
+	// 가장 위에 있는 .ingStatus 요소를 선택합니다.
+	let firstIngStatusInput = ingStatusInputs[0];
+	
+	// 가장 위에 있는 .ingStatus 요소의 value 값을 추출합니다.
+	let ingStatus = firstIngStatusInput.value;
+	*/
+	// 모든 .ingStatus 클래스를 가진 요소를 선택합니다.
+	let ingStatusInputs = document.querySelectorAll('.ingStatus');
+	
+	// 마지막 .ingStatus 요소를 선택합니다.
+	let lastIngStatusInput = ingStatusInputs[ingStatusInputs.length - 1];
+	
+	// 마지막 .ingStatus 요소의 value 값을 추출합니다.
+	let ingStatus = lastIngStatusInput.value;
+
+	
 	alert(stuStatus);
 	alert(ingStatus);
 	if(applyReason.length == 0){
@@ -20,7 +41,7 @@ function leave(memNo){
 				url: '/stuMenu/leaveManageAjax', //요청경로
 				type: 'post',
 				contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-				data: {'memNo' : memNo, 'stuStatus' : stuStatus , 'applyReason' : applyReason, 'ingStatus' : ingStatus}, //필요한 데이터
+				data: {'memNo' : memNo, 'stuStatus' : stuStatus , 'applyReason' : applyReason, 'ingStatus' : ingStatus, 'menuCode' : menuCode, 'subMenuCode' : subMenuCode}, //필요한 데이터
 				success: function(result) {
 						swal("신청 완료!", "휴학 신청이 완료되었습니다.", "success");
 						setTimeout(function() {

@@ -1,4 +1,38 @@
 
+
+//정렬 기능 날짜순
+function getOrderListDesc(REG_BOARD_DATE){
+	document.querySelector('#orderDate').classList.remove('btn-danger');
+	document.querySelector('#orderDate').classList.add('btn-primary');
+	
+	const orderBy = document.querySelector('#orderBy');
+	orderBy.querySelector('input').value = REG_BOARD_DATE;
+	orderBy.submit();
+}
+
+//정렬 기능 조회순
+function getOrderListDesc(READ_CNT){
+	const orderBy = document.querySelector('#orderBy');
+	orderBy.querySelector('input').value = READ_CNT;
+	orderBy.submit();
+}
+
+//정렬 기능 댓글 순
+function getOrderListDesc(REPLY_CNT){
+	const orderBy = document.querySelector('#orderBy');
+	orderBy.querySelector('input').value = REPLY_CNT;
+	orderBy.submit();
+}
+
+
+//검색기능
+function searchList(month){
+	const month_form = document.querySelector('#month-form');
+	month_form.querySelector('input').value = month;
+	month_form.submit();
+}
+
+
 // 비밀번호 예
 function private(){
 	

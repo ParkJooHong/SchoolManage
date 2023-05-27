@@ -242,6 +242,12 @@
 			, STU_BANK_ACCOUNT = #{stuBankAccount}
 		WHERE MEM_NO = #{memNo} 
 	</update>
+	<update id="updateMem">
+		UPDATE UNI_MEMBER
+		SET MEM_ADDR = #{memAddr}
+			, MEM_ADDR_DETAIL = #{memAddrDetail}
+		WHERE MEM_NO = #{memNo}
+	</update>
 	
 	<!-- 학생 이미지 변경 -->
 	<update id="updateStuImg">

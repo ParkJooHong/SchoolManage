@@ -8,33 +8,49 @@ function returnManage(memNo){
 	alert(menuCode);
 	alert(subMenuCode);
 	
-	let ingStatus = document.querySelector('.ingStatus').value;
+	let ingStatusInputs = document.querySelectorAll('.ingStatus');
+
+	let firstIngStatusInput = ingStatusInputs[0];
+
+	let ingStatus = firstIngStatusInput.value;
+	
+	// 선택된 요소들을 순서대로 담을 배열을 생성합니다.
+	let orderedValues = [];
+		ingStatusInputs.forEach(function(input) {
+	  		orderedValues.push(input.value);
+		});
+	ingStatus = orderedValues[0];
+	//let ingStatusInputs = document.querySelectorAll('.ingStatus');
+	
+	// 마지막 .ingStatus 요소를 선택합니다.
+	//let lastIngStatusInput = ingStatusInputs[ingStatusInputs.length - 1];
+	
+	// 마지막 .ingStatus 요소의 value 값을 추출합니다.
+	//let ingStatus = lastIngStatusInput.value;
+	
 	alert(stuStatus);
 	alert(ingStatus);
+	
 	if(ingStatus == 0 && stuStatus == '재학'){
+		swal("실패", "이미 재학중인 상태입니다.", "error");
+		
+	}else if(ingStatus == 0 && stuStatus == '휴학'){
 		$.ajax({
 			url: '/stuMenu/returnManageAjax', //요청경로
 			type: 'post',
 			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 			data: {'memNo' : memNo, 'stuStatus' : stuStatus , 'applyReason' : applyReason, 'ingStatus' : ingStatus, 'menuCode' : menuCode, 'subMenuCode' : subMenuCode  }, //필요한 데이터
 			success: function(result) {
-				if(result == 20230005){
-					swal("신청 완료!", "복학 신청이 완료되었습니다.", "success");
+				swal("신청 완료!", "복학 신청이 완료되었습니다.", "success");
 					setTimeout(function() {
 						location.reload();
 						}, 500);
-				}
-				else{
-					alert('중복체크 미구현');
-				}
 			},
 			error: function() {
 				alert('실패');
 				
 			}
 		});
-	}else if(ingStatus == 0 && stuStatus == '휴학'){
-		swal("실패", "말이안되는 상태입니다", "error");
 	}
 	else if(ingStatus == '승인완료' && stuStatus == '휴학'){
 		$.ajax({

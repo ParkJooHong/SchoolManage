@@ -40,3 +40,13 @@ input[type="text"]{
 	width: 120px;
 	border-radius: 4px;
 }
+
+.searchAply{
+	text-align: center;
+	margin: 20px;
+}
+
+.searchAply input[type="text"]{
+	width: 300px;
+	height: 30px;
+}
