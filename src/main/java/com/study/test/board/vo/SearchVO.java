@@ -2,11 +2,9 @@ package com.study.test.board.vo;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 @Getter
 @Setter
-@ToString
 public class SearchVO extends PageVO{
 	private int month;
 	
@@ -17,4 +15,13 @@ public class SearchVO extends PageVO{
 	private String searchValue;
 	
 	private String orderBy;
+
+	@Override
+	public String toString() {
+		return "SearchVO [month=" + month + ", fromDate=" + fromDate + ", toDate=" + toDate + ", searchKeyword="
+				+ searchKeyword + ", searchValue=" + searchValue + ", orderBy=" + orderBy + ", toString()="
+				+ super.toString() + "]";
+	}
+	
+	
 }

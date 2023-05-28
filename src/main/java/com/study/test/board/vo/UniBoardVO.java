@@ -2,11 +2,9 @@ package com.study.test.board.vo;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 @Getter
 @Setter
-@ToString
 public class UniBoardVO extends SearchVO {
 
 	private String boardNo;
@@ -20,4 +18,14 @@ public class UniBoardVO extends SearchVO {
 	private String isPrivate;
 	private String isNotice;
 	private BoardReplyVO boardReplyVO;
+	
+	@Override
+	public String toString() {
+		return "UniBoardVO [boardNo=" + boardNo + ", boardTitle=" + boardTitle + ", boardContent=" + boardContent
+				+ ", boardWriter=" + boardWriter + ", regBoardDate=" + regBoardDate + ", readCnt=" + readCnt
+				+ ", cateNo=" + cateNo + ", replyCnt=" + replyCnt + ", isPrivate=" + isPrivate + ", isNotice="
+				+ isNotice + ", boardReplyVO=" + boardReplyVO + ", toString()=" + super.toString() + "]";
+	}
+	
+	
 }

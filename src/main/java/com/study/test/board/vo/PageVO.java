@@ -1,5 +1,12 @@
 package com.study.test.board.vo;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@ToString
 public class PageVO {
 	private int nowPage; // 현재 선택된 페이지 번호
 	private int totalDataCnt; // 전체 데이터 수

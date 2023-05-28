@@ -36,8 +36,8 @@ public class BoardServiceImpl implements BoardService {
 
 	// 보드 전체 게시판 조회
 	@Override
-	public List<UniBoardVO> getTotalBoardList() {
-		return sqlSession.selectList("boardMapper.getTotalBoardList");
+	public List<UniBoardVO> getTotalBoardList(UniBoardVO uniBoardVO) {
+		return sqlSession.selectList("boardMapper.getTotalBoardList", uniBoardVO);
 	}
 	
 	//전체 게시판페이징

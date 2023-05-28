@@ -21,7 +21,7 @@ public interface BoardService {
 	int totalBoardPage(SearchVO searchVO);
 	
 	// 보드 전체 리스트 조회
-	List<UniBoardVO> getTotalBoardList();
+	List<UniBoardVO> getTotalBoardList(UniBoardVO uniBoardVO);
 	
 	//보드 게시글 등록
 	void insertBoard(UniBoardVO uniBoardVO);

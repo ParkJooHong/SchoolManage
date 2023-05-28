@@ -64,7 +64,7 @@
 				AND TO_CHAR(REG_BOARD_DATE, 'YYYY-MM-DD') &lt;= #{toDate}
 			</if>
 			ORDER BY ${orderBy} DESC
-			OFFSET 0 ROWS FETCH FIRST 10 ROWS ONLY
+			OFFSET #{offsetCnt} ROWS FETCH FIRST #{displayCnt} ROWS ONLY
 		</select>
 		
 	<!-- 전체 게시판 조회-->
@@ -81,7 +81,16 @@
 				, IS_PRIVATE
 				, IS_NOTICE
 			FROM UNI_BOARD
+			WHERE READ_CNT  &gt;= 0
+			<if test="month != null and month != 0">
+			AND TO_CHAR(REG_BOARD_DATE, 'YYYYMMDD' ) &gt;= TO_CHAR(ADD_MONTHS(SYSDATE, #{month}), 'YYYYMMDD') 
+			</if>
+			<if test="fromDate != null" >
+				AND TO_CHAR(REG_BOARD_DATE, 'YYYY-MM-DD') &gt;= #{fromDate}
+				AND TO_CHAR(REG_BOARD_DATE, 'YYYY-MM-DD') &lt;= #{toDate}
+			</if>
 			ORDER BY REG_BOARD_DATE DESC
+			 OFFSET #{offsetCnt} ROWS FETCH FIRST #{displayCnt} ROWS ONLY
 		</select>
 		
 		<!-- 전체 게시판 최근 개월별 조회 -->
@@ -119,6 +128,7 @@
 			<if test='searchValue != null and searchValue.equals("")'>
 	        AND UPPER(${searchKeyword}) LIKE '%' || UPPER(#{searchValue}) || '%'
 	        </if>
+	        
 		</select>
 		
 		<!-- 보드 게시판 페이징 조회 -->
@@ -136,7 +146,7 @@
 			<if test='searchValue != null and searchValue.equals("")'>
 	        AND UPPER(${searchKeyword}) LIKE '%' || UPPER(#{searchValue}) || '%'
 	        </if>
-	        OFFSET #{offsetCnt} ROWS FETCH FIRST #{displayCnt} ROWS ONLY
+	        
 		</select>
 		
 	<!-- 보드 게시판 리스트  -->

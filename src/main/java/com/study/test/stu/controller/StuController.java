@@ -152,7 +152,8 @@ public class StuController {
 		
 		//게시판
 		@GetMapping("board")
-		private String board(Authentication authentication, Model model, MemberVO memberVO, StuVO stuVO, UniBoardVO uniBoardVO, BoardCategoryVO boardCategoryVO, String cateNo, String menuCode, String subMenuCode, MemberSubMenuVO memberSubMenuVO) {
+		private String board(Authentication authentication, Model model, MemberVO memberVO, StuVO stuVO, UniBoardVO uniBoardVO,
+				BoardCategoryVO boardCategoryVO, String cateNo, String menuCode, String subMenuCode, MemberSubMenuVO memberSubMenuVO) {
 
 			memberSubMenuVO.setSubMenuCode("SUB_MENU_011");
 			System.out.println("서브메뉴 : " +memberSubMenuVO.getSubMenuCode());
@@ -168,7 +169,7 @@ public class StuController {
 			
 			model.addAttribute("boardCategoryVO", boardService.getBoardCategoryList());
 			System.out.println("보드 카테고리 정보 : " +boardService.getBoardCategoryList());
-			model.addAttribute("uniBoardVO",boardService.getTotalBoardList()); 
+			model.addAttribute("uniBoardList",boardService.getTotalBoardList(uniBoardVO)); 
 			
 			cateNo = boardCategoryVO.getCateNo();
 			
@@ -690,7 +691,9 @@ public class StuController {
 				uniBoardVO.setToDate(nowDate);
 			}
 			System.out.println(uniBoardVO.getFromDate());
+			model.addAttribute("uniBoardFromDate", uniBoardVO.getFromDate());
 			System.out.println(uniBoardVO.getToDate());
+			model.addAttribute("uniBoardToDate", uniBoardVO.getToDate());
 			
 		
 			System.out.println("유니보드데이터 : " +uniBoardVO);
@@ -712,18 +715,17 @@ public class StuController {
 			System.out.println("보드 카테고리 정보 : " +boardService.getBoardCategoryList());
 			System.out.println(uniBoardVO);
 			
-			model.addAttribute("uniBoardVO",boardService.getTotalMyBoardList(uniBoardVO)); 
-
 			//보드 개시판 개수 조회
 			int totalDataCnt = boardService.totalBoardCount(uniBoardVO);
 			System.out.println("보드 개수 : " +  boardService.totalBoardCount(uniBoardVO));
+			uniBoardVO.setTotalDataCnt(totalDataCnt);
 
 			//페이지 정보 세팅
-			boardListSearchVO.setTotalDataCnt(totalDataCnt);
-			boardListSearchVO.setPageInfo();
-			System.out.println(boardListSearchVO);
+			uniBoardVO.setPageInfo();
 			
 			cateNo = boardCategoryVO.getCateNo();
+			
+			model.addAttribute("uniBoardList",boardService.getTotalMyBoardList(uniBoardVO)); 
 			
 			//게시판 상세보기할때 던질 메뉴코드, 서브메뉴코드 데이터
 			model.addAttribute("menuCode" , menuCode);
@@ -737,7 +739,7 @@ public class StuController {
 		
 		//전체 게시판
 		@GetMapping("/totalBoard")
-		private String totalBoard(Authentication authentication, Model model, MemberVO memberVO, StuVO stuVO, SearchVO searchVO,
+		private String totalBoard(Authentication authentication, Model model, MemberVO memberVO, StuVO stuVO,
 				UniBoardVO uniBoardVO, BoardCategoryVO boardCategoryVO, String cateNo, String menuCode, String subMenuCode) {
 			User user = (User)authentication.getPrincipal();
 			String memName = user.getUsername();
@@ -747,19 +749,24 @@ public class StuController {
 			model.addAttribute("memberVO", stuService.seletStu(memberVO));
 			System.out.println("학생정보 : " + stuService.seletStu(memberVO));
 			
-			model.addAttribute("boardCategoryVO", boardService.getBoardCategoryList());
-			System.out.println("보드 카테고리 정보 : " +boardService.getBoardCategoryList());
-			model.addAttribute("uniBoardVO",boardService.getTotalBoardList()); 
+			if(uniBoardVO.getOrderBy() == null) {
+				uniBoardVO.setOrderBy("REG_BOARD_DATE");
+			}
+			
 			
 			cateNo = boardCategoryVO.getCateNo();
 			
-			int totalDateCnt = boardService.totalBoardPage(searchVO);
-			searchVO.setTotalDataCnt(totalDateCnt);
+			int totalDateCnt = boardService.totalBoardPage(uniBoardVO);
+			uniBoardVO.setTotalDataCnt(totalDateCnt);
 			
 			//페이징 정보 세팅
-			searchVO.setPageInfo();
+			uniBoardVO.setPageInfo();
 			
-			System.out.println(searchVO);
+			System.out.println("페이징 정보 : " + uniBoardVO);
+			
+			model.addAttribute("boardCategoryVO", boardService.getBoardCategoryList());
+			System.out.println("보드 카테고리 정보 : " +boardService.getBoardCategoryList());
+			model.addAttribute("uniBoardList",boardService.getTotalBoardList(uniBoardVO)); 
 			
 			//게시판 상세보기할때 던질 메뉴코드, 서브메뉴코드 데이터
 			model.addAttribute("menuCode" , menuCode);
@@ -767,6 +774,28 @@ public class StuController {
 			
 			
 			return "/content/stu/stu_board/totalBoard";
+		}
+		
+		//학과 게시판
+		@GetMapping("/deptBoard")
+		private String deptBoard(Authentication authentication, StuVO stuVO, MemberVO memberVO, Model model, String menuCode, String subMenuCode) {
+			User user = (User)authentication.getPrincipal();
+			String memName = user.getUsername();
+			//System.out.println(memName);
+			stuVO.setMemNo(user.getUsername()); // id임
+			memberVO.setMemNo(user.getUsername());
+			model.addAttribute("memberVO", stuService.seletStu(memberVO));
+			System.out.println("학생정보 : " + stuService.seletStu(memberVO));
+			
+			
+			
+			
+			//게시판 상세보기할때 던질 메뉴코드, 서브메뉴코드 데이터
+			model.addAttribute("menuCode" , menuCode);
+			model.addAttribute("subMenuCode", subMenuCode);
+			
+			
+			return "/content/stu/stu_board/deptBoard";
 		}
 		
 		// 게시글 비밀번호 확인
