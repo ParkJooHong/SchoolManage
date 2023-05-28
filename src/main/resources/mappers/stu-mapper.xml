@@ -18,6 +18,7 @@
 		<result column="PARENT_TELL" 		property="parentTell"/>
 		<result column="STU_BANK_NAME" 		property="stuBankName"/>
 		<result column="STU_BANK_ACCOUNT" 	property="stuBankAccount"/>
+		<result column="PROB_CNT"			property="probCnt"/>
 		
 		
 	</resultMap>

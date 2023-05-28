@@ -11,12 +11,110 @@
 </th:block>	
 
 <th:block layout:fragment="content">
-	학사경고,제적
+	<div class="row">
+		<div class="col">
+			<div class="row mt-4 mb-4">
+				<div class="col">
+					<h3>학사경고 현황</h3>
+				</div>
+			</div>		
+			<div class="row mb-3">
+				<div class="col">
+					<span>학생조회</span>
+				</div>
+			</div>
+			<div class="row mb-3">
+				<div class="col-12">
+					<table class="table">
+						<colgroup>
+							<col width="10%">
+							<col width="35%">
+							<col width="10%">
+							<col width="35%">
+							<col width="10%">
+						</colgroup>
+						<tr>
+							<td>소속대학</td>
+							<td>
+								<select class="form-select" id="collSelect" onchange="getDeptList();">
+									<option value="">전체</option>
+									<th:block th:each="coll :${collList}">
+										<option th:value="${coll.collNo}">[[${coll.collName}]]</option>
+									</th:block>
+								</select>
+							</td>
+							<td>소속학과</td>
+							<td>
+								<select class="form-select" id="deptSelect">
+									<th:block th:each="dept : ${deptList}">
+										<option th:value="${dept.deptNo}">[[${dept.deptName}]]</option>
+									</th:block>
+								</select>
+							</td>
+							<td rowspan="2">
+								<input type="button" style="width: 100%; height: 80px;" onclick="getStuInfoList();" class="btn btn-primary" value="Search">
+							</td>
+						</tr>
+						<tr>
+							<td>학적</td>
+							<td>
+								<select class="form-select" id="stuStatus">
+									<option value="재학">재학</option>
+									<option value="휴학">휴학</option>
+								</select>
+							</td>
+							<td>성명</td>
+							<td>
+								<input type="text" id="stuName" value="" class="form-control">
+							</td>							
+						</tr>
+					</table>
+				</div>
+			</div>
+			<div class="row text-center mb-4">
+				<div class="col">
+					<span>총 <span>0</span>명의 학생이 검색되었습니다.</span>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-6">
+					<span>학생의 학번을 클릭하면 학사경고 창이 열립니다.</span>
+				</div>
+				<div class="col-6 text-end">
+					<span>학사경고 3회시 제적버튼이 활성화 됩니다.</span>
+				</div>
+			</div>
+			<div class="row mb-4">
+				<div class="col">
+					<table class="table">
+						<tr>
+							<td>이름</td>
+							<td>학번</td>
+							<td>소속대학</td>
+							<td>소속학과</td>
+							<td>학적</td>
+							<td>학사경고</td>
+							<td>제적</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
 </th:block>
 
 <!-- 연결해야 할 외부 js 파일 -->
 <th:block layout:fragment="content_js">
-	<script type="text/javascript" src=""></script>
+	<script type="text/javascript" src="/js/content/admin/update_stu_out.js"></script>
 </th:block>	
 
 </html>
