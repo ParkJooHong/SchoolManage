@@ -666,6 +666,16 @@ public class StuController {
 			if(uniBoardVO.getOrderBy() == null) {
 				uniBoardVO.setOrderBy("REG_BOARD_DATE");
 			}
+			if(uniBoardVO.getSearchKeyword() == null) {
+				uniBoardVO.setSearchKeyword("BOARD_WRITER");
+			}
+			if(uniBoardVO.getSearchValue() == null) {
+				uniBoardVO.setSearchValue("");
+			}
+			
+			System.out.println(uniBoardVO.getSearchKeyword());
+			System.out.println(uniBoardVO.getSearchValue());
+			
 			System.out.println(uniBoardVO.getOrderBy());
 			//오늘 날짜
 			String nowDate = DateUtil.getNowDateToString();
@@ -696,7 +706,7 @@ public class StuController {
 			model.addAttribute("uniBoardToDate", uniBoardVO.getToDate());
 			
 		
-			System.out.println("유니보드데이터 : " +uniBoardVO);
+			
 			
 			User user = (User)authentication.getPrincipal();
 			String memName = user.getUsername();
@@ -710,6 +720,7 @@ public class StuController {
 			//내가 작성한 보드 세팅
 			System.out.println("보드쓴사람" + stuVO.getStuNo());
 			uniBoardVO.setBoardWriter(stuVO.getStuNo());
+			
 			
 			model.addAttribute("boardCategoryVO", boardService.getBoardCategoryList());
 			System.out.println("보드 카테고리 정보 : " +boardService.getBoardCategoryList());
@@ -725,6 +736,7 @@ public class StuController {
 			
 			cateNo = boardCategoryVO.getCateNo();
 			
+			System.out.println("유니보드데이터 : " +uniBoardVO);
 			model.addAttribute("uniBoardList",boardService.getTotalMyBoardList(uniBoardVO)); 
 			
 			//게시판 상세보기할때 던질 메뉴코드, 서브메뉴코드 데이터
