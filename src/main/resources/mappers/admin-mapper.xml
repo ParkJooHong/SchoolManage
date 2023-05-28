@@ -53,6 +53,14 @@
 		<association property="colleageVO" 				resultMap="schoolMapper.colleage"/>
 		<association property="deptVO" 					resultMap="schoolMapper.dept"/>
 	</resultMap>
+	<resultMap type="com.study.test.admin.vo.ProvationVO" id="provation">
+		<result column="PROB_NO" 		property="probNo"/>
+		<result column="STU_NO" 		property="stuNo"/>
+		<result column="PROB_DATE" 		property="probDate"/>
+		<result column="PROB_REASON" 	property="probReason"/>
+		<result column="SEM_NO" 		property="semNo"/>
+		<result column="MEM_NO" 		property="memNo"/>
+	</resultMap>
 
 	
 	<select id="getAdminMenuList" resultMap="adminMenu">
@@ -593,7 +601,26 @@
 			WHERE STU_NO = #{stuData.stuNo}
 		</foreach>
 	</update>
-	
+	<select id="getProbStuList" resultMap="stuMapper.member">
+		SELECT MEM.MEM_NO
+        , MEM_NAME
+        , DP.DEPT_NO
+        , DEPT_NAME
+        , STU_STATUS
+        , COLL.COLL_NO
+        , COLL_NAME
+        , (SELECT COUNT(PROB_NO)
+                        FROM ACADEMIC_PROBATION
+                        WHERE STU_NO = STU.STU_NO) AS PROB_CNT
+        FROM UNI_MEMBER MEM, UNI_STU STU, DEPT DP, COLLEAGE COLL
+        WHERE MEM.MEM_NO = STU.MEM_NO
+        AND STU.DEPT_NO = DP.DEPT_NO
+        AND STU.COLL_NO = COLL.COLL_NO
+        AND UPPER(MEM_NAME) LIKE '%' || UPPER(#{memName}) || '%'
+        AND STU.COLL_NO = #{stuVO.collNo}
+        AND STU.DEPT_NO = #{stuVO.deptNo}
+        AND STU_STATUS = #{stuVO.stuStatus}
+	</select>
 </mapper>
 
 

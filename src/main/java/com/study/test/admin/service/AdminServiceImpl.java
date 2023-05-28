@@ -174,6 +174,11 @@ public class AdminServiceImpl implements AdminService{
 		sqlsession.update("adminMapper.updateDoubleMajorList", deptManageVO);
 		return sqlsession.update("adminMapper.updateDoubleMajorStudentList", deptManageVO);
 	}
+	//학적 경고 대상자 검색
+	@Override
+	public List<MemberVO> getProbStuList(MemberVO memberVO) {
+		return sqlsession.selectList("adminMapper.getProbStuList",memberVO);
+	}
 
 	
 

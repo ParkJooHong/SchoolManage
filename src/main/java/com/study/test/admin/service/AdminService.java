@@ -79,5 +79,7 @@ public interface AdminService {
 	//복수전공 리스트 승인
 	int updateDoubleMajorList(DeptManageVO deptManageVO);
 	
+	//학사경고 학생 조회
+	List<MemberVO> getProbStuList(MemberVO memberVO);
 	
 }

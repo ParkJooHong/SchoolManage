@@ -473,10 +473,30 @@ public class AdminController {
 
 	// 학사경고,제적
 	@GetMapping("/updateStuOut")
-	public String updateStuOut(AdminSubMenuVO adminSubMenuVO) {
+	public String updateStuOut(AdminSubMenuVO adminSubMenuVO, Model model) {
 		adminSubMenuVO.setMenuCode(ConstVariable.THIRD_MENU_CODE);
-
+		model.addAttribute("collList", schoolService.getCollList());
+		model.addAttribute("deptList",schoolService.getDeptList(""));
 		return "content/admin/update_stu_out";
+	}
+	
+	//학사경고 페이지 학생검색기능
+	@PostMapping("/getStuInfoListAjax")
+	@ResponseBody
+	public List<MemberVO> getStuInfoListAjax(@RequestBody Map<String, String>stuMap) {
+		MemberVO memberVO = new MemberVO();
+		StuVO stuVO = new StuVO();
+		memberVO.setMemName(stuMap.get("memName"));
+		stuVO.setCollNo(stuMap.get("collNo"));
+		stuVO.setDeptNo(stuMap.get("deptNo"));
+		stuVO.setStuStatus(stuMap.get("stuStatus"));
+		memberVO.setStuVO(stuVO);
+		
+		return adminService.getProbStuList(memberVO);
+		
+		
+		
+		
 	}
 
 	// 제적처리 페이지
