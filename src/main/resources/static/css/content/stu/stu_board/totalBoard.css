@@ -1,7 +1,5 @@
 @charset "UTF-8";
 
-@charset "UTF-8";
-
 .detail_info {
     position: relative;
     display: flex;
@@ -42,4 +40,28 @@ input[type="text"]{
 
 .modal-dialog{
 	max-width: 1000px;
+}
+
+.title{
+	font-size: 20px;
+	font-weight: bold;
+}
+
+
+.replyColor{
+	font-size: 15px;
+	color: purple;
+	font-weight: bold;
+}
+
+.order{
+	text-align: left;
+}
+.boardWriterGoSize{
+	text-align:  center;
+}
+.boardWriteGo{
+	width: 100px;
+	height: 50px;
+	
 }

@@ -8,6 +8,7 @@ import lombok.Setter;
 public class SearchVO extends PageVO{
 	private int month;
 	
+	
 	private String fromDate;
 	private String toDate;
 	

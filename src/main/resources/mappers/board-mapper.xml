@@ -57,12 +57,15 @@
 			FROM UNI_BOARD
 			WHERE BOARD_WRITER = #{boardWriter}
 			<if test="month != null and month != 0">
-			AND TO_CHAR(REG_BOARD_DATE, 'YYYYMMDD' ) &gt;= TO_CHAR(ADD_MONTHS(SYSDATE, #{month}), 'YYYYMMDD') 
+				AND TO_CHAR(REG_BOARD_DATE, 'YYYYMMDD' ) &gt;= TO_CHAR(ADD_MONTHS(SYSDATE, #{month}), 'YYYYMMDD') 
 			</if>
 			<if test="fromDate != null" >
 				AND TO_CHAR(REG_BOARD_DATE, 'YYYY-MM-DD') &gt;= #{fromDate}
 				AND TO_CHAR(REG_BOARD_DATE, 'YYYY-MM-DD') &lt;= #{toDate}
 			</if>
+			<if test='searchValue != null and !searchValue.equals("")'>
+	       		  AND UPPER(${searchKeyword}) LIKE '%' || UPPER(#{searchValue}) || '%'
+	        </if>
 			ORDER BY ${orderBy} DESC
 			OFFSET #{offsetCnt} ROWS FETCH FIRST #{displayCnt} ROWS ONLY
 		</select>
@@ -125,9 +128,7 @@
 				AND TO_CHAR(REG_BOARD_DATE, 'YYYY-MM-DD') &gt;= #{fromDate}
 				AND TO_CHAR(REG_BOARD_DATE, 'YYYY-MM-DD') &lt;= #{toDate}
 			</if>
-			<if test='searchValue != null and searchValue.equals("")'>
-	        AND UPPER(${searchKeyword}) LIKE '%' || UPPER(#{searchValue}) || '%'
-	        </if>
+
 	        
 		</select>
 		
