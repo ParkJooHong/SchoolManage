@@ -183,7 +183,7 @@
 			, SEM_NAME
 			, UM.MEM_NAME
 			, TIME_NO
-			, SEM_NO
+			, SEM.SEM_NO
 		FROM LECTURE LEC
 			, COLLEAGE COL
 			, DEPT DEPT
