@@ -11,6 +11,7 @@ import com.study.test.professor.vo.LectureVO;
 import com.study.test.school.colleage.ColleageVO;
 import com.study.test.school.dept.DeptVO;
 import com.study.test.school.double_major.DoubleMajorVO;
+import com.study.test.school.enrollment.EnrollmentVO;
 import com.study.test.school.semester.SemesterVO;
 
 @Service("schoolService")
@@ -58,6 +59,12 @@ public class SchoolServiceImpl implements SchoolService{
 	@Override
 	public List<LectureVO> getLectureList(LectureVO lectureVO) {
 		return sqlsession.selectList("professorMapper.getLectureList", lectureVO);
+	}
+
+	//수강 신청 학생 리스트 조회
+	@Override
+	public List<EnrollmentVO> getLecStuList(LectureVO lectureVO) {
+		return sqlsession.selectList("schoolMapper.getLecStuList", lectureVO);
 	}
 	 
 	

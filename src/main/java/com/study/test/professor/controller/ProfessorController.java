@@ -34,12 +34,14 @@ import com.study.test.professor.vo.LectureVO;
 import com.study.test.professor.vo.ProfessorMenuVO;
 import com.study.test.school.colleage.ColleageVO;
 import com.study.test.school.dept.DeptVO;
+import com.study.test.school.enrollment.EnrollmentVO;
 import com.study.test.school.semester.SemesterVO;
 import com.study.test.school.service.SchoolService;
 import com.study.test.util.ConstVariable;
 import com.study.test.util.DateUtil;
 import com.study.test.util.UploadUtil;
 
+import groovyjarjarantlr4.v4.codegen.model.LL1PlusBlockSingleAlt;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -332,9 +334,13 @@ public class ProfessorController {
 	
 	//성적등록 탭에서 강의리스트에서 교과목명 선택시 수강목록 조회
 	@ResponseBody
-	@PostMapping("/lecStuList")
-	public void getLecStuList(LectureVO lectureVO) {
+	@PostMapping("/getLecStuListAjax")
+	public List<EnrollmentVO> getLecStuList(LectureVO lectureVO) {
+		List<EnrollmentVO> enrollList = schoolService.getLecStuList(lectureVO);
 		
+		System.out.println("@@@@@@@@@@@@@@데이터 확인" + enrollList);
+		
+		return enrollList;
 	}
 	
 }
