@@ -73,7 +73,7 @@ function getLetureList() {
 					else {
 						str += `<td>폐강</td>`;
 					}
-					str += `<td><button class="btn btn-primary" onclick="updateLecModal(${lecture.lecNo})">강의수정</button></td>`;
+					str += `<td><button class="btn btn-primary" onclick="updateLecModal('${lecture.lecNo}')">강의수정</button></td>`;
 					str += `</tr>`;
 				}
 			}

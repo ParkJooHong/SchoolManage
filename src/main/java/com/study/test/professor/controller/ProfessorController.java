@@ -333,7 +333,8 @@ public class ProfessorController {
 	//성적등록 탭에서 강의리스트에서 교과목명 선택시 수강목록 조회
 	@ResponseBody
 	@PostMapping("/lecStuList")
-	public void getLecStuList() {
+	public void getLecStuList(LectureVO lectureVO) {
+		
 	}
 	
 }

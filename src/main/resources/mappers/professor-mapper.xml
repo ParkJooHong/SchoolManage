@@ -31,6 +31,7 @@
 		<result column="SEM_NO" 			property="semNo"/>
 		<result column="LEC_STATUS" 		property="lecStatus"/>
 		<result column="MEM_NAME" 			property="memName"/>
+		<association property="stuVO" resultMap="stuMapper.stu"/>
 		<association property="lecturePdfVO" resultMap="lecturePdf"/>
 		<association property="colleageVO" resultMap="schoolMapper.colleage"/>
 		<association property="deptVO" resultMap="schoolMapper.dept"/>

@@ -5,6 +5,7 @@ import java.util.List;
 import com.study.test.school.colleage.ColleageVO;
 import com.study.test.school.dept.DeptVO;
 import com.study.test.school.semester.SemesterVO;
+import com.study.test.stu.vo.StuVO;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -31,4 +32,5 @@ public class LectureVO {
 	private ColleageVO colleageVO;
 	private DeptVO deptVO;
 	private SemesterVO semesterVO;
+	private StuVO stuVO;
 }
