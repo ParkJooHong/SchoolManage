@@ -334,7 +334,6 @@ public class ProfessorController {
 	@ResponseBody
 	@PostMapping("/lecStuList")
 	public void getLecStuList() {
-		
 	}
 	
 }

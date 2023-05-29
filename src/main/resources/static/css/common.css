@@ -106,6 +106,6 @@ table tbody tr:hover{
 }
 
 /* 온클릭 커서 */
-onclick{
+.onclick{
 	cursor: pointer;
 }
