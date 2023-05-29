@@ -1,10 +1,23 @@
 
 //수강 신청 클릭
-function apllication(lectureList){
-	alert(lectureList);
+function apllication(lecNo, maxMem, nowMem, semNo,stuNo, menuCode, subMenuCode){
 	
-	//orderBy.querySelector('input').value = REG_BOARD_DATE;
-	lectureList.submit();
+	
+	$.ajax({
+		url: '/stuMenu/apllyLectureAjax', //요청경로
+		type: 'post',
+		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+		data: {'lecNo' :lecNo , 'maxMem' : maxMem, 'nowMem' : nowMem, 'semNo' : semNo, 'stuNo' : stuNo,  'menuCode' : menuCode, 'subMenuCode' : subMenuCode  }, //필요한 데이터
+		success: function(result) {
+			swal("수강신청 완료!", "신청이 완료되었습니다.", "success");
+						setTimeout(function() {
+						location.reload();
+						}, 1000);
+		},
+		error: function() {
+			alert('실패~');
+		}
+	});
 }
 
 

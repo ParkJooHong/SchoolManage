@@ -148,6 +148,12 @@ public class StuServiceImpl implements StuService {
 		
 	}
 
+	//수강신청 리스트 조회
+	@Override
+	public List<LectureVO> applyLectureList(String stuNo) {
+		return sqlSession.selectList("stuMapper.applyLectureList", stuNo);
+	}
+
 	
 	
 }

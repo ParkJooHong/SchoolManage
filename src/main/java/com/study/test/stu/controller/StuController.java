@@ -32,6 +32,7 @@ import com.study.test.professor.vo.LectureVO;
 import com.study.test.school.colleage.ColleageVO;
 import com.study.test.school.dept.DeptManageVO;
 import com.study.test.school.dept.DeptVO;
+import com.study.test.school.enrollment.EnrollmentVO;
 import com.study.test.school.service.SchoolService;
 import com.study.test.stu.service.StuService;
 import com.study.test.stu.vo.LeaveManageVO;
@@ -620,6 +621,7 @@ public class StuController {
 			String memName = user.getUsername();
 			stuVO.setMemNo(user.getUsername()); // id임
 			memberVO.setMemNo(user.getUsername());
+			stuVO.setStuNo(user.getUsername());
 			model.addAttribute("memberVO" , stuService.seletStu(memberVO));
 			memberVO.setStuVO(stuService.getColl(user.getUsername()));
 
@@ -633,12 +635,46 @@ public class StuController {
 			//수강 조회
 			model.addAttribute("lectureListVO", schoolService.getLectureList(lectureVO));
 			System.out.println("수업데이터 : " +schoolService.getLectureList(lectureVO));
+			System.out.println(stuVO.getStuNo());
+			
+			//수강신청항목 리스트 조회
+			model.addAttribute("applyLecture" , stuService.applyLectureList(stuVO.getStuNo()));
 			
 			model.addAttribute("menuCode" , menuCode);
 			model.addAttribute("subMenuCode", subMenuCode);
 
 			return "/content/stu/stu_class/application";
 		}
+		
+		//수강신창 화면
+		@ResponseBody
+		@PostMapping("/apllyLectureAjax")
+		public Map<String, Object> apllyLectureAjax(EnrollmentVO enrollmentVO, LectureVO lectureVO ,  Model model, String menuCode, String subMenuCode, String lecNo, String semNo, int maxMem, int nowMem , String stuNo) {
+		
+			enrollmentVO.setSemNo(semNo);
+			enrollmentVO.setLecNo(lecNo);
+			enrollmentVO.setStuNo(stuNo);
+			
+			lectureVO.setMaxMem(maxMem);
+			lectureVO.setNowMem(nowMem);
+			lectureVO.setLecNo(lecNo);
+			
+			//수강신청하기.
+			stuService.applyLecture(enrollmentVO);
+			//수강 신청시 해당 과목 인원수 업데이트
+			stuService.updateLectureCount(lectureVO);
+			
+			Map<String, Object> data = new HashMap<>();
+			 data.put("menuCode", menuCode);
+		     data.put("subMenuCode", subMenuCode);
+			
+			model.addAttribute("subMenuCode", subMenuCode);
+			model.addAttribute("menuCode" , menuCode);
+			
+			
+			return data;
+		}
+		
 		
 		
 		

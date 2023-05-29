@@ -68,4 +68,7 @@ public interface StuService {
 	
 	//수강신청 시 인원 제한
 	void updateLectureCount(LectureVO lectureVO);
+	
+	//수강신청 리스트 조회
+	List<LectureVO> applyLectureList(String stuNo);
 }

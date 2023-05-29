@@ -100,6 +100,29 @@
 		
 	</resultMap>
 	
+	<!-- 강의 정보-->
+	<resultMap type="com.study.test.professor.vo.LectureVO" id="lecture">
+		<id column="LEC_NO" 				property="lecNo"/>
+		<result column="LEC_NAME" 			property="lecName"/>
+		<result column="LEC_SCORE" 			property="lecScore"/>
+		<result column="COLL_NO" 			property="collNo"/>
+		<result column="DEPT_NO" 			property="deptNo"/>
+		<result column="EMP_NO" 			property="empNo"/>
+		<result column="CREATE_DATE" 		property="createDate"/>
+		<result column="MAX_MEM" 			property="maxMem"/>
+		<result column="NOW_MEM" 			property="nowMem"/>
+		<result column="SEM_NO" 			property="semNo"/>
+		<result column="LEC_STATUS" 		property="lecStatus"/>
+		<result column="MEM_NAME" 			property="memName"/>
+		<association property="lecturePdfVO" resultMap="professorMapper.lecturePdf"/>
+		<association property="colleageVO" resultMap="schoolMapper.colleage"/>
+		<association property="deptVO" resultMap="schoolMapper.dept"/>
+		<association property="semesterVO" resultMap="schoolMapper.semester"/>
+		<association property="StuVO" resultMap="stuMapper.stu"/>
+		<collection property="lectureTimeList" resultMap="professorMapper.lectureTime"/>
+	</resultMap>
+	
+	
 	<!-- 멤버 조회 -->
 	<select id="selectMember" resultMap="member">
 		SELECT MEM_NO
@@ -391,8 +414,8 @@
 		, LEC_NO
 		, SEM_NO
 	) VALUES (
-    (SELECT 'ENROL_'||LPAD(NVL(MAX(TO_NUMBER(SUBSTR(ENROLLMENT_NO, 12))), 0) +1, 1 , '0')
-            FROM ENROLLMENT)
+    (SELECT 'ENROL_'||LPAD(NVL(MAX(TO_NUMBER(SUBSTR(ENROLLMENT_NO, 7))), 0) +1, LENGTH(NVL(MAX(TO_NUMBER(SUBSTR(ENROLLMENT_NO, 7))), 0) +1) , '0')
+		FROM ENROLLMENT)
     , #{stuNo}
     , #{lecNo}
     , #{semNo}
@@ -404,8 +427,45 @@
 	UPDATE LECTURE
     SET MAX_MEM = #{maxMem} - 1
             , NOW_MEM = #{nowMem} + 1
-    WHERE LEC_NO = #{lecNo};
+    WHERE LEC_NO = #{lecNo}
 	</update>
+	
+	<!-- 수강신청한 화면 조회 -->
+	<select id="applyLectureList" resultMap="lecture" >
+		SELECT LEC.LEC_NO
+			, LEC_NAME
+			, LEC_SCORE
+			, COLL_NAME
+			, DEPT_NAME
+			, MAX_MEM
+			, NOW_MEM
+			, LEC_DAY
+			, START_TIME
+			, FINISH_TIME
+			, ATTACHED_PDF_NAME
+			, ORIGIN_PDF_NAME
+			, TO_CHAR(CREATE_DATE, 'YYYY') AS CREATE_DATE
+			, LEC_STATUS
+			, SEM_NAME
+			, UM.MEM_NAME
+			, TIME_NO
+			, SEM.SEM_NO
+		FROM LECTURE LEC
+			, COLLEAGE COL
+			, DEPT DEPT
+			, UNI_MEMBER UM
+			, LECTURE_TIME LT
+			, SEMESTER SEM
+			, LECTURE_PDF LP
+            , UNI_STU US
+		WHERE LEC.COLL_NO = COL.COLL_NO
+		AND LEC.DEPT_NO = DEPT.DEPT_NO
+		AND UM.MEM_NO = LEC.EMP_NO
+		AND LT.LEC_NO = LEC.LEC_NO
+		AND SEM.SEM_NO = LEC.SEM_NO
+		AND LP.LEC_NO = LEC.LEC_NO
+        AND US.STU_NO = #{stuNo}
+	</select>
 	
 </mapper>
 
