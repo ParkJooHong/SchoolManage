@@ -7,7 +7,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class ProvationVO {
+public class ProbationVO {
 	private String probNo;
 	private String stuNo;
 	private String probDate;

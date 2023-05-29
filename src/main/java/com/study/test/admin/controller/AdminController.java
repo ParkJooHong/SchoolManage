@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.study.test.admin.service.AdminService;
 import com.study.test.admin.vo.AdminSubMenuVO;
 import com.study.test.admin.vo.EmpVO;
+import com.study.test.admin.vo.ProbationVO;
 import com.study.test.member.service.MemberService;
 import com.study.test.member.vo.MemImgVO;
 
@@ -26,6 +27,7 @@ import com.study.test.school.colleage.ColleageVO;
 import com.study.test.school.dept.DeptManageVO;
 import com.study.test.school.dept.DeptVO;
 import com.study.test.school.double_major.DoubleMajorVO;
+import com.study.test.school.semester.SemesterVO;
 import com.study.test.school.service.SchoolService;
 import com.study.test.stu.vo.StatusInfoVO;
 import com.study.test.stu.vo.StuVO;
@@ -495,14 +497,34 @@ public class AdminController {
 		return adminService.getProbStuList(memberVO);
 				
 	}
-	
 	//학사경고 대상자 조회
 	@PostMapping("/getStuInfoByModalAjax")
 	@ResponseBody
-	public MemberVO getStuInfoByModalAjax(String memNo) {
-		//memNo, collNo, deptNo 값 select 해와서 vo로 조회하기
+	public Map<String, Object> getStuInfoByModalAjax(String memNo) {
+		Map<String, Object> probMap = new HashMap<>();
+		probMap.put("probList", adminService.getProbationStu(memNo));
+		probMap.put("stuData", adminService.getMemInfo(memNo));
+		return probMap;
+	}
+	//학사경고 처리
+	@PostMapping("/regProbStuAjax")
+	@ResponseBody
+	public int regProbStuAjax(@RequestBody Map<String, String> probMap) {
+		int stuYear = Integer.parseInt(probMap.get("stuYear"));
+		int stuSem = Integer.parseInt(probMap.get("stuSem"));
+		SemesterVO semesterVO = new SemesterVO();
+		semesterVO.setSemYear(stuYear);
+		semesterVO.setSemester(stuSem);
 		
-		return adminService.getMemInfo(memNo);
+		String semNo = adminService.getSemesterNo(semesterVO);
+		ProbationVO probationVO = new ProbationVO();
+		
+		probationVO.setSemNo(semNo);
+		probationVO.setProbReason(probMap.get("reason"));
+		probationVO.setStuNo(probMap.get("stuNo"));
+		probationVO.setMemNo(probMap.get("stuNo"));
+		
+		return adminService.regProbStu(probationVO);
 	}
 	
 	// 제적처리 페이지

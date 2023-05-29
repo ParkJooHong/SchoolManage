@@ -5,11 +5,13 @@ import java.util.List;
 import com.study.test.admin.vo.AdminMenuVO;
 import com.study.test.admin.vo.AdminSubMenuVO;
 import com.study.test.admin.vo.EmpVO;
+import com.study.test.admin.vo.ProbationVO;
 import com.study.test.member.vo.MemberVO;
 import com.study.test.school.colleage.ColleageVO;
 import com.study.test.school.dept.DeptManageVO;
 import com.study.test.school.dept.DeptVO;
 import com.study.test.school.double_major.DoubleMajorVO;
+import com.study.test.school.semester.SemesterVO;
 import com.study.test.stu.vo.StatusInfoVO;
 import com.study.test.stu.vo.StuVO;
 
@@ -81,5 +83,18 @@ public interface AdminService {
 	
 	//학사경고 학생 조회
 	List<MemberVO> getProbStuList(MemberVO memberVO);
+	
+	//학사경고 이력 조회
+	List<ProbationVO> getProbationStu(String memNo);
+	
+	//SEMESTER 코드 가져오기
+	String getSemesterNo(SemesterVO semesterVO);
+	
+	//학사 경고 실행
+	int regProbStu(ProbationVO probationVO);
+	
+	
+	
+	
 	
 }

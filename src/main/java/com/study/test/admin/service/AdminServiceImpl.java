@@ -10,11 +10,13 @@ import org.springframework.transaction.annotation.Transactional;
 import com.study.test.admin.vo.AdminMenuVO;
 import com.study.test.admin.vo.AdminSubMenuVO;
 import com.study.test.admin.vo.EmpVO;
+import com.study.test.admin.vo.ProbationVO;
 import com.study.test.member.vo.MemberVO;
 import com.study.test.school.colleage.ColleageVO;
 import com.study.test.school.dept.DeptManageVO;
 import com.study.test.school.dept.DeptVO;
 import com.study.test.school.double_major.DoubleMajorVO;
+import com.study.test.school.semester.SemesterVO;
 import com.study.test.stu.vo.StatusInfoVO;
 import com.study.test.stu.vo.StuVO;
 
@@ -178,6 +180,21 @@ public class AdminServiceImpl implements AdminService{
 	@Override
 	public List<MemberVO> getProbStuList(MemberVO memberVO) {
 		return sqlsession.selectList("adminMapper.getProbStuList",memberVO);
+	}
+	//학사 경고 이력 조회
+	@Override
+	public List<ProbationVO> getProbationStu(String memNo) {
+		return sqlsession.selectList("adminMapper.getProbationStu",memNo);
+	}
+	//SEMESTER 코드 조회
+	@Override
+	public String getSemesterNo(SemesterVO semesterVO) {
+		return sqlsession.selectOne("adminMapper.getSemesterNo",semesterVO);
+	}
+	//학사 경고 실행
+	@Override
+	public int regProbStu(ProbationVO probationVO) {
+		return sqlsession.insert("adminMapper.regProbStu",probationVO);
 	}
 
 	

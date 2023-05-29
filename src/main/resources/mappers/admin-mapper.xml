@@ -53,7 +53,7 @@
 		<association property="colleageVO" 				resultMap="schoolMapper.colleage"/>
 		<association property="deptVO" 					resultMap="schoolMapper.dept"/>
 	</resultMap>
-	<resultMap type="com.study.test.admin.vo.ProvationVO" id="provation">
+	<resultMap type="com.study.test.admin.vo.ProbationVO" id="probation">
 		<result column="PROB_NO" 		property="probNo"/>
 		<result column="STU_NO" 		property="stuNo"/>
 		<result column="PROB_DATE" 		property="probDate"/>
@@ -219,7 +219,7 @@
 	</select>
 	
 	<!-- 신청학생 데이터 -->
-	<select id="getMemInfo" resultMap="memberMapper.member">
+	<select id="getMemInfo" resultMap="stuMapper.member">
 		SELECT STU.STU_NO
 			, MEM_NAME
 			, MEM_TELL
@@ -232,9 +232,9 @@
             , STU_YEAR
             , STU_SEM
             , COLL_NAME
-            , COLL.COLL_NO
+            , STU.COLL_NO
             , DEPT_NAME
-            , DP.DEPT_NO
+            , STU.DEPT_NO
 		FROM UNI_MEMBER MEM, UNI_STU STU, MEM_IMG IMG, COLLEAGE COLL, DEPT DP
 		WHERE STU.MEM_NO = MEM.MEM_NO
 		AND IMG.MEM_NO = MEM.MEM_NO
@@ -637,6 +637,48 @@
         AND STU_STATUS = #{stuVO.stuStatus}
         </if>
 	</select>
+	
+	<!-- 학사경고 현황 학생별 조회  -->
+	<select id="getProbationStu" resultMap="probation">
+		SELECT PROB_NO
+            , STU_NO
+            , TO_CHAR(PROB_DATE, 'YYYY-MM-DD') AS PROB_DATE
+            , PROB_REASON
+            , SEM_NO
+            , MEM_NO
+        FROM ACADEMIC_PROBATION
+        WHERE MEM_NO = #{memNo}
+	</select>
+	
+	<!--학기번호 매칭하기  -->
+	<select id="getSemesterNo" resultType="String">
+		SELECT SEM_NO
+		FROM SEMESTER
+		WHERE SEM_YEAR = #{semYear}
+		AND SEMESTER = #{semester}
+	</select>
+	
+	<!-- 학사경고 실행  -->
+	<insert id="regProbStu">
+		INSERT INTO ACADEMIC_PROBATION (
+		      PROB_NO
+		      , STU_NO
+		      , PROB_DATE
+		      , PROB_REASON
+		      , SEM_NO
+		      , MEM_NO
+		) VALUES(
+		      (SELECT 'PROB_'||LPAD(NVL(MAX(TO_NUMBER(SUBSTR(PROB_NO, 6))), 0) +1, LENGTH(NVL(MAX(TO_NUMBER(SUBSTR(PROB_NO, 6))), 0) +1) , '0')
+				FROM ACADEMIC_PROBATION)
+		      , #{stuNo}
+		      , SYSDATE
+		      , #{probReason}
+		      , #{semNo}
+		      , #{memNo}
+		)
+	</insert>
+	
+	
 </mapper>
 
 
