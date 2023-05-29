@@ -1,5 +1,23 @@
 
+//글 상세보기, 이전글
+function prev(boardNo, readCnt, menuCode, subMenuCode){
+   var number = parseInt(boardNo.substr(9), 10); // 문자열에서 숫자 부분 추출
+   var incrementedNumber = number - 1; // 숫자 증가
+   var replacedStr = boardNo.replace(number, incrementedNumber); // 문자열에서 숫자 대체
+   console.log(replacedStr);   
 
+   location.href='/stuMenu/boardDetail?boardNo=' + replacedStr  + '&readCnt=' + readCnt + '&menuCode=' + menuCode + '&subMenuCode=' + subMenuCode;
+}
+
+//글 상세보기, 다음글
+function next(boardNo, readCnt, menuCode, subMenuCode){
+   var number = parseInt(boardNo.substr(9), 10); // 문자열에서 숫자 부분 추출
+   var incrementedNumber = number + 1; // 숫자 증가
+   var replacedStr = boardNo.replace(number, incrementedNumber); // 문자열에서 숫자 대체
+   console.log(replacedStr);   
+
+   location.href='/stuMenu/boardDetail?boardNo=' + replacedStr  + '&readCnt=' + readCnt + '&menuCode=' + menuCode + '&subMenuCode=' + subMenuCode;
+}
 
 
 // 댓글 등록

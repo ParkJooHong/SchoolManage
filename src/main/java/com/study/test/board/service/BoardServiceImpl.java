@@ -55,8 +55,8 @@ public class BoardServiceImpl implements BoardService {
 
 	//보드 글 상세보기
 	@Override
-	public List<UniBoardVO> boardDetail(String boardNo) {
-		return sqlSession.selectList("boardMapper.boardDetail" , boardNo);
+	public UniBoardVO boardDetail(String boardNo) {
+		return sqlSession.selectOne("boardMapper.boardDetail" , boardNo);
 	}
 
 	//보드 게시글 삭제

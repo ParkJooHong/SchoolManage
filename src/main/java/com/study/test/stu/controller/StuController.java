@@ -909,6 +909,10 @@ public class StuController {
 				MemberSubMenuVO memberSubMenuVO, int readCnt) {
 
 			
+			
+			
+			
+			
 			model.addAttribute("menuCode" , menuCode);
 			model.addAttribute("subMenuCode", subMenuCode);
 			System.out.println(" @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" +menuCode);
@@ -955,6 +959,40 @@ public class StuController {
 			
 			//댓글 보기
 			model.addAttribute("boardReplyVO" , boardReplyService.selectReply(boardNo) );
+			
+			//이전글다음글
+
+		      String numberStr = boardNo.substring(6);
+		      System.out.println(numberStr);
+		      int prevNumber = Integer.parseInt(boardNo.substring(6)) - 1;
+		      System.out.println(prevNumber);
+		      int nextNumber = Integer.parseInt(boardNo.substring(6)) + 1;
+		      System.out.println(nextNumber);
+		      
+		      String prevStr = boardNo.replace(numberStr, String.format("%03d", prevNumber)); // 숫자를 3자리로 포맷팅하여 대체
+		      String nextStr = boardNo.replace(numberStr, String.format("%03d", nextNumber)); // 숫자를 3자리로 포맷팅하여 대체
+		      
+		      
+		      UniBoardVO prevDetail = boardService.boardDetail(prevStr);
+		      UniBoardVO nextDetail = boardService.boardDetail(nextStr);
+		      
+		      System.out.println("@@@@@@@@@@@@@@@이전글" + prevDetail);
+		      System.out.println("@@@@@@@@@@@@다음글" + nextDetail);
+		   
+		      if(prevDetail == null) {
+		         prevDetail = new UniBoardVO();
+		         prevDetail.setBoardTitle("이전글이 없습니다.");
+		      }
+		      if(nextDetail == null) {
+		         nextDetail = new UniBoardVO();
+		         nextDetail.setBoardTitle("다음글이 없습니다.");
+		      }
+		      
+		      model.addAttribute("prevList", prevDetail); 
+		      model.addAttribute("nextList", nextDetail);
+			
+			
+			
 			
 			return "/content/stu/stu_board/boardDetail";
 		}

@@ -83,8 +83,32 @@
 				<input type="button" value="삭제" class="btn btn-danger" th:onclick="deleteBoard([[${uni.boardNo}]], [[${menuCode}]] , [[${subMenuCode}]])">
 			</td>
 		</tr>
-		
-	
+		<tr>
+		<td>
+		<div class="row">
+      <div class="col-3">이전글</div>
+      <div class="col-9">
+         <th:block th:if="${prevList.boardNo} == null">
+            <span>[[${prevList.boardTitle}]]</span>
+         </th:block>
+         <th:block th:unless="${prevList.boardNo} == null">
+            <span th:onclick="prev([[${prevList.boardNo}]], [[${prevList.readCnt}]], [[${menuCode}]] , [[${subMenuCode}]]);" style="cursor: pointer;">[[${prevList.boardTitle}]]</span>
+         </th:block>
+      </div>
+   </div>   
+   <div class="row">
+      <div class="col-3">다음글</div>
+      <div class="col-9" >
+         <th:block th:if="${nextList.boardNo} == null">
+            <span>[[${nextList.boardTitle}]]</span>
+         </th:block>
+         <th:block th:unless="${nextList.boardNo} == null">
+            <span th:onclick="next([[${prevList.boardNo}]], [[${prevList.readCnt}]], [[${menuCode}]] , [[${subMenuCode}]]);" style="cursor: pointer;">[[${nextList.boardTitle}]]</span>
+         </th:block>
+      </div>
+   </div>  
+   </td> 
+   </tr>
 	</table>	
 		
 

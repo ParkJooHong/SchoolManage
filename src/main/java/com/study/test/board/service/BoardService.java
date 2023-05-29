@@ -27,7 +27,7 @@ public interface BoardService {
 	void insertBoard(UniBoardVO uniBoardVO);
 	
 	//보드 글 상세보기
-	List<UniBoardVO> boardDetail(String boardNo);
+	UniBoardVO boardDetail(String boardNo);
 	
 	//보드 게시글 삭제
 	void boardDelete(String boardNo);
