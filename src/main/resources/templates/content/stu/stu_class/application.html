@@ -180,8 +180,16 @@
 							[[${applyLecture.memName}]]
 						</td>
 						<td>
-							[[${applyLecture.memName}]]
+							<th:block th:each="lecTime : ${applyLecture.lectureTimeList}">
+								<div>
+									[[${lecTime.lecDay}]] / [[${lecTime.startTime}]] ~ [[${lecTime.finishTime}]]
+								</div>
+							</th:block>
 						</td>
+						<td>[[${applyLecture.maxMem}]]</td>
+					<td>[[${applyLecture.nowMem}]]</td>
+					<td>[[${applyLecture.semesterVO.semName}]]</td>
+					<td><input type="button" value="수강취소 (미구현)" class="btn btn-danger"></td>
 					</tr>
 			</th:block>
 			</tbody>
