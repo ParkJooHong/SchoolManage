@@ -31,4 +31,6 @@ public interface SchoolService {
 	//강의 목록 조회
 	List<LectureVO> getLectureList(LectureVO lectureVO);
 	
+	//수강 신청한 학생 조회
+	
 }

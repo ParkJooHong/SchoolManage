@@ -27,11 +27,15 @@
 		<result column="SEM_NAME" 	property="semName"/>
 	</resultMap>
 	<!-- 수강신청 -->
-	<resultMap type="com.study.test.school.semester.EnrollmentVO" id="Enroll">
+	<resultMap type="com.study.test.school.enrollment.EnrollmentVO" id="Enroll">
 		<id column="ENROLLMENT_NO" 			property="enrollmentNo"/>
 		<result column="STU_NO" 	property="stuNo"/>
 		<result column="LEC_NO" 	property="lecNo"/>
 		<result column="SEM_NO" 	property="semNo"/>
+		<association property="stuVO" resultMap="stuMapper.stu"/>
+		<association property="colleageVO" resultMap="schoolMapper.colleage"/>
+		<association property="deptVO" resultMap="schoolMapper.dept"/>
+		<association property="gradeVO" resultMap="schoolMapper.grade"/>
 	</resultMap>
 	
 	<!-- 학기 리스트 조회 -->
@@ -98,8 +102,8 @@
 	</select>
 	
 	<!-- 수강 신청한 학생 목록 조회 -->
-	<!-- <select id="getLecStuList" >
-		SELECT STU_NO
+	 <select id="getLecStuList" >
+		SELECT US.STU_NO
 			, MEM_NAME
 			, COLL_NAME 
 			, DEPT_NAME
@@ -107,7 +111,7 @@
 			, LEC_SCORE
 			, GRADE
 		FROM UNI_STU US
-			, ENROLLMENT
+			, ENROLLMENT ENROLL
 			, UNI_MEMBER UM
 			, COLLEAGE COLL
 			, DEPT DEPT
@@ -116,8 +120,8 @@
 		WHERE US.STU_NO = UM.MEM_NO
 		AND COLL.COLL_NO = US.COLL_NO
 		AND DEPT.DEPT_NO = US.DEPT_NO
-		AND LEC.LEC_NO = 
-	</select> -->
+		AND LEC.LEC_NO = ENROLL.LEC_NO
+	</select>
 </mapper>
 
 
