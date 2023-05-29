@@ -4,7 +4,9 @@ import java.util.List;
 
 import com.study.test.member.vo.MemImgVO;
 import com.study.test.member.vo.MemberVO;
+import com.study.test.professor.vo.LectureVO;
 import com.study.test.school.dept.DeptManageVO;
+import com.study.test.school.enrollment.EnrollmentVO;
 import com.study.test.stu.vo.LeaveManageVO;
 import com.study.test.stu.vo.StatusInfoVO;
 import com.study.test.stu.vo.StuVO;
@@ -60,4 +62,10 @@ public interface StuService {
 	
 	//수 번호
 	int IngStatusWait(String stuNo);
+	
+	//수강 신청하기
+	void applyLecture(EnrollmentVO enrollmentVO);
+	
+	//수강신청 시 인원 제한
+	void updateLectureCount(LectureVO lectureVO);
 }

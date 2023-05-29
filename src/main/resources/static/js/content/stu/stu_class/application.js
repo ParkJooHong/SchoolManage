@@ -2,6 +2,9 @@
 //수강 신청 클릭
 function apllication(lectureList){
 	alert(lectureList);
+	
+	//orderBy.querySelector('input').value = REG_BOARD_DATE;
+	lectureList.submit();
 }
 
 
