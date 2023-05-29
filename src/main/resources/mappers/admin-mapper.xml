@@ -220,7 +220,7 @@
 	
 	<!-- 신청학생 데이터 -->
 	<select id="getMemInfo" resultMap="memberMapper.member">
-		SELECT STU_NO
+		SELECT STU.STU_NO
 			, MEM_NAME
 			, MEM_TELL
 			, MEM_ADDR
@@ -231,9 +231,15 @@
             , STU_STATUS
             , STU_YEAR
             , STU_SEM
-		FROM UNI_MEMBER MEM, UNI_STU STU, MEM_IMG IMG
+            , COLL_NAME
+            , COLL.COLL_NO
+            , DEPT_NAME
+            , DP.DEPT_NO
+		FROM UNI_MEMBER MEM, UNI_STU STU, MEM_IMG IMG, COLLEAGE COLL, DEPT DP
 		WHERE STU.MEM_NO = MEM.MEM_NO
 		AND IMG.MEM_NO = MEM.MEM_NO
+		AND STU.COLL_NO = COLL.COLL_NO
+		AND STU.DEPT_NO = DP.DEPT_NO
 		AND MEM.MEM_NO = #{memNo}
 	</select>
 	<!-- 전과 신청 학생정보 업데이트 -->
@@ -601,6 +607,8 @@
 			WHERE STU_NO = #{stuData.stuNo}
 		</foreach>
 	</update>
+	
+	<!-- 학사경고 학생목록 조회  -->
 	<select id="getProbStuList" resultMap="stuMapper.member">
 		SELECT MEM.MEM_NO
         , MEM_NAME
@@ -616,10 +624,18 @@
         WHERE MEM.MEM_NO = STU.MEM_NO
         AND STU.DEPT_NO = DP.DEPT_NO
         AND STU.COLL_NO = COLL.COLL_NO
+        <if test='memName != null and !memName.equals("")'>
         AND UPPER(MEM_NAME) LIKE '%' || UPPER(#{memName}) || '%'
+        </if>
+        <if test='stuVO.collNo != null and !stuVO.collNo.equals("")'>
         AND STU.COLL_NO = #{stuVO.collNo}
+        </if>
+        <if test='stuVO.deptNo != null and !stuVO.deptNo.equals("")'>
         AND STU.DEPT_NO = #{stuVO.deptNo}
+        </if>
+        <if test='stuVO.stuStatus != null and !stuVO.stuStatus.equals("")'>
         AND STU_STATUS = #{stuVO.stuStatus}
+        </if>
 	</select>
 </mapper>
 

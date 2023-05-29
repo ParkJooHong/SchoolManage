@@ -493,12 +493,18 @@ public class AdminController {
 		memberVO.setStuVO(stuVO);
 		
 		return adminService.getProbStuList(memberVO);
-		
-		
-		
-		
+				
 	}
-
+	
+	//학사경고 대상자 조회
+	@PostMapping("/getStuInfoByModalAjax")
+	@ResponseBody
+	public MemberVO getStuInfoByModalAjax(String memNo) {
+		//memNo, collNo, deptNo 값 select 해와서 vo로 조회하기
+		
+		return adminService.getMemInfo(memNo);
+	}
+	
 	// 제적처리 페이지
 	@GetMapping("/dismissal")
 	public String dismissal(AdminSubMenuVO adminSubMenuVO) {
