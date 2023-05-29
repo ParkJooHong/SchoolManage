@@ -639,6 +639,7 @@ public class StuController {
 			
 			//수강신청항목 리스트 조회
 			model.addAttribute("applyLecture" , stuService.applyLectureList(stuVO.getStuNo()));
+			System.out.println("수강신청한 강의 리스트 :" + stuService.applyLectureList(stuVO.getStuNo()));
 			
 			model.addAttribute("menuCode" , menuCode);
 			model.addAttribute("subMenuCode", subMenuCode);

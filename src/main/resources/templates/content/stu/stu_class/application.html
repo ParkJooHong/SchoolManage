@@ -160,13 +160,29 @@
 				</tr>
 			</th:block>
 			<th:block>
-				<table>
 					<tr th:each="applyLecture : ${applyLecture}">
 						<td>
-							[[${applyLecture.stuNo}]]
+							[[${applyLecture.lecNo}]]
+						</td>
+						<td>
+							[[${applyLecture.lecName}]]
+						</td>
+						<td>
+							[[${applyLecture.lecScore}]]
+						</td>
+						<td>
+							[[${applyLecture.colleageVO.collName}]]
+						</td>
+						<td>
+							[[${applyLecture.deptVO.deptName}]]
+						</td>
+						<td>
+							[[${applyLecture.memName}]]
+						</td>
+						<td>
+							[[${applyLecture.memName}]]
 						</td>
 					</tr>
-				</table>
 			</th:block>
 			</tbody>
 	</table>
