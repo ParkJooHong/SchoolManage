@@ -81,6 +81,7 @@
 		<td><input type="text"></td>
 		<td></td>
 	</tr>
+
 	<tr>
 		<td>휴대폰</td>
 		<td><input type="text" ></td>
@@ -89,8 +90,8 @@
 </table>
 
 
-<form action="/stuMenu/updateMyInfo" method="post">
-	
+
+<form action="/stuMenu/updateMyInfo" method="post">	
 	<table class="detail_info" th:each="member : ${memberVO}">
 		<tr><td>
 			<th:block>

@@ -383,6 +383,30 @@
 	</select>
 	
 	
+	<!-- 수강신청 -->
+	<insert id="applyLecture">
+	INSERT INTO ENROLLMENT (
+		ENROLLMENT_NO
+		, STU_NO
+		, LEC_NO
+		, SEM_NO
+	) VALUES (
+    (SELECT 'ENROL_'||LPAD(NVL(MAX(TO_NUMBER(SUBSTR(ENROLLMENT_NO, 12))), 0) +1, 1 , '0')
+            FROM ENROLLMENT)
+    , #{stuNo}
+    , #{lecNo}
+    , #{semNo}
+    )
+	</insert>
+	
+	<!-- 수강신청 시 수강인원 제한  -->
+	<update id="updateLectureCount">
+	UPDATE LECTURE
+    SET MAX_MEM = #{maxMem} - 1
+            , NOW_MEM = #{nowMem} + 1
+    WHERE LEC_NO = #{lecNo};
+	</update>
+	
 </mapper>
 
 

@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 
 import com.study.test.member.vo.MemImgVO;
 import com.study.test.member.vo.MemberVO;
+import com.study.test.professor.vo.LectureVO;
 import com.study.test.school.dept.DeptManageVO;
+import com.study.test.school.enrollment.EnrollmentVO;
 import com.study.test.stu.vo.LeaveManageVO;
 import com.study.test.stu.vo.StatusInfoVO;
 import com.study.test.stu.vo.StuVO;
@@ -133,15 +135,19 @@ public class StuServiceImpl implements StuService {
 		return sqlSession.selectOne("stuMapper.IngStatusWait", stuNo);
 	}
 
-	
+	//수강 신청 하기
+	@Override
+	public void applyLecture(EnrollmentVO enrollmentVO) {
+		sqlSession.insert("stuMapper.applyLecture", enrollmentVO);
+		
+	}
+	//수강신청시 인원 제한
+	@Override
+	public void updateLectureCount(LectureVO lectureVO) {
+		sqlSession.update("stuMapper.updateLectureCount",lectureVO );
+		
+	}
 
 	
-
-
-
-	
-	
-	
-
 	
 }
