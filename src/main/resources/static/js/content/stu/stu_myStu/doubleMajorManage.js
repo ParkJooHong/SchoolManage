@@ -1,11 +1,76 @@
 
+//복수전공 신청
+function doubleManage(){
+	
+	const stuYear = document.querySelector('.stuYear').value;
+	const stuStatus = document.querySelector('.stuStatus').value;
+	const currentDept = document.querySelector('.currentDept').value;
+	const doubleMajorColl = document.querySelector('.doubleMajorColl').value;
+	const doubleMajorDept = document.querySelector('.doubleMajorDept').value;
+	const applyReason = document.querySelector('.applyReason').value;
+	const processStatus = document.querySelector('.processStatus');
+	
+	alert(stuStatus);
+	alert(currentDept);
+	alert(doubleMajorDept);
+	alert(doubleMajorColl);
+	alert(applyReason);
+	
+	if(processStatus == null){
+		if(stuYear == 1){
+			swal("신청 실패!", "복수전공 신청은 2학년 이상의 재학생만 가능합니다.", "error");
+			return;
+		}
+		if(stuStatus != '재학'){
+			swal("신청 실패!", "복수전공 신청은 2학년 이상의 재학생만 가능합니다.", "error");
+			return;
+		}
+		if(currentDept == doubleMajorDept){
+			swal("신청 실패!", "복수전공을 희망하는 학과가 현재와 동일 합니다. \n 다시 입력해주세요.", "error");
+			return;
+		}
+		if(applyReason == ''){
+			swal("실패", "신청 사유를 작성해주세요.", "error");
+			return;
+		}
+		else{
+			alert("복수전공 신청이 접수되었습니다.");		
+			
+				$.ajax({
+				url: '/stuMenu/doubleManageAjax', //요청경로
+				type: 'post',
+				contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+				data: {'doubleMajorColl' : doubleMajorColl, 'doubleMajorDept' : doubleMajorDept , 'applyReason' : applyReason }, //필요한 데이터
+				success: function(result) {
+					if(result){
+						swal("신청 완료!", "복수전공 신청이 완료되었습니다.", "success");
+						setTimeout(function() {
+							location.reload();
+							}, 500);
+					}
+					else{
+						alert('일시적 오류가 발생했습니다.');
+					}
+				},
+				error: function() {
+					alert('실패');
+					
+				}
+			});
+				
+		}
+	}
+	else{
+		swal("신청 실패!", "이미 신청하신 내역이 있습니다. \n또한, 복수전공 신청과 전과신청은 함께할 수 없습니다.", "error");
+	}
+}
 
 
 // 대학 변경시 학과 변경
 function updateDept(menuCode, subMenuCode){
 	
-	const coll = document.querySelector('.colleage');
-	const dept = document.querySelector('.dept');
+	const coll = document.querySelector('.doubleMajorColl');
+	const dept = document.querySelector('.doubleMajorDept');
 	
 	$.ajax({
 		url: '/stuMenu/deptUpdateAjax', //요청경로
