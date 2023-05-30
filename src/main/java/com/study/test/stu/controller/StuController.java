@@ -553,12 +553,24 @@ public class StuController {
 		
 		// 복수전공신청
 		@GetMapping("/doubleMajorManage")
-		private String doubleMajorManage(Authentication authentication, StuVO stuVO, MemberVO memberVO, Model model) {
+		private String doubleMajorManage(Authentication authentication, StuVO stuVO, MemberVO memberVO, Model model, String collNo) {
 			User user = (User)authentication.getPrincipal();
 			String memName = user.getUsername();
 			stuVO.setMemNo(user.getUsername()); // id임
 			memberVO.setMemNo(user.getUsername());
 			model.addAttribute("memberVO", stuService.seletStu(memberVO));
+			
+			//대학 리스트 조회
+			model.addAttribute("colleageVO", schoolService.getCollList());
+			System.out.println("전과신청 학과 조회 :  " + schoolService.getCollList());
+			
+			stuService.getColl(user.getUsername());
+			memberVO.setStuVO(stuService.getColl(user.getUsername()));
+			//학과 리스트 조회
+			System.out.println("대학 코드 : " +memberVO.getStuVO().getCollNo() );
+			collNo = memberVO.getStuVO().getCollNo();
+			model.addAttribute("deptVO", schoolService.getDept(collNo));
+			
 
 			return "/content/stu/stu_myStu/doubleMajorManage";
 		}
