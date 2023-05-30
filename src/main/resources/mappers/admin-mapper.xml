@@ -53,6 +53,7 @@
 		<association property="colleageVO" 				resultMap="schoolMapper.colleage"/>
 		<association property="deptVO" 					resultMap="schoolMapper.dept"/>
 	</resultMap>
+	
 	<resultMap type="com.study.test.admin.vo.ProbationVO" id="probation">
 		<result column="PROB_NO" 		property="probNo"/>
 		<result column="STU_NO" 		property="stuNo"/>
@@ -61,7 +62,13 @@
 		<result column="SEM_NO" 		property="semNo"/>
 		<result column="MEM_NO" 		property="memNo"/>
 	</resultMap>
-
+	
+	<resultMap type="com.study.test.admin.vo.StuOutVO" id="stuOut">
+		<result column="STU_OUT_NO" 			property="stuOutNo"/>
+		<result column="STU_NO" 				property="stuNo"/>
+		<result column="STU_OUT_DATE" 			property="stuOutDate"/>
+		<result column="STU_OUT_REASON" 		property="stuOutReason"/>
+	</resultMap>
 	
 	<select id="getAdminMenuList" resultMap="adminMenu">
 		SELECT MENU_CODE
@@ -271,7 +278,7 @@
 	    PROCESS_STATUS NOT LIKE '승인완료'
 	</select>
 
-	
+	<!-- 전과신청 승인 학생데이터 변경 -->
 	<update id="updateStuInfoByApplyData">
 		<foreach collection="stuVOList" item="stuData" open="DECLARE BEGIN" separator=";" close=";END;">
 			UPDATE UNI_STU
@@ -280,7 +287,7 @@
 			WHERE STU_NO = #{stuData.stuNo}
 		</foreach>
 	</update>
-	
+	<!-- 전과신청 승인 apply데이터 변경 -->
 	<update id="updateByApplyNoList">
 		UPDATE DEPT_MANAGE
 		SET PROCESS_STATUS = '승인완료'
@@ -612,18 +619,21 @@
 	<select id="getProbStuList" resultMap="stuMapper.member">
 		SELECT MEM.MEM_NO
         , MEM_NAME
+        , STU.STU_NO
         , DP.DEPT_NO
         , DEPT_NAME
         , STU_STATUS
         , COLL.COLL_NO
         , COLL_NAME
+        , TO_CHAR(STU_OUT_DATE, 'YYYY-MM-DD') AS STU_OUT_DATE
         , (SELECT COUNT(PROB_NO)
                         FROM ACADEMIC_PROBATION
                         WHERE STU_NO = STU.STU_NO) AS PROB_CNT
-        FROM UNI_MEMBER MEM, UNI_STU STU, DEPT DP, COLLEAGE COLL
+        FROM UNI_MEMBER MEM, UNI_STU STU, DEPT DP, COLLEAGE COLL, STU_OUT OUT
         WHERE MEM.MEM_NO = STU.MEM_NO
         AND STU.DEPT_NO = DP.DEPT_NO
         AND STU.COLL_NO = COLL.COLL_NO
+        AND STU.STU_NO = OUT.STU_NO
         <if test='memName != null and !memName.equals("")'>
         AND UPPER(MEM_NAME) LIKE '%' || UPPER(#{memName}) || '%'
         </if>
@@ -677,6 +687,29 @@
 		      , #{memNo}
 		)
 	</insert>
+	
+	<!-- 제적처리 제적 테이블-->
+	<insert id="regStuOut">
+		INSERT INTO STU_OUT (
+			STU_OUT_NO
+			, STU_NO
+			, STU_OUT_DATE
+			, STU_OUT_REASON
+		) VALUES (
+			(SELECT 'OUT_'||LPAD(NVL(MAX(TO_NUMBER(SUBSTR(STU_OUT_NO, 5))), 0) +1, LENGTH(NVL(MAX(TO_NUMBER(SUBSTR(STU_OUT_NO, 5))), 0) +1) , '0')
+				FROM STU_OUT)
+			, #{stuNo}
+			, SYSDATE
+			, #{stuOutReason}
+		)
+	</insert>
+	
+	<!-- 제적처리 학생 테이블 -->
+	<update id="setStuOut">
+		UPDATE UNI_STU
+		SET STU_STATUS = '제적'
+		WHERE STU_NO = #{stuNo}
+	</update>
 	
 	
 </mapper>

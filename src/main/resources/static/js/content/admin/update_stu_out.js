@@ -14,11 +14,12 @@ function init() {
 		document.querySelector('#memStatus').replaceChildren();
 		document.querySelector('#collName').replaceChildren();
 		document.querySelector('#deptName').replaceChildren();
-		//document.querySelector('#fromColl').replaceChildren();
-		//document.querySelector('#toColl').replaceChildren();
-		//document.querySelector('#fromDept').replaceChildren();
-		//document.querySelector('#toDept').replaceChildren();
-		//document.querySelector('#reason').replaceChildren();
+		const accept_btn = document.querySelector('.acceptBtn');
+		accept_btn.replaceChildren();
+		str = '';
+		str += '<input type="button" value="승인하기" onclick="regProbStu();" class="btn btn-primary">';
+		
+		accept_btn.insertAdjacentHTML('afterbegin',str);
 
 
 	});
@@ -99,13 +100,16 @@ function getStuInfoList() {
 			result.forEach(function(data, idx) {
 				str += '<tr>';
 				str += `<td>${data.memName}</td>`;
-				str += `<td><a href="javascript:void(0)" onclick="getStuInfoByModal(${data.memNo})">${data.memNo}</a></td>`;
+				str += `<td><a href="javascript:void(0)" onclick="getStuInfoByModal(${data.memNo},1)">${data.memNo}</a></td>`;
 				str += `<td>${data.colleageVO.collName}</td>`;
 				str += `<td>${data.deptVO.deptName}</td>`;
 				str += `<td>${data.stuVO.stuStatus}</td>`;
 				str += `<td>${data.stuVO.probCnt}회</td>`;
-				if (data.stuVO.probCnt >= 3) {
-					str += `<td class="d-grid"><input type="button" class="btn btn-primary" value="제적"></td>`;
+				if(data.stuVO.stuStatus == '제적'){
+					str += `<td class="d-grid gap-2"><input type="button" class="btn btn-primary" disabled value="제적완료"></td>`;
+				}
+				else if (data.stuVO.probCnt >= 3) {
+					str += `<td class="d-grid gap-2"><input type="button" onclick="getStuInfoByModal(${data.memNo},2);" class="btn btn-primary" value="제적처리"></td>`;
 				}
 				else {
 					str += `<td></td>`;
@@ -123,8 +127,8 @@ function getStuInfoList() {
 }
 
 
-//학사경고 모달창 열기
-function getStuInfoByModal(mem_no) {
+//학사경고, 제적  모달창 열기
+function getStuInfoByModal(mem_no, type) {
 	console.log(mem_no);
 	//ajax start
 	$.ajax({
@@ -136,63 +140,136 @@ function getStuInfoByModal(mem_no) {
 		data: { 'memNo': mem_no }, //필요한 데이터
 		success: function(result) {
 			console.log(result);
-			const prob_list = result['probList'];
-			const stu_data = result['stuData'];
-			const mem_info = document.querySelector('#memInfo');
+			//학사경고시
+			if (type == 1) {
+				const prob_list = result['probList'];
+				const stu_data = result['stuData'];
+				const mem_info = document.querySelector('#memInfo');
 
-			const prob_modal = new bootstrap.Modal('#probModal');
-			let str = '';
+				const prob_modal = new bootstrap.Modal('#probModal');
+				let str = '';
 
-			str += `${stu_data.memName} (${stu_data.stuVO.stuNo} , ${stu_data.memBirth})`;
+				str += `${stu_data.memName} (${stu_data.stuVO.stuNo} , ${stu_data.memBirth})`;
 
-			mem_info.insertAdjacentHTML('afterbegin', str);
+				mem_info.insertAdjacentHTML('afterbegin', str);
 
-			document.querySelector('#memImg').src = `/image/memImg/${stu_data.memImgVO.attachedFileName}`;
+				document.querySelector('#memImg').src = `/image/memImg/${stu_data.memImgVO.attachedFileName}`;
 
-			const mem_addr = document.querySelector('#memAddr');
-			let str1 = '';
-			str1 += `${stu_data.memAddr},${stu_data.memAddrDetail}`;
-			str1 += `<input type="hidden" id="stuNo" value="${stu_data.memNo}">`
+				const mem_addr = document.querySelector('#memAddr');
+				let str1 = '';
+				str1 += `${stu_data.memAddr},${stu_data.memAddrDetail}`;
+				str1 += `<input type="hidden" id="stuNo" value="${stu_data.memNo}">`
 
-			mem_addr.insertAdjacentHTML('afterbegin', str1)
-			const mem_tell = document.querySelector('#memTell');
-			mem_tell.insertAdjacentHTML('afterbegin', stu_data.memTell);
-			const mem_year = document.querySelector('#memYear');
-			let str2 = '';
-			str2 += `${stu_data.stuVO.stuYear} 학년 ${stu_data.stuVO.stuSem} 학기`;
-			mem_year.insertAdjacentHTML('afterbegin', str2);
+				mem_addr.insertAdjacentHTML('afterbegin', str1)
+				const mem_tell = document.querySelector('#memTell');
+				mem_tell.insertAdjacentHTML('afterbegin', stu_data.memTell);
+				const mem_year = document.querySelector('#memYear');
+				let str2 = '';
+				str2 += `${stu_data.stuVO.stuYear} 학년 ${stu_data.stuVO.stuSem} 학기`;
+				mem_year.insertAdjacentHTML('afterbegin', str2);
 
-			const mem_status = document.querySelector('#memStatus');
+				const mem_status = document.querySelector('#memStatus');
 
-			mem_status.insertAdjacentHTML('afterbegin', stu_data.stuVO.stuStatus);
+				mem_status.insertAdjacentHTML('afterbegin', stu_data.stuVO.stuStatus);
 
-			const coll_name = document.querySelector('#collName');
-			coll_name.insertAdjacentHTML('afterbegin', stu_data.colleageVO.collName);
+				const coll_name = document.querySelector('#collName');
+				coll_name.insertAdjacentHTML('afterbegin', stu_data.colleageVO.collName);
 
-			const dept_name = document.querySelector('#deptName');
+				const dept_name = document.querySelector('#deptName');
 
-			dept_name.insertAdjacentHTML('afterbegin', stu_data.deptVO.deptName);
+				dept_name.insertAdjacentHTML('afterbegin', stu_data.deptVO.deptName);
 
-			const prob_tbody = document.querySelector('#probTbody');
-			prob_tbody.replaceChildren();
-			console.log(prob_list);
-			let str3 = '';
-			if(prob_list.length == 0){
-				str3 += '<tr>';
-				str3 += '<td colspan="2">등록된 내용이 없습니다.</td>';
-				str3 += '</tr>';
+				const prob_tbody = document.querySelector('#probTbody');
+				prob_tbody.replaceChildren();
+				console.log(prob_list);
+				let str3 = '';
+				if (prob_list.length == 0) {
+					str3 += '<tr>';
+					str3 += '<td colspan="2">등록된 내용이 없습니다.</td>';
+					str3 += '</tr>';
+				}
+				else {
+					prob_list.forEach(function(prob) {
+						str3 += '<tr>';
+						str3 += `<td>${prob.probDate}</td>`;
+						str3 += `<td>${prob.probReason}</td>`;
+						str3 += '</tr>';
+					});
+				}
+				prob_tbody.insertAdjacentHTML('afterbegin', str3);
+				
+				const accept_btn = document.querySelector('.acceptBtn');
+				if(stu_data.stuVO.stuStatus == '제적'){
+					str4 = '';
+					accept_btn.replaceChildren();
+					str4 += '<input type="button" value="제적완료" disabled class="btn btn-lg btn-primary">';
+					accept_btn.insertAdjacentHTML('afterbegin',str4);
+				}
+				
+				prob_modal.show();
+
 			}
-			else{
-				prob_list.forEach(function(prob) {
-				str3 += '<tr>';
-				str3 += `<td>${prob.probDate}</td>`;
-				str3 += `<td>${prob.probReason}</td>`;
-				str3 += '</tr>';
-				});
-			}
-			prob_tbody.insertAdjacentHTML('afterbegin',str3);
-			prob_modal.show();
+			//제척처리시
+			else if (type == 2) {
+				const prob_list = result['probList'];
+				const stu_data = result['stuData'];
+				const mem_info = document.querySelector('#disMemInfo');
 
+				const dismissal_modal = new bootstrap.Modal('#dismissalModal');
+
+				let str = '';
+
+				str += `${stu_data.memName} (${stu_data.stuVO.stuNo} , ${stu_data.memBirth})`;
+
+				mem_info.insertAdjacentHTML('afterbegin', str);
+
+				document.querySelector('#disMemImg').src = `/image/memImg/${stu_data.memImgVO.attachedFileName}`;
+
+				const mem_addr = document.querySelector('#disMemAddr');
+				let str1 = '';
+				str1 += `${stu_data.memAddr},${stu_data.memAddrDetail}`;
+				str1 += `<input type="hidden" id="stuNo" value="${stu_data.memNo}">`
+
+				mem_addr.insertAdjacentHTML('afterbegin', str1)
+				const mem_tell = document.querySelector('#disMemTell');
+				mem_tell.insertAdjacentHTML('afterbegin', stu_data.memTell);
+				const mem_year = document.querySelector('#disMemYear');
+				let str2 = '';
+				str2 += `${stu_data.stuVO.stuYear} 학년 ${stu_data.stuVO.stuSem} 학기`;
+				mem_year.insertAdjacentHTML('afterbegin', str2);
+
+				const mem_status = document.querySelector('#disMemStatus');
+
+				mem_status.insertAdjacentHTML('afterbegin', stu_data.stuVO.stuStatus);
+
+				const coll_name = document.querySelector('#disCollName');
+				coll_name.insertAdjacentHTML('afterbegin', stu_data.colleageVO.collName);
+
+				const dept_name = document.querySelector('#disDeptName');
+
+				dept_name.insertAdjacentHTML('afterbegin', stu_data.deptVO.deptName);
+
+				const dis_tbody = document.querySelector('#disTbody');
+				dis_tbody.replaceChildren();
+				console.log(prob_list);
+				let str3 = '';
+				if (prob_list.length == 0) {
+					str3 += '<tr>';
+					str3 += '<td colspan="2">등록된 내용이 없습니다.</td>';
+					str3 += '</tr>';
+				}
+				else {
+					prob_list.forEach(function(prob) {
+						str3 += '<tr>';
+						str3 += `<td>${prob.probDate}</td>`;
+						str3 += `<td>${prob.probReason}</td>`;
+						str3 += '</tr>';
+					});
+				}
+				dis_tbody.insertAdjacentHTML('afterbegin', str3);
+				
+				dismissal_modal.show();
+			}
 
 
 		},
@@ -208,7 +285,7 @@ function getStuInfoByModal(mem_no) {
 }
 
 //학사경고
-function regProbStu(){
+function regProbStu() {
 	swal.fire({
 		title: "학적 변동",
 		text: "승인하시겠습니까?",
@@ -216,57 +293,65 @@ function regProbStu(){
 		showCancelButton: true,
 		confirmButtonText: "확인",
 		cancelButtonText: "취소"
-		
-	}).then((r)=>{
-		if(r.isConfirmed){
+
+	}).then((r) => {
+		if (r.isConfirmed) {
 			const stu_no = document.querySelector('#stuNo').value;
 			const stu_year = document.querySelector('#stuYear').value;
 			const stu_sem = document.querySelector('#stuSem').value;
 			const reason = document.querySelector('#reason').value;
-			console.log(stu_no); 
-			console.log(stu_year); 
-			console.log(stu_sem); 
+			console.log(stu_no);
+			console.log(stu_year);
+			console.log(stu_sem);
 			console.log(reason);
-			
+
 			probData = {
 				'stuNo': stu_no,
 				'stuYear': stu_year,
-				'stuSem' : stu_sem,
-				'reason' : reason
+				'stuSem': stu_sem,
+				'reason': reason
 			};
-			
+
 			//ajax start
 			$.ajax({
-			   url: '/admin/regProbStuAjax', //요청경로
-			   type: 'post',
-			   async: true,
-			   contentType : 'application/json; charset=UTF-8',
-			   //contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-			   data: JSON.stringify(probData), //필요한 데이터
-			   success: function(result) {
-			      if(result != 0){
+				url: '/admin/regProbStuAjax', //요청경로
+				type: 'post',
+				async: true,
+				contentType: 'application/json; charset=UTF-8',
+				//contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+				data: JSON.stringify(probData), //필요한 데이터
+				success: function(result) {
+					if (result != null) {
 						swal.fire({
-						title: "승인이 완료되었습니다.",
-						icon: 'success',
-						button: '확인',
-					}).then((r)=>{
-						if(r){
-							const prob_tbody = document.querySelector('#probTbody');
-							//내일 학사경고 사유 불러오기 Ajax로 만들기
-							getStuInfoList();
-								
-						}					
-					});
-				  }
-			   },
-			   error: function() {
-			      alert('실패');
-			   }
+							title: "승인이 완료되었습니다.",
+							icon: 'success',
+							button: '확인',
+						}).then((r) => {
+							if (r) {
+								const prob_tbody = document.querySelector('#probTbody');
+								let str = '';
+								result.forEach(function(prob) {
+									str += '<tr>';
+									str += `<td>${prob.probDate}</td>`;
+									str += `<td>${prob.probReason}</td>`;
+									str += '</tr>';
+								});
+								prob_tbody.replaceChildren();
+								prob_tbody.insertAdjacentHTML('afterbegin', str);
+								getStuInfoList();
+
+							}
+						});
+					}
+				},
+				error: function() {
+					alert('실패');
+				}
 			});
 			//ajax end
- 
+
 		}
-		else if(r.isDismissed){
+		else if (r.isDismissed) {
 			swal.fire({
 				title: "승인이 취소되었습니다.",
 				icon: 'success',
@@ -278,7 +363,73 @@ function regProbStu(){
 }
 
 
+//제적처리
+function regDismissalStu() {
+	const dismissal_reason = document.querySelector('#dismissalReson');
+	const stu_no = document.querySelector('#stuNo').value;
+	swal.fire({
+		title: "제적 처리",
+		text: "승인하시겠습니까?",
+		icon: "question",
+		showCancelButton: true,
+		confirmButtonText: "확인",
+		cancelButtonText: "취소"
+
+	}).then((r) => {
+		if (r.isConfirmed) {
+			if (dismissal_reason.value == "") {
+				swal.fire({
+					title: "경고",
+					text: "제적 사유에 빈 값은 들어갈 수 없습니다.",
+					icon: 'warning',
+					button: '확인',
+				});
+			}
+			else {
+				//ajax start
+				$.ajax({
+					url: '/admin/regDismissalStuAjax', //요청경로
+					type: 'post',
+					async: false,
+					contentType: 'application/json; charset=UTF-8',
+					contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+					data: { 'stuNo': stu_no, 'stuOutReason': dismissal_reason.value }, //필요한 데이터
+					success: function(result) {
+						mem_status = document.querySelector('#disMemStatus');
+						dismissal_btn = document.querySelector('.dismissalBtn');
+						if (result != null) {
+							swal.fire({
+								title: "승인이 완료되었습니다.",
+								icon: 'success',
+								button: '확인',
+							}).then((r)=>{
+								if(r){
+									mem_status.replaceChildren();
+									mem_status.insertAdjacentHTML('afterbegin', result.stuVO.stuStatus);
+									dismissal_btn.replaceChildren();								
+									getStuInfoList();
+								}
+							})
+						}
+					},
+					error: function() {
+						alert('실패');
+					}
+				});
+				//ajax end
+
+			}
+		}
+		else if (r.isDismissed) {
+			swal.fire({
+				title: "승인이 취소되었습니다.",
+				icon: 'success',
+				button: '확인',
+			});
+		}
+	});
 
 
+}
 
 

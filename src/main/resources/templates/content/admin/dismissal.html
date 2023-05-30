@@ -7,16 +7,219 @@
 
 <!-- 연결해야 할 외부 css 파일  -->
 <th:block layout:fragment="content_css">
-	<link rel="stylesheet" href="">
+	<link rel="stylesheet" href="/css/content/admin/dismissal.css">
 </th:block>	
 
 <th:block layout:fragment="content">
-	제적처리 페이지
+	<div class="row">
+		<div class="col">
+			<div class="row mt-4 mb-4">
+				<div class="col">
+					<h1>제적 현황</h1>
+				</div>
+			</div>		
+			<div class="row mb-3">
+				<div class="col">
+					<span>학생조회</span>
+				</div>
+			</div>
+			<div class="row mb-3">
+				<div class="col-12">
+					<table class="table">
+						<colgroup>
+							<col width="10%">
+							<col width="35%">
+							<col width="10%">
+							<col width="35%">
+							<col width="10%">
+						</colgroup>
+						<tr>
+							<td>소속대학</td>
+							<td>
+								<select class="form-select" id="collSelect" onchange="getDeptList();">
+									<option value="">전체</option>
+									<th:block th:each="coll :${collList}">
+										<option th:value="${coll.collNo}">[[${coll.collName}]]</option>
+									</th:block>
+								</select>
+							</td>
+							<td>소속학과</td>
+							<td>
+								<select class="form-select" id="deptSelect">
+									<option value="">전체</option>
+									<th:block th:each="dept : ${deptList}">
+										<option th:value="${dept.deptNo}">[[${dept.deptName}]]</option>
+									</th:block>
+								</select>
+							</td>
+							<td rowspan="2">
+								<input type="button" style="width: 100%; height: 80px;" onclick="getStuInfoList();" class="btn btn-primary" value="Search">
+							</td>
+						</tr>
+						<tr>
+							<td>학적</td>
+							<td>
+								<select class="form-select" id="stuStatus">
+									<option value="제적">제적</option>
+								</select>
+							</td>
+							<td>성명</td>
+							<td>
+								<input type="text" id="stuName" value="" class="form-control">
+							</td>							
+						</tr>
+					</table>
+				</div>
+			</div>
+			<div class="row text-center mb-4">
+				<div class="col">
+					<span>총 <span id="stuNum">0</span>명의 학생이 검색되었습니다.</span>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-6">
+					<span class="blueFont">학생의 학번을 클릭하면 제적 받은 학사경고 내역을 확인 할 수 있습니다.</span>
+				</div>
+			</div>
+			<div class="row mb-4">
+				<div class="col-12">
+					<table class="table align-middle">
+						<colgroup>
+							<col width="15%">
+							<col width="17%">
+							<col width="17%">
+							<col width="17%">
+							<col width="17%">
+							<col width="*%">
+						</colgroup>
+						<thead>
+							<tr>
+								<td>이름</td>
+								<td>학번</td>
+								<td>소속대학</td>
+								<td>소속학과</td>
+								<td>학적</td>
+								<td>제적일자</td>
+							</tr>
+						</thead>
+						<tbody class="outTbody">
+							<tr>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+<!-- 제적처리 모달  -->
+<div class="modal fade" id="dismissalModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">제적처리</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+		<div class="row">
+			<div class="col-10">
+				<table class="table">
+					<colgroup>
+						<col width="10%">
+						<col width="40%">
+						<col width="10%">
+						<col width="40%">
+					</colgroup>
+					<tr>
+						<td id="disMemInfo" colspan="4"></td>
+					</tr>
+					<tr>
+						<td>주소</td>
+						<td id="disMemAddr" colspan="3"></td>
+					</tr>
+					<tr>
+						<td>연락처</td>
+						<td id="disMemTell" colspan="3"></td>
+					</tr>
+				</table>
+				<table class="table">
+					<colgroup>
+						<col width="10%">
+						<col width="40%">
+						<col width="10%">
+						<col width="40%">
+					</colgroup>
+					<tr>
+						<td>학년</td>
+						<td id="disMemYear"></td>
+						<td>학적</td>
+						<td id="disMemStatus"></td>
+					</tr>
+					<tr>
+						<td>전공대학</td>
+						<td id="disCollName"></td>
+						<td>전공학과</td>
+						<td id="disDeptName"></td>
+					</tr>
+				</table>
+			</div>
+			<div class="col-2">
+				<img id="disMemImg" src="" width="100%">
+			</div>
+		</div>
+		<div class="row mt-3 mb-3">
+			<div class="col">
+				<table class="table">
+					<colgroup>
+						<col width="50%">
+						<col width="50%">
+					</colgroup>
+					<tr>
+						<td>제적사유</td>
+						<td>
+							<input type="text" class="form-control" id="dismissalReson" value="">
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<div class="row text-center mb-3">
+			<div class="col">
+				<h5>누적 경고 현황</h5>
+			</div>
+		</div>
+		<div class="row mt-3">
+			<div class="col">
+				<table class="table">
+					<colgroup>
+						<col width="50%">
+						<col width="50%">
+					</colgroup>
+						<tr>
+							<td>일자</td>
+							<td>사유</td>
+						</tr>
+					<tbody id="disTbody"></tbody>
+				</table>
+			</div>
+		</div>
+      </div> 
+	  <div class="modal-footer dismissalBtn">
+	      <input type="button" value="승인하기" onclick="regDismissalStu();" class="btn btn-lg btn-primary">
+      </div>
+    </div>
+  </div>
+</div>	
 </th:block>
 
 <!-- 연결해야 할 외부 js 파일 -->
 <th:block layout:fragment="content_js">
-	<script type="text/javascript" src=""></script>
+	<script type="text/javascript" src="/js/content/admin/dismissal.js"></script>
 </th:block>	
 
 </html>

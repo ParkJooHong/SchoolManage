@@ -63,6 +63,7 @@
 									<option value="">전체</option>
 									<option value="재학">재학</option>
 									<option value="휴학">휴학</option>
+									<option value="제적">제적</option>
 								</select>
 							</td>
 							<td>성명</td>
@@ -80,10 +81,10 @@
 			</div>
 			<div class="row">
 				<div class="col-6">
-					<span>학생의 학번을 클릭하면 학사경고 창이 열립니다.</span>
+					<span class="blueFont">학생의 학번을 클릭하면 학사경고 창이 열립니다.</span>
 				</div>
 				<div class="col-6 text-end">
-					<span>학사경고 3회시 제적버튼이 활성화 됩니다.</span>
+					<span class="blueFont">학사경고 3회시 제적버튼이 활성화 됩니다.</span>
 				</div>
 			</div>
 			<div class="row mb-4">
@@ -243,8 +244,107 @@
 			</div>
 		</div>
       </div>
-      <div class="modal-footer">
-      	<input type="button" value="승인하기" onclick="regProbStu();" class="btn btn-primary">
+      <div class="modal-footer acceptBtn">
+      	<input type="button" value="승인하기" onclick="regProbStu();" class="btn btn-lg btn-primary">
+      </div>
+    </div>
+  </div>
+</div>	
+
+<!-- 제적처리 모달  -->
+<div class="modal fade" id="dismissalModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">제적처리</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+		<div class="row">
+			<div class="col-10">
+				<table class="table">
+					<colgroup>
+						<col width="10%">
+						<col width="40%">
+						<col width="10%">
+						<col width="40%">
+					</colgroup>
+					<tr>
+						<td id="disMemInfo" colspan="4"></td>
+					</tr>
+					<tr>
+						<td>주소</td>
+						<td id="disMemAddr" colspan="3"></td>
+					</tr>
+					<tr>
+						<td>연락처</td>
+						<td id="disMemTell" colspan="3"></td>
+					</tr>
+				</table>
+				<table class="table">
+					<colgroup>
+						<col width="10%">
+						<col width="40%">
+						<col width="10%">
+						<col width="40%">
+					</colgroup>
+					<tr>
+						<td>학년</td>
+						<td id="disMemYear"></td>
+						<td>학적</td>
+						<td id="disMemStatus"></td>
+					</tr>
+					<tr>
+						<td>전공대학</td>
+						<td id="disCollName"></td>
+						<td>전공학과</td>
+						<td id="disDeptName"></td>
+					</tr>
+				</table>
+			</div>
+			<div class="col-2">
+				<img id="disMemImg" src="" width="100%">
+			</div>
+		</div>
+		<div class="row mt-3 mb-3">
+			<div class="col">
+				<table class="table">
+					<colgroup>
+						<col width="50%">
+						<col width="50%">
+					</colgroup>
+					<tr>
+						<td>제적사유</td>
+						<td>
+							<input type="text" class="form-control" id="dismissalReson" value="">
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<div class="row text-center mb-3">
+			<div class="col">
+				<h5>누적 경고 현황</h5>
+			</div>
+		</div>
+		<div class="row mt-3">
+			<div class="col">
+				<table class="table">
+					<colgroup>
+						<col width="50%">
+						<col width="50%">
+					</colgroup>
+						<tr>
+							<td>일자</td>
+							<td>사유</td>
+						</tr>
+					<tbody id="disTbody"></tbody>
+				</table>
+			</div>
+		</div>
+      </div> 
+	  <div class="modal-footer dismissalBtn">
+	      <input type="button" value="승인하기" onclick="regDismissalStu();" class="btn btn-lg btn-primary">
       </div>
     </div>
   </div>

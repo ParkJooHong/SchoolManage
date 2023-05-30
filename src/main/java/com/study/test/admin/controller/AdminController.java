@@ -19,6 +19,7 @@ import com.study.test.admin.service.AdminService;
 import com.study.test.admin.vo.AdminSubMenuVO;
 import com.study.test.admin.vo.EmpVO;
 import com.study.test.admin.vo.ProbationVO;
+import com.study.test.admin.vo.StuOutVO;
 import com.study.test.member.service.MemberService;
 import com.study.test.member.vo.MemImgVO;
 
@@ -509,7 +510,7 @@ public class AdminController {
 	//학사경고 처리
 	@PostMapping("/regProbStuAjax")
 	@ResponseBody
-	public int regProbStuAjax(@RequestBody Map<String, String> probMap) {
+	public List<ProbationVO> regProbStuAjax(@RequestBody Map<String, String> probMap) {
 		int stuYear = Integer.parseInt(probMap.get("stuYear"));
 		int stuSem = Integer.parseInt(probMap.get("stuSem"));
 		SemesterVO semesterVO = new SemesterVO();
@@ -523,16 +524,29 @@ public class AdminController {
 		probationVO.setProbReason(probMap.get("reason"));
 		probationVO.setStuNo(probMap.get("stuNo"));
 		probationVO.setMemNo(probMap.get("stuNo"));
+		 adminService.regProbStu(probationVO);
 		
-		return adminService.regProbStu(probationVO);
+		return adminService.getProbationStu(probMap.get("stuNo"));
+	}
+	
+	//제적처리
+	@PostMapping("/regDismissalStuAjax")
+	@ResponseBody
+	public MemberVO regDismissalStuAjax(StuOutVO stuOutVO) {
+		System.out.println(stuOutVO);
+		
+		adminService.regStuOut(stuOutVO);
+		
+		return adminService.getMemInfoByState(stuOutVO.getStuNo());
 	}
 	
 	// 제적처리 페이지
 	@GetMapping("/dismissal")
-	public String dismissal(AdminSubMenuVO adminSubMenuVO) {
+	public String dismissal(AdminSubMenuVO adminSubMenuVO, Model model) {
 		adminSubMenuVO.setMenuCode(ConstVariable.THIRD_MENU_CODE);
-
+		model.addAttribute("collList", schoolService.getCollList());
+		model.addAttribute("deptList",schoolService.getDeptList(""));
 		return "content/admin/dismissal";
 	}
-
+	
 }

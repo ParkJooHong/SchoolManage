@@ -37,17 +37,13 @@
 		<result column="MEM_GENDER" property="memGender" />
 		<result column="MEM_BIRTH" property="memBirth" />
 		<result column="MEM_ROLE" property="memRole" />
-		<association property="memImgVO"
-			resultMap="memberMapper.memImg" />
+		<association property="memImgVO" resultMap="memberMapper.memImg" />
 		<association property="stuVO" resultMap="stu" />
-		<association property="doubleMajorVO"
-			resultMap="schoolMapper.doubleMajor" />
-		<association property="colleageVO"
-			resultMap="schoolMapper.colleage" />
-		<association property="deptVO"
-			resultMap="schoolMapper.dept" />
-		<association property="memImgVO"
-			resultMap="memberMapper.memImg" />
+		<association property="doubleMajorVO" resultMap="schoolMapper.doubleMajor" />
+		<association property="colleageVO" resultMap="schoolMapper.colleage" />
+		<association property="deptVO" resultMap="schoolMapper.dept" />
+		<association property="memImgVO" resultMap="memberMapper.memImg" />
+		<association property="stuOutVO" resultMap="adminMapper.stuOut"/>
 	</resultMap>
 
 	<!-- 학적 상태 -->

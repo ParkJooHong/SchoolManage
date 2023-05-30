@@ -11,6 +11,7 @@ import com.study.test.admin.vo.AdminMenuVO;
 import com.study.test.admin.vo.AdminSubMenuVO;
 import com.study.test.admin.vo.EmpVO;
 import com.study.test.admin.vo.ProbationVO;
+import com.study.test.admin.vo.StuOutVO;
 import com.study.test.member.vo.MemberVO;
 import com.study.test.school.colleage.ColleageVO;
 import com.study.test.school.dept.DeptManageVO;
@@ -193,8 +194,16 @@ public class AdminServiceImpl implements AdminService{
 	}
 	//학사 경고 실행
 	@Override
-	public int regProbStu(ProbationVO probationVO) {
-		return sqlsession.insert("adminMapper.regProbStu",probationVO);
+	public void regProbStu(ProbationVO probationVO) {
+		sqlsession.insert("adminMapper.regProbStu",probationVO);
+	}
+	//제적 처리 실행
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public void regStuOut(StuOutVO stuOutVO) {
+		sqlsession.insert("adminMapper.regStuOut",stuOutVO);
+		sqlsession.update("adminMapper.setStuOut",stuOutVO);
+		
 	}
 
 	

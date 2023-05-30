@@ -1,5 +1,6 @@
 package com.study.test.member.vo;
 
+import com.study.test.admin.vo.StuOutVO;
 import com.study.test.school.colleage.ColleageVO;
 import com.study.test.school.dept.DeptVO;
 import com.study.test.school.double_major.DoubleMajorVO;
@@ -31,4 +32,5 @@ public class MemberVO {
 	private DeptVO deptVO;
 	private DoubleMajorVO doubleMajorVO;
 	private StatusInfoVO statusInfoVO;
+	private StuOutVO stuOutVO;
 }

@@ -6,6 +6,7 @@ import com.study.test.admin.vo.AdminMenuVO;
 import com.study.test.admin.vo.AdminSubMenuVO;
 import com.study.test.admin.vo.EmpVO;
 import com.study.test.admin.vo.ProbationVO;
+import com.study.test.admin.vo.StuOutVO;
 import com.study.test.member.vo.MemberVO;
 import com.study.test.school.colleage.ColleageVO;
 import com.study.test.school.dept.DeptManageVO;
@@ -91,9 +92,10 @@ public interface AdminService {
 	String getSemesterNo(SemesterVO semesterVO);
 	
 	//학사 경고 실행
-	int regProbStu(ProbationVO probationVO);
+	void regProbStu(ProbationVO probationVO);
 	
-	
+	//제적처리
+	void regStuOut(StuOutVO stuOutVO);
 	
 	
 	
