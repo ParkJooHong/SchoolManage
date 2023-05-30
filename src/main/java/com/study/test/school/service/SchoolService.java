@@ -1,13 +1,14 @@
 package com.study.test.school.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.study.test.admin.vo.EmpVO;
 import com.study.test.professor.vo.LectureVO;
 import com.study.test.school.colleage.ColleageVO;
 import com.study.test.school.dept.DeptVO;
 import com.study.test.school.double_major.DoubleMajorVO;
-import com.study.test.school.enrollment.EnrollmentVO;
+import com.study.test.school.grade.GradeVO;
 import com.study.test.school.semester.SemesterVO;
 
 public interface SchoolService {
@@ -33,5 +34,8 @@ public interface SchoolService {
 	List<LectureVO> getLectureList(LectureVO lectureVO);
 	
 	//수강 신청한 학생 조회
-	List<EnrollmentVO> getLecStuList(LectureVO lectureVO);
+	List<Map<String, Object>> getLecStuList(LectureVO lectureVO);
+	
+	//성적과(A+, A, B+) 성적에 따른 학점
+	List<GradeVO> getGradeScore();
 }

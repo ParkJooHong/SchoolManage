@@ -276,5 +276,13 @@
 		AND SG.STU_NO = US.STU_NO
 	</select>
 	
+	<!-- 학생 성적 업데이트 -->
+	<update id="updateStuGrade">
+		UPDATE STU_GRADE
+		SET GRADE = #{grade}
+		WHERE STU_GRADE_NO = #{stuGradeNo}
+	</update>
+	
+	
 </mapper>
 

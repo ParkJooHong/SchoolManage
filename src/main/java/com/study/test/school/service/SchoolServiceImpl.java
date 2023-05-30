@@ -1,6 +1,7 @@
 package com.study.test.school.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,7 @@ import com.study.test.professor.vo.LectureVO;
 import com.study.test.school.colleage.ColleageVO;
 import com.study.test.school.dept.DeptVO;
 import com.study.test.school.double_major.DoubleMajorVO;
-import com.study.test.school.enrollment.EnrollmentVO;
+import com.study.test.school.grade.GradeVO;
 import com.study.test.school.semester.SemesterVO;
 
 @Service("schoolService")
@@ -63,8 +64,14 @@ public class SchoolServiceImpl implements SchoolService{
 
 	//수강 신청 학생 리스트 조회
 	@Override
-	public List<EnrollmentVO> getLecStuList(LectureVO lectureVO) {
+	public List<Map<String, Object>> getLecStuList(LectureVO lectureVO) {
 		return sqlsession.selectList("schoolMapper.getLecStuList", lectureVO);
+	}
+
+	//성적과(A+, A, B+) 성적에 따른 학점
+	@Override
+	public List<GradeVO> getGradeScore() {
+		return sqlsession.selectList("schoolMapper.getGradeScore");
 	}
 	 
 	

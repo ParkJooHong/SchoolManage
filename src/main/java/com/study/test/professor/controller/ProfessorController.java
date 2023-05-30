@@ -35,6 +35,7 @@ import com.study.test.professor.vo.ProfessorMenuVO;
 import com.study.test.school.colleage.ColleageVO;
 import com.study.test.school.dept.DeptVO;
 import com.study.test.school.enrollment.EnrollmentVO;
+import com.study.test.school.grade.GradeVO;
 import com.study.test.school.semester.SemesterVO;
 import com.study.test.school.service.SchoolService;
 import com.study.test.util.ConstVariable;
@@ -328,6 +329,7 @@ public class ProfessorController {
 		SemesterVO semesterVO = new SemesterVO();
 		List<SemesterVO> semesterList = schoolService.getSemeList(semesterVO);
 		model.addAttribute("semesterList", semesterList);
+
 		
 		return "content/professor/reg_grade";
 	}
@@ -335,12 +337,21 @@ public class ProfessorController {
 	//성적등록 탭에서 강의리스트에서 교과목명 선택시 수강목록 조회
 	@ResponseBody
 	@PostMapping("/getLecStuListAjax")
-	public List<EnrollmentVO> getLecStuList(LectureVO lectureVO) {
-		List<EnrollmentVO> enrollList = schoolService.getLecStuList(lectureVO);
+	public Map<String, Object> getLecStuList(LectureVO lectureVO) {
+		//수강신청한 학생 목록 조회
+		List<Map<String, Object>> enrollList = schoolService.getLecStuList(lectureVO);
 		
-		System.out.println("@@@@@@@@@@@@@@데이터 확인" + enrollList);
+		//성적과 성적에따른 학점 목록 조회
+		List<GradeVO> gradeScoreList =  schoolService.getGradeScore();
 		
-		return enrollList;
+		//맵 객체생성
+		Map<String, Object> enrollStuList = new HashMap<>();
+		
+		//수강신청한 학생목록과 A+ A성적 목록 데이터 맵에 저장
+		enrollStuList.put("enrollList", enrollList);
+		enrollStuList.put("gradeScoreList", gradeScoreList);
+		
+		return enrollStuList;
 	}
 	
 }

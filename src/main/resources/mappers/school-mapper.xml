@@ -26,6 +26,11 @@
 		<result column="SEMESTER" 	property="semester"/>
 		<result column="SEM_NAME" 	property="semName"/>
 	</resultMap>
+	<!-- 성적과 성적에따른학점 -->
+	<resultMap type="com.study.test.school.grade.GradeVO" id="grade">
+		<id column="GRADE" 			property="grade"/>
+		<result column="SCORE" 		property="score"/>
+	</resultMap>
 	<!-- 학생 성적 -->
 	<resultMap type="com.study.test.school.stu_grade.StuGradeVO" id="stuGrade">
 		<id column="STU_GRADE_NO" 			property="stuGradeNo"/>
@@ -40,10 +45,11 @@
 		<result column="STU_NO" 	property="stuNo"/>
 		<result column="LEC_NO" 	property="lecNo"/>
 		<result column="SEM_NO" 	property="semNo"/>
+		<association property="memberVO" resultMap="memberMapper.member"/>
 		<association property="stuVO" resultMap="stuMapper.stu"/>
 		<association property="colleageVO" resultMap="schoolMapper.colleage"/>
 		<association property="deptVO" resultMap="schoolMapper.dept"/>
-		<association property="stugradeVO" resultMap="schoolMapper.grade"/>
+		<association property="stuGradeVO" resultMap="schoolMapper.stuGrade"/>
 	</resultMap>
 	
 	<!-- 학기 리스트 조회 -->
@@ -110,15 +116,15 @@
 	</select>
 	
 	<!-- 수강 신청한 학생 목록 조회 -->
-	 <select id="getLecStuList" resultMap="enroll">
-		SELECT US.STU_NO
-			, UM.MEM_NAME
-			, COLL.COLL_NAME 
-			, DEPT.DEPT_NAME
-			, US.STU_YEAR
-			, LEC.LEC_SCORE
-			, SG.GRADE
-			, ENROLL.LEC_NO
+	 <select id="getLecStuList" resultType="HashMap">
+		SELECT ENROLLMENT_NO
+            , US.STU_NO
+			, MEM_NAME
+			, COLL_NAME 
+			, DEPT_NAME
+			, STU_YEAR
+			, LEC_SCORE
+			, NVL(GRADE, NULL) AS GRADE
 		FROM ENROLLMENT ENROLL
 			, UNI_STU US
 			, UNI_MEMBER UM
@@ -126,12 +132,21 @@
 			, DEPT DEPT
 			, LECTURE LEC
 			, STU_GRADE SG
-		WHERE US.STU_NO = UM.MEM_NO
+		WHERE ENROLL.STU_NO = US.STU_NO
+        AND UM.MEM_NO = ENROLL.STU_NO
 		AND COLL.COLL_NO = US.COLL_NO
 		AND DEPT.DEPT_NO = US.DEPT_NO
-		AND LEC.LEC_NO = ENROLL.LEC_NO
-		AND SG.STU_NO = US.STU_NO
-		AND LEC.LEC_NO = #{lecNo}
+        AND ENROLL.LEC_NO = LEC.LEC_NO
+        AND SG.STU_NO = US.STU_NO 
+        AND ENROLL.LEC_NO = SG.LEC_NO
+		AND ENROLL.LEC_NO = #{lecNo}
+	</select>
+	
+	<!-- 성적과 성적에따른 학점 -->
+	<select id="getGradeScore" resultMap="grade">
+		SELECT GRADE
+			, SCORE
+		FROM GRADE
 	</select>
 </mapper>
 
