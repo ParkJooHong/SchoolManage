@@ -24,8 +24,8 @@
             </span>
 
             <span>
-                <span>🕦 남은 시간: 34:22</span>
-                <input type="button" value="연장">
+                <span id="timer">🕦60:0</span>
+                <input type="button" value="연장" class="btn btn-primary" onclick="resetTimer();">
                 <span class="btn-group name">
                     <button class="btn btn-secondary btn-lg dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                         [[${session.memberVO.memName}]]

@@ -38,7 +38,7 @@ public class IndexController {
 	}
 
 	@GetMapping("/mainPage")
-	public String index(Model model, MemberMenuVO memberMenuVO, MemberSubMenuVO memberSubMenuVO, Authentication authentication, StuVO stuVO, MemberVO memberVO) {
+	public String index(Model model, MemberMenuVO memberMenuVO, MemberSubMenuVO memberSubMenuVO, Authentication authentication, StuVO stuVO, MemberVO memberVO, String menuCode, String subMenuCode) {
 
 		if(memberMenuVO.getMenuCode() == null) {
 			memberMenuVO.setMenuCode("MENU_001");
@@ -58,6 +58,8 @@ public class IndexController {
 		System.out.println("학생 정보 : " + stuService.seletStu(memberVO));
 		model.addAttribute("memberVO", stuService.seletStu(memberVO));
 		
+		model.addAttribute("menuCode" , menuCode);
+		model.addAttribute("subMenuCode", subMenuCode);
 		
 		model.addAttribute("menuList", memberService.stuMenuList());
 		model.addAttribute("subMenuList", memberService.stuSubMenuList(memberMenuVO.getMenuCode()));

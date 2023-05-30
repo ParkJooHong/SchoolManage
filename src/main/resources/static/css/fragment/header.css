@@ -1,1 +1,21 @@
 @charset "UTF-8";
+
+
+
+
+#timer {
+    font-size: 1em;
+    color: black;
+}
+
+#timer div {
+    display: inline-block;
+    margin: 100px;
+}
+
+#timer div span {
+    color: #ffffff;
+    display: block;
+    margin-top: 5px;
+    font-size: .35em;
+}

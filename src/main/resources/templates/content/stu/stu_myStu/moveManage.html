@@ -92,6 +92,9 @@
 		</td>
 	</tr>
 </table>
+<th:block th:each=" deptManageVO : ${deptManageVO}">
+<input type="hidden" th:value="${deptManageVO.processStatus}" class="processStatus">
+</th:block>
 <table border="1" class="detail_info">
 	<tr>
 		<td>전과 사유</td>

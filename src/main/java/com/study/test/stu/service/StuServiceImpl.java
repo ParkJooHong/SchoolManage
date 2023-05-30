@@ -74,6 +74,13 @@ public class StuServiceImpl implements StuService {
 		sqlSession.insert("stuMapper.moveManage", deptManageVO);
 		
 	}
+	
+	//전과 신청자 조회
+	@Override
+	public List<DeptManageVO> getDeptManager(String stuNo) {
+		return sqlSession.selectList("stuMapper.getDeptManager", stuNo);
+	}
+	
 
 	//학적 상태 조회 ( 재학 -> 휴학 신청 현황 조회 )
 	@Override
@@ -153,6 +160,28 @@ public class StuServiceImpl implements StuService {
 	public List<LectureVO> applyLectureList(String stuNo) {
 		return sqlSession.selectList("stuMapper.applyLectureList", stuNo);
 	}
+
+	// 수강 취소
+	@Override
+	public void lectureCancel(EnrollmentVO enrollmentVO) {
+		sqlSession.delete("stuMapper.lectureCancel", enrollmentVO);
+		
+	}
+
+	//수강 취소시 인원 제한
+	@Override
+	public void lectureCancelUpdateCount(LectureVO lectureVO) {
+		sqlSession.update("stuMapper.lectureCancelUpdateCount", lectureVO);
+		
+	}
+
+	//학사 경고 학생 조회
+	@Override
+	public List<MemberVO> getProbation(String stuNo) {
+		return sqlSession.selectList("stuMapper.getProbation", stuNo);
+	}
+
+	
 
 	
 	

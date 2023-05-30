@@ -36,6 +36,9 @@ public interface StuService {
 	//학생 전과신청
 	void moveManage(DeptManageVO deptManageVO);
 	
+	//학생 전과신청자 조회
+	List<DeptManageVO> getDeptManager(String stuNo);
+	
 	//학생 휴학 신청
 	//void leaveManage(LeaveManageVO leaveManageVO);
 	
@@ -71,4 +74,13 @@ public interface StuService {
 	
 	//수강신청 리스트 조회
 	List<LectureVO> applyLectureList(String stuNo);
+	
+	//수강 취소
+	void lectureCancel(EnrollmentVO enrollmentVO);
+	
+	//수강취소 시 수강인원 제한
+	void lectureCancelUpdateCount(LectureVO lectureVO);
+	
+	//학사 경고 학생 조회
+	List<MemberVO> getProbation(String stuNo);
 }

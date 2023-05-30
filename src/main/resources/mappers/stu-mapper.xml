@@ -242,6 +242,28 @@
 		, #{stuSem}
 		)
 	</insert>
+	
+	<!-- 전과 신청 조회  -->
+	<select id="getDeptManager" resultMap="deptManage">
+		SELECT APPLY_NO
+			, STU_NO
+			, APPLY_CODE
+			, APPLY_DATE
+			, APPLY_REASON
+			, APPLROVAL_DATE
+			, PROCESS_STATUS
+			, FROM_COLL
+			, TO_COLL
+			, FROM_DEPT
+			, TO_DEPT
+			, DOUBLE_MAJOR_COLL
+			, DOUBLE_MAJOR_DEPT
+			, STU_YEAR
+			, STU_SEM
+		FROM DEPT_MANAGE
+		WHERE STU_NO = #{stuNo}
+	</select>
+	
 
 	<!-- 휴학신청 -->
 	<insert id="leaveManage">
@@ -439,7 +461,18 @@
 		AND
 		ING_STATUS = '승인대기'
 	</select>
-
+	
+	<!-- 학사 경고 학생 조회 -->
+	<select id="getProbation" resultMap="adminMapper.probation" >
+		SELECT PROB_NO
+			, STU_NO
+			, TO_CHAR(PROB_DATE, 'YYYY-MM-DD') AS PROB_DATE
+			, PROB_REASON
+			, SEM_NO
+			, MEM_NO
+		FROM ACADEMIC_PROBATION
+		WHERE STU_NO = #{stuNo}
+	</select>
 
 	<!-- 수강신청 -->
 	<insert id="applyLecture">
@@ -457,6 +490,7 @@
 		, #{semNo}
 		)
 	</insert>
+	
 
 	<!-- 수강신청 시 수강인원 제한 -->
 	<update id="updateLectureCount">
@@ -508,6 +542,23 @@
 		AND EN.STU_NO = US.STU_NO
 		AND US.STU_NO = #{stuNo}
 	</select>
+	
+	
+	<!-- 수강취소-->
+	<delete id="lectureCancel">
+		DELETE ENROLLMENT
+		WHERE STU_NO = #{stuNo}
+		AND LEC_NO = #{lecNo}
+		AND SEM_NO = #{semNo}
+	</delete>
+	
+	<!-- 수강취소 시 수강인원 제한 -->
+	<update id="lectureCancelUpdateCount">
+		UPDATE LECTURE
+		SET MAX_MEM = #{maxMem} + 1
+		, NOW_MEM = #{nowMem} - 1
+		WHERE LEC_NO = #{lecNo}
+	</update>
 
 </mapper>
 

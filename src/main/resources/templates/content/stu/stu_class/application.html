@@ -90,14 +90,13 @@
 			</tr>
 		</thead>
 		<tbody>
-			<th:block>
+			<th:block th:if="${#lists.size(lectureListVO) == 0}">
 				<tr>
 					<td colspan="13">수강 신청 날이 아닙니다.</td>
 				</tr>
 			</th:block>
-			<div>교과목 명</div>
-			<th:block  th:each="lectureList : ${lectureListVO}">
-				<tr>
+			<th:block th:if="${#lists.size(lectureListVO) != 0}">
+				<tr th:each="lectureList : ${lectureListVO}">
 					<td>[[${lectureList.lecNo}]]</td>
 					<td><a th:href=@{/professor/getPdfAjax(lecNo=${lectureList.lecNo})}>[[${lectureList.lecName}]]</a></td>
 					<td>[[${lectureList.lecScore}]]</td>
@@ -114,8 +113,11 @@
 					<td>[[${lectureList.maxMem}]]</td>
 					<td>[[${lectureList.nowMem}]]</td>
 					<td>[[${lectureList.semesterVO.semName}]]</td>
-					<td><input type="button" value="수강신청" class="btn btn-primary" th:onclick="apllication([[${lectureList.lecNo}]], [[${lectureList.maxMem}]], [[${lectureList.nowMem}]], [[${lectureList.semNo}]] , [[${memberVO.stuVO.stuNo}]], [[${menuCode}]], [[${subMenuCode}]])"></td>
+					<td><input type="button" value="수강신청" class="btn btn-primary" 
+					th:onclick="apllication([[${lectureList.lecNo}]], [[${lectureList.maxMem}]], 
+					[[${lectureList.nowMem}]], [[${lectureList.semNo}]] , [[${memberVO.stuVO.stuNo}]], [[${menuCode}]], [[${subMenuCode}]] )"></td>
 					<td>[[${lectureList.lecStatus}]]</td><!-- 이거 타임리프 돌려야함 [[${lectureList.lectureTimeList[0].lecDay}]] / [[${lectureList.lectureTimeList[0].startTime}]] ~ [[${lectureList.lectureTimeList[0].finishTime}]]   -->
+
 				</tr>
 			</th:block>
 		</tbody>
@@ -154,12 +156,12 @@
 			</tr>
 		</thead>
 		<tbody>
-			<th:block>
+			<th:block th:if="${#lists.size(applyLecture) == 0}">
 				<tr>
 					<td colspan="13">수강 신청 내역이 없습니다.</td>
 				</tr>
 			</th:block>
-			<th:block>
+			<th:block th:if="${#lists.size(applyLecture) != 0}">
 					<tr th:each="applyLecture : ${applyLecture}">
 						<td>
 							[[${applyLecture.lecNo}]]
@@ -189,7 +191,8 @@
 						<td>[[${applyLecture.maxMem}]]</td>
 					<td>[[${applyLecture.nowMem}]]</td>
 					<td>[[${applyLecture.semesterVO.semName}]]</td>
-					<td><input type="button" value="수강취소 (미구현)" class="btn btn-danger"></td>
+					<td><input type="button" value="수강취소" class="btn btn-danger"
+						th:onclick="cancel([[${applyLecture.lecNo}]], [[${applyLecture.maxMem}]], [[${applyLecture.nowMem}]], [[${applyLecture.semNo}]] , [[${memberVO.stuVO.stuNo}]], [[${menuCode}]], [[${subMenuCode}]])"></td>
 					</tr>
 			</th:block>
 			</tbody>

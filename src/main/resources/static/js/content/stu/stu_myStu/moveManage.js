@@ -6,40 +6,49 @@ function moveManage(){
 	const toDept = document.querySelector('.dept').value;
 	const fromDept = document.querySelector('.currentDept').value;
 	const applyReason = document.querySelector('.applyReason').value;
+	const processStatus = document.querySelector('.processStatus');
+
 	
-	
-	if(toDept == fromDept){
+	if(processStatus == null){
+		if(toDept == fromDept){
 		alert("변경하려는 학과가 현재와 동일 합니다. \n 다시 입력해주세요.");
-	}
-	if(applyReason == ''){
-		swal("실패", "전과 사유를 작성해주세요.", "error");
+		}
+		if(applyReason == ''){
+			swal("실패", "전과 사유를 작성해주세요.", "error");
+		}
+		else{
+			alert("전과 신청이 접수되었습니다.");		
+			
+				$.ajax({
+				url: '/stuMenu/moveManageAjax', //요청경로
+				type: 'post',
+				contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+				data: {'toDept' : toDept, 'toColl' : toColl , 'applyReason' : applyReason, 'fromDept' : fromDept }, //필요한 데이터
+				success: function(result) {
+					if(result){
+						swal("신청 완료!", "전과 신청이 완료되었습니다.", "success");
+						setTimeout(function() {
+							location.reload();
+							}, 500);
+					}
+					else{
+						alert('일시적 오류가 발생했습니다.');
+					}
+				},
+				error: function() {
+					alert('실패');
+					
+				}
+			});
+				
+		}
 	}
 	else{
-		alert("전과 신청이 접수되었습니다.");		
-		
-			$.ajax({
-			url: '/stuMenu/moveManageAjax', //요청경로
-			type: 'post',
-			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-			data: {'toDept' : toDept, 'toColl' : toColl , 'applyReason' : applyReason, 'fromDept' : fromDept }, //필요한 데이터
-			success: function(result) {
-				if(result){
-					swal("신청 완료!", "전과 신청이 완료되었습니다.", "success");
-					setTimeout(function() {
-						location.reload();
-						}, 500);
-				}
-				else{
-					alert('일시적 오류가 발생했습니다.');
-				}
-			},
-			error: function() {
-				alert('실패');
-				
-			}
-		});
-			
+		swal("신청 실패!", "이미 신청한 이력이 있습니다.", "error");
 	}
+	
+	
+	
 }	
 
 

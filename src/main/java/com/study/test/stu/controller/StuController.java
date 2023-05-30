@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -60,6 +61,7 @@ public class StuController {
 	
 	@Resource(name = "boardReplyService")
 	private BoardReplyService boardReplyService;
+	
 	
 	
 	//정보
@@ -442,11 +444,12 @@ public class StuController {
 		
 		// 전과신청
 		@GetMapping("/moveManage")
-		private String moveManage(Authentication authentication,StuVO stuVO, MemberVO memberVO, Model model, String collNo, String menuCode, String subMenuCode) {
+		private String moveManage(Authentication authentication,StuVO stuVO, MemberVO memberVO, Model model, String collNo, String menuCode, String subMenuCode, String stuNo) {
 			User user = (User)authentication.getPrincipal();
 			String memName = user.getUsername();
 			stuVO.setMemNo(user.getUsername()); // id임
 			memberVO.setMemNo(user.getUsername());
+			stuNo = memberVO.getMemNo();
 			
 			
 			stuService.getColl(user.getUsername());
@@ -464,6 +467,8 @@ public class StuController {
 			System.out.println("대학 코드 : " +memberVO.getStuVO().getCollNo() );
 			collNo = memberVO.getStuVO().getCollNo();
 			model.addAttribute("deptVO", schoolService.getDept(collNo));
+			
+			model.addAttribute("deptManageVO", stuService.getDeptManager(stuNo));
 			
 			//게시판 상세보기할때 던질 메뉴코드, 서브메뉴코드 데이터
 			model.addAttribute("menuCode" , menuCode);
@@ -589,7 +594,8 @@ public class StuController {
 				System.out.println("전과 신청자" + stuService.getStatusMoveInfo(stuNo));
 				System.out.println("fsadafdsafdsafdsafds" +deptManageVO);
 				model.addAttribute("stuStatusMove", stuService.getStatusMoveInfo(stuNo));
-				
+
+				model.addAttribute("probation" , stuService.getProbation(stuNo));
 			
 				System.out.println(statusInfoVO);
 
@@ -672,6 +678,34 @@ public class StuController {
 			model.addAttribute("subMenuCode", subMenuCode);
 			model.addAttribute("menuCode" , menuCode);
 			
+			
+			return data;
+		}
+		
+		//수강 취소 화면
+		@ResponseBody
+		@PostMapping("/cancelLectureAjax")
+		public Map<String, Object> cancelLectureAjax(EnrollmentVO enrollmentVO, LectureVO lectureVO ,  Model model, String menuCode, String subMenuCode, String lecNo, String semNo, int maxMem, int nowMem , String stuNo){
+			
+			enrollmentVO.setSemNo(semNo);
+			enrollmentVO.setLecNo(lecNo);
+			enrollmentVO.setStuNo(stuNo);
+			
+			lectureVO.setMaxMem(maxMem);
+			lectureVO.setNowMem(nowMem);
+			lectureVO.setLecNo(lecNo);
+			
+			//수강 취소하기.
+			stuService.lectureCancel(enrollmentVO);
+			//수강 취소시 과목 인원수 업데이트
+			stuService.lectureCancelUpdateCount(lectureVO);
+			
+			Map<String, Object> data = new HashMap<>();
+			 data.put("menuCode", menuCode);
+		     data.put("subMenuCode", subMenuCode);
+			
+			model.addAttribute("subMenuCode", subMenuCode);
+			model.addAttribute("menuCode" , menuCode);
 			
 			return data;
 		}
