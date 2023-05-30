@@ -7,6 +7,7 @@ import com.study.test.member.vo.MemberVO;
 import com.study.test.professor.vo.LectureVO;
 import com.study.test.school.dept.DeptManageVO;
 import com.study.test.school.enrollment.EnrollmentVO;
+import com.study.test.school.stu_grade.StuGradeVO;
 import com.study.test.stu.vo.LeaveManageVO;
 import com.study.test.stu.vo.StatusInfoVO;
 import com.study.test.stu.vo.StuVO;
@@ -69,6 +70,9 @@ public interface StuService {
 	//수강 신청하기
 	void applyLecture(EnrollmentVO enrollmentVO);
 	
+	//수강 신청시 학생 점수 테이블 삽입
+	void insertGrade(StuGradeVO stuGradeVO);
+	
 	//수강신청 시 인원 제한
 	void updateLectureCount(LectureVO lectureVO);
 	
@@ -77,6 +81,9 @@ public interface StuService {
 	
 	//수강 취소
 	void lectureCancel(EnrollmentVO enrollmentVO);
+	
+	//수강 취소시 학생 점수판도 삭제
+	void gradeCancel(StuGradeVO stuGradeVO);
 	
 	//수강취소 시 수강인원 제한
 	void lectureCancelUpdateCount(LectureVO lectureVO);

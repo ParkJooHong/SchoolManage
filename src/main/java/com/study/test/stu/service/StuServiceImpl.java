@@ -11,6 +11,7 @@ import com.study.test.member.vo.MemberVO;
 import com.study.test.professor.vo.LectureVO;
 import com.study.test.school.dept.DeptManageVO;
 import com.study.test.school.enrollment.EnrollmentVO;
+import com.study.test.school.stu_grade.StuGradeVO;
 import com.study.test.stu.vo.LeaveManageVO;
 import com.study.test.stu.vo.StatusInfoVO;
 import com.study.test.stu.vo.StuVO;
@@ -148,6 +149,14 @@ public class StuServiceImpl implements StuService {
 		sqlSession.insert("stuMapper.applyLecture", enrollmentVO);
 		
 	}
+	
+	//수강신청시 학생 점수 테이블 삽입
+	@Override
+	public void insertGrade(StuGradeVO stuGradeVO) {
+		sqlSession.insert("stuMapper.insertGrade", stuGradeVO);
+		
+	}
+	
 	//수강신청시 인원 제한
 	@Override
 	public void updateLectureCount(LectureVO lectureVO) {
@@ -167,6 +176,13 @@ public class StuServiceImpl implements StuService {
 		sqlSession.delete("stuMapper.lectureCancel", enrollmentVO);
 		
 	}
+	
+	//수강 취소시 학생 점수판도 삭제
+	@Override
+	public void gradeCancel(StuGradeVO stuGradeVO) {
+		sqlSession.delete("stuMapper.gradeCancel", stuGradeVO);
+		
+	}
 
 	//수강 취소시 인원 제한
 	@Override
@@ -180,6 +196,9 @@ public class StuServiceImpl implements StuService {
 	public List<MemberVO> getProbation(String stuNo) {
 		return sqlSession.selectList("stuMapper.getProbation", stuNo);
 	}
+
+	
+
 
 	
 

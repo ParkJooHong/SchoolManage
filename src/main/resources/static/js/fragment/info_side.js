@@ -14,8 +14,6 @@ function subMenu(subMenuCode, subMenuUrl, menuCode){
 }
 
 // 세션 시간
-
-
 var x;
 var time = 3600;
 

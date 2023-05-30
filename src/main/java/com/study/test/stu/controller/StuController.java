@@ -35,6 +35,7 @@ import com.study.test.school.dept.DeptManageVO;
 import com.study.test.school.dept.DeptVO;
 import com.study.test.school.enrollment.EnrollmentVO;
 import com.study.test.school.service.SchoolService;
+import com.study.test.school.stu_grade.StuGradeVO;
 import com.study.test.stu.service.StuService;
 import com.study.test.stu.vo.LeaveManageVO;
 import com.study.test.stu.vo.StatusInfoVO;
@@ -656,7 +657,8 @@ public class StuController {
 		//수강신창 화면
 		@ResponseBody
 		@PostMapping("/apllyLectureAjax")
-		public Map<String, Object> apllyLectureAjax(EnrollmentVO enrollmentVO, LectureVO lectureVO ,  Model model, String menuCode, String subMenuCode, String lecNo, String semNo, int maxMem, int nowMem , String stuNo) {
+		public Map<String, Object> apllyLectureAjax(EnrollmentVO enrollmentVO, StuGradeVO stuGradeVO, LectureVO lectureVO ,  Model model, 
+				String menuCode, String subMenuCode, String lecNo, String semNo, int maxMem, int nowMem , String stuNo) {
 		
 			enrollmentVO.setSemNo(semNo);
 			enrollmentVO.setLecNo(lecNo);
@@ -666,8 +668,14 @@ public class StuController {
 			lectureVO.setNowMem(nowMem);
 			lectureVO.setLecNo(lecNo);
 			
+			stuGradeVO.setLecNo(lecNo);
+			stuGradeVO.setStuNo(stuNo);
+			stuGradeVO.setSemNo(semNo);
+			
 			//수강신청하기.
 			stuService.applyLecture(enrollmentVO);
+			//수강신청시 학생 점수판 삽입
+			stuService.insertGrade(stuGradeVO);
 			//수강 신청시 해당 과목 인원수 업데이트
 			stuService.updateLectureCount(lectureVO);
 			
@@ -685,7 +693,8 @@ public class StuController {
 		//수강 취소 화면
 		@ResponseBody
 		@PostMapping("/cancelLectureAjax")
-		public Map<String, Object> cancelLectureAjax(EnrollmentVO enrollmentVO, LectureVO lectureVO ,  Model model, String menuCode, String subMenuCode, String lecNo, String semNo, int maxMem, int nowMem , String stuNo){
+		public Map<String, Object> cancelLectureAjax(EnrollmentVO enrollmentVO, LectureVO lectureVO ,  Model model, StuGradeVO stuGradeVO,
+				String menuCode, String subMenuCode, String lecNo, String semNo, int maxMem, int nowMem , String stuNo){
 			
 			enrollmentVO.setSemNo(semNo);
 			enrollmentVO.setLecNo(lecNo);
@@ -695,8 +704,14 @@ public class StuController {
 			lectureVO.setNowMem(nowMem);
 			lectureVO.setLecNo(lecNo);
 			
+			stuGradeVO.setLecNo(lecNo);
+			stuGradeVO.setStuNo(stuNo);
+			stuGradeVO.setSemNo(semNo);
+			
 			//수강 취소하기.
 			stuService.lectureCancel(enrollmentVO);
+			//수강 취소시 학생 점수테이블도 삭제.
+			stuService.gradeCancel(stuGradeVO);
 			//수강 취소시 과목 인원수 업데이트
 			stuService.lectureCancelUpdateCount(lectureVO);
 			

@@ -102,8 +102,8 @@ function leave(memNo){
 	  swal("실패", "이미 처리중인 신청이 있습니다.", "error");
 	}
 	
-	alert(stuStatus);
-	alert(ingStatus);
+	//alert(stuStatus);
+	//alert(ingStatus);
 	
 	
 	/*

@@ -5,8 +5,8 @@ function returnManage(memNo){
 	
 	const menuCode = document.querySelector('.menuCode').value;
 	const subMenuCode = document.querySelector('.subMenuCode').value;
-	alert(menuCode);
-	alert(subMenuCode);
+	//alert(menuCode);
+	//alert(subMenuCode);
 	
 	let ingStatusInputs = document.querySelectorAll('.ingStatus');
 
@@ -28,8 +28,8 @@ function returnManage(memNo){
 	// 마지막 .ingStatus 요소의 value 값을 추출합니다.
 	//let ingStatus = lastIngStatusInput.value;
 	
-	alert(stuStatus);
-	alert(ingStatus);
+	//alert(stuStatus);
+	//alert(ingStatus);
 	if(ingStatus == '승인완료' && stuStatus == '재학'){
 				swal("실패", "이미 재학중인 상태입니다", "error");
 			}

@@ -499,6 +499,24 @@
 		, NOW_MEM = #{nowMem} + 1
 		WHERE LEC_NO = #{lecNo}
 	</update>
+	
+	<!-- 수강신청시 학생 성적 테이블 삽입 -->
+	<insert id="insertGrade">
+		INSERT INTO STU_GRADE (
+			STU_GRADE_NO
+			, LEC_NO
+			, GRADE
+			, STU_NO
+			, SEM_NO
+		) VALUES(
+		(SELECT 'STU_GRADE_'||LPAD(NVL(MAX(TO_NUMBER(SUBSTR(STU_GRADE_NO, 11))), 0) +1,
+				LENGTH(NVL(MAX(TO_NUMBER(SUBSTR(STU_GRADE_NO, 11))), 0) +1) , '0') FROM STU_GRADE)
+		, #{lecNo}
+		, NULL
+		, #{stuNo}
+		, #{semNo}
+		)
+	</insert>
 
 	<!-- 수강신청한 화면 조회 -->
 	<select id="applyLectureList" resultMap="lecture">
@@ -547,6 +565,14 @@
 	<!-- 수강취소-->
 	<delete id="lectureCancel">
 		DELETE ENROLLMENT
+		WHERE STU_NO = #{stuNo}
+		AND LEC_NO = #{lecNo}
+		AND SEM_NO = #{semNo}
+	</delete>
+	
+	<!-- 수강 취소시 학생 성적테이블도 삭제 -->
+	<delete id="gradeCancel">
+		DELETE STU_GRADE
 		WHERE STU_NO = #{stuNo}
 		AND LEC_NO = #{lecNo}
 		AND SEM_NO = #{semNo}
