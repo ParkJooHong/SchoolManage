@@ -40,7 +40,8 @@
 		<td>학번</td>
 		<td>[[${member.memNo}]]</td>
 		<td>학년</td>
-		<td></td>
+		<td><input type="hidden" class="stuYear" th:value="${member.stuVO.stuYear}">
+			[[${member.stuVO.stuYear}]]</td>
 	</tr>
 	<tr>
 		<td>전공대학</td>
@@ -56,7 +57,8 @@
 		<td>생년월일</td>
 		<td>[[${member.stuVO.stuYear}]]</td>
 		<td>학적상태</td>
-		<td>[[${member.stuVO.stuStatus}]]</td>
+		<td><input type="hidden" class="stuStatus" th:value="${member.stuVO.stuStatus}">
+			[[${member.stuVO.stuStatus}]]</td>
 	</tr>
 </table>
 
@@ -89,14 +91,14 @@
 		<td>[[${member.colleageVO.collName}]]</td>
 		<td>현재 전공 학과</td>
 		<td>
-			<input type="hidden" class="currentDept" th:value="${member.deptVO.deptName}">
+			<input type="hidden" class="currentDept" th:value="${member.deptVO.deptNo}">
 			[[${member.deptVO.deptName}]]
 		</td>
 	</tr>
 	<tr>
 		<td>복수 전공 대학</td>
 		<td> 
-			<select class="colleage" th:onchange="updateDept([[${menuCode}]], [[${subMenuCode}]]);">
+			<select class="doubleMajorColl" th:onchange="updateDept([[${menuCode}]], [[${subMenuCode}]]);">
 				<th:block th:each="colleage : ${colleageVO}" >
 					<option th:value="${colleage.collNo}" >						
 							[[${colleage.collName}]]		
@@ -106,7 +108,7 @@
 		</td>
 		<td>복수 전공 학과</td>
 		<td>
-			<select class="dept">
+			<select class="doubleMajorDept">
 				<th:block th:each="dept : ${deptVO}" >
 					<option th:value="${dept.deptNo}">						
 							[[${dept.deptName}]]		
@@ -114,6 +116,17 @@
 				</th:block>
 			</select>
 		</td>
+	</tr>
+</table>
+
+<th:block th:each=" deptManageVO : ${deptManageVO}">
+<input type="hidden" th:value="${deptManageVO.processStatus}" class="processStatus">
+</th:block>
+
+<table border="1" class="detail_info">
+	<tr>
+		<td>신청 사유</td>
+		<td><textarea placeholder="작성한 글을 토대로 지도교수와 면담이 이어질 수 있습니다." rows="4" cols="30" class="applyReason"></textarea></td>
 	</tr>
 </table>
 

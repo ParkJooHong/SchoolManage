@@ -553,11 +553,12 @@ public class StuController {
 		
 		// 복수전공신청
 		@GetMapping("/doubleMajorManage")
-		private String doubleMajorManage(Authentication authentication, StuVO stuVO, MemberVO memberVO, Model model, String collNo) {
+		private String doubleMajorManage(Authentication authentication, StuVO stuVO, MemberVO memberVO, Model model, String collNo, String stuNo) {
 			User user = (User)authentication.getPrincipal();
 			String memName = user.getUsername();
 			stuVO.setMemNo(user.getUsername()); // id임
 			memberVO.setMemNo(user.getUsername());
+			stuNo = memberVO.getMemNo();
 			model.addAttribute("memberVO", stuService.seletStu(memberVO));
 			
 			//대학 리스트 조회
@@ -571,8 +572,26 @@ public class StuController {
 			collNo = memberVO.getStuVO().getCollNo();
 			model.addAttribute("deptVO", schoolService.getDept(collNo));
 			
+			model.addAttribute("deptManageVO", stuService.getDeptManager(stuNo));
 
 			return "/content/stu/stu_myStu/doubleMajorManage";
+		}
+		
+		//복수전공 신청 Ajax
+		@ResponseBody
+		@PostMapping("/doubleManageAjax")
+		public String doubleManageAjax(Authentication authentication, String menuCode, Model model, StuVO stuVO, MemberVO memberVO) {
+			
+			User user = (User)authentication.getPrincipal();
+			String memName = user.getUsername();
+			stuVO.setMemNo(user.getUsername()); // id임
+			memberVO.setMemNo(user.getUsername());
+			
+			menuCode = "MENU_002";
+			model.addAttribute("subMenuList", memberService.stuSubMenuList(menuCode));
+			
+			
+			return "redirect:/mainPage";
 		}
 		
 		// 학적신청현황조회
