@@ -44,7 +44,7 @@ function getLecStuList(lec_no) {
 						}
 					});				
 				str += `	</td>`;
-				str += `	<td><input class="btn btn-primary" type="submit" value="수정">`;
+				str += `	<td><button class="btn btn-primary" onclick="updateGrade(${lec_stu['ENROLLMENT_NO']},this)">수정</button>`;
 				str += `	</td>`;
 				str += `</tr>`;
 			})
@@ -56,4 +56,17 @@ function getLecStuList(lec_no) {
 		}
 	});
 	//ajax end 
+}
+
+
+//학생 성적 업데이트
+function updateGrade(enrol_no, btn_tag){
+	//바꿀 성적
+	const grade = btn_tag.closest('tr').querySelector('select').value;
+	
+	
+	console.log(grade);
+	
+	
+	
 }

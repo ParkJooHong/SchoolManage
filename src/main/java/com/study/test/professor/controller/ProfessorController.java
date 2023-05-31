@@ -38,6 +38,7 @@ import com.study.test.school.enrollment.EnrollmentVO;
 import com.study.test.school.grade.GradeVO;
 import com.study.test.school.semester.SemesterVO;
 import com.study.test.school.service.SchoolService;
+import com.study.test.school.stu_grade.StuGradeVO;
 import com.study.test.util.ConstVariable;
 import com.study.test.util.DateUtil;
 import com.study.test.util.UploadUtil;
@@ -320,6 +321,7 @@ public class ProfessorController {
 		//로그인 정보 불러오기
 		MemberVO member = (MemberVO)session.getAttribute("memberVO");
 		lectureVO.setEmpNo(member.getMemNo());
+		lectureVO.setLecStatus("Y");
 		
 		//강의 목록 조회
 		List<LectureVO> lectureList = schoolService.getLectureList(lectureVO);
@@ -347,6 +349,29 @@ public class ProfessorController {
 		//맵 객체생성
 		Map<String, Object> enrollStuList = new HashMap<>();
 		
+		//수강신청한 학생목록과 A+ A성적 목록 데이터 맵에 저장
+		enrollStuList.put("enrollList", enrollList);
+		enrollStuList.put("gradeScoreList", gradeScoreList);
+		
+		return enrollStuList;
+	}
+	
+	//성적 수정
+	@ResponseBody
+	@PostMapping("/updateStuGrade")
+	public Map<String, Object> updateStuGrade(LectureVO lectureVO, StuGradeVO stuGradeVO){
+		//학생 성적 수정 쿼리
+		professorService.updateStuGrade(stuGradeVO);
+		
+		//수강신청한 학생 목록 조회
+		List<Map<String, Object>> enrollList = schoolService.getLecStuList(lectureVO);
+
+		//성적과 성적에따른 학점 목록 조회
+		List<GradeVO> gradeScoreList = schoolService.getGradeScore();
+
+		//맵 객체생성
+		Map<String, Object> enrollStuList = new HashMap<>();
+
 		//수강신청한 학생목록과 A+ A성적 목록 데이터 맵에 저장
 		enrollStuList.put("enrollList", enrollList);
 		enrollStuList.put("gradeScoreList", gradeScoreList);

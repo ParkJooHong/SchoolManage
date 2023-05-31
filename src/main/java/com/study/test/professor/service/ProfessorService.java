@@ -8,6 +8,7 @@ import com.study.test.professor.vo.LectureVO;
 import com.study.test.professor.vo.ProfessorMenuVO;
 import com.study.test.professor.vo.ProfessorSubMenuVO;
 import com.study.test.school.semester.SemesterVO;
+import com.study.test.school.stu_grade.StuGradeVO;
 
 public interface ProfessorService {
 	//메인메뉴코드 리스트
@@ -33,5 +34,8 @@ public interface ProfessorService {
 	
 	//강의 수정
 	boolean updateLecture(LectureVO lectureVO);
+	
+	//학생 성적 수정 
+	void updateStuGrade(StuGradeVO stuGradeVO);
 	
 }
