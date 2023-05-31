@@ -35,5 +35,6 @@ public class StatusInfoVO {
 	private List<String> stuNoList;
 	private String acceptDate;
 	private int dataCnt;
+	private String lastDay;
 
 }

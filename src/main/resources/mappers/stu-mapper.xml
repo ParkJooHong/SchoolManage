@@ -61,6 +61,7 @@
 		<result column="TO_DATE" 			property="toDate" />
 		<result column="ACCEPT_DATE" 		property="acceptDate"/>
 		<result column="DATA_CNT" 			property="dataCnt"/>
+		<result column="LAST_DAY" 			property="lastDay"/>
 		<association property="memberVO" 	resultMap="memberMapper.member" />
 		<association property="colleageVO" 	resultMap="schoolMapper.colleage" />
 		<association property="deptVO" 		resultMap="schoolMapper.dept" />

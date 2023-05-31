@@ -11,11 +11,56 @@
 </th:block>	
 
 <th:block layout:fragment="content">
-	실적 현황 페이지
+	<div class="row">
+		<div class="col">
+			<div class="row mb-4 text-center">
+				<div class="col">
+					<h3>2023년 학적 신청내역 대비 승인내역</h3>
+				</div>
+			</div>
+			<div class="row mb-5 justify-content-center">
+				<div class="col-3">
+					<select class="form-select" id="monthData">
+						<option value="2023-01-01">1월</option>
+						<option value="2023-02-01">2월</option>
+						<option value="2023-03-01">3월</option>
+						<option value="2023-04-01">4월</option>
+						<option value="2023-05-01">5월</option>
+						<option value="2023-06-01">6월</option>
+						<option value="2023-07-01">7월</option>
+						<option value="2023-08-01">8월</option>
+						<option value="2023-09-01">9월</option>
+						<option value="2023-10-01">10월</option>
+						<option value="2023-11-01">11월</option>
+						<option value="2023-12-01">12월</option>
+					</select>			
+				</div>
+				<div class="col-3 d-grid">
+					<input type="button" class="btn btn-primary" onclick="getChartDataList();" value="검색">
+				</div>
+			</div>
+			<div class="row mb-5 justify-content-center">
+				<div class="col-10">
+					<canvas id="myChart" width="100px" height="50"></canvas>				
+				</div>
+			</div>
+			<div class="row mt-5 mb-4 text-center">
+				<div class="col">
+					<h3>2023년 학사경고 및 제적 건수</h3>
+				</div>
+			</div>
+			<div class="row mb-4 justify-content-center">
+				<div class="col-10">
+					<canvas id="disChart" width="100px" height="50"></canvas>
+				</div>
+			</div>
+		</div>
+	</div>
 </th:block>
 
 <!-- 연결해야 할 외부 js 파일 -->
 <th:block layout:fragment="content_js">
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 	<script type="text/javascript" src="/js/content/admin/performance_data.js"></script>
 </th:block>	
 

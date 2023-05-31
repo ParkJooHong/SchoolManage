@@ -205,6 +205,16 @@ public class AdminServiceImpl implements AdminService{
 		sqlsession.update("adminMapper.setStuOut",stuOutVO);
 		
 	}
+	//통계 쿼리 학적변동 승인 수
+	@Override
+	public List<StatusInfoVO> getAcceptCntList(StatusInfoVO statusInfoVO) {
+		return sqlsession.selectList("adminMapper.getAcceptCntList", statusInfoVO);
+	}
+	//통계 쿼리 학적변동 전체 데이터 수
+	@Override
+	public List<StatusInfoVO> getDataCntList(StatusInfoVO statusInfoVO) {
+		return sqlsession.selectList("adminMapper.getDataCntList", statusInfoVO);
+	}
 
 	
 
