@@ -58,10 +58,13 @@
 		<td>[[${member.stuVO.stuYear}]]</td>
 		<td>학적상태</td>
 		<td><input type="hidden" class="stuStatus" th:value="${member.stuVO.stuStatus}">
-			[[${member.stuVO.stuStatus}]]</td>
+			[[${member.stuVO.stuStatus}]]
+			<input type="hidden" class="stuSem" th:value="${member.stuVO.stuSem}">			
+		</td>
 	</tr>
 </table>
-
+<input type="hidden" class="menuCode" th:value="${menuCode}">
+<input type="hidden" class="subMenuCode" th:value="${subMenuCode}">
 <table border="1" class="detail_info">
 	<tr>
 		<td>

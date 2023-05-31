@@ -37,6 +37,9 @@ public interface StuService {
 	//학생 전과신청
 	void moveManage(DeptManageVO deptManageVO);
 	
+	//복수 전공 신청
+	void doubleMajorApply(DeptManageVO deptManageVO);
+	
 	//학생 전과신청자 조회
 	List<DeptManageVO> getDeptManager(String stuNo);
 	
