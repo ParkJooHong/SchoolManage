@@ -113,10 +113,9 @@
 					<td>[[${lectureList.maxMem}]]</td>
 					<td>[[${lectureList.nowMem}]]</td>
 					<td>[[${lectureList.semesterVO.semName}]]</td>
-					<td><input type="button" value="수강신청" class="btn btn-primary" 
+					<td><input type="button" value="수강신청" class="btn btn-primary duplication" 
 					th:onclick="apllication([[${lectureList.lecNo}]], [[${lectureList.maxMem}]], 
-					[[${lectureList.nowMem}]], [[${lectureList.semNo}]] , [[${memberVO.stuVO.stuNo}]], [[${menuCode}]], [[${subMenuCode}]] )"></td>
-					<td>[[${lectureList.lecStatus}]]</td><!-- 이거 타임리프 돌려야함 [[${lectureList.lectureTimeList[0].lecDay}]] / [[${lectureList.lectureTimeList[0].startTime}]] ~ [[${lectureList.lectureTimeList[0].finishTime}]]   -->
+					[[${lectureList.nowMem}]], [[${lectureList.semNo}]] , [[${memberVO.stuVO.stuNo}]], [[${menuCode}]], [[${subMenuCode}]])"></td>
 
 				</tr>
 			</th:block>

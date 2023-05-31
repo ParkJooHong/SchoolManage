@@ -1,10 +1,33 @@
 
+window.addEventListener('load', function(){
+	
+	var buttons = document.querySelectorAll('.duplication');
+
+	buttons.forEach(function(button){
+		var isDisabled = localStorage.getItem('buttonDisabled', button.class);
+		var isAbled = 	localStorage.getItem('buttonAbled', button.class);
+		
+	
+		if(isDisabled){
+			button.disabled = true;
+		}
+		
+		if(isAbled){
+			button.disabled = false;
+		}
+	})
+	
+	
+})
+
 //수강 신청 클릭
 function apllication(lecNo, maxMem, nowMem, semNo,stuNo, menuCode, subMenuCode){
 	
 	//const applyLecNo = document.querySelector('.applyLecNo');
+	const button = document.querySelector('.duplication');
+	button.disabled = true;
 	
-	
+	localStorage.setItem('buttonDisabled',  button.class, true);
 	
 	$.ajax({
 		url: '/stuMenu/apllyLectureAjax', //요청경로
@@ -12,6 +35,7 @@ function apllication(lecNo, maxMem, nowMem, semNo,stuNo, menuCode, subMenuCode){
 		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 		data: {'lecNo' :lecNo , 'maxMem' : maxMem, 'nowMem' : nowMem, 'semNo' : semNo, 'stuNo' : stuNo,  'menuCode' : menuCode, 'subMenuCode' : subMenuCode  }, //필요한 데이터
 		success: function(result) {
+		
 			swal("수강신청 완료!", "신청이 완료되었습니다.", "success");
 						setTimeout(function() {
 						location.reload();
@@ -25,6 +49,12 @@ function apllication(lecNo, maxMem, nowMem, semNo,stuNo, menuCode, subMenuCode){
 
 //수강 취소 
 function cancel(lecNo, maxMem, nowMem, semNo,stuNo, menuCode, subMenuCode){
+	
+	const button = document.querySelector('.duplication');
+	button.disabled = false;
+	
+	localStorage.setItem('buttonAbled', button.class, false);
+	
 	$.ajax({
 		url: '/stuMenu/cancelLectureAjax', //요청경로
 		type: 'post',
