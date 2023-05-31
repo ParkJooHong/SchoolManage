@@ -33,6 +33,7 @@ public class StatusInfoVO {
 	private String toDate;
 	private List<String> statusNoList;
 	private List<String> stuNoList;
-
+	private String acceptDate;
+	private int dataCnt;
 
 }

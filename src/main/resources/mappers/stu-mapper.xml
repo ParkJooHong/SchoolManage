@@ -49,23 +49,22 @@
 	<!-- 학적 상태 -->
 	<resultMap type="com.study.test.stu.vo.StatusInfoVO"
 		id="statusInfo">
-		<id column="STATUS_NO" property="statusNo" />
-		<result column="STU_NO" property="stuNo" />
-		<result column="NOW_STATUS" property="nowStatus" />
-		<result column="AFTER_STATUS" property="afterStatus" />
-		<result column="APPLY_DATE" property="applyDate" />
-		<result column="APPROVAL_DATE" property="approvalDate" />
-		<result column="ING_STATUS" property="ingStatus" />
-		<result column="STATUS_REASON" property="statusReason" />
-		<result column="FROM_DATE" property="fromDate" />
-		<result column="TO_DATE" property="toDate" />
-		<association property="memberVO"
-			resultMap="memberMapper.member" />
-		<association property="colleageVO"
-			resultMap="schoolMapper.colleage" />
-		<association property="deptVO"
-			resultMap="schoolMapper.dept" />
-		<association property="stuVO" resultMap="stu" />
+		<id column="STATUS_NO"				property="statusNo" />
+		<result column="STU_NO" 			property="stuNo" />
+		<result column="NOW_STATUS" 		property="nowStatus" />
+		<result column="AFTER_STATUS" 		property="afterStatus" />
+		<result column="APPLY_DATE" 		property="applyDate" />
+		<result column="APPROVAL_DATE" 		property="approvalDate" />
+		<result column="ING_STATUS" 		property="ingStatus" />
+		<result column="STATUS_REASON" 		property="statusReason" />
+		<result column="FROM_DATE" 			property="fromDate" />
+		<result column="TO_DATE" 			property="toDate" />
+		<result column="ACCEPT_DATE" 		property="acceptDate"/>
+		<result column="DATA_CNT" 			property="dataCnt"/>
+		<association property="memberVO" 	resultMap="memberMapper.member" />
+		<association property="colleageVO" 	resultMap="schoolMapper.colleage" />
+		<association property="deptVO" 		resultMap="schoolMapper.dept" />
+		<association property="stuVO" 		resultMap="stu" />
 	</resultMap>
 
 	<!-- 전과신청 -->

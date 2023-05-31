@@ -549,4 +549,11 @@ public class AdminController {
 		return "content/admin/dismissal";
 	}
 	
+	//관리자 게시판 관리
+	@GetMapping("/adminService")
+	public String adminService(AdminSubMenuVO adminSubMenuVO) {
+		
+		return "content/admin/admin_service";
+	}
+	
 }
