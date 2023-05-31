@@ -61,6 +61,8 @@
 		<result column="PROB_REASON" 	property="probReason"/>
 		<result column="SEM_NO" 		property="semNo"/>
 		<result column="MEM_NO" 		property="memNo"/>
+		<result column="MONTH_DATA"		property="monthData"/>
+		<result column="PROB_CNT"		property="probCnt"/>
 	</resultMap>
 	
 	<resultMap type="com.study.test.admin.vo.StuOutVO" id="stuOut">
@@ -68,6 +70,8 @@
 		<result column="STU_NO" 				property="stuNo"/>
 		<result column="STU_OUT_DATE" 			property="stuOutDate"/>
 		<result column="STU_OUT_REASON" 		property="stuOutReason"/>
+		<result column="MONTH_DATA"		property="monthData"/>
+		<result column="OUT_CNT"		property="outCnt"/>
 	</resultMap>
 	
 	<select id="getAdminMenuList" resultMap="adminMenu">
@@ -752,6 +756,59 @@
 		ORDER BY ACCEPT_DATE
 	</select>
 	
+	<!-- 학사경고 통계 쿼리 -->
+	<select id="getProbStatisticsData" resultMap="probation">
+		SELECT TO_CHAR(MONTHS.MONTH, 'MM') AS MONTH_DATA
+				, NVL(COUNT(PROB_NO), 0) AS PROB_CNT
+		FROM (
+		    SELECT ADD_MONTHS(TO_DATE('2023-01-01', 'YYYY-MM-DD'), LEVEL - 1) AS MONTH
+		    FROM DUAL
+		    CONNECT BY LEVEL &lt;= 12
+		) MONTHS
+		LEFT JOIN ACADEMIC_PROBATION ON TO_CHAR(ACADEMIC_PROBATION.PROB_DATE, 'MM') = TO_CHAR(MONTHS.MONTH, 'MM')
+		WHERE MONTHS.MONTH &gt;= TO_DATE('2023-01-01', 'YYYY-MM-DD') AND MONTHS.MONTH &lt;= TO_DATE('2023-12-31', 'YYYY-MM-DD')
+		GROUP BY TO_CHAR(MONTHS.MONTH, 'MM')
+		ORDER BY TO_CHAR(MONTHS.MONTH, 'MM')
+	</select>
+	
+	<!-- 제적 통계 쿼리 -->
+	<select id="getOutStatisticsData" resultMap="stuOut">
+		SELECT TO_CHAR(MONTHS.MONTH, 'MM') AS MONTH_DATA, NVL(COUNT(STU_OUT_NO), 0) AS OUT_CNT
+		FROM (
+		    SELECT ADD_MONTHS(TO_DATE('2023-01-01', 'YYYY-MM-DD'), LEVEL - 1) AS MONTH
+		    FROM DUAL
+		    CONNECT BY LEVEL &lt;= 12
+		) MONTHS
+		LEFT JOIN STU_OUT ON TO_CHAR(STU_OUT.STU_OUT_DATE, 'MM') = TO_CHAR(MONTHS.MONTH, 'MM')
+		WHERE MONTHS.MONTH &gt;= TO_DATE('2023-01-01', 'YYYY-MM-DD') AND MONTHS.MONTH &lt;= TO_DATE('2023-12-31', 'YYYY-MM-DD')
+		GROUP BY TO_CHAR(MONTHS.MONTH, 'MM')
+		ORDER BY TO_CHAR(MONTHS.MONTH, 'MM')
+	</select>
+	<!-- 다음에 들어갈 카테고리 코드 조회  -->
+	<select id="getNextCateNo" resultType="String">
+		SELECT 'CATE_'||LPAD(NVL(MAX(TO_NUMBER(SUBSTR(CATE_NO, 6))), 0) +1 , 3, '0')
+	    FROM BOARD_CATEGORY
+	</select>
+	
+	<!-- 게시판 카테고리 등록 -->
+	<insert id="regCateNo">
+		INSERT INTO BOARD_CATEGORY (
+			CATE_NO
+			, CATE_NAME
+			, IS_USE
+		) VALUES (
+	         #{cateNo}
+			, #{cateName}
+			, #{isUse}
+		)
+	</insert>
+	
+	<!-- 카테고리 사용여부 변경 -->
+	<update id="setIsUseByCateNo">
+		UPDATE BOARD_CATEGORY
+		SET IS_USE = #{isUse}
+		WHERE CATE_NO = #{cateNo}
+	</update>
 	
 </mapper>
 

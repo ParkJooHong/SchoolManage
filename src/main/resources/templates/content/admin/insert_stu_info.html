@@ -58,7 +58,7 @@
 								<select name="doubleNo" class="form-select">
 									<option selected value="없음">없음</option>
 									<th:block th:each="double:${schoolMap.doubleMajorList}">
-										<option th:value="${double.doubleNo}">[[${double.doubleColl}]]</option>
+										<option th:value="${double.doubleNo}">[[${double.doubleDeptName}]]</option>
 									</th:block>
 								</select>
 							</td>

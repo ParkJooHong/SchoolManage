@@ -14,4 +14,6 @@ public class ProbationVO {
 	private String probReason;
 	private String semNo;
 	private String memNo;
+	private String monthData;
+	private String probCnt;
 }

@@ -12,6 +12,7 @@ import com.study.test.admin.vo.AdminSubMenuVO;
 import com.study.test.admin.vo.EmpVO;
 import com.study.test.admin.vo.ProbationVO;
 import com.study.test.admin.vo.StuOutVO;
+import com.study.test.board.vo.BoardCategoryVO;
 import com.study.test.member.vo.MemberVO;
 import com.study.test.school.colleage.ColleageVO;
 import com.study.test.school.dept.DeptManageVO;
@@ -215,9 +216,35 @@ public class AdminServiceImpl implements AdminService{
 	public List<StatusInfoVO> getDataCntList(StatusInfoVO statusInfoVO) {
 		return sqlsession.selectList("adminMapper.getDataCntList", statusInfoVO);
 	}
-
+	//학사경고 통계 쿼리
+	@Override
+	public List<ProbationVO> getProbStatisticsData() {
+		return sqlsession.selectList("adminMapper.getProbStatisticsData");
+	}
+	//제적 통계 쿼리
+	@Override
+	public List<StuOutVO> getOutStatisticsData() {
+		return sqlsession.selectList("adminMapper.getOutStatisticsData");
+	}
+	//게시판 카테고리 등록
+	@Override
+	public void regCateNo(BoardCategoryVO boardCategoryVO) {
+		sqlsession.insert("adminMapper.regCateNo",boardCategoryVO);	
+	}
+	
+	//다음에 들어갈 카테고리 번호 조회
+	@Override
+	public String getNextCateNo() {
+		return sqlsession.selectOne("adminMapper.getNextCateNo");
+	}
+	@Override
+	public void setIsUseByCateNo(BoardCategoryVO boardCategoryVO) {
+		sqlsession.update("adminMapper.setIsUseByCateNo",boardCategoryVO);
+	}
 	
 
+	
+	
 	
 
 

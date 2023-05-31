@@ -12,4 +12,6 @@ public class StuOutVO {
 	private String stuNo;
 	private String stuOutDate;
 	private String stuOutReason;
+	private String monthData;
+	private String outCnt;
 }

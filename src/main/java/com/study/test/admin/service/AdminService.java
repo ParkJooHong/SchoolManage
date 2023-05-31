@@ -7,6 +7,7 @@ import com.study.test.admin.vo.AdminSubMenuVO;
 import com.study.test.admin.vo.EmpVO;
 import com.study.test.admin.vo.ProbationVO;
 import com.study.test.admin.vo.StuOutVO;
+import com.study.test.board.vo.BoardCategoryVO;
 import com.study.test.member.vo.MemberVO;
 import com.study.test.school.colleage.ColleageVO;
 import com.study.test.school.dept.DeptManageVO;
@@ -102,5 +103,20 @@ public interface AdminService {
 	
 	//통계 쿼리 학적변동 전체 데이터 수
 	List<StatusInfoVO> getDataCntList(StatusInfoVO statusInfoVO);
+	
+	//학사경고 통계 쿼리
+	List<ProbationVO> getProbStatisticsData();
+	
+	//제적 통계 쿼리
+	List<StuOutVO> getOutStatisticsData();
+	
+	//게시판 카테고리 등록
+	void regCateNo(BoardCategoryVO boardCategoryVO);
+	
+	//다음에 들어갈 카테고리 번호 조회
+	String getNextCateNo();
+	
+	//카테고리 사용여부 변경
+	void setIsUseByCateNo(BoardCategoryVO boardCategoryVO);
 	
 }

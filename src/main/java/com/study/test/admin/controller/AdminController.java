@@ -21,6 +21,8 @@ import com.study.test.admin.vo.AdminSubMenuVO;
 import com.study.test.admin.vo.EmpVO;
 import com.study.test.admin.vo.ProbationVO;
 import com.study.test.admin.vo.StuOutVO;
+import com.study.test.board.service.BoardService;
+import com.study.test.board.vo.BoardCategoryVO;
 import com.study.test.member.service.MemberService;
 import com.study.test.member.vo.MemImgVO;
 
@@ -47,6 +49,8 @@ public class AdminController {
 	private AdminService adminService;
 	@Resource(name = "schoolService")
 	private SchoolService schoolService;
+	@Resource(name = "boardService")
+	private BoardService boardService;
 
 	// 회원등록 페이지 이동
 	@GetMapping("/joinMember")
@@ -477,7 +481,7 @@ public class AdminController {
 	//차트 데이터 넘기기
 	@PostMapping("/getChartDataListAjax")
 	@ResponseBody
-	public Map<String, List<StatusInfoVO>> getChartDataListAjax(String acceptDate) {
+	public Map<String, Object> getChartDataListAjax(String acceptDate) {
 		StatusInfoVO statusInfoVO = new StatusInfoVO();
 		Calendar cal = Calendar.getInstance();
 		String[] acceptArr = acceptDate.split("-");
@@ -490,14 +494,16 @@ public class AdminController {
 		cal.set(formatArr[0], formatArr[1], formatArr[2] -1);
 		int numLastDay = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
 		
-		String slisingString = acceptDate.substring(0, 8);
-		String lastDay = slisingString + numLastDay;
+		String slicingString = acceptDate.substring(0, 8);
+		String lastDay = slicingString + numLastDay;
 		statusInfoVO.setAcceptDate(acceptDate);
 		statusInfoVO.setLastDay(lastDay);
 		
-		Map<String, List<StatusInfoVO>> chartMap = new HashMap<>();
+		Map<String, Object> chartMap = new HashMap<>();
 		chartMap.put("acceptData", adminService.getAcceptCntList(statusInfoVO));
 		chartMap.put("totalData", adminService.getDataCntList(statusInfoVO));
+		chartMap.put("probData", adminService.getProbStatisticsData());
+		chartMap.put("outData", adminService.getOutStatisticsData());
 		
 		return chartMap;
 	}
@@ -550,7 +556,7 @@ public class AdminController {
 		probationVO.setProbReason(probMap.get("reason"));
 		probationVO.setStuNo(probMap.get("stuNo"));
 		probationVO.setMemNo(probMap.get("stuNo"));
-		 adminService.regProbStu(probationVO);
+		adminService.regProbStu(probationVO);
 		
 		return adminService.getProbationStu(probMap.get("stuNo"));
 	}
@@ -575,11 +581,33 @@ public class AdminController {
 		return "content/admin/dismissal";
 	}
 	
-	//관리자 게시판 관리
+	//관리자 게시판 관리 페이지 이동
 	@GetMapping("/adminService")
-	public String adminService(AdminSubMenuVO adminSubMenuVO) {
-		
+	public String adminService(AdminSubMenuVO adminSubMenuVO,Model model) {
+		adminSubMenuVO.setMenuCode(ConstVariable.FIFTH_MENU_CODE);
+		model.addAttribute("boardCateList",boardService.getBoardCategoryList());
 		return "content/admin/admin_service";
+	}
+	
+	//카테고리 등록
+	@PostMapping("/regBoardCateAjax")
+	@ResponseBody
+	public List<BoardCategoryVO> regBoardCateAjax(BoardCategoryVO boardCategoryVO) {
+		String cateNo = adminService.getNextCateNo();
+		boardCategoryVO.setCateNo(cateNo);
+		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@" + boardCategoryVO);
+		adminService.regCateNo(boardCategoryVO);
+		
+		return boardService.getBoardCategoryList();
+		
+	}
+	
+	//카테고리 변경
+	@PostMapping("/changeIsUseAjax")
+	@ResponseBody
+	public List<BoardCategoryVO> changeIsUseAjax(BoardCategoryVO boardCategoryVO) {
+		adminService.setIsUseByCateNo(boardCategoryVO);
+		return boardService.getBoardCategoryList();
 	}
 	
 }

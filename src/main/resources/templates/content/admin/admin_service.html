@@ -11,12 +11,95 @@
 </th:block>	
 
 <th:block layout:fragment="content">
-	게시판 관리
+	<div class="row">
+		<div class="col">
+			<div class="row mt-4 mb-4 text-center">
+				<div class="col-12">
+					<h1>[관리자 게시판]</h1>
+				</div>
+			</div>
+			<div class="row mb-5">
+				<div class="col-5">
+					<label for="cateName">카테고리명</label>
+					<input type="text" class="form-control" id="cateName">
+				</div>
+				<div class="col-5">
+					<label for="isUse">사용여부</label>
+					<select class="form-select" id="isUse">
+						<option value="Y">사용중</option>
+						<option value="N">미사용</option>
+					</select>
+				</div>
+				<div class="col-2 d-grid">
+					<input type="button" class="btn btn-primary" onclick="regBoardCate();" value="등록">
+				</div>
+			</div>
+			<div class="row mb-5 text-center">
+				<div class="col-12">
+					<h1>카테고리 목록</h1>
+				</div>
+			</div>
+			<div class="row mb-5">
+				<div class="col text-start">
+					<span id="sizeSpan">※총 [[${#lists.size(boardCateList)}]]개의 카테고리가 검색되었습니다.</span>
+				</div>
+				<div class="col text-end">
+					<input type="button" value="선택 삭제" class="btn btn-secondary">
+				</div>
+			</div>
+			<div class="row text-center">
+				<div class="col">
+					<table class="table align-middle">
+						<colgroup>
+							<col width="5%">
+							<col width="5%">
+							<col width="30%">
+							<col width="30%">
+							<col width="*">
+						</colgroup>
+						<thead>
+							<tr>
+								<td>
+									<input type="checkbox" checked onclick="allCheckControll(this);" class="form-check-input" id="allChk">
+								</td>
+								<td>No.</td>
+								<td>카테고리 번호</td>
+								<td>게시판 카테고리명</td>
+								<td>사용여부</td>
+							</tr>
+						</thead>
+						<tbody id="cateTbody">
+							<th:block th:each="cate, cateState : ${boardCateList}">
+								<tr>
+									<td>
+										<input type="checkbox" checked onclick="checkControll();" class="form-check-input checkboxes">
+									</td>
+									<td>[[${cateState.count}]]</td>
+									<td>[[${cate.cateNo}]]</td>
+									<td>[[${cate.cateName}]]</td>
+									<td>
+										<th:block th:if="${cate.isUse == 'Y' }">
+											<input type="radio" th:name="isUse+${cateState.index}" class="form-check-input" th:onchange="changeIsUse([[${cate.cateNo}]],this)" checked value="Y">사용중
+											<input type="radio" th:name="isUse+${cateState.index}" class="form-check-input" th:onchange="changeIsUse([[${cate.cateNo}]],this)" value="N">미사용
+										</th:block>
+										<th:block th:unless="${cate.isUse == 'Y'}">
+											<input type="radio" th:name="isUse+${cateState.index}" class="form-check-input" th:onchange="changeIsUse([[${cate.cateNo}]],this)" value="Y">사용중
+											<input type="radio" th:name="isUse+${cateState.index}" class="form-check-input" th:onchange="changeIsUse([[${cate.cateNo}]],this)" checked value="N">미사용
+										</th:block>
+									</td>
+								</tr>
+							</th:block>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
 </th:block>
 
 <!-- 연결해야 할 외부 js 파일 -->
 <th:block layout:fragment="content_js">
-	<script type="text/javascript" src=""></script>
+	<script type="text/javascript" src="/js/content/admin/admin_service.js"></script>
 </th:block>	
 
 </html>
