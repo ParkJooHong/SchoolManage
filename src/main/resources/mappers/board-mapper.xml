@@ -39,6 +39,7 @@
 				, CATE_NAME
 				, IS_USE
 			FROM BOARD_CATEGORY
+			ORDER BY CATE_NO
 		</select>
 		
 		<!-- 나의 게시판 조회-->

@@ -702,8 +702,10 @@ public class StuController {
 			}
 			
 		//수강신청
-		@GetMapping("application")
-		private String application(String menuCode, String subMenuCode, Model model, StuVO stuVO, MemberVO memberVO, Authentication authentication, String collNo, LectureVO lectureVO) {
+		@RequestMapping("application")
+		private String application(String menuCode, String subMenuCode, Model model, StuVO stuVO, 
+				MemberVO memberVO, Authentication authentication, String collNo, LectureVO lectureVO) {
+			
 			User user = (User)authentication.getPrincipal();
 			String memName = user.getUsername();
 			stuVO.setMemNo(user.getUsername()); // id임
@@ -711,6 +713,26 @@ public class StuController {
 			stuVO.setStuNo(user.getUsername());
 			model.addAttribute("memberVO" , stuService.seletStu(memberVO));
 			memberVO.setStuVO(stuService.getColl(user.getUsername()));
+			
+			if(lectureVO.getSearchKeyword() == null) {
+				lectureVO.setSearchKeyword("LEC_NAME");
+			}
+			if(lectureVO.getSearchValue() == null) {
+				lectureVO.setSearchValue("");
+			}
+			if(lectureVO.getSearchColl() == null) {
+				lectureVO.setSearchColl("");
+			}
+			if(lectureVO.getSearchDept() == null) {
+				lectureVO.setSearchDept("컴퓨터공학과");
+			}
+			
+			System.out.println(lectureVO.getSearchColl());
+			System.out.println(lectureVO.getSearchDept());
+			
+			System.out.println(lectureVO.getSearchKeyword());
+			System.out.println(lectureVO.getSearchValue());
+			
 
 			//대학 조회
 			model.addAttribute("colleageVO", schoolService.getCollList()); 
@@ -719,15 +741,19 @@ public class StuController {
 			model.addAttribute("deptVO", schoolService.getDeptList(collNo));
 
 			
+			
+			System.out.println(lectureVO.getDeptNo());
 			//수강 조회
+			lectureVO.setLecStatus("Y");
 			model.addAttribute("lectureListVO", schoolService.getLectureList(lectureVO));
+			
 			System.out.println("수업데이터 : " +schoolService.getLectureList(lectureVO));
 			System.out.println(stuVO.getStuNo());
 			
 			//수강신청항목 리스트 조회
 			model.addAttribute("applyLecture" , stuService.applyLectureList(stuVO.getStuNo()));
 			System.out.println("수강신청한 강의 리스트 :" + stuService.applyLectureList(stuVO.getStuNo()));
-			
+
 			model.addAttribute("menuCode" , menuCode);
 			model.addAttribute("subMenuCode", subMenuCode);
 

@@ -14,7 +14,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class LectureVO {
+public class LectureVO extends LectureSearchVO{
 	private String lecNo;
 	private String lecName;
 	private int lecScore;

@@ -1,33 +1,36 @@
 
-window.addEventListener('load', function(){
-	
-	var buttons = document.querySelectorAll('.duplication');
 
-	buttons.forEach(function(button){
-		var isDisabled = localStorage.getItem('buttonDisabled', button.class);
-		var isAbled = 	localStorage.getItem('buttonAbled', button.class);
-		
+// 페이지 로드 시 상태 가져오기
+window.addEventListener('load', function() {
+  var buttonState = localStorage.getItem('buttonState');
+  
+  if (buttonState === 'completed') {
+    applyButton.style.display = 'none';
+    completedButton.style.display = 'block';
+  }
+});
+
+
+function a(){
+	const applyButton = document.querySelector('.app');
+	const completedButton = document.querySelector('.dup');
 	
-		if(isDisabled){
-			button.disabled = true;
-		}
-		
-		if(isAbled){
-			button.disabled = false;
-		}
-	})
-	
-	
-})
+	applyButton.addEventListener('click', function() {
+	  applyButton.style.display = 'none';
+	  completedButton.style.display = 'block';
+	  
+	  localStorage.setItem('buttonState', 'completed'); // 변경된 상태를 로컬 스토리지에 저장
+	});
+}
 
 //수강 신청 클릭
 function apllication(lecNo, maxMem, nowMem, semNo,stuNo, menuCode, subMenuCode){
 	
-	//const applyLecNo = document.querySelector('.applyLecNo');
-	const button = document.querySelector('.duplication');
-	button.disabled = true;
+	//const applyLecNos = document.querySelectorAll('.applyLecNo');
+		
+	//console.log(applyLecNos);
 	
-	localStorage.setItem('buttonDisabled',  button.class, true);
+
 	
 	$.ajax({
 		url: '/stuMenu/apllyLectureAjax', //요청경로
@@ -47,13 +50,11 @@ function apllication(lecNo, maxMem, nowMem, semNo,stuNo, menuCode, subMenuCode){
 	});
 }
 
+
+
 //수강 취소 
 function cancel(lecNo, maxMem, nowMem, semNo,stuNo, menuCode, subMenuCode){
 	
-	const button = document.querySelector('.duplication');
-	button.disabled = false;
-	
-	localStorage.setItem('buttonAbled', button.class, false);
 	
 	$.ajax({
 		url: '/stuMenu/cancelLectureAjax', //요청경로
@@ -210,3 +211,4 @@ function plus(){
 	button.insertAdjacentHTML('afterbegin', str);
 	table.insertAdjacentHTML('afterbegin', str2);
 }
+

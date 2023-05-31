@@ -216,6 +216,9 @@
 		<if test="lecNo != null and lecNo != ''">
 		AND LEC.LEC_NO = #{lecNo}
 		</if>
+		<if test="searchValue !=null and searchValue != ''">
+		AND UPPER(${searchKeyword}) LIKE '%' || UPPER(#{searchValue}) || '%'
+		</if>
 		ORDER BY LEC_NO DESC
 	</select>	
 	

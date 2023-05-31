@@ -34,28 +34,39 @@
 <input type="hidden" th:value="${subMenuCode}" class="subMenuCode">
 <input type="hidden" th:value="${menuCode}"  class="menuCode">
 
-<div class="searchAply">
-	단과대학
-	<select class="colleage" th:onchange="updateDept([[${menuCode}]], [[${subMenuCode}]])">
-		<th:block th:each="colleage : ${colleageVO}" >
-			<option th:value="${colleage.collNo}">						
-					[[${colleage.collName}]]		
-			</option>
-		</th:block>
-	</select>
-	소속학과
-	<select class="dept" th:onchange="updateLecture([[${menuCode}]], [[${subMenuCode}]])">
-		<th:block th:each="dept : ${deptVO}" >
-			<option th:value="${dept.deptName}">						
-					[[${dept.deptName}]]		
-			</option>
-		</th:block>
-	</select>
-	</div>
+<form th:action="@{/stuMenu/application}" method="post">
+	<input type="hidden" th:value="${menuCode}" name="menuCode"> 
+	<input type="hidden" th:value="${subMenuCode}" name="subMenuCode"> 
 	<div class="searchAply">
-	<input type="text" placeholder="교과목명과 교수명을 입력해주세요" class="headerText" >
-	<input type="button" class="btn btn-danger search" value="검색" >
-</div>
+		단과대학
+		<select class="colleage" th:onchange="updateDept([[${menuCode}]], [[${subMenuCode}]])" name="searchColl">
+			<th:block th:each="colleage : ${colleageVO}" >
+				<option th:value="${colleage.collNo}">						
+						[[${colleage.collName}]]		
+				</option>
+			</th:block>
+		</select>
+		소속학과
+		<select class="dept" th:onchange="updateLecture([[${menuCode}]], [[${subMenuCode}]])" name="searchDept">
+			<th:block th:each="dept : ${deptVO}" >
+				<option th:value="${dept.deptName}">						
+						[[${dept.deptName}]]		
+				</option>
+			</th:block>
+		</select>
+		</div>
+	<div class="searchAply">
+		<select class="size"  name="searchKeyword">
+			<option value= "" >전체</option>
+			<option value="LEC_NAME" >교과목명</option>
+			<option value="MEM_NAME">교수명</option>
+			<!-- 셀렉트 박스 옵션 추가 -->
+	 	 </select>
+		
+		<input type="text" placeholder="교과목명 혹은 교수명을 입력해주세요" class="headerText" name="searchValue" >
+		<input type="submit" class="btn btn-danger search" value="검색" >
+	</div>
+</form>
 
 <h8>🌐 수강 신청</h8> <input type="button" class="btn btn-primary" value="학점순"> <input type="button" class="btn btn-primary" value="인원순">
 <div class="detail_info">
@@ -113,16 +124,26 @@
 					<td>[[${lectureList.maxMem}]]</td>
 					<td>[[${lectureList.nowMem}]]</td>
 					<td>[[${lectureList.semesterVO.semName}]]</td>
-					<td><input type="button" value="수강신청" class="btn btn-primary duplication" 
-					th:onclick="apllication([[${lectureList.lecNo}]], [[${lectureList.maxMem}]], 
-					[[${lectureList.nowMem}]], [[${lectureList.semNo}]] , [[${memberVO.stuVO.stuNo}]], [[${menuCode}]], [[${subMenuCode}]])"></td>
-
+					<td>
+						<input style="display: block;" type="button" value="수강신청" class="applyLecture btn btn-primary" th:onclick="apllication([[${lectureList.lecNo}]], [[${lectureList.maxMem}]], [[${lectureList.nowMem}]], [[${lectureList.semNo}]] , [[${memberVO.stuVO.stuNo}]], [[${menuCode}]], [[${subMenuCode}]], this)">
+						<input style="display: none;" type="button" value="신청완료" class="duplication btn btn-danger" >
+					</td>
 				</tr>
 			</th:block>
 		</tbody>
 	</table>
+	<table>
+		<tr th:each="lectureList : ${lectureListVO}">
+			<td>
+				<input style="display: block;" type="button" value="수강신청" class="applyLecture btn btn-primary" th:onclick="apllication([[${lectureList.lecNo}]], [[${lectureList.maxMem}]], [[${lectureList.nowMem}]], [[${lectureList.semNo}]] , [[${memberVO.stuVO.stuNo}]], [[${menuCode}]], [[${subMenuCode}]], this)">
+				<input style="display: none;" type="button" value="신청완료" class="duplication btn btn-danger" >
+			</td>
+		</tr>
+	</table>
 </div>
 <br>
+<input style="display: block;" type="button" value="수강신청" class="app" th:onclick="a()">
+<input style="display: none;" type="button" value="신청완료" class="dup" >
 <h8>🌐 수강 신청 내역 확인</h8>
 <table class="table table-striped table-hover text-center align-middle">
 		<!-- align-middle 하면 테이블 중간에 표시. -->
@@ -162,7 +183,7 @@
 			</th:block>
 			<th:block th:if="${#lists.size(applyLecture) != 0}">
 					<tr th:each="applyLecture : ${applyLecture}">
-						<td>
+						<td class="applyLecNo">
 							[[${applyLecture.lecNo}]]
 						</td>
 						<td>
@@ -190,8 +211,10 @@
 						<td>[[${applyLecture.maxMem}]]</td>
 					<td>[[${applyLecture.nowMem}]]</td>
 					<td>[[${applyLecture.semesterVO.semName}]]</td>
-					<td><input type="button" value="수강취소" class="btn btn-danger"
-						th:onclick="cancel([[${applyLecture.lecNo}]], [[${applyLecture.maxMem}]], [[${applyLecture.nowMem}]], [[${applyLecture.semNo}]] , [[${memberVO.stuVO.stuNo}]], [[${menuCode}]], [[${subMenuCode}]])"></td>
+					<td>
+						<input type="button" value="수강취소" class="btn btn-danger"
+						th:onclick="cancel([[${applyLecture.lecNo}]], [[${applyLecture.maxMem}]], [[${applyLecture.nowMem}]], [[${applyLecture.semNo}]] , [[${memberVO.stuVO.stuNo}]], [[${menuCode}]], [[${subMenuCode}]])">
+					</td>
 					</tr>
 			</th:block>
 			</tbody>
