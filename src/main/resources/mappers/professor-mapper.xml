@@ -185,6 +185,7 @@
 			, UM.MEM_NAME
 			, TIME_NO
 			, SEM.SEM_NO
+			, LEC.DEPT_NO
 		FROM LECTURE LEC
 			, COLLEAGE COL
 			, DEPT DEPT
@@ -218,6 +219,9 @@
 		</if>
 		<if test="searchValue !=null and searchValue != ''">
 		AND UPPER(${searchKeyword}) LIKE '%' || UPPER(#{searchValue}) || '%'
+		</if>
+		<if test="searchDept !=null and searchDept != ''">
+		AND LEC.DEPT_NO = #{searchDept}
 		</if>
 		ORDER BY LEC_NO DESC
 	</select>	

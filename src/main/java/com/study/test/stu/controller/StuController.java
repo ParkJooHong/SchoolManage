@@ -715,7 +715,7 @@ public class StuController {
 			memberVO.setStuVO(stuService.getColl(user.getUsername()));
 			
 			if(lectureVO.getSearchKeyword() == null) {
-				lectureVO.setSearchKeyword("LEC_NAME");
+				lectureVO.setSearchKeyword("");
 			}
 			if(lectureVO.getSearchValue() == null) {
 				lectureVO.setSearchValue("");
@@ -724,7 +724,7 @@ public class StuController {
 				lectureVO.setSearchColl("");
 			}
 			if(lectureVO.getSearchDept() == null) {
-				lectureVO.setSearchDept("컴퓨터공학과");
+				lectureVO.setSearchDept("");
 			}
 			
 			System.out.println(lectureVO.getSearchColl());
@@ -740,9 +740,10 @@ public class StuController {
 			//학과 조회
 			model.addAttribute("deptVO", schoolService.getDeptList(collNo));
 
+			//stu에 있는 deptNo에 학과 삽입
+			stuVO.setDeptNo(lectureVO.getSearchDept()); 
 			
-			
-			System.out.println(lectureVO.getDeptNo());
+			System.out.println(stuVO.getDeptNo());
 			//수강 조회
 			lectureVO.setLecStatus("Y");
 			model.addAttribute("lectureListVO", schoolService.getLectureList(lectureVO));
