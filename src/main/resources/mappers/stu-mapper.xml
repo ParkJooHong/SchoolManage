@@ -137,6 +137,21 @@
 		<collection property="lectureTimeList"
 			resultMap="professorMapper.lectureTime" />
 	</resultMap>
+	
+	<!-- 성적 조회 -->
+	<resultMap type="" id="">
+		<id column="STU_GRADE_NO" 			property="stuGradeNo"/>
+		<result column="LEC_NO" 	property="lecNo"/>
+		<result column="GRADE" 		property="grade"/>
+		<result column="STU_NO" 	property="stuNo"/>
+		<result column="LEC_NAME" 	property="lecName"/>
+		<result column="LEC_SCORE" 	property="lecScore"/>
+		<result column="COLL_NO" 	property="collNo"/>
+		<result column="DEPT_NO" 	property="deptNo"/>
+		<result column="EMP_NO" 	property="empNo"/>
+		<result column="MEM_NO" 	property="memNo"/>
+		<result column="MEM_NAME" 	property="memName"/>
+	</resultMap>
 
 
 	<!-- 멤버 조회 -->
@@ -617,6 +632,26 @@
 		, NOW_MEM = #{nowMem} - 1
 		WHERE LEC_NO = #{lecNo}
 	</update>
+	
+	<!-- 학생 성적 조회 -->
+	<select id="getStuGrade" >
+		SELECT STU_GRADE_NO
+		    , SG.LEC_NO
+		    , GRADE
+		    , STU_NO
+		    , SG.SEM_NO
+		    , LEC_NAME
+		    , LEC_SCORE
+		    , UE.COLL_NO
+		    , UE.DEPT_NO
+		    , UE.EMP_NO
+		    , UE.MEM_NO
+		    , MEM_NAME
+		FROM STU_GRADE SG, LECTURE L , UNI_EMP UE, UNI_MEMBER UM
+		WHERE SG.LEC_NO = L.LEC_NO
+		AND L.EMP_NO = UE.EMP_NO
+		AND UE.MEM_NO = UM.MEM_NO
+	</select>
 
 </mapper>
 

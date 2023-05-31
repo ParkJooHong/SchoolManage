@@ -4,6 +4,7 @@ import com.study.test.member.vo.MemberVO;
 import com.study.test.school.colleage.ColleageVO;
 import com.study.test.school.dept.DeptVO;
 import com.study.test.school.grade.GradeVO;
+import com.study.test.school.semester.SemesterVO;
 import com.study.test.school.stu_grade.StuGradeVO;
 import com.study.test.stu.vo.StuVO;
 
@@ -24,4 +25,5 @@ public class EnrollmentVO {
 	private DeptVO deptVO;
 	private StuGradeVO stuGradeVO;
 	private MemberVO memberVO;
+	private SemesterVO smesterVO; 
 }

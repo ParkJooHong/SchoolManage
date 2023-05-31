@@ -45,6 +45,7 @@
 		<result column="STU_NO" 	property="stuNo"/>
 		<result column="LEC_NO" 	property="lecNo"/>
 		<result column="SEM_NO" 	property="semNo"/>
+		<association property="semesterVO" resultMap="semester"/>
 		<association property="memberVO" resultMap="memberMapper.member"/>
 		<association property="stuVO" resultMap="stuMapper.stu"/>
 		<association property="colleageVO" resultMap="schoolMapper.colleage"/>
@@ -123,6 +124,7 @@
 			, COLL_NAME 
 			, DEPT_NAME
 			, STU_YEAR
+			, SEM_NAME
 			, LEC_SCORE
 			, LEC.LEC_NO
 			, STU_GRADE_NO
@@ -134,6 +136,7 @@
 			, DEPT DEPT
 			, LECTURE LEC
 			, STU_GRADE SG
+			, SEMESTER S
 		WHERE ENROLL.STU_NO = US.STU_NO
         AND UM.MEM_NO = ENROLL.STU_NO
 		AND COLL.COLL_NO = US.COLL_NO
@@ -141,7 +144,10 @@
         AND ENROLL.LEC_NO = LEC.LEC_NO
         AND SG.STU_NO = US.STU_NO 
         AND ENROLL.LEC_NO = SG.LEC_NO
+        <if test="lecNo != null and lecNo != ''">
 		AND ENROLL.LEC_NO = #{lecNo}
+		</if>
+		AND S.SEM_NO = SG.SEM_NO
 	</select>
 	
 	<!-- 성적과 성적에따른 학점 -->
