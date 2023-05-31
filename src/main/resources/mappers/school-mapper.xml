@@ -121,6 +121,7 @@
 		SELECT ENROLLMENT_NO
             , US.STU_NO
 			, MEM_NAME
+			, LEC_NAME
 			, COLL_NAME 
 			, DEPT_NAME
 			, STU_YEAR

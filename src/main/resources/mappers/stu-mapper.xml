@@ -137,21 +137,6 @@
 		<collection property="lectureTimeList"
 			resultMap="professorMapper.lectureTime" />
 	</resultMap>
-	
-	<!-- 성적 조회 -->
-	<resultMap type="" id="">
-		<id column="STU_GRADE_NO" 			property="stuGradeNo"/>
-		<result column="LEC_NO" 	property="lecNo"/>
-		<result column="GRADE" 		property="grade"/>
-		<result column="STU_NO" 	property="stuNo"/>
-		<result column="LEC_NAME" 	property="lecName"/>
-		<result column="LEC_SCORE" 	property="lecScore"/>
-		<result column="COLL_NO" 	property="collNo"/>
-		<result column="DEPT_NO" 	property="deptNo"/>
-		<result column="EMP_NO" 	property="empNo"/>
-		<result column="MEM_NO" 	property="memNo"/>
-		<result column="MEM_NAME" 	property="memName"/>
-	</resultMap>
 
 
 	<!-- 멤버 조회 -->

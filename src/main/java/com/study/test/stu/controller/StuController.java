@@ -673,13 +673,20 @@ public class StuController {
 		// ---- 교과수업 { 
 		//성적조회
 			@GetMapping("grade")
-			private String grade(Authentication authentication, StuVO stuVO, MemberVO memberVO, Model model) {
+			private String grade(Authentication authentication, StuVO stuVO, MemberVO memberVO, Model model, LectureVO lectureVO) {
 				User user = (User)authentication.getPrincipal();
 				String memName = user.getUsername();
 				stuVO.setMemNo(user.getUsername()); // id임
 				memberVO.setMemNo(user.getUsername());
 				model.addAttribute("memberVO" , stuService.seletStu(memberVO));
 				
+				List<Map<String, Object>> enrollList = schoolService.getLecStuList(lectureVO);
+				
+				Map<String, Object> enrollStuList = new HashMap<>();
+				
+				enrollStuList.put("enrollList", enrollList);
+				
+				model.addAttribute("lecture" , enrollStuList);
 				
 				return "/content/stu/stu_class/grade";
 			}

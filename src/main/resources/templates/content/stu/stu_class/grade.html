@@ -87,8 +87,7 @@
 		<thead>
 			<tr>
 				<th>No.</th>
-				<th>년도</th>
-				<th>학기</th>
+				<th>년도 / 학기</th>
 				<th>교과번호</th>
 				<th>교과목명</th>
 				<th>이수구분</th>
@@ -97,15 +96,14 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr>
-				<td>1</td>
-				<td>2023</td>
-				<td>1학기</td>
+			<tr th:each="lecture , state : ${lecture.enrollList}">
+				<td>[[${state.count}]]</td>
+				<td th:text="${lecture.SEM_NAME}"></td>
 				<td>320350</td>
-				<td>소프트웨어설계패턴</td>
+				<td th:text="${lecture.LEC_NAME}"></td>
 				<td>전공선택</td>
-				<td>3.5</td>
-				<td>B+</td>
+				<td th:text="${lecture.GRADE}"></td>
+				<td></td>
 			</tr>
 		</tbody>
 	</table>
