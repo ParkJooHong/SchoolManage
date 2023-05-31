@@ -527,7 +527,7 @@ public class StuController {
 				 
 				 
 				 deptManageVO.setStuNo(memberVO.getStuVO().getStuNo());
-				 deptManageVO.setApplyCode(memberVO.getStuVO().getDeptNo());
+				 deptManageVO.setApplyCode(memberVO.getStuVO().getDeptNo());// applyCode
 				 deptManageVO.setFromColl(memberVO.getColleageVO().getCollNo());
 				 //deptManageVO.setToColl(memberVO.getColleageVO().getCollNo());
 				 deptManageVO.setToColl(toColl);
@@ -553,7 +553,7 @@ public class StuController {
 		
 		// 복수전공신청
 		@GetMapping("/doubleMajorManage")
-		private String doubleMajorManage(Authentication authentication, StuVO stuVO, MemberVO memberVO, Model model, String collNo, String stuNo) {
+		private String doubleMajorManage(Authentication authentication, StuVO stuVO, MemberVO memberVO, Model model, String collNo, String stuNo, String menuCode, String subMenuCode) {
 			User user = (User)authentication.getPrincipal();
 			String memName = user.getUsername();
 			stuVO.setMemNo(user.getUsername()); // id임
@@ -573,6 +573,9 @@ public class StuController {
 			model.addAttribute("deptVO", schoolService.getDept(collNo));
 			
 			model.addAttribute("deptManageVO", stuService.getDeptManager(stuNo));
+			
+			model.addAttribute("menuCode" , menuCode);
+			model.addAttribute("subMenuCode", subMenuCode);
 
 			return "/content/stu/stu_myStu/doubleMajorManage";
 		}
@@ -580,18 +583,47 @@ public class StuController {
 		//복수전공 신청 Ajax
 		@ResponseBody
 		@PostMapping("/doubleManageAjax")
-		public String doubleManageAjax(Authentication authentication, String menuCode, Model model, StuVO stuVO, MemberVO memberVO) {
-			
+		public Map<String, Object> doubleManageAjax(Authentication authentication, String menuCode, Model model, StuVO stuVO, MemberVO memberVO, String subMenuCode,
+				DeptManageVO deptManageVO, String applyReason, String doubleMajorColl, String doubleMajorDept, int stuYear, int stuSem, String stuNo, String applyCode) {
+
 			User user = (User)authentication.getPrincipal();
 			String memName = user.getUsername();
 			stuVO.setMemNo(user.getUsername()); // id임
-			memberVO.setMemNo(user.getUsername());
+			memberVO.setMemNo(user.getUsername());		
 			
-			menuCode = "MENU_002";
-			model.addAttribute("subMenuList", memberService.stuSubMenuList(menuCode));
+			memberVO.setStuVO(stuService.getColl(user.getUsername()));
+			System.out.println("!#@!#@!#@!#@"+memberVO);
+		 
+			memberVO = stuService.seletStu(memberVO);
+			
+			stuVO.setStuNo(memberVO.getMemNo());
+			stuNo = stuVO.getStuNo();
+			System.out.println(memberVO.getStuVO().getDeptNo());
+			applyCode = memberVO.getStuVO().getDeptNo();
+			
+			deptManageVO.setStuNo(stuNo);
+			deptManageVO.setApplyCode(applyCode);
+			deptManageVO.setApplyReason(applyReason);
+			deptManageVO.setDoubleMajorColl(doubleMajorColl);
+			deptManageVO.setDoubleMajorDept(doubleMajorDept);
+			deptManageVO.setStuYear(stuYear);
+			deptManageVO.setStuSem(stuSem);
+			
+			//복수전공 신청 하기
+			stuService.doubleMajorApply(deptManageVO);
+			
+			System.out.println(deptManageVO);
+
+			Map<String, Object> data = new HashMap<>();
+			 data.put("menuCode", menuCode);
+		     data.put("subMenuCode", subMenuCode);
+			
+		    model.addAttribute("subMenuCode", subMenuCode);
+			model.addAttribute("menuCode" , menuCode);
+
 			
 			
-			return "redirect:/mainPage";
+			return data;
 		}
 		
 		// 학적신청현황조회

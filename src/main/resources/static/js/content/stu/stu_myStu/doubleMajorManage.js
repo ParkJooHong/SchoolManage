@@ -3,6 +3,7 @@
 function doubleManage(){
 	
 	const stuYear = document.querySelector('.stuYear').value;
+	const stuSem = document.querySelector('.stuSem').value;
 	const stuStatus = document.querySelector('.stuStatus').value;
 	const currentDept = document.querySelector('.currentDept').value;
 	const doubleMajorColl = document.querySelector('.doubleMajorColl').value;
@@ -10,6 +11,11 @@ function doubleManage(){
 	const applyReason = document.querySelector('.applyReason').value;
 	const processStatus = document.querySelector('.processStatus');
 	
+	const menuCode = document.querySelector('.menuCode').value;
+	const subMenuCode = document.querySelector('.subMenuCode').value;
+
+	
+	alert(stuYear);
 	alert(stuStatus);
 	alert(currentDept);
 	alert(doubleMajorDept);
@@ -22,7 +28,7 @@ function doubleManage(){
 			return;
 		}
 		if(stuStatus != '재학'){
-			swal("신청 실패!", "복수전공 신청은 2학년 이상의 재학생만 가능합니다.", "error");
+			swal("신청 실패!", "현재 재학 상태가 아닙니다. \n복수전공 신청은 2학년 이상의 재학생만 가능합니다.", "error");
 			return;
 		}
 		if(currentDept == doubleMajorDept){
@@ -40,7 +46,8 @@ function doubleManage(){
 				url: '/stuMenu/doubleManageAjax', //요청경로
 				type: 'post',
 				contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-				data: {'doubleMajorColl' : doubleMajorColl, 'doubleMajorDept' : doubleMajorDept , 'applyReason' : applyReason }, //필요한 데이터
+				data: {'doubleMajorColl' : doubleMajorColl, 'doubleMajorDept' : doubleMajorDept , 'applyReason' : applyReason, 'stuYear' : stuYear 
+				, 'stuSem' : stuSem, 'menuCode' : menuCode, 'subMenuCode' : subMenuCode}, //필요한 데이터
 				success: function(result) {
 					if(result){
 						swal("신청 완료!", "복수전공 신청이 완료되었습니다.", "success");

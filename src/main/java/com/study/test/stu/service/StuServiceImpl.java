@@ -124,6 +124,13 @@ public class StuServiceImpl implements StuService {
 		
 	}
 	
+	//복수전공 신청
+	@Override
+	public void doubleMajorApply(DeptManageVO deptManageVO) {
+		sqlSession.insert("stuMapper.doubleMajorApply",deptManageVO);
+		
+	}
+	
 	// 복학에서 휴학신청할 떄 신청상태 변경
 	@Override
 	public void ingStatusUpdate(String stuNo) {
@@ -197,10 +204,6 @@ public class StuServiceImpl implements StuService {
 		return sqlSession.selectList("stuMapper.getProbation", stuNo);
 	}
 
-	
-
-
-	
 
 	
 	
