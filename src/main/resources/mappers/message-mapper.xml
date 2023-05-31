@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="messageMapper">
+	<resultMap type="com.study.test.message.vo.MessageVO" id="message">
+		<id column="MSG_NO" 			property="msgNo"/>
+		<result column="MSG_ROOM" 			property="msgRoom"/>
+		<result column="SEND_NAME" 			property="sendName"/>
+		<result column="RECV_NAME" 			property="recvName"/>
+		<result column="SEND_TIME" 			property="sendTime"/>
+		<result column="READ_TIME" 			property="readTime"/>
+		<result column="READ_CHK" 			property="readChk"/>
+		<result column="OTHER_NAME" 		property="otherName"/>
+		<result column="NAME" 				property="name"/>
+		<result column="UNREAD" 			property="unread"/>
+	</resultMap>
+
+	
+
+
+<!-- 
+
+	메세지 리스트 조회
+	<select id="getMessageList" resultMap="message">
+		SELECT MSG_NO
+			, MSG_ROOM
+			, MS.MEM_NAME AS SEND_NAME
+			, MR.MEM_NAME AS RECV_NAME
+			, TO_CHAR(SEND_TIME, 'YYYY.MM.DD HH24:MI:SS') AS SEND_TIME
+			, READ_TIME
+			, CONTENT
+			, READ_CHK
+		FROM MESSAGE M
+			, UNI_MEMBER MS
+			, UNI_MEMBER MR
+		WHERE M.SEND_MEM_NO = MS.MEM_NO
+		AND M.RECV_MEM_NO = MR.MEM_NO 
+		AND	MSG_NO IN (SELECT MAX(MSG_NO) FROM MESSAGE GROUP BY MSG_ROOM)
+		AND (MS.MEM_NAME = #{name} OR MR.MEM_NAME = #{name})
+		ORDER BY MSG_NO DESC
+	</select>
+	
+	안읽은 메세지 갯수 가져오기
+	<select id="countUnread" resultType="Int">
+		SELECT COUNT(MSG_NO)	
+		FROM MESSAGE
+		WHERE RECV_NAME=#{name}
+		AND READ_CHK=0
+		AND MSG_ROOM=#{msgRoom}
+	</select>
+	
+	메세지 내용 가져오기
+	<select id="roomContentList" resultMap="message">
+		SELECT MSG_NO
+			, MSG_ROOM
+			, MS.MEM_NAME AS SEND_NAME
+			, MR.MEM_NAME AS RECV_NAME
+			, TO_CHAR(SEND_TIME, 'YYYY.MM.DD HH24:MI:SS') AS SEND_TIME
+			, READ_TIME
+			, CONTENT
+		FROM MESSAGE M
+			, UNI_MEMBER MS
+			, UNI_MEMBER MR
+		WHERE M.SEND_MEM_NO = MS.MEM_NO
+		AND M.RECV_MEM_NO = MR.MEM_NO 
+		<choose>
+	        <when test="msgRoom != 0">
+	        AND MSG_ROOM = #{msgRoom}	
+	        </when>
+	        <otherwise>
+	        AND (MR.MEM_NAME = #{recvName} AND MS.MEM_NAME = #{name}) OR (MS.MEM_NAME = #{recvName} AND MR.MEM_NAME = #{name})
+	        </otherwise>
+    	</choose>
+	</select>
+	
+	메세지 읽음 처리
+	<update id="messageReadChk">
+		UPDATE MESSAGE
+		SET
+			READ_CHK = 1
+		<choose>
+	        <when test="msgRoom != 0">
+	        WHERE MSG_ROOM = #{msgRoom} AND READ_CHK = 0 AND RECV_NAME = #{name}	
+	        </when>
+	        <otherwise>
+	        WHERE SEND_NAME = #{recvName}
+	        AND READ_CHK = 0
+	        AND RECV_NAME #{name}
+	        </otherwise>
+    	</choose>
+	</update>
+	
+	메세지 리스트에서 메세지 보내기
+	<insert id="messageSendInList">
+	<choose>
+		<when test="room != 0">
+			INSERT INTO MESSAGE (
+				MSG_NO
+				, MSG_ROOM
+				, SEND_NAME
+				, RECV_NAME
+				, SEND_TIME
+				, READ_TIME
+				, CONTENT
+				, READ_CHK
+			) VALUES (
+				#{msgNo}
+				, #{msgRoom}
+				, #{sendName}
+				, #{recvName}
+				, now()
+				, now()
+				, #{content}
+				, 0
+			)
+		</when>
+		<otherwise>
+			INSERT INTO MESSAGE (
+					MSG_NO
+					, MSG_ROOM
+					, SEND_NAME
+					, RECV_NAME
+					, SEND_TIME
+					, READ_TIME
+					, CONTENT
+					, READ_CHK
+				) VALUES (
+					#{msgNo}
+					, #{msgRoom}
+					, #{sendName}
+					, #{recvName}
+					, now()
+					, now()
+					, #{content}
+					, 0
+				)
+		</otherwise>
+    </choose>
+	</insert>
+	
+	room번호 최댓값 구하기
+	<select id="maxRoom" resultType="Int">
+		SELECT MAX(MSG_ROOM)
+		FROM MESSAGE
+	</select>
+	
+	메세지 이력이 있는지 검색
+	<select id="existTalk" resultType="Int">
+		SELECT COUNT(MSG_NO)
+		FROM MESSAGE
+		WHERE (RECV_NAME = #{recvName} AND SEND_NAME = #{sendName})
+		OR (SEND_NAME = #{recvName} AND RECV_NAME = #{sendName})
+	</select>
+	
+	기존 메세지 내역의 room번호를 가져옴
+	<select id="getRoom" resultType="String">
+		SELECT MSG_ROOM
+		FROM MESSAGE
+		WHERE (RECV_NAME = #{recvName} AND SEND_NAME = #{sendName})
+		OR (SEND_NAME = #{recvName} AND RECV_NAME = #{sendName})
+		LIMIT 0,1
+	</select> -->
+
+</mapper>
+

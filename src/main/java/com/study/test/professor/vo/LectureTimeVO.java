@@ -13,4 +13,5 @@ public class LectureTimeVO {
 	private String startTime;
 	private String finishTime;
 	private String lecNo;
+	private String empNo;
 }

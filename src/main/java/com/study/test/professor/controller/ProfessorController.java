@@ -104,10 +104,6 @@ public class ProfessorController {
 		System.out.println("@@@@@@@@@@@@@데이터 확인 : " + empList);
 		model.addAttribute("professorList", empList);
 		
-        String path = System.getProperty("user.dir")+"\\src\\main\\resources\\static\\";
-        System.out.println("현재 작업 경로: " + path);
-        System.out.println("현재 작업 경로2: " + ConstVariable.PROFESSOR_UPLOAD_PATH);
-		
 		return "content/professor/reg_lecture";
 	}
 	
@@ -151,11 +147,14 @@ public class ProfessorController {
 	//강의 시간 중복 체크
 	@ResponseBody
 	@PostMapping("/lectureTimeCheckAjax")
-	public boolean lectureTimeCheckAjax(@RequestBody List<LectureTimeVO> lectureTimeVO_list) {
+	public boolean lectureTimeCheckAjax(@RequestBody List<LectureTimeVO> lectureTimeVO_list, HttpSession session) {
+		MemberVO member = (MemberVO) session.getAttribute("memberVO");
 		
 		boolean timeCheck = true;
 		
 		for(LectureTimeVO lectureTimeVO : lectureTimeVO_list) {
+			//교수가 다를시 중복이 안되어야 하기때문에 교수코드 저장
+			lectureTimeVO.setEmpNo(member.getMemNo());
 			if(professorService.lectureTimeCheck(lectureTimeVO) != null) {
 				timeCheck = false;
 			}
@@ -168,7 +167,8 @@ public class ProfessorController {
 	
 	//강의 등록
 	@PostMapping("/regLecture")
-	public String regLecture(LectureVO lectureVO, LectureTimeVO lectureTimeVO, MultipartFile pdfFile) {
+	public String regLecture(LectureVO lectureVO, LectureTimeVO lectureTimeVO, MultipartFile pdfFile, HttpSession session) {
+		MemberVO member = (MemberVO) session.getAttribute("memberVO");
 		//UploadUtill 객체 호출해서(util패키지에 만들어놓음)LecturePdfVO객체에 받음
 		LecturePdfVO attachedPdfVO = UploadUtil.uploadPdfFile(pdfFile);
 	
@@ -192,6 +192,8 @@ public class ProfessorController {
 			lectureTime.setFinishTime(lecFinishDate[i]);
 			lectureTimeList.add(lectureTime);
 		}
+		
+		lectureVO.setEmpNo(member.getMemNo());
 		
 		lectureVO.setLectureTimeList(lectureTimeList);
 		
@@ -352,7 +354,7 @@ public class ProfessorController {
 		
 		//맵 객체생성
 		Map<String, Object> enrollStuList = new HashMap<>();
-		
+		;
 		//수강신청한 학생목록과 A+ A성적 목록 데이터 맵에 저장
 		enrollStuList.put("enrollList", enrollList);
 		enrollStuList.put("gradeScoreList", gradeScoreList);
@@ -367,6 +369,12 @@ public class ProfessorController {
 		//학생 성적 수정 쿼리
 		professorService.updateStuGrade(stuGradeVO);
 		
+	}
+	
+	//학사톡
+	@GetMapping("/talk")
+	public String toTalk() {
+		return "redirect:/message/messageList";
 	}
 	
 }

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+	<th:block th:each="msg : ${msgList}">
+		<div th:class="chat_listbox[[${msg.msgRoom}]] chat_list_box">
+			<div class="chat_list" th:room="[[${msg.msgRoom}]]" th:other-name="${[[msg.otherName]]}">
+				<!-- active-chat -->
+				<div class="chat_people">
+					<div class="chat_ib">
+						<h5>[[${msg.otherName}]]<span class="chat_date">[[${msg.sendTime}]]</span></h5>
+						<div class="row">
+							<div class="col-10">
+								<p>[[${msg.content}]]</p>
+							</div>
+							<!-- 만약 현재사용자가 안읽은 메세지 갯수가 0보다 클떄만 badge를 표시한다. -->
+							<th:block th:if="${msg.unread > 0}">
+								<div class="col-2 unread[[${msg.msgRoom}]]">
+									<span class="budge bg-danger">[[${msg.unread}]]</span>
+								</div>
+							</th:block>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</th:block>
+</html>
