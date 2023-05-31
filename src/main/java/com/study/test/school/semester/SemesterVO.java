@@ -9,8 +9,8 @@ import lombok.ToString;
 @ToString
 public class SemesterVO {
 	private String semNo;
-	private int semYear;
-	private int semester;
+	private String semYear;
+	private String semester;
 	private String semName;
 	
 }

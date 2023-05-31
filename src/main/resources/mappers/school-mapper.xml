@@ -59,9 +59,9 @@
 			, SEM_YEAR
 			, SEMESTER
 		FROM SEMESTER
-		<if test="semYear != null and semYear != 0">
-		WHERE SEM_YEAR = #{semYear}
-		AND SEMESTER = #{semester}
+		<if test="semYear != null and semYear != ''">
+			WHERE SEM_YEAR = #{semYear}
+			AND SEMESTER = #{semester}
 		</if>
 	</select>
 
@@ -125,6 +125,7 @@
 			, STU_YEAR
 			, LEC_SCORE
 			, LEC.LEC_NO
+			, STU_GRADE_NO
 			, NVL(GRADE, NULL) AS GRADE
 		FROM ENROLLMENT ENROLL
 			, UNI_STU US

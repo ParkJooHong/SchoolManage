@@ -74,14 +74,18 @@ public class ProfessorController {
 		//학기 정보를 지정하기 위해 오늘 날짜 데이터 조회
 		SemesterVO currentSemester = new SemesterVO();
 		//현재 연도 저장
-		currentSemester.setSemYear(DateUtil.getYear());
+		String year = Integer.toString(DateUtil.getYear()); 
+		currentSemester.setSemYear(year);
 		//현재 달에 따른 학기 저장
 		if(DateUtil.getMonth()<7) {
-			currentSemester.setSemester(1);
+			currentSemester.setSemester("1");
 		}
 		else {
-			currentSemester.setSemester(2);
+			currentSemester.setSemester("2");
 		}
+		
+		System.out.println("@@@@@@@@@@@@@@@@@데이터 확인 :" + currentSemester);
+		
 		List<SemesterVO> semester = schoolService.getSemeList(currentSemester);
 		model.addAttribute("semester", semester);
 		
@@ -358,25 +362,11 @@ public class ProfessorController {
 	
 	//성적 수정
 	@ResponseBody
-	@PostMapping("/updateStuGrade")
-	public Map<String, Object> updateStuGrade(LectureVO lectureVO, StuGradeVO stuGradeVO){
+	@PostMapping("/updateStuGradeAjax")
+	public void updateStuGrade(StuGradeVO stuGradeVO){
 		//학생 성적 수정 쿼리
 		professorService.updateStuGrade(stuGradeVO);
 		
-		//수강신청한 학생 목록 조회
-		List<Map<String, Object>> enrollList = schoolService.getLecStuList(lectureVO);
-
-		//성적과 성적에따른 학점 목록 조회
-		List<GradeVO> gradeScoreList = schoolService.getGradeScore();
-
-		//맵 객체생성
-		Map<String, Object> enrollStuList = new HashMap<>();
-
-		//수강신청한 학생목록과 A+ A성적 목록 데이터 맵에 저장
-		enrollStuList.put("enrollList", enrollList);
-		enrollStuList.put("gradeScoreList", gradeScoreList);
-		
-		return enrollStuList;
 	}
 	
 }
