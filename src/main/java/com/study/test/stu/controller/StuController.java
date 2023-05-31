@@ -142,12 +142,20 @@ public class StuController {
 		
 		//교과수업
 		@GetMapping("stuClass")
-		private String stuClass(Authentication authentication, StuVO stuVO, MemberVO memberVO, Model model) {
+		private String stuClass(Authentication authentication, StuVO stuVO, MemberVO memberVO, Model model, LectureVO lectureVO) {
 			User user = (User)authentication.getPrincipal();
 			String memName = user.getUsername();
 			stuVO.setMemNo(user.getUsername()); // id임
 			memberVO.setMemNo(user.getUsername());
 			model.addAttribute("memberVO", stuService.seletStu(memberVO));
+			
+			List<Map<String, Object>> enrollList = schoolService.getLecStuList(lectureVO);
+			
+			Map<String, Object> enrollStuList = new HashMap<>();
+			
+			enrollStuList.put("enrollList", enrollList);
+			
+			model.addAttribute("lecture" , enrollStuList);
 			
 			return "/content/stu/stu_class/grade";
 		}
@@ -673,7 +681,7 @@ public class StuController {
 		// ---- 교과수업 { 
 		//성적조회
 			@GetMapping("grade")
-			private String grade(Authentication authentication, StuVO stuVO, MemberVO memberVO, Model model, LectureVO lectureVO) {
+			private String grade(Authentication authentication, StuVO stuVO, MemberVO memberVO, Model model, LectureVO lectureVO, String menuCode, String subMenuCode) {
 				User user = (User)authentication.getPrincipal();
 				String memName = user.getUsername();
 				stuVO.setMemNo(user.getUsername()); // id임
@@ -681,6 +689,8 @@ public class StuController {
 				model.addAttribute("memberVO" , stuService.seletStu(memberVO));
 				
 				List<Map<String, Object>> enrollList = schoolService.getLecStuList(lectureVO);
+				
+				System.out.println(" asfddfsfds fds" +enrollList);
 				
 				Map<String, Object> enrollStuList = new HashMap<>();
 				
@@ -907,7 +917,7 @@ public class StuController {
 		
 		//전체 게시판
 		@GetMapping("/totalBoard")
-		private String totalBoard(Authentication authentication, Model model, MemberVO memberVO, StuVO stuVO,
+		private String totalBoard(Authentication authentication, Model model, MemberVO memberVO, StuVO stuVO,  String toDate, String fromDate,
 				UniBoardVO uniBoardVO, BoardCategoryVO boardCategoryVO, String cateNo, String menuCode, String subMenuCode) {
 			User user = (User)authentication.getPrincipal();
 			String memName = user.getUsername();
@@ -917,10 +927,27 @@ public class StuController {
 			model.addAttribute("memberVO", stuService.seletStu(memberVO));
 			System.out.println("학생정보 : " + stuService.seletStu(memberVO));
 			
+			//오늘 날짜
+			String nowDate = DateUtil.getNowDateToString();
+			
+			//이번달의 첫날
+			String firstDate = DateUtil.getFirstDateOfMonth();
+			
 			if(uniBoardVO.getOrderBy() == null) {
 				uniBoardVO.setOrderBy("REG_BOARD_DATE");
 			}
 			
+			if(uniBoardVO.getFromDate() == null) {
+				uniBoardVO.setFromDate(firstDate);
+			}
+			
+			if(uniBoardVO.getToDate() == null) {
+				uniBoardVO.setToDate(nowDate);
+			}
+			System.out.println(uniBoardVO.getFromDate());
+			model.addAttribute("uniBoardFromDate", uniBoardVO.getFromDate());
+			System.out.println(uniBoardVO.getToDate());
+			model.addAttribute("uniBoardToDate", uniBoardVO.getToDate());
 			
 			cateNo = boardCategoryVO.getCateNo();
 			
@@ -946,7 +973,7 @@ public class StuController {
 		
 		//학과 게시판
 		@GetMapping("/deptBoard")
-		private String deptBoard(Authentication authentication, StuVO stuVO, MemberVO memberVO, Model model, String menuCode, String subMenuCode) {
+		private String deptBoard(Authentication authentication, StuVO stuVO, MemberVO memberVO, Model model, String menuCode, String subMenuCode, UniBoardVO uniBoardVO) {
 			User user = (User)authentication.getPrincipal();
 			String memName = user.getUsername();
 			//System.out.println(memName);
@@ -957,6 +984,10 @@ public class StuController {
 			
 			
 			
+			uniBoardVO.setDeptNo(stuService.seletStu(memberVO).getDeptVO().getDeptNo());
+			
+			
+			model.addAttribute("uniBoardList", boardService.getTotalDeptBoardList(uniBoardVO)); 
 			
 			//게시판 상세보기할때 던질 메뉴코드, 서브메뉴코드 데이터
 			model.addAttribute("menuCode" , menuCode);
@@ -988,9 +1019,15 @@ public class StuController {
 		//글쓰기
 		@ResponseBody
 		@PostMapping("/boardWriteAjax")
-		public Map<String, Object> boardWrite(String menuCode, String subMenuCode, String boardTitle, String boardContent, String isPrivate, String isNotice, String cateNo,UniBoardVO uniBoardVO, Model model, String inputPwd) {
+		public Map<String, Object> boardWrite(String menuCode, String subMenuCode, String boardTitle, String boardContent, String isPrivate, 
+				String isNotice, String cateNo,UniBoardVO uniBoardVO, Model model, String inputPwd, String deptNo) {
 			
 			System.out.println("카테고리 코드 : " + cateNo );
+			
+			//카테고리가 학과로 표시되어있으면, DEPT_NO 삽입
+			if(cateNo == "CATE_002") {
+				uniBoardVO.setDeptNo(deptNo);
+			}
 			
 			uniBoardVO.setBoardTitle(boardTitle);
 			uniBoardVO.setBoardContent(boardContent);

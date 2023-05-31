@@ -17,6 +17,7 @@ public class UniBoardVO extends SearchVO {
 	private int replyCnt;
 	private String isPrivate;
 	private String isNotice;
+	private String deptNo;
 	private BoardReplyVO boardReplyVO;
 	
 	@Override

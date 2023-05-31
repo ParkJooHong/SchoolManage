@@ -70,6 +70,36 @@
 			OFFSET #{offsetCnt} ROWS FETCH FIRST #{displayCnt} ROWS ONLY
 		</select>
 		
+		<!-- 학과 게시판 조회 -->
+		<select id="getTotalDeptBoardList" resultMap="uniBoard">
+			SELECT BOARD_NO
+				, BOARD_TITLE
+				, BOARD_CONTENT
+				, BOARD_WRITER
+				, TO_CHAR(REG_BOARD_DATE,'YYYY-MM-DD') AS REG_BOARD_DATE
+				, TO_CHAR(REG_BOARD_DATE,'YYYY-MM-DD HH24:MI:SS') AS REG_BOARD_DATE_ORDER
+				, READ_CNT
+				, CATE_NO
+				, REPLY_CNT
+				, IS_PRIVATE
+				, IS_NOTICE
+				, DEPT_NO
+			FROM UNI_BOARD
+			WHERE DEPT_NO = #{deptNo}
+			<if test="month != null and month != 0">
+				AND TO_CHAR(REG_BOARD_DATE, 'YYYYMMDD' ) &gt;= TO_CHAR(ADD_MONTHS(SYSDATE, #{month}), 'YYYYMMDD') 
+			</if>
+			<if test="fromDate != null" >
+				AND TO_CHAR(REG_BOARD_DATE, 'YYYY-MM-DD') &gt;= #{fromDate}
+				AND TO_CHAR(REG_BOARD_DATE, 'YYYY-MM-DD') &lt;= #{toDate}
+			</if>
+			<if test='searchValue != null and !searchValue.equals("")'>
+	       		  AND UPPER(${searchKeyword}) LIKE '%' || UPPER(#{searchValue}) || '%'
+	        </if>
+			ORDER BY REG_BOARD_DATE DESC
+			OFFSET #{offsetCnt} ROWS FETCH FIRST #{displayCnt} ROWS ONLY
+		</select>
+		
 	<!-- 전체 게시판 조회-->
 		<select id="getTotalBoardList" resultMap="uniBoard">
 			SELECT BOARD_NO
@@ -190,7 +220,8 @@
           , CATE_NO
           , REPLY_CNT
           , IS_PRIVATE 
-          , IS_NOTICE     
+          , IS_NOTICE
+          , DEPT_NO 
 	    ) VALUES(
 	         (SELECT 'BOARD_'||LPAD(NVL(MAX(TO_NUMBER(SUBSTR(BOARD_NO, 7))), 0) +1 , 3, '0')
 	            FROM UNI_BOARD)
@@ -203,6 +234,7 @@
 	         , 0
 	         , #{isPrivate}
 	         , #{isNotice}
+	         , #{deptNo}
 	    )
 	</insert>
 	

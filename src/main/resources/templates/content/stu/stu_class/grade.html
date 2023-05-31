@@ -96,14 +96,14 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr th:each="lecture , state : ${lecture.enrollList}">
+			<tr th:each="lecture , state : ${lecture['enrollList']}">
 				<td>[[${state.count}]]</td>
 				<td th:text="${lecture.SEM_NAME}"></td>
 				<td>320350</td>
 				<td th:text="${lecture.LEC_NAME}"></td>
 				<td>전공선택</td>
-				<td th:text="${lecture.GRADE}"></td>
-				<td></td>
+				<td th:text="${lecture['LEC_SCORE']}"></td>
+				<td th:text="${lecture['GRADE']}"></td>
 			</tr>
 		</tbody>
 	</table>

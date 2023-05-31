@@ -40,6 +40,13 @@ public class BoardServiceImpl implements BoardService {
 		return sqlSession.selectList("boardMapper.getTotalBoardList", uniBoardVO);
 	}
 	
+	// 보드 학과별 게시판 조회
+	@Override
+	public List<UniBoardVO> getTotalDeptBoardList(UniBoardVO uniBoardVO) {
+		return sqlSession.selectList("boardMapper.getTotalDeptBoardList", uniBoardVO);
+	}
+
+	
 	//전체 게시판페이징
 		@Override
 		public int totalBoardPage(SearchVO searchVO) {	
@@ -88,6 +95,7 @@ public class BoardServiceImpl implements BoardService {
 		return sqlSession.selectList("boardMapper.getMonthBoardList", month);
 	}
 
+	
 	
 
 	
