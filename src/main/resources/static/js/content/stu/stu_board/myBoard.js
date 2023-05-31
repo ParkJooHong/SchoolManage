@@ -2,8 +2,6 @@
 
 //정렬 기능 날짜순
 function getOrderListDesc(REG_BOARD_DATE){
-	document.querySelector('#orderDate').classList.remove('btn-danger');
-	document.querySelector('#orderDate').classList.add('btn-primary');
 	
 	const orderBy = document.querySelector('#orderBy');
 	orderBy.querySelector('input').value = REG_BOARD_DATE;

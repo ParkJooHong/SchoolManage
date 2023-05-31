@@ -57,10 +57,12 @@
 				<td><input type="hidden" th:value="${memberVO.stuVO.stuNo}" class="stuNo"></td>		
 			</tr>
 			<tr>
-				<td>
+				<td colspan="5">
 					<table>
-						<tr th:each="member : ${memberVO}">
-							<td rowspan="2">😦</td>
+						<tr th:each="member : ${memberVO}" >
+							<td rowspan="2">
+								<img th:src="${'/image/memImg/' + member.memImgVO.attachedFileName}" height="90px;" width="80px;">
+							</td>
 							<td> [[${uni.boardWriter}]]</td>
 						</tr>
 						<tr>
@@ -68,47 +70,50 @@
 						</tr>
 					</table>
 				</td>
+				
 			</tr>
 		</thead>
 		<tbody>
 			<tr>
-				<td colspan="3" class="boardContent">[[${uni.boardContent}]]</td>
+				<td colspan="5" class="boardContent">[[${uni.boardContent}]]</td>
 
 			</tr>
 		</tbody>
 		<!-- 글쓴이가 맞으면 수정, 삭제 가능 -->
 		<tr th:if="${memberVO.stuVO.stuNo == uni.boardWriter}">
-			<td class="updateOrDelete">
+			<td class="updateOrDelete" colspan="5">
 				<input type="button" value="수정" class="btn btn-primary" th:onclick="updateBoard( [[${uni.boardContent}]] , [[${uni.boardTitle}]] ,[[${uni.boardNo}]] )">
 				<input type="button" value="삭제" class="btn btn-danger" th:onclick="deleteBoard([[${uni.boardNo}]], [[${menuCode}]] , [[${subMenuCode}]])">
 			</td>
 		</tr>
 		<tr>
 		<td>
-		<div class="row">
-      <div class="col-3">이전글</div>
-      <div class="col-9">
-         <th:block th:if="${prevList.boardNo} == null">
-            <span>[[${prevList.boardTitle}]]</span>
-         </th:block>
-         <th:block th:unless="${prevList.boardNo} == null">
-            <span th:onclick="prev([[${prevList.boardNo}]], [[${prevList.readCnt}]], [[${menuCode}]] , [[${subMenuCode}]]);" style="cursor: pointer;">[[${prevList.boardTitle}]]</span>
-         </th:block>
-      </div>
-   </div>   
-   <div class="row">
-      <div class="col-3">다음글</div>
-      <div class="col-9" >
-         <th:block th:if="${nextList.boardNo} == null">
-            <span>[[${nextList.boardTitle}]]</span>
-         </th:block>
-         <th:block th:unless="${nextList.boardNo} == null">
-            <span th:onclick="next([[${prevList.boardNo}]], [[${prevList.readCnt}]], [[${menuCode}]] , [[${subMenuCode}]]);" style="cursor: pointer;">[[${nextList.boardTitle}]]</span>
-         </th:block>
-      </div>
-   </div>  
-   </td> 
-   </tr>
+			<div class="row">
+			      <div class="col-2">이전글</div>
+			      <div class="col-10">
+			         <th:block th:if="${prevList.boardNo} == null">
+			            <span>[[${prevList.boardTitle}]]</span>
+			         </th:block>
+			         <th:block th:unless="${prevList.boardNo} == null">
+			            <span th:onclick="prev([[${prevList.boardNo}]], [[${prevList.readCnt}]], [[${menuCode}]] , [[${subMenuCode}]]);" style="cursor: pointer;">[[${prevList.boardTitle}]]</span>
+			         </th:block>
+			      </div>
+	  		</div> 
+	  	</td>	  
+  		<td>
+		   <div class="row">
+		      <div class="col-2">다음글</div>
+		      <div class="col-10" >
+		         <th:block th:if="${nextList.boardNo} == null">
+		            <span>[[${nextList.boardTitle}]]</span>
+		         </th:block>
+		         <th:block th:unless="${nextList.boardNo} == null">
+		            <span th:onclick="next([[${prevList.boardNo}]], [[${prevList.readCnt}]], [[${menuCode}]] , [[${subMenuCode}]]);" style="cursor: pointer;">[[${nextList.boardTitle}]]</span>
+		         </th:block>
+		      </div>
+		   </div>  
+		   </td>	  
+   		</tr>
 	</table>	
 		
 
