@@ -57,8 +57,8 @@
 				, IS_NOTICE
 			FROM UNI_BOARD
 			WHERE BOARD_WRITER = #{boardWriter}
-			<if test="month != null and month != 0">
-				AND TO_CHAR(REG_BOARD_DATE, 'YYYYMMDD' ) &gt;= TO_CHAR(ADD_MONTHS(SYSDATE, #{month}), 'YYYYMMDD') 
+			<if test="month != 0">
+				AND TO_CHAR(REG_BOARD_DATE, 'YYYY-MM-DD' ) &gt;= TO_CHAR(ADD_MONTHS(SYSDATE, #{month}), 'YYYY-MM-DD') 
 			</if>
 			<if test="fromDate != null" >
 				AND TO_CHAR(REG_BOARD_DATE, 'YYYY-MM-DD') &gt;= #{fromDate}
@@ -87,8 +87,8 @@
 				, DEPT_NO
 			FROM UNI_BOARD
 			WHERE DEPT_NO = #{deptNo}
-			<if test="month != null and month != 0">
-				AND TO_CHAR(REG_BOARD_DATE, 'YYYYMMDD' ) &gt;= TO_CHAR(ADD_MONTHS(SYSDATE, #{month}), 'YYYYMMDD') 
+			<if test="month != 0">
+				AND TO_CHAR(REG_BOARD_DATE, 'YYYY-MM-DD' ) &gt;= TO_CHAR(ADD_MONTHS(SYSDATE, #{month}), 'YYYY-MM-DD') 
 			</if>
 			<if test="fromDate != null" >
 				AND TO_CHAR(REG_BOARD_DATE, 'YYYY-MM-DD') &gt;= #{fromDate}
@@ -153,7 +153,7 @@
 			FROM UNI_BOARD
 			WHERE BOARD_WRITER = #{boardWriter}
 			<if test="month != null and month != 0">
-			AND TO_CHAR(REG_BOARD_DATE, 'YYYYMMDD' ) &gt;= TO_CHAR(ADD_MONTHS(SYSDATE, #{month}), 'YYYYMMDD') 
+			AND TO_CHAR(REG_BOARD_DATE, 'YYYY-MM-DD' ) &gt;= TO_CHAR(ADD_MONTHS(SYSDATE, #{month}), 'YYYY-MM-DD') 
 			</if>
 			<if test="fromDate != null" >
 				AND TO_CHAR(REG_BOARD_DATE, 'YYYY-MM-DD') &gt;= #{fromDate}

@@ -863,7 +863,10 @@ public class StuController {
 		@RequestMapping("/myBoard")
 		private String myBoard(Authentication authentication, Model model, MemberVO memberVO, StuVO stuVO, String boardWriter, String toDate, String fromDate
 				, UniBoardVO uniBoardVO, BoardCategoryVO boardCategoryVO, String cateNo, String menuCode, SearchVO searchVO
-				, String subMenuCode, BoardListSearchVO boardListSearchVO,  String boardNo,@RequestParam(required = false) Integer month) {
+				, String subMenuCode, BoardListSearchVO boardListSearchVO,  String boardNo,
+				@RequestParam(name = "month", required = false) Integer month) {
+			
+			System.out.println(month);
 			
 			if(uniBoardVO.getOrderBy() == null) {
 				uniBoardVO.setOrderBy("REG_BOARD_DATE");
@@ -873,6 +876,10 @@ public class StuController {
 			}
 			if(uniBoardVO.getSearchValue() == null) {
 				uniBoardVO.setSearchValue("");
+			}
+			
+			if(uniBoardVO.getMonth() == 0) {
+				uniBoardVO.setMonth(0);
 			}
 			
 			System.out.println(uniBoardVO.getSearchKeyword());
@@ -886,14 +893,7 @@ public class StuController {
 			String firstDate = DateUtil.getFirstDateOfMonth();
 			
 			System.out.println(month);
-			//Integer을 int로 형변환.
-			int intValue;
-			if (month != null) {
-			    intValue = month.intValue();
-			} else { // 만약 int가 null이면 디폴드 값 선언.
-			    intValue = 0;
-			}
-			System.out.println(intValue);
+			
 			
 			if(uniBoardVO.getFromDate() == null) {
 				uniBoardVO.setFromDate(firstDate);
