@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.study.test.member.vo.MemberVO;
 import com.study.test.message.service.MessageService;
 import com.study.test.message.vo.MessageVO;
+import com.study.test.professor.vo.ProfessorMenuVO;
+import com.study.test.util.ConstVariable;
 
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpSession;
@@ -25,7 +27,9 @@ public class MessageController {
 
 	//메세지 목록
 	@RequestMapping("/messageList")
-	public String message_list(Model model, HttpSession session) {
+	public String message_list(Model model, HttpSession session, ProfessorMenuVO professorMenuVO) {
+		professorMenuVO.setMenuCode(ConstVariable.NINE_PROFESSOR_MENU_CODE);
+
 		// System.out.println("현대 사용자 nick : " + session.getAttribute("nick"));
 		MemberVO member = (MemberVO) session.getAttribute("memberVO");
 		String name = member.getMemName();
