@@ -1,27 +1,12 @@
 
 
-// 페이지 로드 시 상태 가져오기
-window.addEventListener('load', function() {
-  var buttonState = localStorage.getItem('buttonState');
-  
-  if (buttonState === 'completed') {
-    applyButton.style.display = 'none';
-    completedButton.style.display = 'block';
-  }
-});
-
-
-function a(){
-	const applyButton = document.querySelector('.app');
-	const completedButton = document.querySelector('.dup');
+function getOrderBy(orderBy){
+	const orderForm = document.querySelector('#orderForm');
 	
-	applyButton.addEventListener('click', function() {
-	  applyButton.style.display = 'none';
-	  completedButton.style.display = 'block';
-	  
-	  localStorage.setItem('buttonState', 'completed'); // 변경된 상태를 로컬 스토리지에 저장
-	});
+	orderForm.querySelector('input').value = orderBy;
+	orderForm.submit();
 }
+
 
 //수강 신청 클릭
 function apllication(lecNo, maxMem, nowMem, semNo,stuNo, menuCode, subMenuCode){

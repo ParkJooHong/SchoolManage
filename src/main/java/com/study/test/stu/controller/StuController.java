@@ -703,8 +703,11 @@ public class StuController {
 			
 		//수강신청
 		@RequestMapping("application")
-		private String application(String menuCode, String subMenuCode, Model model, StuVO stuVO, 
+		private String application(String menuCode, String subMenuCode, Model model, StuVO stuVO, String orderBy,
 				MemberVO memberVO, Authentication authentication, String collNo, LectureVO lectureVO) {
+			
+			
+			System.out.println(orderBy);
 			
 			User user = (User)authentication.getPrincipal();
 			String memName = user.getUsername();
@@ -714,6 +717,7 @@ public class StuController {
 			model.addAttribute("memberVO" , stuService.seletStu(memberVO));
 			memberVO.setStuVO(stuService.getColl(user.getUsername()));
 			
+			//검색 정렬
 			if(lectureVO.getSearchKeyword() == null) {
 				lectureVO.setSearchKeyword("");
 			}
@@ -725,6 +729,11 @@ public class StuController {
 			}
 			if(lectureVO.getSearchDept() == null) {
 				lectureVO.setSearchDept("");
+			}
+			
+			//학점별, 인원별 정렬
+			if(lectureVO.getOrderBy() == null) {
+				lectureVO.setOrderBy("");
 			}
 			
 			System.out.println(lectureVO.getSearchColl());

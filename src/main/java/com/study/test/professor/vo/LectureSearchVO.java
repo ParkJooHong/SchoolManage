@@ -12,6 +12,10 @@ public class LectureSearchVO {
 	
 	private String searchColl;
 	private String searchDept;
+
+	
+	private String gradeOrder;
+	private String countOrder;
 	
 	private String orderBy;
 
