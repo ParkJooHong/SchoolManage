@@ -97,6 +97,10 @@ public interface AdminService {
 	//제적처리
 	void regStuOut(StuOutVO stuOutVO);
 	
+	//통계 쿼리 학적변동 승인 수
+	List<StatusInfoVO> getAcceptCntList(StatusInfoVO statusInfoVO);
 	
+	//통계 쿼리 학적변동 전체 데이터 수
+	List<StatusInfoVO> getDataCntList(StatusInfoVO statusInfoVO);
 	
 }

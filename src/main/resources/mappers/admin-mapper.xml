@@ -718,6 +718,40 @@
 		WHERE STU_NO = #{stuNo}
 	</update>
 	
+	<!-- 통계 쿼리 학적변동 승인 수-->
+	<select id="getAcceptCntList" resultMap="stuMapper.statusInfo">
+		SELECT TO_CHAR(DATES.DATE_VALUE, 'YYYY-MM-DD') AS ACCEPT_DATE
+       , COUNT(STATUS_NO) AS DATA_CNT
+		FROM (
+		  SELECT TO_DATE(#{acceptDate}, 'YYYY-MM-DD') + LEVEL - 1 AS DATE_VALUE
+		  FROM DUAL
+		  CONNECT BY LEVEL &lt;= TO_DATE(#{lastDay}, 'YYYY-MM-DD') - TO_DATE(#{acceptDate}, 'YYYY-MM-DD') + 1
+		) DATES
+		LEFT OUTER JOIN STATUS_INFO ON TO_CHAR(DATES.DATE_VALUE, 'YYYY-MM-DD') = TO_CHAR(APPROVAL_DATE, 'YYYY-MM-DD')
+		                           AND ING_STATUS = '승인완료'
+		WHERE DATES.DATE_VALUE &gt;= TO_DATE(#{acceptDate}, 'YYYY-MM-DD')
+		      AND DATES.DATE_VALUE &lt;= TRUNC(TO_DATE(#{lastDay}))
+		GROUP BY TO_CHAR(DATES.DATE_VALUE, 'YYYY-MM-DD')
+		ORDER BY ACCEPT_DATE
+	</select>
+	
+	<!-- 통계 쿼리 학적변동 전체 데이터 수-->
+	<select id="getDataCntList" resultMap="stuMapper.statusInfo">
+		SELECT TO_CHAR(DATES.DATE_VALUE, 'YYYY-MM-DD') AS ACCEPT_DATE
+       , COUNT(STATUS_NO) AS DATA_CNT
+		FROM (
+		  SELECT TO_DATE(#{acceptDate}, 'YYYY-MM-DD') + LEVEL - 1 AS DATE_VALUE
+		  FROM DUAL
+		  CONNECT BY LEVEL &lt;= TO_DATE(#{lastDay}, 'YYYY-MM-DD') - TO_DATE(#{acceptDate}, 'YYYY-MM-DD') + 1
+		) DATES
+		LEFT OUTER JOIN STATUS_INFO ON TO_CHAR(DATES.DATE_VALUE, 'YYYY-MM-DD') = TO_CHAR(APPROVAL_DATE, 'YYYY-MM-DD')
+		
+		WHERE DATES.DATE_VALUE &gt;= TO_DATE(#{acceptDate}, 'YYYY-MM-DD')
+		      AND DATES.DATE_VALUE &lt;= TRUNC(TO_DATE(#{lastDay}))
+		GROUP BY TO_CHAR(DATES.DATE_VALUE, 'YYYY-MM-DD')
+		ORDER BY ACCEPT_DATE
+	</select>
+	
 	
 </mapper>
 

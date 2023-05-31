@@ -1,6 +1,7 @@
 package com.study.test.admin.controller;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -468,10 +469,37 @@ public class AdminController {
 	
 	// 실적현황
 	@GetMapping("/performanceData")
-	public String performanceData(AdminSubMenuVO adminSubMenuVO) {
+	public String performanceData(AdminSubMenuVO adminSubMenuVO,Model model) {
 		adminSubMenuVO.setMenuCode(ConstVariable.SECOND_MENU_CODE);
-
 		return "content/admin/performance_data";
+	}
+	
+	//차트 데이터 넘기기
+	@PostMapping("/getChartDataListAjax")
+	@ResponseBody
+	public Map<String, List<StatusInfoVO>> getChartDataListAjax(String acceptDate) {
+		StatusInfoVO statusInfoVO = new StatusInfoVO();
+		Calendar cal = Calendar.getInstance();
+		String[] acceptArr = acceptDate.split("-");
+		
+		int[] formatArr = new int[acceptArr.length];
+		for(int i = 0 ; i < acceptArr.length; i++) {
+			formatArr[i] = Integer.parseInt(acceptArr[i]);
+		}
+
+		cal.set(formatArr[0], formatArr[1], formatArr[2] -1);
+		int numLastDay = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+		
+		String slisingString = acceptDate.substring(0, 8);
+		String lastDay = slisingString + numLastDay;
+		statusInfoVO.setAcceptDate(acceptDate);
+		statusInfoVO.setLastDay(lastDay);
+		
+		Map<String, List<StatusInfoVO>> chartMap = new HashMap<>();
+		chartMap.put("acceptData", adminService.getAcceptCntList(statusInfoVO));
+		chartMap.put("totalData", adminService.getDataCntList(statusInfoVO));
+		
+		return chartMap;
 	}
 
 	// 학사경고,제적
@@ -511,11 +539,9 @@ public class AdminController {
 	@PostMapping("/regProbStuAjax")
 	@ResponseBody
 	public List<ProbationVO> regProbStuAjax(@RequestBody Map<String, String> probMap) {
-		int stuYear = Integer.parseInt(probMap.get("stuYear"));
-		int stuSem = Integer.parseInt(probMap.get("stuSem"));
 		SemesterVO semesterVO = new SemesterVO();
-		semesterVO.setSemYear(stuYear);
-		semesterVO.setSemester(stuSem);
+		semesterVO.setSemYear(probMap.get("stuYear"));
+		semesterVO.setSemester(probMap.get("stuSem"));
 		
 		String semNo = adminService.getSemesterNo(semesterVO);
 		ProbationVO probationVO = new ProbationVO();
