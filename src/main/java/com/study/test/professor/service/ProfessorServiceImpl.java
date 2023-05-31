@@ -16,6 +16,7 @@ import com.study.test.professor.vo.LectureVO;
 import com.study.test.professor.vo.ProfessorMenuVO;
 import com.study.test.professor.vo.ProfessorSubMenuVO;
 import com.study.test.school.semester.SemesterVO;
+import com.study.test.school.stu_grade.StuGradeVO;
 
 @Service("professorService")
 public class ProfessorServiceImpl implements ProfessorService{
@@ -82,6 +83,12 @@ public class ProfessorServiceImpl implements ProfessorService{
 		}
 		
 		return result;
+	}
+
+	//학생 성적 수정
+	@Override
+	public void updateStuGrade(StuGradeVO stuGradeVO) {
+		sqlsession.update("professorMapper.updateStuGrade", stuGradeVO);
 	}
 	
 }

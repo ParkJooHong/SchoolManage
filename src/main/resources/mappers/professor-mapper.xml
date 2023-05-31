@@ -257,25 +257,6 @@
 		WHERE TIME_NO = #{timeNo}
 	</update>
 	
-	<!-- 강의 수강 학생 리스트 조회 -->
-	<select id="lecStuList">
-		SELECT STU_NO
-			, MEM_NAME
-			, COLL_NAME
-			, DEPT_NAME
-			, STU_YEAR
-			, GRADE
-		FROM UNI_STU US
-			, UNI_MEMBER UM
-			, COLLEAGE COLL
-			, DEPT DEPT
-			, STU_GRADE SG
-		WHERE US.MEM_NO = US.MEM_NO
-		AND COLL.COLL_NO = STU.COLL_NO
-		AND STU.DEPT_NO = DEPT.DEPT_NO
-		AND SG.STU_NO = US.STU_NO
-	</select>
-	
 	<!-- 학생 성적 업데이트 -->
 	<update id="updateStuGrade">
 		UPDATE STU_GRADE
