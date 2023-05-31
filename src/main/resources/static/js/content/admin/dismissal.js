@@ -102,47 +102,45 @@ function getStuInfoByModal(mem_no) {
 		data: { 'memNo': mem_no }, //필요한 데이터
 		success: function(result) {
 			console.log(result);
-			//학사경고시
-			if (type == 1) {
 				const prob_list = result['probList'];
 				const stu_data = result['stuData'];
-				const mem_info = document.querySelector('#memInfo');
+				const mem_info = document.querySelector('#disMemInfo');
 
-				const prob_modal = new bootstrap.Modal('#probModal');
+				const dismissal_modal = new bootstrap.Modal('#dismissalModal');
 				let str = '';
 
 				str += `${stu_data.memName} (${stu_data.stuVO.stuNo} , ${stu_data.memBirth})`;
 
 				mem_info.insertAdjacentHTML('afterbegin', str);
 
-				document.querySelector('#memImg').src = `/image/memImg/${stu_data.memImgVO.attachedFileName}`;
+				document.querySelector('#disMemImg').src = `/image/memImg/${stu_data.memImgVO.attachedFileName}`;
 
-				const mem_addr = document.querySelector('#memAddr');
+				const mem_addr = document.querySelector('#disMemAddr');
 				let str1 = '';
 				str1 += `${stu_data.memAddr},${stu_data.memAddrDetail}`;
 				str1 += `<input type="hidden" id="stuNo" value="${stu_data.memNo}">`
 
 				mem_addr.insertAdjacentHTML('afterbegin', str1)
-				const mem_tell = document.querySelector('#memTell');
+				const mem_tell = document.querySelector('#disMemTell');
 				mem_tell.insertAdjacentHTML('afterbegin', stu_data.memTell);
-				const mem_year = document.querySelector('#memYear');
+				const mem_year = document.querySelector('#disMemYear');
 				let str2 = '';
 				str2 += `${stu_data.stuVO.stuYear} 학년 ${stu_data.stuVO.stuSem} 학기`;
 				mem_year.insertAdjacentHTML('afterbegin', str2);
 
-				const mem_status = document.querySelector('#memStatus');
+				const mem_status = document.querySelector('#disMemStatus');
 
 				mem_status.insertAdjacentHTML('afterbegin', stu_data.stuVO.stuStatus);
 
-				const coll_name = document.querySelector('#collName');
+				const coll_name = document.querySelector('#disCollName');
 				coll_name.insertAdjacentHTML('afterbegin', stu_data.colleageVO.collName);
 
-				const dept_name = document.querySelector('#deptName');
+				const dept_name = document.querySelector('#disDeptName');
 
 				dept_name.insertAdjacentHTML('afterbegin', stu_data.deptVO.deptName);
 
-				const prob_tbody = document.querySelector('#probTbody');
-				prob_tbody.replaceChildren();
+				const dis_tbody = document.querySelector('#disTbody');
+				dis_tbody.replaceChildren();
 				console.log(prob_list);
 				let str3 = '';
 				prob_list.forEach(function(prob) {
@@ -152,11 +150,11 @@ function getStuInfoByModal(mem_no) {
 					str3 += '</tr>';
 				});
 
-				prob_tbody.insertAdjacentHTML('afterbegin', str3);
+				dis_tbody.insertAdjacentHTML('afterbegin', str3);
 				
-				prob_modal.show();
+				dismissal_modal.show();
 
-			}
+			
 		},
 		error: function() {
 			alert('실패');

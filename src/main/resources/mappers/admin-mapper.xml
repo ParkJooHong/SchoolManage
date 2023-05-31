@@ -625,15 +625,22 @@
         , STU_STATUS
         , COLL.COLL_NO
         , COLL_NAME
+        <if test='stuVO.stuStatus.equals("제적")'>
         , TO_CHAR(STU_OUT_DATE, 'YYYY-MM-DD') AS STU_OUT_DATE
+        </if>
         , (SELECT COUNT(PROB_NO)
                         FROM ACADEMIC_PROBATION
                         WHERE STU_NO = STU.STU_NO) AS PROB_CNT
-        FROM UNI_MEMBER MEM, UNI_STU STU, DEPT DP, COLLEAGE COLL, STU_OUT OUT
+        FROM UNI_MEMBER MEM, UNI_STU STU, DEPT DP, COLLEAGE COLL
+        <if test='stuVO.stuStatus.equals("제적")'>
+        , STU_OUT OUT
+        </if>
         WHERE MEM.MEM_NO = STU.MEM_NO
         AND STU.DEPT_NO = DP.DEPT_NO
         AND STU.COLL_NO = COLL.COLL_NO
+        <if test='stuVO.stuStatus.equals("제적")'>
         AND STU.STU_NO = OUT.STU_NO
+        </if>
         <if test='memName != null and !memName.equals("")'>
         AND UPPER(MEM_NAME) LIKE '%' || UPPER(#{memName}) || '%'
         </if>

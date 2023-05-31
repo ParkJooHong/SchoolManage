@@ -122,7 +122,7 @@
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">제적처리</h1>
+        <h1 class="modal-title fs-5" id="exampleModalLabel">제적</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -147,6 +147,18 @@
 						<td id="disMemTell" colspan="3"></td>
 					</tr>
 				</table>
+			</div>
+			<div class="col-2">
+				<img id="disMemImg" src="" width="100%">
+			</div>
+		</div>
+		<div class="row text-center mb-3">
+			<div class="col">
+				<h4>학 적</h4>
+			</div>
+		</div>
+		<div class="row text-center mt-3 mb-3">
+			<div class="col">
 				<table class="table">
 					<colgroup>
 						<col width="10%">
@@ -165,25 +177,6 @@
 						<td id="disCollName"></td>
 						<td>전공학과</td>
 						<td id="disDeptName"></td>
-					</tr>
-				</table>
-			</div>
-			<div class="col-2">
-				<img id="disMemImg" src="" width="100%">
-			</div>
-		</div>
-		<div class="row mt-3 mb-3">
-			<div class="col">
-				<table class="table">
-					<colgroup>
-						<col width="50%">
-						<col width="50%">
-					</colgroup>
-					<tr>
-						<td>제적사유</td>
-						<td>
-							<input type="text" class="form-control" id="dismissalReson" value="">
-						</td>
 					</tr>
 				</table>
 			</div>
@@ -209,9 +202,6 @@
 			</div>
 		</div>
       </div> 
-	  <div class="modal-footer dismissalBtn">
-	      <input type="button" value="승인하기" onclick="regDismissalStu();" class="btn btn-lg btn-primary">
-      </div>
     </div>
   </div>
 </div>	
