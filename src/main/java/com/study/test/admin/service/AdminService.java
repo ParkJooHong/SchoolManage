@@ -119,4 +119,8 @@ public interface AdminService {
 	//카테고리 사용여부 변경
 	void setIsUseByCateNo(BoardCategoryVO boardCategoryVO);
 	
+	//카테고리 삭제
+	void delBoardCategory(BoardCategoryVO boardCategoryVO);
+	
+	
 }

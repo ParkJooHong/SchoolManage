@@ -237,9 +237,15 @@ public class AdminServiceImpl implements AdminService{
 	public String getNextCateNo() {
 		return sqlsession.selectOne("adminMapper.getNextCateNo");
 	}
+	//카테고리 사용여부 업데이트
 	@Override
 	public void setIsUseByCateNo(BoardCategoryVO boardCategoryVO) {
 		sqlsession.update("adminMapper.setIsUseByCateNo",boardCategoryVO);
+	}
+	//카테고리 삭제
+	@Override
+	public void delBoardCategory(BoardCategoryVO boardCategoryVO) {
+		sqlsession.delete("adminMapper.delBoardCategory",boardCategoryVO);
 	}
 	
 

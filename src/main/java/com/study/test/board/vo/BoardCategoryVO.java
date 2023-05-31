@@ -1,5 +1,7 @@
 package com.study.test.board.vo;
 
+import java.util.List;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -12,4 +14,5 @@ public class BoardCategoryVO {
 	private String cateNo;
 	private String cateName;
 	private String isUse;
+	private List<String> cateNoList;
 }

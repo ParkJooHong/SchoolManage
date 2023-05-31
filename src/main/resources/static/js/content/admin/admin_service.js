@@ -78,7 +78,7 @@ function regBoardCate() {
 
 						result.forEach(function(cate, idx) {
 							str += '<tr>';
-							str += '<td><input type="checkbox" checked onclick="checkControll();" class="form-check-input checkboxes"></td>';
+							str += `<td><input type="checkbox" checked onclick="checkControll();" value="${cate.cateNo}" class="form-check-input checkboxes"></td>`;
 							str += `<td>${idx + 1}</td>`;
 							str += `<td>${cate.cateNo}</td>`;
 							str += `<td>${cate.cateName}</td>`;
@@ -153,7 +153,7 @@ function changeIsUse(cate_no, is_use_data) {
 
 					result.forEach(function(cate, idx) {
 						str += '<tr>';
-						str += '<td><input type="checkbox" checked onclick="checkControll();" class="form-check-input checkboxes"></td>';
+						str += `<td><input type="checkbox" checked onclick="checkControll();" value="${cate.cateNo}" class="form-check-input checkboxes"></td>`;
 						str += `<td>${idx + 1}</td>`;
 						str += `<td>${cate.cateNo}</td>`;
 						str += `<td>${cate.cateName}</td>`;
@@ -199,3 +199,113 @@ function changeIsUse(cate_no, is_use_data) {
 	})
 
 }
+
+//카테고리 삭제
+function selectedCateDel() {
+	const chks = document.querySelectorAll('#cateTbody input[type=checkbox]:checked');
+	const cate_no_list = [];
+	chks.forEach(function(chk) {
+		cate_no_list.push(chk.value);
+	});
+	const data = { 'cateNoList': cate_no_list };
+
+	if (chks.length == 0) {
+		swal.fire({
+			title: "하나라도 체크하지 않으면 \n 실행할 수 없습니다.",
+			icon: 'warning',
+			button: '확인',
+		});
+		return
+	}
+	else {
+		swal.fire({
+			title: "카테고리 삭제",
+			text: "삭제하시겠습니까? \n 삭제한 내용은 복구 할 수 없습니다.",
+			icon: "question",
+			showCancelButton: true,
+			confirmButtonText: "확인",
+			cancelButtonText: "취소"
+		}).then((r) => {
+			if (r.isConfirmed) {
+				//ajax start
+				$.ajax({
+					url: '/admin/selectedCateDelAjax', //요청경로
+					type: 'post',
+					async: true,
+					contentType: 'application/json; charset=UTF-8',
+					//contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+					data: JSON.stringify(data), //필요한 데이터
+					success: function(result) {
+						swal.fire({
+							title: "카테고리 삭제가 완료되었습니다.",
+							icon: "success",
+							button: '확인',
+						});
+						const cate_tbody = document.querySelector('#cateTbody');
+						cate_tbody.replaceChildren();
+						let str = '';
+						const size_span = document.querySelector('#sizeSpan');
+						size_span.replaceChildren();
+						let str2 = '';
+						str2 += `※총 ${result.length}개의 카테고리가 검색되었습니다.`;
+
+						result.forEach(function(cate, idx) {
+							str += '<tr>';
+							str += `<td><input type="checkbox" checked onclick="checkControll();" value="${cate.cateNo}" class="form-check-input checkboxes"></td>`;
+							str += `<td>${idx + 1}</td>`;
+							str += `<td>${cate.cateNo}</td>`;
+							str += `<td>${cate.cateName}</td>`;
+							str += '<td>';
+							if (cate.isUse == 'Y') {
+								str += `<input type="radio" name="isUse${idx}" onchange="changeIsUse('${cate.cateNo}',this);" class="form-check-input" checked value="Y">사용중`;
+								str += `<input type="radio" name="isUse${idx}" onchange="changeIsUse('${cate.cateNo}',this);" class="form-check-input" value="N">미사용`;
+							}
+							else {
+								str += `<input type="radio" name="isUse${idx}" onchange="changeIsUse('${cate.cateNo}',this);" class="form-check-input" value="Y">사용중`;
+								str += `<input type="radio" name="isUse${idx}" onchange="changeIsUse('${cate.cateNo}',this);" class="form-check-input" checked value="N">미사용`;
+							}
+							str += '</td>';
+							str += '</tr>';
+						});
+
+						cate_tbody.insertAdjacentHTML('afterbegin', str);
+						size_span.insertAdjacentHTML('afterbegin', str2);
+						
+						checkControll();
+					},
+					error: function() {
+						alert('실패');
+					}
+				});
+				//ajax end
+
+			}
+			else if (r.isDismissed) {
+				swal.fire({
+					title: "삭제가 취소되었습니다.",
+					icon: 'success',
+					button: '확인',
+				})
+			}
+		});
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

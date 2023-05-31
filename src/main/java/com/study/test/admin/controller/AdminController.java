@@ -610,4 +610,16 @@ public class AdminController {
 		return boardService.getBoardCategoryList();
 	}
 	
+	//카테고리 삭제
+	@PostMapping("/selectedCateDelAjax")
+	@ResponseBody
+	public List<BoardCategoryVO> selectedCateDelAjax(@RequestBody Map<String, List<String>> cateMap) {
+		BoardCategoryVO boardCategoryVO = new BoardCategoryVO();
+		List<String> cateNoList = cateMap.get("cateNoList");
+		boardCategoryVO.setCateNoList(cateNoList);
+		adminService.delBoardCategory(boardCategoryVO);
+		
+		return boardService.getBoardCategoryList();
+	}
+	
 }
