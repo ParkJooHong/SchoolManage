@@ -11,6 +11,7 @@ import com.study.test.member.vo.MemberVO;
 import com.study.test.professor.vo.LectureVO;
 import com.study.test.school.dept.DeptManageVO;
 import com.study.test.school.enrollment.EnrollmentVO;
+import com.study.test.school.semester.SemesterVO;
 import com.study.test.school.stu_grade.StuGradeVO;
 import com.study.test.stu.vo.LeaveManageVO;
 import com.study.test.stu.vo.StatusInfoVO;
@@ -208,6 +209,12 @@ public class StuServiceImpl implements StuService {
 	@Override
 	public List<MemberVO> getProbation(String stuNo) {
 		return sqlSession.selectList("stuMapper.getProbation", stuNo);
+	}
+
+	//학기별 조회
+	@Override
+	public List<SemesterVO> getSemester() {
+		return sqlSession.selectList("stuMapper.getSemester");
 	}
 
 	

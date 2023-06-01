@@ -138,6 +138,14 @@
 		<collection property="lectureTimeList"
 			resultMap="professorMapper.lectureTime" />
 	</resultMap>
+	
+	<!-- 학기 -->
+	<resultMap type="com.study.test.school.semester.SemesterVO" id="semester">
+		<id column="SEM_NO" 			property="semNo"/>
+		<result column="SEM_YEAR" 	property="semYear"/>
+		<result column="SEMESTER" 	property="semester"/>
+		<result column="SEM_NAME" 	property="semName"/>
+	</resultMap>
 
 
 	<!-- 멤버 조회 -->
@@ -663,6 +671,14 @@
 		AND UE.MEM_NO = UM.MEM_NO
 	</select>
 
+	<!-- 학생 성적 학기별-->
+	<select id="getSemester" resultMap="semester">
+		SELECT SEM_NO
+			, SEM_YEAR
+			, SEM_NAME
+		FROM SEMESTER
+		ORDER BY SEM_NO ASC
+	</select>
 </mapper>
 
 

@@ -7,6 +7,7 @@ import com.study.test.member.vo.MemberVO;
 import com.study.test.professor.vo.LectureVO;
 import com.study.test.school.dept.DeptManageVO;
 import com.study.test.school.enrollment.EnrollmentVO;
+import com.study.test.school.semester.SemesterVO;
 import com.study.test.school.stu_grade.StuGradeVO;
 import com.study.test.stu.vo.LeaveManageVO;
 import com.study.test.stu.vo.StatusInfoVO;
@@ -96,4 +97,7 @@ public interface StuService {
 	
 	//학사 경고 학생 조회
 	List<MemberVO> getProbation(String stuNo);
+	
+	//학기별 조회
+	List<SemesterVO> getSemester();
 }
