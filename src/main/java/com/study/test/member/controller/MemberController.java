@@ -1,5 +1,9 @@
 package com.study.test.member.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,7 +44,16 @@ public class MemberController {
 		return memberService.getMemNo(memberVO);
 	}
 	
-	
+	//회원 목록 조회
+	@ResponseBody
+	@PostMapping("/getMemListAjax")
+	public List<Map<String, Object>> getMemList(MemberVO memberVO) {
+		List<Map<String, Object>> memList = new ArrayList<>();
+		if(memberVO.getMemName()!=null && !memberVO.getMemName().equals("")) {
+			memList = memberService.getMemList(memberVO);	
+		}
+		return memList;
+	}
 	
 	
 	

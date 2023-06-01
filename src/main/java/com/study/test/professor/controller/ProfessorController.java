@@ -10,6 +10,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,6 +40,7 @@ import com.study.test.school.grade.GradeVO;
 import com.study.test.school.semester.SemesterVO;
 import com.study.test.school.service.SchoolService;
 import com.study.test.school.stu_grade.StuGradeVO;
+import com.study.test.stu.vo.StuVO;
 import com.study.test.util.ConstVariable;
 import com.study.test.util.DateUtil;
 import com.study.test.util.UploadUtil;
@@ -354,7 +356,7 @@ public class ProfessorController {
 		
 		//맵 객체생성
 		Map<String, Object> enrollStuList = new HashMap<>();
-		;
+
 		//수강신청한 학생목록과 A+ A성적 목록 데이터 맵에 저장
 		enrollStuList.put("enrollList", enrollList);
 		enrollStuList.put("gradeScoreList", gradeScoreList);
@@ -370,6 +372,7 @@ public class ProfessorController {
 		professorService.updateStuGrade(stuGradeVO);
 		
 	}
+	
 	
 	//학사톡
 	@GetMapping("/talk")

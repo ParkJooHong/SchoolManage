@@ -1,6 +1,7 @@
 package com.study.test.member.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +54,12 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public String getNextImgCode() {		
 		return sqlSession.selectOne("memberMapper.getNextImgCode");
+	}
+
+	//회원 목록조회
+	@Override
+	public List<Map<String, Object>> getMemList(MemberVO memberVO) {
+		return sqlSession.selectList("memberMapper.getMemList", memberVO);
 	}
 	
 }

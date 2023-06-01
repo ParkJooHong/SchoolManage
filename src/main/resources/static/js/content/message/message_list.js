@@ -1,3 +1,68 @@
+//회원 목록 검색
+function findMem(){
+	const search_keyword = document.querySelector('input[name="recvMemNo"]').value;
+	
+	//ajax start
+	$.ajax({
+		url: '/member/getMemListAjax', //요청경로
+		type: 'post',
+		async: true, //동기 방식으로 실행, 작성하지 않으면 기본 true값을 가짐
+		data: {'memName' : search_keyword},			//JSON.stringify(classInfo), //필요한 데이터
+		contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+		success: function(mem_list) {
+			
+			const member_list_div = document.querySelector('#memberDropdown');
+			member_list_div.innerHTML = '';
+			
+			if(search_keyword && mem_list.length > 0){
+				member_list_div.style.display = 'block';
+				member_list_div.classList.add('show');
+				mem_list.forEach((mem)=>{
+					const memName = mem['MEM_NAME'];
+					const memRole = mem['MEM_ROLE'];
+					
+					const mem_li = document.createElement('li');
+					mem_li.textContent = memName + '( ' + memRole + ' )';
+					mem_li.classList.add('dropdown-item');
+					mem_li.addEventListener('click', function(){
+						const selectMember = this.textContent.split('(')[0];
+						document.querySelector('.dropdown').value = selectMember
+						//클릭후 드롭다운 제거
+						memberDropdown.style.display = 'none';
+      			 		memberDropdown.classList.remove('show');
+					});
+					member_list_div.appendChild(mem_li);
+				});
+			}
+			else if (search_keyword == null || search_keyword == ''){
+				 memberDropdown.style.display = 'none';
+      			 memberDropdown.classList.remove('show');
+			}
+			else{
+				member_list_div.style.display = 'block';
+				member_list_div.classList.add('show');
+				const no_mem_li = document.createElement('li');
+				no_mem_li.textContent = '일치하는 회원이 없습니다.';
+				no_mem_li.classList.add('dropdown-item', 'disabled');
+				member_list_div.appendChild(no_mem_li);
+			}
+		},
+		error: function() {
+			alert('실패');
+		}
+	});
+	//ajax end 
+}
+
+//메세지 전송
+function sendMessage(){
+	//메세지 받을 사람
+	const recv_name = document.querySelector('input[name="recvMemNo"]');
+	//메세지 내용
+	const content = document.querySelector('#content').textContent;
+	
+}
+
 
 /*
 const FirstMessageList = function() {

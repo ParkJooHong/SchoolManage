@@ -51,6 +51,7 @@ body{
 	color: white;	
 	border-color: #897c76;
 	box-shadow: 0 2px 4px #897c76;
+	font-weight: bolder;
 }
 
 .btn-primary:hover{
@@ -77,6 +78,7 @@ input[type="text"]
 	box-shadow: 0 2px 4px #897c76;
 }
 
+
 /* 인풋태그 */
 input[type="text"]:focus
 , input[type="password"]:focus
@@ -84,6 +86,14 @@ input[type="text"]:focus
 , select:focus
 {
 	 outline: none; /* 포커스 스타일 제거 */
+}
+
+textArea{
+	border: none;
+	border-radius: 5px;
+	padding: 0px 5px;
+	box-shadow: 0 2px 4px #897c76;
+	resize: none;
 }
 
 /* 에러 메세지 */
