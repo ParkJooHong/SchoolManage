@@ -671,7 +671,11 @@ public class StuController {
 				System.out.println("전과 신청자" + stuService.getStatusMoveInfo(stuNo));
 				System.out.println("fsadafdsafdsafdsafds" +deptManageVO);
 				model.addAttribute("stuStatusMove", stuService.getStatusMoveInfo(stuNo));
-
+				
+				//복수 전공 신청자 조회
+				System.out.println("복수 전공 신청자 : " + stuService.getStatusDoubleInfo(stuNo));
+				model.addAttribute("stuStatusDouble", stuService.getStatusDoubleInfo(stuNo));
+				
 				model.addAttribute("probation" , stuService.getProbation(stuNo));
 			
 				System.out.println(statusInfoVO);

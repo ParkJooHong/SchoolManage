@@ -100,6 +100,12 @@ public class StuServiceImpl implements StuService {
 		public List<DeptManageVO> getStatusMoveInfo(String memNo) {		
 			return sqlSession.selectList("stuMapper.getStatusMoveInfo", memNo);
 		}
+		
+	// 학적 상태 조회 ( 복수전공 신청 조회)
+		@Override
+		public List<DeptManageVO> getStatusDoubleInfo(String memNo) {
+			return sqlSession.selectList("stuMapper.getStatusDoubleInfo", memNo);
+		}
 
 	/*
 	 * //휴학 신청
@@ -203,6 +209,8 @@ public class StuServiceImpl implements StuService {
 	public List<MemberVO> getProbation(String stuNo) {
 		return sqlSession.selectList("stuMapper.getProbation", stuNo);
 	}
+
+	
 
 
 	

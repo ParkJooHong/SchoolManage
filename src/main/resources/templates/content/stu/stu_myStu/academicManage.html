@@ -133,8 +133,6 @@
 		<thead>
 			<tr>
 				<td>No</td>
-				<td>전공대학</td>
-				<td>전공학과</td>
 				<td>변경전공대학</td>
 				<td>변경전공학과</td>
 				<td>신청일</td>
@@ -151,10 +149,8 @@
 			<th:block th:if="${#lists.size(stuStatusMove) != 0}">
 				<tr th:each="info, state : ${stuStatusMove}">
 					<td>[[${state.count}]]</td>
-					<td>[[${info.fromColl}]]</td>
-					<td>[[${info.toColl}]]</td>
-					<td>[[${info.fromDept}]]</td>
-					<td>[[${info.toDept}]]</td>
+					<td>[[${info.colleageVO.collName}]]</td>
+					<td>[[${info.deptVO.deptName}]]</td>
 					<td>[[${info.applyDate}]]</td>
 					<td>[[${info.applrovalDate}]]</td>
 					<td>[[${info.processStatus}]]</td>
@@ -181,28 +177,24 @@
 		<thead>
 			<tr>
 				<td>No</td>
-				<td>전공대학</td>
-				<td>전공학과</td>
-				<td>변경전공대학</td>
-				<td>변경전공학과</td>
+				<td>복수전공대학</td>
+				<td>복수전공학과</td>
 				<td>신청일</td>
 				<td>승인일</td>
 				<td>승인여부</td>
 			</tr>
 		</thead>
 		<tbody>
-			<th:block th:if="${#lists.size(stuStatusMove) == 0}">
+			<th:block th:if="${#lists.size(stuStatusDouble) == 0}">
 				<tr>
-					<td colspan="8">전과 신청 여부가 없습니다.</td>
+					<td colspan="8">복수전공 신청 여부가 없습니다.</td>
 				</tr>
 			</th:block>
-			<th:block th:if="${#lists.size(stuStatusMove) != 0}">
-				<tr th:each="info, state : ${stuStatusMove}">
+			<th:block th:if="${#lists.size(stuStatusDouble) != 0}">
+				<tr th:each="info, state : ${stuStatusDouble}">
 					<td>[[${state.count}]]</td>
-					<td>[[${info.fromColl}]]</td>
-					<td>[[${info.toColl}]]</td>
-					<td>[[${info.fromDept}]]</td>
-					<td>[[${info.toDept}]]</td>
+					<td>[[${info.colleageVO.collName}]]</td>
+					<td>[[${info.deptVO.deptName}]]</td>
 					<td>[[${info.applyDate}]]</td>
 					<td>[[${info.applrovalDate}]]</td>
 					<td>[[${info.processStatus}]]</td>

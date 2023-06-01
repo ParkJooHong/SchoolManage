@@ -470,8 +470,34 @@
 		, DOUBLE_MAJOR_DEPT
 		, STU_YEAR
 		, STU_SEM
-		FROM DEPT_MANAGE
-		WHERE STU_NO = #{stuNo}
+		, DEPT_NAME
+		, COLL_NAME
+		FROM DEPT_MANAGE DM, DEPT D, COLLEAGE C
+		WHERE DM.TO_DEPT = D.DEPT_NO 
+		AND D.COLL_NO = C.COLL_NO
+		AND STU_NO = #{stuNo}
+	</select>
+	
+	<!-- 학적 상태 조회 ( 복수 신청 상태 조회 -->
+	<select id="getStatusDoubleInfo" resultMap="deptManage">
+		SELECT
+			APPLY_NO
+			, STU_NO
+			, APPLY_CODE
+			, APPLY_DATE
+			, APPLY_REASON
+			, APPLROVAL_DATE
+			, PROCESS_STATUS
+			, DOUBLE_MAJOR_COLL
+			, DOUBLE_MAJOR_DEPT
+			, STU_YEAR
+			, STU_SEM
+	        , DEPT_NAME
+	        , COLL_NAME
+		FROM DEPT_MANAGE DM , DEPT D, COLLEAGE C
+		WHERE D.COLL_NO = C.COLL_NO
+		AND DM.DOUBLE_MAJOR_DEPT = D.DEPT_NO
+		AND STU_NO = #{stuNo}
 	</select>
 
 	<!-- 휴학에서 복학 신청할 때 승인상태 변경 -->

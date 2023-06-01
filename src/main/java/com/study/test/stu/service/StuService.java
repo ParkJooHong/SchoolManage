@@ -58,6 +58,9 @@ public interface StuService {
 	//학적 상태 조회 ( 전과 신청 조회 )
 	List<DeptManageVO> getStatusMoveInfo(String memNo);
 	
+	//학적 상태 조회 ( 복수 신청 조회)
+	List<DeptManageVO> getStatusDoubleInfo(String memNo);
+	
 	//휴학
 	void leav(StatusInfoVO statusInfoVO);
 	
