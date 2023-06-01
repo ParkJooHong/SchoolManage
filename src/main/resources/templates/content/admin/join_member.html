@@ -69,7 +69,7 @@
 						<tr>
 							<td>연락처(선택)</td>
 							<td class="d-grid">
-								<input type="text" name="memTell" placeholder="연락처 입력은 선택입니다.">
+								<input type="text" name="memTell" maxlength="13" oninput="autoHyphen2(this)" placeholder="연락처 입력은 선택입니다.">
 							</td>
 						</tr>
 						<tr>
@@ -94,7 +94,7 @@
 							</td>
 						</tr>
 						<tr>
-							<td>이미지 등록(선택)</td>
+							<td>이미지 등록(필수)</td>
 							<td class="d-grid">
 								<input type="file" name="mainImg">
 							</td>

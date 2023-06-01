@@ -622,4 +622,12 @@ public class AdminController {
 		return boardService.getBoardCategoryList();
 	}
 	
+	//관리자 게시판 페이지
+	@GetMapping("/board")
+	public String board(AdminSubMenuVO adminSubMenuVO) {
+		adminSubMenuVO.setMenuCode(ConstVariable.FOURTH_MENU_CODE);
+		
+		return "";
+	}
+	
 }

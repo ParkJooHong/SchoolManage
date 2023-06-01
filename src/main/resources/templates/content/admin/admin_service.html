@@ -13,29 +13,29 @@
 <th:block layout:fragment="content">
 	<div class="row">
 		<div class="col">
-			<div class="row mt-4 mb-4 text-center">
-				<div class="col-12">
+			<div class="row mt-4 mb-4 text-center" id="headerText">
+				<div class="col-10">
 					<h1>[관리자 게시판]</h1>
 				</div>
 			</div>
-			<div class="row mb-5">
+			<div class="row mb-5" id="searchBox">
 				<div class="col-5">
-					<label for="cateName">카테고리명</label>
+					<label for="cateName" class="mb-3">카테고리명</label>
 					<input type="text" class="form-control" id="cateName">
 				</div>
 				<div class="col-5">
-					<label for="isUse">사용여부</label>
+					<label for="isUse" class="mb-3">사용여부</label>
 					<select class="form-select" id="isUse">
 						<option value="Y">사용중</option>
 						<option value="N">미사용</option>
 					</select>
 				</div>
 				<div class="col-2 d-grid">
-					<input type="button" class="btn btn-primary" onclick="regBoardCate();" value="등록">
+					<input type="button" class="btn btn-primary" onclick="regBoardCate();" id="searchBtn" value="등록">
 				</div>
 			</div>
 			<div class="row mb-5 text-center">
-				<div class="col-12">
+				<div class="col-10">
 					<h1>카테고리 목록</h1>
 				</div>
 			</div>
@@ -79,11 +79,11 @@
 									<td>[[${cate.cateName}]]</td>
 									<td>
 										<th:block th:if="${cate.isUse == 'Y' }">
-											<input type="radio" th:name="isUse+${cateState.index}" class="form-check-input" th:onchange="changeIsUse([[${cate.cateNo}]],this)" checked value="Y">사용중
+											<input type="radio" th:name="isUse+${cateState.index}" class="form-check-input" th:onchange="changeIsUse([[${cate.cateNo}]],this)" checked value="Y">사용중					
 											<input type="radio" th:name="isUse+${cateState.index}" class="form-check-input" th:onchange="changeIsUse([[${cate.cateNo}]],this)" value="N">미사용
 										</th:block>
 										<th:block th:unless="${cate.isUse == 'Y'}">
-											<input type="radio" th:name="isUse+${cateState.index}" class="form-check-input" th:onchange="changeIsUse([[${cate.cateNo}]],this)" value="Y">사용중
+											<input type="radio" th:name="isUse+${cateState.index}" class="form-check-input" th:onchange="changeIsUse([[${cate.cateNo}]],this)" value="Y">사용중											
 											<input type="radio" th:name="isUse+${cateState.index}" class="form-check-input" th:onchange="changeIsUse([[${cate.cateNo}]],this)" checked value="N">미사용
 										</th:block>
 									</td>

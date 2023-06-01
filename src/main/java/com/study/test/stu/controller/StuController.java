@@ -168,14 +168,30 @@ public class StuController {
 		
 		
 		//게시판
-		@GetMapping("board")
+		@GetMapping("/board")
 		private String board(Authentication authentication, Model model, MemberVO memberVO, StuVO stuVO, UniBoardVO uniBoardVO,
 				BoardCategoryVO boardCategoryVO, String cateNo, String menuCode, String subMenuCode, MemberSubMenuVO memberSubMenuVO) {
 
 			memberSubMenuVO.setSubMenuCode("SUB_MENU_011");
 			System.out.println("서브메뉴 : " +memberSubMenuVO.getSubMenuCode());
-			
+			String memLayout = "";
 			User user = (User)authentication.getPrincipal();
+			
+			//로그인한 회원의 권한에 따라 layout 변경 진행
+			String memRoll = user.toString();
+			
+			if(memRoll.equals("ADMIN")) {
+				memLayout = "admin_layout";
+			}
+			else if(memRoll.equals("STU")) {
+				memLayout = "info_layout";
+			}
+			else if(memRoll.equals("PRO")) {
+				memLayout = "professor_layout";
+			}
+			
+			model.addAttribute("memLayOut", memLayout);
+			
 			String memName = user.getUsername();
 			//System.out.println(memName);
 			stuVO.setMemNo(user.getUsername()); // id임
@@ -196,6 +212,7 @@ public class StuController {
 			
 			return "/content/stu/stu_board/board";
 		}
+		
 		
 		//캘린더
 		@GetMapping("calender")

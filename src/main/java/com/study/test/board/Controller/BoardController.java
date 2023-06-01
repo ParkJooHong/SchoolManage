@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.study.test.board.service.BoardReplyService;
 import com.study.test.board.service.BoardService;
+import com.study.test.board.vo.BoardCategoryVO;
 import com.study.test.board.vo.BoardReplyVO;
 import com.study.test.board.vo.UniBoardVO;
 import com.study.test.member.service.MemberService;
@@ -46,7 +47,7 @@ public class BoardController {
 	@Resource(name = "boardReplyService")
 	private BoardReplyService boardReplyService;
 	
-	
+		
 	//게시글 수정
 	@ResponseBody
 	@PostMapping("/boardUpdateAjax")

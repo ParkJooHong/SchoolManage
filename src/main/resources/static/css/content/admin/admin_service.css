@@ -1,5 +1,63 @@
 @charset "UTF-8";
-table td{
-	text-align: center;
-	border: 1px solid #dee2e6;
+#headerText {
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+#searchBox {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+label {
+    font-weight: bold;
+}
+
+.form-control {
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+.form-select {
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+#searchBtn {
+    padding: 10px;
+}
+
+h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+#sizeSpan {
+    font-size: 14px;
+}
+
+.table {
+    width: 100%;
+    background-color: #fff;
+}
+
+th {
+    text-align: left;
+}
+
+th,
+td {
+    padding: 10px;
+}
+
+#cateTbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.btn-secondary {
+    padding: 10px;
 }

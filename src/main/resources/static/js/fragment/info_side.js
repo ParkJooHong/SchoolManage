@@ -1,8 +1,7 @@
 
 function mainMenu(menuCode, menuUrl){
-
 	location.href=`/stuMenu${menuUrl}?menuCode=${menuCode}`;
-	
+
 	const change = document.querySelector('.submenuTd');
 	
 	change.style.backgroundColor = "#870119";
