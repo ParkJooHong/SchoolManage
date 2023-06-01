@@ -104,6 +104,17 @@
 		AND MEM_EMAIL = #{memEmail}
 	</select>
 	
+	<!-- 회원목록조회 -->
+	<select id="getMemList" resultType="HashMap">
+		SELECT MEM_NO
+			, MEM_NAME
+			, DECODE(MEM_ROLE, 'ADMIN', '교직원', 'PRO', '교수', 'STU', '학생') AS MEM_ROLE
+		FROM UNI_MEMBER
+		<if test="memName != null and memName != ''">
+		WHERE UPPER(MEM_NAME) LIKE '%'||UPPER(#{memName})||'%'
+		</if>
+	</select>
+	
 </mapper>
 
 

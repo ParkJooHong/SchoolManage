@@ -1,7 +1,7 @@
 package com.study.test.member.service;
 
 import java.util.List;
-
+import java.util.Map;
 
 import com.study.test.member.vo.MemberMenuVO;
 import com.study.test.member.vo.MemberVO;
@@ -25,4 +25,7 @@ public interface MemberService {
 	
 	//다음에 들어가는 IMG코드 조회
 	String getNextImgCode();
+	
+	//회원 목록 조회
+	List<Map<String, Object>> getMemList(MemberVO memberVO);
 }
