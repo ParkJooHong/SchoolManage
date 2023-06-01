@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
@@ -15,7 +17,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.util.HtmlUtils;
 
+import com.study.test.stuChat.vo.Greeting;
+import com.study.test.stuChat.vo.HelloMessage;
 import com.study.test.admin.vo.EmpVO;
 import com.study.test.board.service.BoardReplyService;
 import com.study.test.board.service.BoardService;
@@ -1258,5 +1263,37 @@ public class StuController {
 
 			return "/content/stu/stu_calender/mySchedule";
 		}
+		
+		@GetMapping("/chat")
+		private String chat(Authentication authentication, StuVO stuVO, MemberVO memberVO ,Model model, String menuCode, String subMenuCode) {
+			
+			User user = (User)authentication.getPrincipal();
+			String memName = user.getUsername();
+			stuVO.setMemNo(user.getUsername()); // id임
+			memberVO.setMemNo(user.getUsername());
+			model.addAttribute("memberVO", stuService.seletStu(memberVO));
+			
+			
+			model.addAttribute("subMenuCode", subMenuCode);
+			model.addAttribute("menuCode" , menuCode);
 
+			return "/content/stu/stu_chat/totalChat";
+		}
+
+		
+		//채팅 추가
+		@MessageMapping("/hello")
+		@SendTo("/topic/greetings")
+		public Greeting greeting(HelloMessage message, MemberVO memberVO, StuVO stuVO, Authentication authentication) throws Exception{
+			
+			User user = (User)authentication.getPrincipal();
+			String memName = user.getUsername();
+			stuVO.setMemNo(user.getUsername()); // id임
+			memberVO.setMemNo(user.getUsername());
+			
+			
+			Thread.sleep(1000);
+			return new Greeting( memberVO.getMemNo() +  " : " + HtmlUtils.htmlEscape(message.getName()));
+			
+		}
 }
