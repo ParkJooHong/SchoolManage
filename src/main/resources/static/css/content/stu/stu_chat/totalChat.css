@@ -1,0 +1,14 @@
+@charset "UTF-8";
+
+.cahtting{
+	width: 100%;
+	
+}
+
+#conversation{
+	height: 500px;	
+}
+
+tr{
+	height: 30px;
+}

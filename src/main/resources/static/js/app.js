@@ -8,9 +8,11 @@ function setConnected(connected) {
     $("#disconnect").prop("disabled", !connected);
     if (connected) {
         $("#conversation").show();
+        swal("채팅방 입장 완료!", "학우들과 정보를 나눠보세요.", "success");
     }
     else {
         $("#conversation").hide();
+         swal("채팅방 퇴장 완료!", "다음에 또 만나요~", "success");
     }
     $("#greetings").html("");
 }
