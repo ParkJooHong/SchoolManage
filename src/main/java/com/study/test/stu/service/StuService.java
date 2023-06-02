@@ -100,4 +100,7 @@ public interface StuService {
 	
 	//학기별 조회
 	List<SemesterVO> getSemester();
+	
+	//강의 중복
+	int getFindEnol(EnrollmentVO enrollmentVO);
 }

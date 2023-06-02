@@ -177,7 +177,7 @@
 		, US.STU_NO
 		, US.COLL_NO
 		, US.DEPT_NO
-		, DOUBLE_NO
+		, DM.DOUBLE_NO
 		, STU_YEAR
 		, STU_SEM
 		, STU_STATUS
@@ -191,13 +191,16 @@
 		, ORIGIN_FILE_NAME
 		, ATTACHED_FILE_NAME
 		, IS_MAIN
-		FROM UNI_STU US, UNI_MEMBER UM, COLLEAGE C, DEPT D, MEM_IMG MI
+		, DOUBLE_DEPT_NAME
+		FROM UNI_STU US, UNI_MEMBER UM, COLLEAGE C, DEPT D, MEM_IMG MI, DOUBLE_MAJOR DM
 		WHERE US.COLL_NO = C.COLL_NO
 		AND UM.MEM_NO = US.MEM_NO
-		AND D.DEPT_NO =
-		US.DEPT_NO
+		AND D.DEPT_NO = US.DEPT_NO
 		AND UM.MEM_NO = MI.MEM_NO
 		AND UM.MEM_NO = #{memNo}
+		AND DM.DOUBLE_NO = US.DOUBLE_NO
+
+
 	</select>
 
 	<!-- 대학 코드 갖고오기. -->
@@ -540,6 +543,13 @@
 		FROM ACADEMIC_PROBATION
 		WHERE STU_NO = #{stuNo}
 	</select>
+	<!-- 중복여부 확인  -->
+	<select id="getFindEnol" resultType="int">
+		SELECT COUNT(ENROLLMENT_NO)
+		FROM ENROLLMENT
+		WHERE STU_NO = #{stuNo}
+		AND LEC_NO = #{lecNo}   
+	</select>
 
 	<!-- 수강신청 -->
 	<insert id="applyLecture">
@@ -582,6 +592,7 @@
 		, #{stuNo}
 		, #{semNo}
 		)
+		ON CONFLICT #{lecNo} DO NOTHING
 	</insert>
 
 	<!-- 수강신청한 화면 조회 -->

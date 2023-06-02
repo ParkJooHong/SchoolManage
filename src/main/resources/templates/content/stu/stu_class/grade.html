@@ -78,6 +78,12 @@
 			</tr>
 		</thead>
 		<tbody>
+		<th:block th:if="${#lists.size(lecture['enrollList']) == 0}">
+			<tr>
+				<td colspan="7">조회된 성적이 없습니다.</td>
+			</tr>
+		</th:block>
+		<th:block th:if="${#lists.size(lecture['enrollList']) != 0}">
 			<tr th:each="lecture , state : ${lecture['enrollList']}">
 				<td>[[${state.count}]]</td>
 				<td th:text="${lecture.SEM_NAME}"></td>
@@ -87,6 +93,7 @@
 				<td th:text="${lecture['LEC_SCORE']}"></td>
 				<td th:text="${lecture['GRADE']}"></td>
 			</tr>
+		</th:block>
 		</tbody>
 	</table>
 </div>

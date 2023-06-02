@@ -11,7 +11,7 @@ function save(){
 	swal("변경 성공!", "비밀번호가 변경되었습니다.", "success");
 }
 
-function plus(memNo, memName, stuYear, stuStatus, deptNo, deptName){
+function plus(memNo, memName, stuYear, stuStatus, deptNo, deptName, doubleDeptName){
 
 
 	const button = document.querySelector('.plus');
@@ -44,7 +44,7 @@ function plus(memNo, memName, stuYear, stuStatus, deptNo, deptName){
 		str2 +=`	<td>전공</td>`;
 		str2 +=`	<td><input type="text" readonly value="${deptName}"></td>`;
 		str2 +=`	<td>복수전공</td>`;
-		str2 +=`	<td><input type="text" readonly></td>`;
+		str2 +=`	<td><input type="text" readonly value="${doubleDeptName}"></td>`;
 		str2 +=`	<td>부전공</td>`;
 		str2 +=`	<td><input type="text" readonly></td>`;
 		str2 +=`</tr>`;

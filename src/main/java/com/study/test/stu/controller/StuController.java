@@ -165,6 +165,7 @@ public class StuController {
 		model.addAttribute("memberVO", stuService.seletStu(memberVO));
 
 		lectureVO.setStuVO(stuVO);
+		System.out.println("조회할 학번 : " +lectureVO.getStuVO().getStuNo());
 		
 		System.out.println(lectureVO);
 		
@@ -703,7 +704,7 @@ public class StuController {
 
 	// ---- 교과수업 {
 	// 성적조회
-	@GetMapping("grade")
+	@GetMapping("/grade")
 	private String grade(Authentication authentication, StuVO stuVO, MemberVO memberVO, Model model,
 			LectureVO lectureVO, String menuCode, String subMenuCode, SemesterVO semesterVO, String semNo) {
 		User user = (User) authentication.getPrincipal();
@@ -742,12 +743,14 @@ public class StuController {
 			String menuCode, String subMenuCode, Model model, LectureVO lectureVO, String semNo) {
 		User user = (User) authentication.getPrincipal();
 		String memName = user.getUsername();
-		stuVO.setMemNo(user.getUsername()); // id임
+		stuVO.setStuNo(user.getUsername()); // id임
 		memberVO.setMemNo(user.getUsername());
 		model.addAttribute("memberVO", stuService.seletStu(memberVO));
 
 		lectureVO.setSemNo(semNo);
-		System.out.println("Ajax에서 semNo : " +semNo);
+		lectureVO.setStuVO(stuVO);
+		System.out.println("Ajax에서 semNo : " +lectureVO.getSemNo());
+		System.out.println("Ajax에서 stuNo : " +lectureVO.getStuVO().getStuNo());
 		
 		List<Map<String, Object>> enrollList = schoolService.getLecStuList(lectureVO);
 
@@ -858,7 +861,7 @@ public class StuController {
 	}
 
 	// 수강신청
-	@RequestMapping("application")
+	@RequestMapping("/application")
 	private String application(String menuCode, String subMenuCode, Model model, StuVO stuVO, String orderBy,
 			MemberVO memberVO, Authentication authentication, String collNo, LectureVO lectureVO) {
 
@@ -943,12 +946,17 @@ public class StuController {
 		stuGradeVO.setStuNo(stuNo);
 		stuGradeVO.setSemNo(semNo);
 
-		// 수강신청하기.
-		stuService.applyLecture(enrollmentVO);
-		// 수강신청시 학생 점수판 삽입
-		stuService.insertGrade(stuGradeVO);
-		// 수강 신청시 해당 과목 인원수 업데이트
-		stuService.updateLectureCount(lectureVO);
+		int duply = stuService.getFindEnol(enrollmentVO);
+		System.out.println(duply);
+		if(duply <= 0) {
+			// 수강신청하기.
+			stuService.applyLecture(enrollmentVO);
+			// 수강신청시 학생 점수판 삽입
+			stuService.insertGrade(stuGradeVO);
+			// 수강 신청시 해당 과목 인원수 업데이트
+			stuService.updateLectureCount(lectureVO);
+		}
+		
 
 		Map<String, Object> data = new HashMap<>();
 		data.put("menuCode", menuCode);
@@ -997,7 +1005,7 @@ public class StuController {
 	}
 
 	// 수업평가
-	@GetMapping("evaluation")
+	@GetMapping("/evaluation")
 	private String evaluation(Authentication authentication, StuVO stuVO, MemberVO memberVO, Model model) {
 		User user = (User) authentication.getPrincipal();
 		String memName = user.getUsername();
@@ -1046,13 +1054,31 @@ public class StuController {
 
 		System.out.println(month);
 
-		if (uniBoardVO.getFromDate() == null) {
-			uniBoardVO.setFromDate(firstDate);
+		if(uniBoardVO.getMonth() == 0) {
+			uniBoardVO.setFromDate(null);
+			uniBoardVO.setToDate(null);
+		} else if(uniBoardVO.getMonth() == -1) {
+			uniBoardVO.setFromDate(null);
+			uniBoardVO.setToDate(null);
+		}else if(uniBoardVO.getMonth() == -3) {
+			uniBoardVO.setFromDate(null);
+			uniBoardVO.setToDate(null);
+		}
+		else {
+			if (uniBoardVO.getFromDate() == null) {
+				uniBoardVO.setFromDate(firstDate);
+			}
+
+			if (uniBoardVO.getToDate() == null) {
+				uniBoardVO.setToDate(nowDate);
+			}
+		}
+		
+		if(uniBoardVO.getToDate() != null || uniBoardVO.getFromDate() != null) {
+			uniBoardVO.setMonth(0);
 		}
 
-		if (uniBoardVO.getToDate() == null) {
-			uniBoardVO.setToDate(nowDate);
-		}
+		
 		System.out.println(uniBoardVO.getFromDate());
 		model.addAttribute("uniBoardFromDate", uniBoardVO.getFromDate());
 		System.out.println(uniBoardVO.getToDate());
@@ -1096,7 +1122,7 @@ public class StuController {
 	}
 
 	// 전체 게시판
-	@GetMapping("/totalBoard")
+	@RequestMapping("/totalBoard")
 	private String totalBoard(Authentication authentication, Model model, MemberVO memberVO, StuVO stuVO, String toDate,
 			String fromDate, UniBoardVO uniBoardVO, BoardCategoryVO boardCategoryVO, String cateNo, String menuCode,
 			String subMenuCode) {
@@ -1117,14 +1143,44 @@ public class StuController {
 		if (uniBoardVO.getOrderBy() == null) {
 			uniBoardVO.setOrderBy("REG_BOARD_DATE");
 		}
-
-		if (uniBoardVO.getFromDate() == null) {
-			uniBoardVO.setFromDate(firstDate);
+		if (uniBoardVO.getSearchKeyword() == null) {
+			uniBoardVO.setSearchKeyword("BOARD_WRITER");
+		}
+		if (uniBoardVO.getSearchValue() == null) {
+			uniBoardVO.setSearchValue("");
 		}
 
-		if (uniBoardVO.getToDate() == null) {
-			uniBoardVO.setToDate(nowDate);
+		if (uniBoardVO.getMonth() == 0) {
+			uniBoardVO.setMonth(0);
 		}
+		
+		System.out.println(uniBoardVO.getOrderBy());
+		
+		// Month랑 toDate, FromDate 함꼐 실행 불가
+		if(uniBoardVO.getMonth() == 0) {
+			uniBoardVO.setFromDate(null);
+			uniBoardVO.setToDate(null);
+		} else if(uniBoardVO.getMonth() == -1) {
+			uniBoardVO.setFromDate(null);
+			uniBoardVO.setToDate(null);
+		}else if(uniBoardVO.getMonth() == -3) {
+			uniBoardVO.setFromDate(null);
+			uniBoardVO.setToDate(null);
+		}
+		else {
+			if (uniBoardVO.getFromDate() == null) {
+				uniBoardVO.setFromDate(firstDate);
+			}
+
+			if (uniBoardVO.getToDate() == null) {
+				uniBoardVO.setToDate(nowDate);
+			}
+		}
+		
+		if(uniBoardVO.getToDate() != null || uniBoardVO.getFromDate() != null) {
+			uniBoardVO.setMonth(0);
+		}
+		
 		System.out.println(uniBoardVO.getFromDate());
 		model.addAttribute("uniBoardFromDate", uniBoardVO.getFromDate());
 		System.out.println(uniBoardVO.getToDate());

@@ -27,7 +27,7 @@
 <div style="text-align: center;">
 <th:block th:each="member : ${memberVO}">
 	
-	<button th:onclick="plus([[${member.memNo}]], [[${member.memName}]], [[${member.stuVO.stuYear}]] , [[${member.stuVO.stuStatus}]] , [[${memberVO.stuVO.deptNo}]] , [[${memberVO.deptVO.deptName}]]  );" class="plus" style="width: 40px; height:30px; border-bottom-left-radius:10px; border-bottom-right-radius:10px;
+	<button th:onclick="plus([[${member.memNo}]], [[${member.memName}]], [[${member.stuVO.stuYear}]] , [[${member.stuVO.stuStatus}]] , [[${memberVO.stuVO.deptNo}]] , [[${memberVO.deptVO.deptName}]] , [[${memberVO.doubleMajorVO.doubleDeptName}]] );" class="plus" style="width: 40px; height:30px; border-bottom-left-radius:10px; border-bottom-right-radius:10px;
 		font-size: 20px; font-weight: bold; border-color: red;  color: white; background-color: red;">
 		+
 	</button>
