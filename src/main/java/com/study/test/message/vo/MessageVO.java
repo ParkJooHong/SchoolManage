@@ -9,9 +9,8 @@ import lombok.ToString;
 @ToString
 public class MessageVO {
 	private String msgNo;
-	private int msgRoom;
-	private String sendName;
-	private String recvName;
+	private String sendMemNo;
+	private String recvMemNo;
 	private String sendTime;
 	private String readTime;
 	private int readChk;

@@ -61,6 +61,7 @@ function sendMessage(){
 	//메세지 내용
 	const content = document.querySelector('#content').textContent;
 	
+	location.href = '/message/sendMessage?recvName'
 }
 
 

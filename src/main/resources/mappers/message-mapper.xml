@@ -4,9 +4,8 @@
 <mapper namespace="messageMapper">
 	<resultMap type="com.study.test.message.vo.MessageVO" id="message">
 		<id column="MSG_NO" 			property="msgNo"/>
-		<result column="MSG_ROOM" 			property="msgRoom"/>
-		<result column="SEND_NAME" 			property="sendName"/>
-		<result column="RECV_NAME" 			property="recvName"/>
+		<result column="SEND_MEM_NO" 			property="sendMemNo"/>
+		<result column="RECV_MEM_NO" 			property="recvMemNo"/>
 		<result column="SEND_TIME" 			property="sendTime"/>
 		<result column="READ_TIME" 			property="readTime"/>
 		<result column="READ_CHK" 			property="readChk"/>
@@ -16,7 +15,24 @@
 	</resultMap>
 
 	
-
+	<!-- 메세지 전송(메세지 보내기 창에서) -->
+	<insert id="sendMessage">
+		INSERT INTO MESSAGE (
+			MSG_NO
+			, SEND_MEM_NO
+			, RECV_MEM_NO
+			, SEND_TIME
+			, CONTENT
+		
+		) VALUES (
+			(SELECT 'MSG_'||LPAD(NVL(MAX(TO_NUMBER(SUBSTR('MSG_NO', 5))), 0) +1, LENGTH(NVL(MAX(TO_NUMBER(SUBSTR('MSG_NO', 5))), 0) +1) , '0')
+			FROM MESSAGE)
+			, #{sendMemNo}
+			, #{recvMemNo}
+			, NOW()
+			, #{content}
+		)
+	</insert>
 
 <!-- 
 
