@@ -23,6 +23,8 @@ public class ConstVariable {
 	
 	public static final String FIFTH_MENU_CODE = "MENU_005";
 	
+	public static final String SEVEN_MENU_CODE = "MENU_007";
+	
 	//-------------교수 메뉴 상수---------------
 	public static final String DEFAULT_PROFESSOR_MENU_CODE = "MENU_001";
 	
@@ -35,4 +37,8 @@ public class ConstVariable {
 	public static final String FOURTH_PROFESSOR_MENU_CODE = "MENU_004";
 	
 	public static final String NINE_PROFESSOR_MENU_CODE = "MENU_009";
+	
+	//--------------학생 메뉴 상수--------------
+	public static final String SEVEN_STU_MENU_CODE = "MENU_007";
+
 }
