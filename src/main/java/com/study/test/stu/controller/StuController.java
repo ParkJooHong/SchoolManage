@@ -5,11 +5,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.codehaus.groovy.util.ListHashMap;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -188,50 +190,7 @@ public class StuController {
 		return "/content/stu/stu_class/grade";
 	}
 
-	// 게시판
-	@GetMapping("/board")
-	private String board(Authentication authentication, Model model, MemberVO memberVO, StuVO stuVO,
-			UniBoardVO uniBoardVO, BoardCategoryVO boardCategoryVO, String cateNo, String menuCode, String subMenuCode,
-			MemberSubMenuVO memberSubMenuVO) {
-
-		memberSubMenuVO.setSubMenuCode("SUB_MENU_011");
-		System.out.println("서브메뉴 : " + memberSubMenuVO.getSubMenuCode());
-		String memLayout = "";
-		User user = (User) authentication.getPrincipal();
-
-		// 로그인한 회원의 권한에 따라 layout 변경 진행
-		String memRoll = user.toString();
-
-		if (memRoll.equals("ADMIN")) {
-			memLayout = "admin_layout";
-		} else if (memRoll.equals("STU")) {
-			memLayout = "info_layout";
-		} else if (memRoll.equals("PRO")) {
-			memLayout = "professor_layout";
-		}
-
-		model.addAttribute("memLayOut", memLayout);
-
-		String memName = user.getUsername();
-		// System.out.println(memName);
-		stuVO.setMemNo(user.getUsername()); // id임
-		memberVO.setMemNo(user.getUsername());
-		stuService.seletStu(memberVO);
-		model.addAttribute("memberVO", stuService.seletStu(memberVO));
-		System.out.println("학생정보 : " + stuService.seletStu(memberVO));
-
-		model.addAttribute("boardCategoryVO", boardService.getBoardCategoryList());
-		System.out.println("보드 카테고리 정보 : " + boardService.getBoardCategoryList());
-		model.addAttribute("uniBoardList", boardService.getTotalBoardList(uniBoardVO));
-
-		cateNo = boardCategoryVO.getCateNo();
-
-		// 게시판 상세보기할때 던질 메뉴코드, 서브메뉴코드 데이터
-		model.addAttribute("menuCode", menuCode);
-		model.addAttribute("subMenuCode", subMenuCode);
-
-		return "/content/stu/stu_board/board";
-	}
+	//board 게시판 컨트롤러 이동함.
 
 	// 캘린더
 	@GetMapping("/calender")

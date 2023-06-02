@@ -25,9 +25,11 @@ public class IntercepterConfig implements WebMvcConfigurer {
 		registry.addInterceptor(getAdminMenuIntercepter())
 				.order(1)
 				.addPathPatterns("/admin/**")
+				.addPathPatterns("/board/**")
 				.excludePathPatterns("/member/**")
 				.excludePathPatterns("/professor/**")
-				.excludePathPatterns("/admin/**Ajax");
+				.excludePathPatterns("/admin/**Ajax")
+				.excludePathPatterns("/board/**Ajax");
 		
 		//교수 인터셉터
 		registry.addInterceptor(getProfessorMenuIntercepter())

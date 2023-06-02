@@ -25,13 +25,13 @@
 		<result column="IS_NOTICE" 			property="isNotice"/>
 	</resultMap>
 	
-<!-- 	<resultMap type="com.study.test.board.vo.BoardReplyVO" id="reply">
+	<resultMap type="com.study.test.board.vo.BoardReplyVO" id="reply">
 		<id column="REPLY_NO" 			property="replyNo"/>
 		<result column="BOARD_NO" 			property="boardNo"/>
 		<result column="REPLY_CONTENT" 			property="replyContent"/>
 		<result column="REPLY_WRITER" 			property="replyWriter"/>
 		<result column="IS_PRIVATE" 			property="isPrivate"/>
-	</resultMap> -->
+	</resultMap> 
 	
 	<!-- 보드 게시판 카테고리 조회 -->
 		<select id="getBoardCategoryList" resultMap="boardCategory">
@@ -284,8 +284,51 @@
 		DELETE UNI_BOARD
 		WHERE BOARD_NO = #{boardNo}
 	</delete>
-
 	
+	<!--게시판 검색 및 조회  -->
+	<select id="searchByBoard" resultMap="uniBoard">
+		SELECT BOARD_NO
+			, BOARD_TITLE
+			, BOARD_WRITER
+			, TO_CHAR(REG_BOARD_DATE, 'YYYY-MM-DD') AS REG_BOARD_DATE
+			, READ_CNT
+			, IS_PRIVATE
+		FROM UNI_BOARD
+		WHERE 1 = 1
+		<if test='boardTitle != null and !boardTitle.equals("")'>
+		AND BOARD_TITLE  LIKE '%' || UPPER(#{boardTitle}) || '%'
+		</if>
+		<if test='boardWriter != null and !boardWriter.equals("")'>
+		AND BOARD_WRITER LIKE '%' || UPPER(#{boardWriter}) || '%'
+		</if>
+		<if test='toDate != null and !toDate.equals("") and fromDate != null and !fromDate.equals("")'>
+		AND REG_BOARD_DATE &lt;= #{toDate}
+		AND REG_BOARD_DATE &gt;= #{fromDate}
+		</if>
+		AND IS_NOTICE = 'N'
+	</select>
+	
+	<!-- 게시판 상세보기 -->
+	<select id="getBoardDetail" resultMap="uniBoard">
+		SELECT BOARD_NO
+			, BOARD_TITLE
+			, BOARD_CONTENT
+			, BOARD_WRITER
+			, REG_BOARD_DATE
+		FROM UNI_BOARD
+		WHERE BOARD_NO = #{boardNo}
+	</select>
+	
+	<!-- 댓글 조회 -->
+	<select id="getBoardReplyList" resultMap="reply">
+		SELECT REPLY_NO
+			, BOARD_NO
+			, REPLY_CONTENT
+			, REPLY_WRITER
+			, IS_PRIVATE
+		FROM BOARD_REPLY
+		WHERE BOARD_NO =#{boardNO}
+	</select>
 
 </mapper>
 

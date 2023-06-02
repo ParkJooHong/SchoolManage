@@ -10,10 +10,23 @@
 		<result column="READ_TIME" 			property="readTime"/>
 		<result column="READ_CHK" 			property="readChk"/>
 		<result column="OTHER_NAME" 		property="otherName"/>
-		<result column="NAME" 				property="name"/>
+		<result column="MEM_NAME" 				property="memName"/>
 		<result column="UNREAD" 			property="unread"/>
 	</resultMap>
 
+	<!-- 대화 목록 조회  -->
+	<select id="getMsgList" resultMap="message">
+		SELECT MEM_NAME
+			, MAX(SEND_TIME) AS SEND_TIME
+			, MAX(CONTENT) AS CONTENT
+			, MAX(READ_CHK) AS READ_CHK
+		FROM MESSAGE M
+			, UNI_MEMBER UM
+		WHERE M.RECV_MEM_NO = UM.MEM_NO
+		AND SEND_MEM_NO = #{memNo}
+		GROUP BY MEM_NAME
+		ORDER BY READ_CHK DESC, SEND_TIME DESC
+	</select>
 	
 	<!-- 메세지 전송(메세지 보내기 창에서) -->
 	<insert id="sendMessage">
@@ -23,16 +36,22 @@
 			, RECV_MEM_NO
 			, SEND_TIME
 			, CONTENT
-		
 		) VALUES (
-			(SELECT 'MSG_'||LPAD(NVL(MAX(TO_NUMBER(SUBSTR('MSG_NO', 5))), 0) +1, LENGTH(NVL(MAX(TO_NUMBER(SUBSTR('MSG_NO', 5))), 0) +1) , '0')
+			(SELECT 'MSG_'||LPAD(NVL(MAX(TO_NUMBER(SUBSTR(MSG_NO, 5))), 0) +1, LENGTH(NVL(MAX(TO_NUMBER(SUBSTR(MSG_NO, 5))), 0) +1) , '0')
 			FROM MESSAGE)
 			, #{sendMemNo}
 			, #{recvMemNo}
-			, NOW()
+			, SYSDATE
 			, #{content}
 		)
 	</insert>
+	
+	<!-- 이름으로 회원아이디 조회 -->
+	<select id="getMemNo" resultType="String">
+		SELECT MEM_NO
+		FROM UNI_MEMBER
+		WHERE MEM_NAME = #{memName}
+	</select>
 
 <!-- 
 

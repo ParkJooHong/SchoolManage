@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.study.test.board.vo.BoardCategoryVO;
+import com.study.test.board.vo.BoardReplyVO;
 import com.study.test.board.vo.SearchVO;
 import com.study.test.board.vo.UniBoardVO;
 
@@ -93,6 +94,26 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public List<UniBoardVO> getMonthBoardList(int month) {
 		return sqlSession.selectList("boardMapper.getMonthBoardList", month);
+	}
+
+	
+	//여기서부터 변경
+	//게시판 검색기능
+	@Override
+	public List<UniBoardVO> searchByBoard(UniBoardVO uniBoardVO) {
+		return sqlSession.selectList("boardMapper.searchByBoard",uniBoardVO);
+	}
+	
+	//게시판 상세보기
+	@Override
+	public UniBoardVO getBoardDetail(String boardNo) {
+		return sqlSession.selectOne("boardMapper.getBoardDetail",boardNo);
+	}
+	
+	//댓글 조회
+	@Override
+	public List<BoardReplyVO> getBoardReplyList(String boardNo) {
+		return sqlSession.selectList("boardMapper.getBoardReplyList", boardNo);
 	}
 
 	

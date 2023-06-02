@@ -1,5 +1,21 @@
 @charset "UTF-8";
 
+.message_container{
+	height: 50vh;	
+}
+
+.convers_list{
+	padding: 0;
+	padding-right: 10.5px;
+	margin-left: 10.5px;
+	height: 100%;
+	background-color: #f7f7f7;
+}
+
+.one_convers{
+	margin-left: 0px;
+}
+
 .dropdown{
 	position: relative;
 	display: inline-block;
