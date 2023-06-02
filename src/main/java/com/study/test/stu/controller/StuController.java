@@ -72,6 +72,14 @@ public class StuController {
 
 	@Resource(name = "boardReplyService")
 	private BoardReplyService boardReplyService;
+	
+	
+	   //학사톡
+	   @GetMapping("/talk")
+	   public String toTalk() {
+	      return "redirect:/message/messageList";
+	   } 
+	
 
 	// 정보
 	@GetMapping("/myInfo")
@@ -1178,7 +1186,8 @@ public class StuController {
 			String deptNo) {
 
 		System.out.println("카테고리 코드 : " + cateNo);
-
+		System.out.println(deptNo);
+		
 		// 카테고리가 학과로 표시되어있으면, DEPT_NO 삽입
 		if (cateNo == "CATE_002") {
 			uniBoardVO.setDeptNo(deptNo);
