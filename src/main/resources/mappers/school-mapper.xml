@@ -145,10 +145,14 @@
         AND ENROLL.LEC_NO = LEC.LEC_NO
         AND SG.STU_NO = US.STU_NO 
         AND ENROLL.LEC_NO = SG.LEC_NO
+		AND S.SEM_NO = SG.SEM_NO
         <if test="lecNo != null and lecNo != ''">
 		AND ENROLL.LEC_NO = #{lecNo}
 		</if>
-		AND S.SEM_NO = SG.SEM_NO
+		<if test="semNo != null and semNo != ''">
+		AND S.SEM_NO =#{semNo}
+		</if>
+
 	</select>
 	
 	<!-- 성적과 성적에따른 학점 -->

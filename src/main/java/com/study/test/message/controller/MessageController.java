@@ -2,6 +2,7 @@ package com.study.test.message.controller;
 
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.security.core.Authentication;
@@ -9,9 +10,12 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.study.test.admin.vo.AdminMenuVO;
+import com.study.test.member.vo.MemberMenuVO;
 import com.study.test.member.vo.MemberVO;
 import com.study.test.message.service.MessageService;
 import com.study.test.message.vo.MessageVO;
@@ -28,8 +32,22 @@ public class MessageController {
 	private MessageService messageService;
 	
 	//메세지 전송(메세지 보내기창에서)
-	@PostMapping("/sendMessage")
-	public String sendMessage() {
+	@GetMapping("/sendMessage")
+	public String sendMessage(MessageVO messageVO, String recvName, Authentication authentication) {
+		User user = (User)authentication.getPrincipal();
+		//메시지 받는 회원 아이디 조회
+		String recvMemNo = messageService.getMemNo(recvName);
+		
+		System.out.println("@@@@@@@@@@@유저 아이디 확인" + user.getUsername()); 
+		
+		//보낼 메세지에 정보 저장
+		messageVO.setRecvMemNo(recvMemNo);
+		messageVO.setSendMemNo(user.getUsername());
+		
+		System.out.println("보낼 메세지 데이터 확인" + messageVO);
+		
+		//메세지 전송 쿼리 실행
+		messageService.sendMessage(messageVO);
 		
 		return "redirect:/message/messageList";
 	}
@@ -37,38 +55,37 @@ public class MessageController {
 	
 	//메세지 목록
 	@RequestMapping("/messageList")
-	public String message_list(Model model, HttpSession session, ProfessorMenuVO professorMenuVO, Authentication authentication) {
+	public String message_list(Model model, HttpSession session, AdminMenuVO adminMenuVO, ProfessorMenuVO professorMenuVO, MemberMenuVO memberMenuVO, Authentication authentication) {
 		professorMenuVO.setMenuCode(ConstVariable.NINE_PROFESSOR_MENU_CODE);
-		
+		//세션 정보 가져오기
+		MemberVO member = (MemberVO) session.getAttribute("memberVO");
+		String name = member.getMemName();
+
+		//role에 따른 메뉴코드,layout 설정
 		User userInfo = (User)authentication.getPrincipal();
 		
 		List<String> authorityStrings = userInfo.getAuthorities().stream()
 			    .map(GrantedAuthority::getAuthority)
 			    .collect(Collectors.toList());
 		
-		if(authorityStrings.contains("ROLE_PRO")){
-			model.addAttribute("mem_role", "professor");
+		//1.메뉴코드,레이아웃 설정
+		if(authorityStrings.contains("ROLE_ADMIN")) {
+			adminMenuVO.setMenuCode(getMenuCode(authentication));
+			model.addAttribute("mem_role", getLayout(authentication));
 		}
-		
-		else if(authorityStrings.contains("ROLE_ADMIN")) {
-			model.addAttribute("mem_role", "admin");
+		else if(authorityStrings.contains("ROLE_PRO")) {
+			adminMenuVO.setMenuCode(getMenuCode(authentication));
+			model.addAttribute("mem_role", getLayout(authentication));
 		}
 		else {
-			model.addAttribute("mem_role", "info");
+			adminMenuVO.setMenuCode(getMenuCode(authentication));
+			model.addAttribute("mem_role", getLayout(authentication));
 		}
-
-		// System.out.println("현대 사용자 nick : " + session.getAttribute("nick"));
-		MemberVO member = (MemberVO) session.getAttribute("memberVO");
-		String name = member.getMemName();
-
-		//현재이름 저장
-		MessageVO msg = new MessageVO();
-		msg.setName(name);
 		
-		//메세지 리스트
-		//List<MessageVO> msgList = messageService.messageList(msg);
+		//메세지 리스트 조회
+		List<Map<String, Object>> msgList = messageService.getMsgList(userInfo.getUsername());
 
-		//model.addAttribute("msgList", msgList);
+		model.addAttribute("msgList", msgList);
 
 		return "content/message/message_list";
 	}
@@ -131,5 +148,53 @@ public class MessageController {
 //
 //		return flag;
 //	}
+	
+	//----------------기능을 위한 메소드-------------------//
+	//role에 따른 layout문자 반환
+	public String getLayout(Authentication authentication) {
+		
+		User userInfo = (User)authentication.getPrincipal();
+		
+		List<String> authorityStrings = userInfo.getAuthorities().stream()
+			    .map(GrantedAuthority::getAuthority)
+			    .collect(Collectors.toList());
+		
+		String memRole = "";
+		
+		if(authorityStrings.contains("ROLE_PRO")){
+			memRole = "professor";
+		}
+		else if(authorityStrings.contains("ROLE_ADMIN")) {
+			memRole = "admin";
+		}
+		else {
+			memRole = "info";
+		}
+		
+		return memRole;
+	}
+	
+	//role에 따른 menuCode반환
+	public String getMenuCode(Authentication authentication) {
+		User userInfo = (User)authentication.getPrincipal();
+		
+		List<String> authorityStrings = userInfo.getAuthorities().stream()
+			    .map(GrantedAuthority::getAuthority)
+			    .collect(Collectors.toList());
+		
+		String menuCode = "";
+		
+		if(authorityStrings.contains("ROLE_PRO")){
+			menuCode = ConstVariable.NINE_PROFESSOR_MENU_CODE;
+		}
+		else if(authorityStrings.contains("ROLE_ADMIN")) {
+			menuCode = ConstVariable.SEVEN_MENU_CODE;
+		}
+		else {
+			menuCode = ConstVariable.SEVEN_STU_MENU_CODE;
+		}
+		
+		return menuCode;
+	}
 
 }

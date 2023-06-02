@@ -12,10 +12,8 @@ public class MessageVO {
 	private String sendMemNo;
 	private String recvMemNo;
 	private String sendTime;
-	private String readTime;
+	private String memName;
 	private int readChk;
 	private String content;
-	private String otherName;
-	private String name;
 	private int unread;
 }

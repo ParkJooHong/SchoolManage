@@ -74,6 +74,14 @@ public class StuController {
 
 	@Resource(name = "boardReplyService")
 	private BoardReplyService boardReplyService;
+	
+	
+	   //학사톡
+	   @GetMapping("/talk")
+	   public String toTalk() {
+	      return "redirect:/message/messageList";
+	   } 
+	
 
 	// 정보
 	@GetMapping("/myInfo")
@@ -130,7 +138,7 @@ public class StuController {
 	}
 
 	// 학적 관리
-	@GetMapping("myStu")
+	@GetMapping("/myStu")
 	private String myStu(Authentication authentication, StuVO stuVO, MemberVO memberVO, Model model, String stuNo) {
 		User user = (User) authentication.getPrincipal();
 		String memName = user.getUsername();
@@ -149,19 +157,22 @@ public class StuController {
 	}
 
 	// 교과수업
-	@GetMapping("stuClass")
+	@RequestMapping("/stuClass")
 	private String stuClass(Authentication authentication, StuVO stuVO, MemberVO memberVO, Model model, SemesterVO semesterVO, String semName,
 			LectureVO lectureVO, String menuCode, String subMenuCode) {
 		User user = (User) authentication.getPrincipal();
 		String memName = user.getUsername();
-		stuVO.setMemNo(user.getUsername()); // id임
-		memberVO.setMemNo(user.getUsername());
+		stuVO.setStuNo(memName); // id임
+		memberVO.setMemNo(memName);
 		model.addAttribute("memberVO", stuService.seletStu(memberVO));
 
-		semesterVO.setSemName(semName);
-		lectureVO.setSemesterVO(semesterVO);
+		lectureVO.setStuVO(stuVO);
+		
+		System.out.println(lectureVO);
 		
 		List<Map<String, Object>> enrollList = schoolService.getLecStuList(lectureVO);
+		
+		System.out.println("@@@@@@@@@@@@@@@@학기별 성적조회" + enrollList);
 
 		Map<String, Object> enrollStuList = new HashMap<>();
 
@@ -181,7 +192,7 @@ public class StuController {
 	//board 게시판 컨트롤러 이동함.
 
 	// 캘린더
-	@GetMapping("calender")
+	@GetMapping("/calender")
 	private String calender() {
 
 		return "/content/stu/stu_calender/departmentSchedule";
@@ -194,7 +205,7 @@ public class StuController {
 
 	// ---- 내정보 관리 {
 	// MyInfo
-	@GetMapping("infoManage")
+	@GetMapping("/infoManage")
 	private String infoManage(Authentication authentication, String memNo, Model model, StuVO stuVO, MemberVO memberVO,
 			String subMenuCode) {
 
@@ -224,7 +235,7 @@ public class StuController {
 	}
 
 	// 비밀번호변경 페이지
-	@GetMapping("changePwd")
+	@GetMapping("/changePwd")
 	private String changePwd(Authentication authentication, Model model, StuVO stuVO, MemberVO memberVO) {
 
 		User user = (User) authentication.getPrincipal();
@@ -653,12 +664,16 @@ public class StuController {
 	// 성적조회
 	@GetMapping("grade")
 	private String grade(Authentication authentication, StuVO stuVO, MemberVO memberVO, Model model,
-			LectureVO lectureVO, String menuCode, String subMenuCode, SemesterVO semesterVO) {
+			LectureVO lectureVO, String menuCode, String subMenuCode, SemesterVO semesterVO, String semNo) {
 		User user = (User) authentication.getPrincipal();
 		String memName = user.getUsername();
-		stuVO.setMemNo(user.getUsername()); // id임
+		stuVO.setStuNo(memName); // id임
 		memberVO.setMemNo(user.getUsername());
 		model.addAttribute("memberVO", stuService.seletStu(memberVO));
+		
+		lectureVO.setSemNo(semNo);
+		System.out.println(lectureVO);
+		lectureVO.setStuVO(stuVO);
 
 		List<Map<String, Object>> enrollList = schoolService.getLecStuList(lectureVO);
 
@@ -683,18 +698,23 @@ public class StuController {
 	@ResponseBody
 	@PostMapping("/getChartDataAjax")
 	public Map<String, Object> getChartDataAjax(Authentication authentication, StuVO stuVO, MemberVO memberVO,
-			String menuCode, String subMenuCode, Model model, LectureVO lectureVO) {
+			String menuCode, String subMenuCode, Model model, LectureVO lectureVO, String semNo) {
 		User user = (User) authentication.getPrincipal();
 		String memName = user.getUsername();
 		stuVO.setMemNo(user.getUsername()); // id임
 		memberVO.setMemNo(user.getUsername());
 		model.addAttribute("memberVO", stuService.seletStu(memberVO));
 
+		lectureVO.setSemNo(semNo);
+		System.out.println("Ajax에서 semNo : " +semNo);
+		
 		List<Map<String, Object>> enrollList = schoolService.getLecStuList(lectureVO);
 
 		// 총 들은 학점 조회
 		int lecScore = 0;
 		int lecScoreSum = 0;
+		
+		Map<String, Object> dataZero = new HashMap<>();
 
 		for (Map<String, Object> data : enrollList) {
 			Object lecScoreObj = data.get("LEC_SCORE");
@@ -707,7 +727,11 @@ public class StuController {
 			}
 		}
 		System.out.println(lecScoreSum);
-
+		
+		if(lecScoreSum == 0) {
+			return dataZero;
+		}
+		
 		// 각 등급별 개수 조회
 		int aPlus = 0;
 		int a = 0;
@@ -1137,7 +1161,8 @@ public class StuController {
 			String deptNo) {
 
 		System.out.println("카테고리 코드 : " + cateNo);
-
+		System.out.println(deptNo);
+		
 		// 카테고리가 학과로 표시되어있으면, DEPT_NO 삽입
 		if (cateNo == "CATE_002") {
 			uniBoardVO.setDeptNo(deptNo);

@@ -1,10 +1,18 @@
-
+let glopbal_semNo = '';
 
 function getChange(menuCode, subMenuCode){
 	
-	const semName = document.querySelector('.semName');
 	
-	location.href= `/stuMenu/stuClass?semName=${semName}&menuCode=${menuCode}&subMenuCode=${subMenuCode}`;
+	//샐렉트 박스에서 선택한 옵션의 value값 가져오기
+	document.querySelector('#semNo').querySelectorAll('option').forEach(function(optionTag, index){
+		if(optionTag.selected){
+			document.querySelector('#grade_search_form > input:first-child').value = optionTag.value;
+		}
+	});
+	
+	//가져온 value값을 히든 input태그의 value에 저장
+
+	document.querySelector('#grade_search_form').submit();
 }
 
 
@@ -12,17 +20,26 @@ getChartDataAjax();
 
 function getChartDataAjax(){
 	
+	document.querySelector('#semNo').value = document.querySelector('#grade_search_form').querySelectorAll('input')[0].value;
+	
+	
+	//document.querySelector('#semNo').value = "2023년 1학기";
+
+	const semNo = document.querySelector('#grade_search_form').querySelectorAll('input')[0].value;
 	const menuCode = document.querySelector('.menuCode').value;
 	const subMenuCode = document.querySelector('.subMenuCode').value;
 	
-	const semName = document.querySelector('#semName').value;
+	
+	
+	//const semNo = document.querySelector('#semNo').value;
+	//alert(semNo);
 	
 	
 	$.ajax({
 		url: '/stuMenu/getChartDataAjax', //요청경로
 		type: 'post',
 		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-		data: {'menuCode' : menuCode, 'subMenuCode' : subMenuCode, 'semName' : semName }, 
+		data: {'menuCode' : menuCode, 'subMenuCode' : subMenuCode, 'semNo' : semNo }, 
 		success: function(result) {
 		
 			console.log(result);
