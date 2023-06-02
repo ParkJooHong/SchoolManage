@@ -2,7 +2,11 @@ package com.study.test.board.service;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.study.test.board.vo.BoardCategoryVO;
+import com.study.test.board.vo.BoardReplyVO;
 import com.study.test.board.vo.SearchVO;
 import com.study.test.board.vo.UniBoardVO;
 
@@ -40,9 +44,23 @@ public interface BoardService {
 	
 	//보드 조회 수
 	void readCnt(UniBoardVO uniBoardVO);
-	
-	
-	
+
 	//보드 최근 개월 수 조회
 	List<UniBoardVO> getMonthBoardList(int month);
+	
+	//여기서부터 변경된 내용
+	
+	//게시판 검색
+	List<UniBoardVO> searchByBoard(UniBoardVO uniBoardVO);
+	
+	//게시판 상세보기
+	UniBoardVO getBoardDetail(String boardNo);
+	
+	//댓글 조회
+	List<BoardReplyVO> getBoardReplyList(String boardNo);
+	
+	
+	
+	
+	
 }

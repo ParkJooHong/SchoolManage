@@ -818,6 +818,21 @@
 			#{cateNo}
 		</foreach>
 	</delete>
+	
+	<!--회원의 비밀번호 검증  -->
+	<select id="countMemPw" resultType="int">
+		SELECT COUNT(MEM_NO)
+		FROM UNI_MEMBER
+		WHERE MEM_NO = #{memNo}
+		AND MEM_PW = #{memPw}
+	</select>
+	<!-- 비밀번호 변경  -->
+	<update id="changePw">
+		UPDATE UNI_MEMBER
+		SET MEM_PW = #{memPw}
+		WHERE MEM_NO = #{memNo}
+	</update>
+	
 </mapper>
 
 

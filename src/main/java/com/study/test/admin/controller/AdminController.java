@@ -23,6 +23,7 @@ import com.study.test.admin.vo.ProbationVO;
 import com.study.test.admin.vo.StuOutVO;
 import com.study.test.board.service.BoardService;
 import com.study.test.board.vo.BoardCategoryVO;
+import com.study.test.board.vo.UniBoardVO;
 import com.study.test.member.service.MemberService;
 import com.study.test.member.vo.MemImgVO;
 
@@ -67,6 +68,20 @@ public class AdminController {
 		adminSubMenuVO.setMenuCode(ConstVariable.DEFAULT_MENU_CODE);
 		return "content/admin/change_pwd";
 	}
+	
+	//회원의 비밀번호 검증
+	@PostMapping("/updatePwAjax")
+	@ResponseBody
+	public int updatePwAjax(MemberVO memberVO) {
+		return adminService.countMemPw(memberVO);
+	}
+	
+	//비밀번호 변경
+	@PostMapping("/changePwAjax")
+	@ResponseBody
+	public int changePwAjax(MemberVO memberVO) {
+		return adminService.changePw(memberVO);
+	}
 
 	// 회원등록
 	@PostMapping("/join")
@@ -93,9 +108,6 @@ public class AdminController {
 		System.out.println("@@@@@@@@@@@@@@" + memberVO);
 		memberService.regMember(memberVO);
 
-		System.out.println("@@@@@@@@@"+path);
-		System.out.println(adminSubMenuVO.getMenuCode());
-		System.out.println(memberVO.getMemNo());
 		return path;
 	}
 
@@ -108,7 +120,6 @@ public class AdminController {
 		
 		
 		String collNo = "COLL_001";
-		System.out.println("@@@@@@@@@@@@"+memNo);
 		Map<String, Object> schoolMap = new HashMap<>();
 		List<ColleageVO> collList = schoolService.getCollList();
 		List<DeptVO> deptList = schoolService.getDeptList(collNo);
@@ -156,7 +167,6 @@ public class AdminController {
 	//학생정보등록
 	@PostMapping("/insertStu")
 	public String insertStu(StuVO stuVO) {
-		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"+stuVO);
 		adminService.regStu(stuVO);	
 		return "redirect:/admin/joinMember";
 	}
@@ -164,7 +174,6 @@ public class AdminController {
 	//교직원등록
 	@PostMapping("/insertEmp")
 	public String insertEmp(EmpVO empVO) {
-		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"+empVO);
 		adminService.regEmp(empVO);
 		return "redirect:/admin/joinMember";
 	}
@@ -266,8 +275,6 @@ public class AdminController {
 		//statusNOList 
 		List<String> statusNoList = (List<String>)acceptDataMap.get("statusNoList");
 		List<String> stuNoList = (List<String>)acceptDataMap.get("stuNoList");
-		System.out.println("data@@@@@@@@@@@@@@@@@@@@@" + statusNoList);
-		System.out.println("data2@@@@@@@@@@@@@@@@@@@@@@" + stuNoList);
 		StatusInfoVO statusInfoVO = new StatusInfoVO();
 		statusInfoVO.setStatusNoList(statusNoList);
 		statusInfoVO.setStuNoList(stuNoList);
@@ -372,7 +379,6 @@ public class AdminController {
 	public List<DeptManageVO> searchByStatusAjax(String processStatus) {
 		DeptManageVO deptManageVO = new DeptManageVO();
 		deptManageVO.setProcessStatus(processStatus);
-		System.out.println(processStatus);
 		List<DeptManageVO> deptManageList = adminService.getDeptManageList(deptManageVO);
 		
 		return deptManageList;
@@ -382,7 +388,6 @@ public class AdminController {
 	@ResponseBody
 	@PostMapping("/searchByDoubleStatusAjax")
 	public List<DeptManageVO> searchByDoubleStatusAjax(String processStatus) {
-		System.out.println(processStatus);
 		DeptManageVO deptManageVO = new DeptManageVO();
 		deptManageVO.setProcessStatus(processStatus);
 		List<DeptManageVO> doubleManageList = adminService.getDoubleMajorRequestList(deptManageVO);
@@ -416,7 +421,6 @@ public class AdminController {
 	@ResponseBody
 	@PostMapping("/checkedAcceptAjax")
 	public int checkedAcceptAjax(@RequestBody Map<String, List<String>> applyMap) {
-	    System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" + applyMap.get("applyCodeList"));
 	    List<String> applyNoList = applyMap.get("applyCodeList");
 	    DeptManageVO deptManageVO = new DeptManageVO();
 	    deptManageVO.setApplyNoList(applyNoList);
@@ -445,7 +449,6 @@ public class AdminController {
 	@PostMapping("/checkedByDoubleMajorAjax")
 	@ResponseBody
 	public int checkedByDoubleMajorAjax(@RequestBody Map<String, List<String>> applyMap) {
-		System.out.println("@@@@@@@@@@@@@@@@@@@@@@"+ applyMap);
 		List<String> applyCodeList = applyMap.get("applyCodeList");
 		List<String> stuNoList = applyMap.get("stuNoList");
 		List<String> doubleMajorDeptNoList = applyMap.get("doubleMajorDeptNoList");
@@ -595,7 +598,6 @@ public class AdminController {
 	public List<BoardCategoryVO> regBoardCateAjax(BoardCategoryVO boardCategoryVO) {
 		String cateNo = adminService.getNextCateNo();
 		boardCategoryVO.setCateNo(cateNo);
-		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@" + boardCategoryVO);
 		adminService.regCateNo(boardCategoryVO);
 		
 		return boardService.getBoardCategoryList();
@@ -622,12 +624,18 @@ public class AdminController {
 		return boardService.getBoardCategoryList();
 	}
 	
-	//관리자 게시판 페이지
+	//게시판 페이지
 	@GetMapping("/board")
-	public String board(AdminSubMenuVO adminSubMenuVO) {
+	public String board(AdminSubMenuVO adminSubMenuVO, Model model, UniBoardVO uniBoardVO) {
 		adminSubMenuVO.setMenuCode(ConstVariable.FOURTH_MENU_CODE);
-		
-		return "";
+		return "redirect:/board/board";
 	}
+	
+	//학사톡
+   @GetMapping("/talk")
+   public String toTalk(AdminSubMenuVO adminSubMenuVO) {
+	  adminSubMenuVO.setMenuCode("MENU_007");
+      return "redirect:/message/messageList";
+   }
 	
 }

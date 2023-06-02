@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{fragment/__${memLayOut}___layout}"
+   >
+
+<!-- 연결해야 할 외부 css 파일  -->
+<th:block layout:fragment="content_css">
+	<link rel="stylesheet" href="">
+</th:block>	
+
+<th:block layout:fragment="content">
+	<div class="row">
+		<div class="col">			
+			<div class="row mt-3 mb-3">
+				<div class="col">
+					<h3>게시글 상세 내용</h3>
+				</div>
+			</div>
+			<div class="row mb-5 text-center">
+				<div class="col-4">
+					글 제목 : [[${boardMap['boardDetail'].boardTitle}]]
+				</div>
+				<div class="col-4">
+					작성자 : [[${boardMap['boardDetail'].boardWriter}]]
+				</div>
+				<div class="col-4">
+					작성일 : [[${boardMap['boardDetail'].regBoardDate}]]
+				</div>
+			</div>
+			<div class="row mb-5">
+				<div class="col-12">
+					글 내용 : [[${boardMap['boardDetail'].boardContent}]]
+				</div>
+			</div>
+			<div class="row justify-content-center mb-5">
+				<div class="col-1 d-grid">
+					<input type="button" value="수정" class="btn btn-success">
+				</div>
+				<div class="col-1 d-grid">
+					<input type="button" value="삭제" class="btn btn-danger">
+				</div>
+			</div>
+			<div class="row mb-5">
+				<div class="col">※ 총 [[${#lists.size(boardMap['replyList'])}]] 개의 댓글이 있습니다.</div>
+			</div>
+			<div class="row mb-3">
+				<div class="col-10">
+					<input type="text" placeholder="댓글 작성" class="form-control">
+				</div>
+				<div class="col-2 d-grid">
+					<input type="button" class="btn btn-success" value="등록">
+				</div>
+			</div>
+			<div class="row mb-5">
+				<div class="col-12">
+					<th:block th:if="${#lists.size(boardMap['replyList']) == 0}">
+						등록된 댓글이 없습니다.
+					</th:block>
+					<th:block th:unless="${#lists.size(boardMap['replyList']) == 0}">
+						<th:block th:each="reply,state:${boardMap['replyList']}">
+							<th:block th:if="${reply.isPrivate != 'N'}">
+								댓글번호 : [[${state.count}]]<br>
+								작성자 : [[${reply.replyWriter}]]<br>
+								내용 : [[${reply.replyContent}]]<br>
+							</th:block>
+							<th:block th:unless="${reply.isPrivate != 'N'}">
+								비밀글 입니다 비밀번호를 입력하세요 &nbsp; <input type="password"> <input type="button" class="btn btn-success" value="확인">
+							</th:block>
+						</th:block>
+					</th:block>
+				</div>
+			</div>
+		</div>
+	</div>
+</th:block>
+
+<!-- 연결해야 할 외부 js 파일 -->
+<th:block layout:fragment="content_js">
+	<script type="text/javascript" src=""></script>
+</th:block>	
+
+</html>

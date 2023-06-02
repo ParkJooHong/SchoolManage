@@ -122,5 +122,11 @@ public interface AdminService {
 	//카테고리 삭제
 	void delBoardCategory(BoardCategoryVO boardCategoryVO);
 	
+	//회원의 비밀번호 검증
+	int countMemPw(MemberVO memberVO);
+	
+	//비밀번호 변경
+	int changePw(MemberVO memberVO);
+	
 	
 }
