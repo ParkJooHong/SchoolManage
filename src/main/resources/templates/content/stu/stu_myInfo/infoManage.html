@@ -10,7 +10,7 @@
 <th:block layout:fragment="content">
 <div style="font-size: 20px; color: red; font-weight: bold; margin: 10px;" >🧑‍🎓학생기본정보</div>
 <div class="tableAdd">
-	<table border="3" style="border-color: red;" class="default_info">
+	<table border="3" style="border-color: red; " class="default_info">
 		<tr th:each="member : ${memberVO}">
 			<td>학번</td>
 			<td><input type="text" readonly th:value="${member.memNo}"> </td>
@@ -25,9 +25,17 @@
 	</table>
 </div>
 <div style="text-align: center;">
+<th:block th:each="processStatus : ${deptManageVO}">
+	<tr >
+		<td><input type="hidden" th:value="${processStatus.processStatus}" class="processStatus"></td>
+		<td><input type="hidden" th:value="${processStatus.colleageVO.collName}" class="doubleCollName"></td>
+		<td><input type="hidden" th:value="${processStatus.deptVO.deptName}" class="doubleDeptName"></td>
+	</tr>
+</th:block>
+
 <th:block th:each="member : ${memberVO}">
 	
-	<button th:onclick="plus([[${member.memNo}]], [[${member.memName}]], [[${member.stuVO.stuYear}]] , [[${member.stuVO.stuStatus}]] , [[${memberVO.stuVO.deptNo}]] , [[${memberVO.deptVO.deptName}]] , [[${memberVO.doubleMajorVO.doubleDeptName}]] );" class="plus" style="width: 40px; height:30px; border-bottom-left-radius:10px; border-bottom-right-radius:10px;
+	<button th:onclick="plus([[${member.memNo}]], [[${member.memName}]], [[${member.stuVO.stuYear}]] , [[${member.stuVO.stuStatus}]] , [[${memberVO.colleageVO.collName}]] , [[${memberVO.deptVO.deptName}]]  );" class="plus" style="width: 40px; height:30px; border-bottom-left-radius:10px; border-bottom-right-radius:10px;
 		font-size: 20px; font-weight: bold; border-color: red;  color: white; background-color: red;">
 		+
 	</button>

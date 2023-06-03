@@ -96,7 +96,7 @@ public class StuController {
 
 	// 정보
 	@GetMapping("/myInfo")
-	public String myInfo(Authentication authentication, String stuNo, String memNo, Model model, StuVO stuVO,
+	public String myInfo(Authentication authentication, String stuNo, String memNo, Model model, StuVO stuVO, DeptManageVO deptManageVO,
 			MemberVO memberVO, ColleageVO colleageVO) {
 
 		User user = (User) authentication.getPrincipal();
@@ -116,7 +116,10 @@ public class StuController {
 
 		// memberVO.getStuVO().setCollNo(collNo);
 		System.out.println(memberVO);
-
+		
+		System.out.println(" 복수 전공 신청 조회 : " + stuService.getStatusDoubleInfo(memberVO.getMemNo()));
+		model.addAttribute("deptManageVO" , stuService.getStatusDoubleInfo(memberVO.getMemNo()));
+		
 		System.out.println("대학정보" + stuService.getColl(memberVO.getMemNo()));
 
 		System.out.println("학생 정보 : " + stuService.seletStu(memberVO));
@@ -163,6 +166,9 @@ public class StuController {
 
 		// 휴학 신청자 조회
 		model.addAttribute("stuStatus", stuService.getStatusLeaveInfo(stuNo));
+		
+		System.out.println(" 복수 전공 신청 조회 : " + stuService.getStatusDoubleInfo(memberVO.getMemNo()));
+		model.addAttribute("deptManageVO" , stuService.getStatusDoubleInfo(memberVO.getMemNo()));
 
 		return "/content/stu/stu_myStu/leaveManage";
 	}
@@ -1414,7 +1420,9 @@ public class StuController {
 
 	// 내 할일
 	@GetMapping("/mySchedule")
-	private String mySchedule() {
+	private String mySchedule(String menuCode, 	String subMenuCode, Model model) {
+		
+		
 
 		return "/content/stu/stu_calender/mySchedule";
 	}

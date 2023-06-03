@@ -32,8 +32,8 @@
   }
   .Calender-container {
     position: relative;
-    width: 1200px;
-    min-height: 850px;
+    width: 1000px;
+    min-height: 1000px;
     margin: 0 auto;
     padding: 5px;
     color: #fff;
