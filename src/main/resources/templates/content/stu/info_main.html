@@ -9,7 +9,68 @@
 </th:block>
 
 <th:block layout:fragment="content">
-<div style="text-align: center;"> 메인 이랄까</div>
+
+
+<div class="row main1">
+	<div class="col-6">
+		<table class="firstTable">
+			<tr class="name">
+				<td colspan="4" style="font-size: 20px; font-weight: bold; text-align: center;">[[${memberVO.memName}]]님 안녕하세요. 
+				<input type="button" class="btn btn-danger" th:value="${memberVO.stuVO.stuStatus}" ></td>
+			</tr>
+			<tr class="status">
+				<td colspan="4">[[${memberVO.colleageVO.collName}]] / [[${memberVO.deptVO.deptName}]]</td>
+			</tr>
+			<tr class="icon">
+				<td><i class="far fa-clock"></i>오늘의 시간표</td>
+				<td><i class="fas fa-chalkboard-teacher"></i>나의 지도교수</td>
+				<td><i class="fas fa-award"></i>인터넷 증명서</td>
+				<td><i class="fas fa-user-cog"></i>개인정보 변경</td>
+			</tr>
+		</table>
+	</div>
+	<div class="col-6">
+		<table >
+			<tr>
+				<td>
+					<img src="/image/stu/mainImage.png" class="mainImg">	
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
+
+<div class="row main2">
+	<div class="col-6">
+		<table>
+			<tr>
+				<td >
+					<th:block th:each="semName, iterStat : ${semester}">
+					 	<option th:if="${iterStat.index == 0}" th:value="${semName.semNo}" class="semName" >[[${semName.semName}]] 수강과목</option>
+					</th:block>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div class="col-2">
+		<table>
+			<tr>
+				<td>0월 </td>
+				<td>학사 일정</td>
+			</tr>
+			<tr>달력</tr>
+		</table>
+	</div>
+	<div class="col-4">
+		<table >
+			<tr>
+				<td>전체일정 </td>
+				<td>이달의 일정</td>
+				<td>오늘의 일정</td>
+			</tr>
+		</table>
+	</div>
+</div>
 
 
 </th:block>

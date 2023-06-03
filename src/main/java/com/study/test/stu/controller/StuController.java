@@ -26,6 +26,7 @@ import org.springframework.web.util.HtmlUtils;
 
 import com.study.test.stuChat.vo.Greeting;
 import com.study.test.stuChat.vo.HelloMessage;
+import com.study.test.admin.vo.AdminSubMenuVO;
 import com.study.test.admin.vo.EmpVO;
 import com.study.test.board.service.BoardReplyService;
 import com.study.test.board.service.BoardService;
@@ -51,6 +52,7 @@ import com.study.test.stu.service.StuService;
 import com.study.test.stu.vo.LeaveManageVO;
 import com.study.test.stu.vo.StatusInfoVO;
 import com.study.test.stu.vo.StuVO;
+import com.study.test.util.ConstVariable;
 import com.study.test.util.DateUtil;
 import com.study.test.util.UploadUtil;
 
@@ -74,6 +76,15 @@ public class StuController {
 
 	@Resource(name = "boardReplyService")
 	private BoardReplyService boardReplyService;
+	
+	   //게시판 페이지
+	   @GetMapping("/board")
+	   public String board(AdminSubMenuVO adminSubMenuVO, Model model, UniBoardVO uniBoardVO) {
+	      adminSubMenuVO.setMenuCode(ConstVariable.FOURTH_MENU_CODE);
+
+			
+	      return "redirect:/board/board";
+	   }
 	
 	
 	   //학사톡
@@ -906,7 +917,9 @@ public class StuController {
 		stuGradeVO.setSemNo(semNo);
 
 		int duply = stuService.getFindEnol(enrollmentVO);
+		System.out.println("중복 확인 : " +duply);
 		System.out.println(duply);
+	
 		if(duply <= 0) {
 			// 수강신청하기.
 			stuService.applyLecture(enrollmentVO);
@@ -914,17 +927,24 @@ public class StuController {
 			stuService.insertGrade(stuGradeVO);
 			// 수강 신청시 해당 과목 인원수 업데이트
 			stuService.updateLectureCount(lectureVO);
+			
+			Map<String, Object> data = new HashMap<>();
+			data.put("menuCode", menuCode);
+			data.put("subMenuCode", subMenuCode);
+
+			model.addAttribute("subMenuCode", subMenuCode);
+			model.addAttribute("menuCode", menuCode);
+			
+			return data;
 		}
 		
+		Map<String, Object> falseData = new HashMap<>();
+		
+		return falseData;
 
-		Map<String, Object> data = new HashMap<>();
-		data.put("menuCode", menuCode);
-		data.put("subMenuCode", subMenuCode);
+		
 
-		model.addAttribute("subMenuCode", subMenuCode);
-		model.addAttribute("menuCode", menuCode);
-
-		return data;
+		
 	}
 
 	// 수강 취소 화면
@@ -1423,11 +1443,13 @@ public class StuController {
 
 		User user = (User) authentication.getPrincipal();
 		String memName = user.getUsername();
-		stuVO.setMemNo(user.getUsername()); // id임
+		stuVO.setStuNo(user.getUsername()); // id임	
 		memberVO.setMemNo(user.getUsername());
+		memberVO =  stuService.seletStu(memberVO);
+		System.out.println(stuService.seletStu(memberVO));
 
-		Thread.sleep(1000);
-		return new Greeting(memberVO.getMemNo() + " : " + HtmlUtils.htmlEscape(message.getName()));
+		Thread.sleep(100);
+		return new Greeting(memberVO.getMemName() + " / " + memberVO.getMemNo() +" : "+ HtmlUtils.htmlEscape(message.getName()));
 
 	}
 }

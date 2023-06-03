@@ -18,6 +18,9 @@ function setConnected(connected) {
 }
 
 function connect() {
+	const memNo = document.querySelector('.memNo').value;
+	const memName = document.querySelector('.memName').value;
+	
     var socket = new SockJS('/gs-guide-websocket');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
@@ -26,15 +29,25 @@ function connect() {
         stompClient.subscribe('/topic/greetings', function (greeting) {
             showGreeting(JSON.parse(greeting.body).content);
         });
+        $("#greetings").append("<tr><td><div style='width: 100%; background-color:#ffd400;'>" + memNo  + ' / ' + memName  + "님이 채팅방에 입장하셨습니다.</div></td></tr>");
     });
+    //<div style="width: 100%; background-color:#ffd400; ">ㅎㅇ</div>
+    
+    
+    
 }
 
 function disconnect() {
+	const memNo = document.querySelector('.memNo').value;
+	const memName = document.querySelector('.memName').value;
+	$("#greetings").append("<tr><td><div style='width: 100%; background-color:#ffd400;'>" + memNo  + ' / ' + memName  + "님이 채팅방에서 퇴장하셨습니다.</div></td></tr>");
+
     if (stompClient !== null) {
         stompClient.disconnect();
     }
     setConnected(false);
     console.log("Disconnected");
+   
 }
 
 function sendName() {
@@ -54,18 +67,6 @@ $(function () {
     $( "#disconnect" ).click(function() { disconnect(); });
     $( "#send" ).click(function() { sendName(); });
 });
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -136,4 +137,5 @@ function plus(){
 	button.insertAdjacentHTML('afterbegin', str);
 	table.insertAdjacentHTML('afterbegin', str2);
 }
+
 

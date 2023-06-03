@@ -1,6 +1,10 @@
 package com.study.test;
 
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
@@ -11,6 +15,7 @@ import com.study.test.member.service.MemberService;
 import com.study.test.member.vo.MemberMenuVO;
 import com.study.test.member.vo.MemberSubMenuVO;
 import com.study.test.member.vo.MemberVO;
+import com.study.test.professor.vo.LectureVO;
 import com.study.test.school.colleage.ColleageVO;
 import com.study.test.school.service.SchoolService;
 import com.study.test.stu.service.StuService;
@@ -38,7 +43,8 @@ public class IndexController {
 	}
 
 	@GetMapping("/mainPage")
-	public String index(Model model, MemberMenuVO memberMenuVO, MemberSubMenuVO memberSubMenuVO, Authentication authentication, StuVO stuVO, MemberVO memberVO, String menuCode, String subMenuCode) {
+	public String index(Model model, MemberMenuVO memberMenuVO, MemberSubMenuVO memberSubMenuVO, Authentication authentication, LectureVO lectureVO,
+			StuVO stuVO, MemberVO memberVO, String menuCode, String subMenuCode) {
 
 		if(memberMenuVO.getMenuCode() == null) {
 			memberMenuVO.setMenuCode("MENU_001");
@@ -50,10 +56,10 @@ public class IndexController {
 		
 		User user = (User)authentication.getPrincipal();
 		String memName = user.getUsername();
-		stuVO.setMemNo(user.getUsername()); // id임
-		memberVO.setMemNo(user.getUsername());
-		
-		System.out.println(memberVO);
+		stuVO.setMemNo(memName); // id임
+		memberVO.setMemNo(memName);
+
+
 		
 		System.out.println("학생 정보 : " + stuService.seletStu(memberVO));
 		model.addAttribute("memberVO", stuService.seletStu(memberVO));
@@ -64,6 +70,7 @@ public class IndexController {
 		model.addAttribute("menuList", memberService.stuMenuList());
 		model.addAttribute("subMenuList", memberService.stuSubMenuList(memberMenuVO.getMenuCode()));
 
+		model.addAttribute("semester" , stuService.getSemester());
 
 		return "/content/stu/info_main";
 

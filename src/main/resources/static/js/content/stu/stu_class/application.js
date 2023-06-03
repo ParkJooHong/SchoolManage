@@ -23,11 +23,17 @@ function apllication(lecNo, maxMem, nowMem, semNo,stuNo, menuCode, subMenuCode){
 		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 		data: {'lecNo' :lecNo , 'maxMem' : maxMem, 'nowMem' : nowMem, 'semNo' : semNo, 'stuNo' : stuNo,  'menuCode' : menuCode, 'subMenuCode' : subMenuCode  }, //필요한 데이터
 		success: function(result) {
-		
-			swal("수강신청 완료!", "신청이 완료되었습니다.", "success");
+
+			if(result['menuCode'] == 'MENU_003'){
+				swal("수강신청 완료!", "신청이 완료되었습니다.", "success");
 						setTimeout(function() {
 						location.reload();
 						}, 1000);
+			}
+			else{
+				swal("실패", "이미 신청하셨습니다.", "error");
+			}
+			
 		},
 		error: function() {
 			alert('실패~');

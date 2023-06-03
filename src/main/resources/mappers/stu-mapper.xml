@@ -592,7 +592,6 @@
 		, #{stuNo}
 		, #{semNo}
 		)
-		ON CONFLICT #{lecNo} DO NOTHING
 	</insert>
 
 	<!-- 수강신청한 화면 조회 -->
