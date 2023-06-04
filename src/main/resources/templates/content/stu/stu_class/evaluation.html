@@ -31,8 +31,111 @@
 	</button>
 </div>
 <br>
-<div style="text-align: center;"> 수업 평가 화면</div>
 
+<th:block th:each="applyLecture : ${applyLecture}" class="applyLecture">
+	<input type="hidden" th:value="${applyLecture.lecNo}" class="lecNo">
+	<input type="hidden" th:value="${applyLecture.lecName}" class="lecName">
+	<input type="hidden" th:value="${applyLecture.memName}" class="memName">
+	<th:block th:each="lecTime : ${applyLecture.lectureTimeList}">
+		<div>
+			<input type="hidden" th:value="${lecTime.lecDay}" class="lecDay">
+			<input type="hidden" th:value="${lecTime.startTime}" class="startTime">
+			<input type="hidden" th:value="${lecTime.finishTime}" class="finishTime">
+		</div>
+	</th:block>
+	<input type="hidden" th:value="${applyLecture}" class="applyMap">
+</th:block>
+
+
+	 <h4 style="text-align: center;">💻 [[${memberVO.memName}]]님의 수업 시간표</h4>
+<div>
+	<table class="schedule">
+		<colgroup>
+			<col width="5%">
+			<col width="20%">
+			<col width="20%">
+			<col width="20%">
+			<col width="20%">
+			<col width="20%">
+		</colgroup>
+		<thead>
+			  <tr>
+			    <th></th>
+			    <th>월</th>
+			    <th>화</th>
+			    <th>수</th>
+			    <th>목</th>
+			    <th>금</th>
+			  </tr>
+		 </thead>
+		 <tbody>
+		    <tr>
+			    <th >1교시 (9~10)</th>
+			    <td class="mondayFristClass"></td>
+			    <td class="tuesdayFristClass"> </td>
+			    <td class="wendesdayFirstClass"></td>
+			    <td class="thursdayFirstClass" ></td>
+			    <td class="fridayFirstClass"></td>
+		   </tr>
+		    <tr>
+			    <th>2교시 (10~11)</th>
+			    <td class="mondaySecondClass"></td>
+			    <td class="tuesdaySecondClass"> </td>
+			   <td class="wendesdaySecondClass"></td>
+			    <td class="thursdaySecondClass" ></td>
+			    <td class="fridaySecondClass"></td>
+		  </tr>
+		   <tr  >
+			    <th>3교시 (11~12)</th>
+			    <td class="mondayThirdClass"></td>
+			    <td class="tuesdayThirdClass"> </td>
+			    <td class="wendesdayThirdClass"></td>
+			    <td class="thursdayThirdClass" ></td>
+			    <td class="fridayThirdClass"></td>
+		  </tr>
+		   <tr>
+			    <th>4교시 (12~13)</th>
+			    <td class="mondayFourClass"></td>
+			    <td class="tuesdayFourClass"> </td>
+			    <td class="wendesdayFourClass"></td>
+			    <td class="thursdayFourClass" ></td>
+			    <td class="fridayFourClass"></td>
+		  </tr>
+		   <tr >
+			    <th>5교시 (13~14)</th>
+			    <td class="mondayFiveClass"></td>
+			    <td class="tuesdayFiveClass"> </td>
+			    <td class="wendesdayFiveClass"></td>
+			    <td class="thursdayFiveClass" ></td>
+			    <td class="fridayFiveClass"></td>
+		  </tr>
+		   <tr>
+			    <th>6교시 (14~15)</th>
+			    <td class="mondaySixClass"></td>
+			    <td class="tuesdaySixClass"> </td>
+			    <td class="wendesdaySixClass"></td>
+			    <td class="thursdaySixClass"></td>
+			    <td class="fridaySixClass"></td>
+		  </tr>
+		   <tr >
+			    <th>7교시 (15~16)</th>
+			    <td class="mondaySevenClass"></td>
+			    <td class="tuesdaySevenClass"> </td>
+			    <td class="wendesdaySevenClass"></td>
+			    <td class="thursdaySevenClass"></td>
+			    <td class="fridaySevenClass"></td>
+		  </tr>
+		  <tr>
+			   <th>8교시 (16~17)</th>
+			   <td class="mondayEightClass"></td>
+			    <td class="tuesdayEightClass"> </td>
+			    <td class="wendesdayEightClass"></td>
+			    <td class="thursdayEightClass"></td>
+			    <td class="fridayEightClass"></td>
+		  </tr>
+		</tbody>
+	</table>
+</div>
 </th:block>
 
 

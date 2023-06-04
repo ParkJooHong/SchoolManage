@@ -1,5 +1,8 @@
 package com.study.test.kakao.service;
 
-public class KakaoService {
+import com.study.test.kakao.vo.KakaoVO;
 
+public interface KakaoService {
+
+	void kakaoLogin(KakaoVO kakaoVO);
 }

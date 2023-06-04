@@ -7,6 +7,8 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import javax.swing.plaf.synth.SynthScrollPaneUI;
+
 import org.codehaus.groovy.util.ListHashMap;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -97,12 +99,22 @@ public class StuController {
 	// 정보
 	@GetMapping("/myInfo")
 	public String myInfo(Authentication authentication, String stuNo, String memNo, Model model, StuVO stuVO, DeptManageVO deptManageVO,
-			MemberVO memberVO, ColleageVO colleageVO) {
-
+			MemberVO memberVO, ColleageVO colleageVO, String profileNickname) {
+	
 		User user = (User) authentication.getPrincipal();
 		String memName = user.getUsername();
 		stuVO.setMemNo(user.getUsername()); // id임
 		memberVO.setMemNo(user.getUsername());
+		
+		if(profileNickname != null) {
+			System.out.println(memNo);
+			memberVO.setMemName(profileNickname);
+			authentication.getPrincipal();
+			
+		}
+		System.out.println(profileNickname);
+		
+		
 
 		model.addAttribute("memberVO", stuService.seletStu(memberVO));
 
@@ -996,7 +1008,13 @@ public class StuController {
 		String memName = user.getUsername();
 		stuVO.setMemNo(user.getUsername()); // id임
 		memberVO.setMemNo(user.getUsername());
+		stuVO.setStuNo(user.getUsername());
+		memberVO.setStuVO(stuService.getColl(user.getUsername()));
 		model.addAttribute("memberVO", stuService.seletStu(memberVO));
+		
+		// 수강신청항목 리스트 조회
+		model.addAttribute("applyLecture", stuService.applyLectureList(stuVO.getStuNo()));
+		System.out.println("수강신청한 강의 리스트 :" + stuService.applyLectureList(stuVO.getStuNo()));
 
 		return "/content/stu/stu_class/evaluation";
 	}

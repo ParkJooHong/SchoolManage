@@ -44,7 +44,7 @@ public class IndexController {
 
 	@GetMapping("/mainPage")
 	public String index(Model model, MemberMenuVO memberMenuVO, MemberSubMenuVO memberSubMenuVO, Authentication authentication, LectureVO lectureVO,
-			StuVO stuVO, MemberVO memberVO, String menuCode, String subMenuCode) {
+			StuVO stuVO, MemberVO memberVO, String menuCode, String subMenuCode, String profileNickname, String memNo) {
 
 		if(memberMenuVO.getMenuCode() == null) {
 			memberMenuVO.setMenuCode("MENU_001");
@@ -54,11 +54,24 @@ public class IndexController {
 			memberSubMenuVO.setSubMenuCode("SUB_MENU_001");
 		}
 		
+		
+		
+		
 		User user = (User)authentication.getPrincipal();
 		String memName = user.getUsername();
 		stuVO.setMemNo(memName); // id임
 		memberVO.setMemNo(memName);
 
+		if(profileNickname != null) {
+			System.out.println(profileNickname);
+			System.out.println(memNo);
+			profileNickname = user.getUsername();
+			stuVO.setMemNo(memNo);
+			memberVO.setMemNo(profileNickname);
+			authentication.getPrincipal();
+			
+		}
+		
 
 		
 		System.out.println("학생 정보 : " + stuService.seletStu(memberVO));

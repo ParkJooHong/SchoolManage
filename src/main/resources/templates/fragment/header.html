@@ -27,14 +27,14 @@
                 <span id="timer">🕦60:0</span>
                 <input type="button" value="연장" class="btn btn-primary" onclick="resetTimer();">
                 <span class="btn-group name">
-                    <button class="btn btn-secondary btn-lg dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                        [[${session.memberVO.memName}]]
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li>색 변경 공간.</li>
-                        <li>비밀번호 변경<hr></li>
-                        <li><a th:href="@{/}">로그아웃</a></li>
-                    </ul>
+					    <button class="btn btn-secondary btn-lg dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+					        [[${session.memberVO.memName}]]
+					    </button>
+					    <ul class="dropdown-menu">
+					        <li>색 변경 공간.</li>
+					        <li>비밀번호 변경<hr></li>
+					        <li><a th:href="@{/}">로그아웃</a></li>
+					    </ul>
                 </span>
             </span>
 

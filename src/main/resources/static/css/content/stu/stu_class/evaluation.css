@@ -39,3 +39,33 @@ input[type="text"]{
 	width: 120px;
 	border-radius: 4px;
 }
+
+
+
+
+.schedule {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.schedule  th, td {
+  padding: 10px;
+  text-align: center;
+}
+
+.schedule thead th {
+  background-color: #897c76;
+}
+
+.schedule th {
+  font-weight: bold;
+}
+
+.schedule td {
+  border: 1px solid #ccc;
+}
+
+/* 셀 너비 조정 */
+.colgroup col:nth-child(1) {
+  width: 8%;
+}
