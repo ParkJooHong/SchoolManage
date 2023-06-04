@@ -215,6 +215,10 @@ public class StuController {
 		
 		//Map에 떤져줄 학기조회
 		model.addAttribute("semester" , stuService.getSemester());
+		
+
+		System.out.println(" 복수 전공 신청 조회 : " + stuService.getStatusDoubleInfo(memberVO.getMemNo()));
+		model.addAttribute("deptManageVO" , stuService.getStatusDoubleInfo(memberVO.getMemNo()));
 
 		return "/content/stu/stu_class/grade";
 	}
@@ -255,6 +259,9 @@ public class StuController {
 		menuCode.setMenuCode("MENU_001");
 
 		System.out.println("메뉴코드는 " + menuCode.getMenuCode());
+		
+		System.out.println(" 복수 전공 신청 조회 : " + stuService.getStatusDoubleInfo(memberVO.getMemNo()));
+		model.addAttribute("deptManageVO" , stuService.getStatusDoubleInfo(memberVO.getMemNo()));
 
 		model.addAttribute("menuCode", menuCode);
 		model.addAttribute("subMenuCode", subMenuCode);
@@ -280,6 +287,8 @@ public class StuController {
 		// model.addAttribute("stuVO" , stuService.seletStu(stuVO.getMemNo()));
 		// System.out.println(model.addAttribute("stuVO" ,
 		// stuService.seletStu(stuVO.getMemNo())));
+		System.out.println(" 복수 전공 신청 조회 : " + stuService.getStatusDoubleInfo(memberVO.getMemNo()));
+		model.addAttribute("deptManageVO" , stuService.getStatusDoubleInfo(memberVO.getMemNo()));
 
 		return "/content/stu/stu_myInfo/changePwd";
 	}
@@ -323,6 +332,9 @@ public class StuController {
 		model.addAttribute("subMenuCode", subMenuCode);
 		// 휴학 신청자 조회
 		model.addAttribute("stuStatus", stuService.getStatusLeaveInfo(stuNo));
+		
+		System.out.println(" 복수 전공 신청 조회 : " + stuService.getStatusDoubleInfo(memberVO.getMemNo()));
+		model.addAttribute("deptManageVO" , stuService.getStatusDoubleInfo(memberVO.getMemNo()));
 
 		return "/content/stu/stu_myStu/leaveManage";
 	}
@@ -408,6 +420,9 @@ public class StuController {
 		// 복학 신청 Ajax떄매 던짐
 		model.addAttribute("menuCode", menuCode);
 		model.addAttribute("subMenuCode", subMenuCode);
+		
+		System.out.println(" 복수 전공 신청 조회 : " + stuService.getStatusDoubleInfo(memberVO.getMemNo()));
+		model.addAttribute("deptManageVO" , stuService.getStatusDoubleInfo(memberVO.getMemNo()));
 
 		return "/content/stu/stu_myStu/returnManage";
 	}
@@ -498,6 +513,9 @@ public class StuController {
 		// 게시판 상세보기할때 던질 메뉴코드, 서브메뉴코드 데이터
 		model.addAttribute("menuCode", menuCode);
 		model.addAttribute("subMenuCode", subMenuCode);
+		
+		System.out.println(" 복수 전공 신청 조회 : " + stuService.getStatusDoubleInfo(memberVO.getMemNo()));
+		model.addAttribute("deptManageVO" , stuService.getStatusDoubleInfo(memberVO.getMemNo()));
 
 		return "/content/stu/stu_myStu/moveManage";
 	}
@@ -601,6 +619,9 @@ public class StuController {
 
 		model.addAttribute("menuCode", menuCode);
 		model.addAttribute("subMenuCode", subMenuCode);
+		
+		System.out.println(" 복수 전공 신청 조회 : " + stuService.getStatusDoubleInfo(memberVO.getMemNo()));
+		model.addAttribute("deptManageVO" , stuService.getStatusDoubleInfo(memberVO.getMemNo()));
 
 		return "/content/stu/stu_myStu/doubleMajorManage";
 	}
@@ -686,6 +707,9 @@ public class StuController {
 		model.addAttribute("probation", stuService.getProbation(stuNo));
 
 		System.out.println(statusInfoVO);
+		
+		System.out.println(" 복수 전공 신청 조회 : " + stuService.getStatusDoubleInfo(memberVO.getMemNo()));
+		model.addAttribute("deptManageVO" , stuService.getStatusDoubleInfo(memberVO.getMemNo()));
 
 		return "/content/stu/stu_myStu/academicManage";
 	}
@@ -720,6 +744,9 @@ public class StuController {
 		
 		//Map에 떤져줄 학기조회
 		model.addAttribute("semester" , stuService.getSemester());
+		
+		System.out.println(" 복수 전공 신청 조회 : " + stuService.getStatusDoubleInfo(memberVO.getMemNo()));
+		model.addAttribute("deptManageVO" , stuService.getStatusDoubleInfo(memberVO.getMemNo()));
 
 		return "/content/stu/stu_class/grade";
 	}
@@ -911,6 +938,9 @@ public class StuController {
 
 		model.addAttribute("menuCode", menuCode);
 		model.addAttribute("subMenuCode", subMenuCode);
+		
+		System.out.println(" 복수 전공 신청 조회 : " + stuService.getStatusDoubleInfo(memberVO.getMemNo()));
+		model.addAttribute("deptManageVO" , stuService.getStatusDoubleInfo(memberVO.getMemNo()));
 
 		return "/content/stu/stu_class/application";
 	}
@@ -1016,6 +1046,9 @@ public class StuController {
 		model.addAttribute("applyLecture", stuService.applyLectureList(stuVO.getStuNo()));
 		System.out.println("수강신청한 강의 리스트 :" + stuService.applyLectureList(stuVO.getStuNo()));
 
+		System.out.println(" 복수 전공 신청 조회 : " + stuService.getStatusDoubleInfo(memberVO.getMemNo()));
+		model.addAttribute("deptManageVO" , stuService.getStatusDoubleInfo(memberVO.getMemNo()));
+		
 		return "/content/stu/stu_class/evaluation";
 	}
 

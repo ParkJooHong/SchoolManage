@@ -21,7 +21,7 @@ function plus(memNo, memName, stuYear, stuStatus, collName, deptName){
 	const processStatus = document.querySelector('.processStatus');
 	let doubleCollName;
 	let doubleDeptName;
-	if(processStatus?.value == '승인완료'){
+	if(processStatus && processStatus.value === '승인완료'){
 		doubleDeptName = document.querySelector('.doubleDeptName').value;
 		doubleCollName = document.querySelector('.doubleCollName').value;
 	}else{
