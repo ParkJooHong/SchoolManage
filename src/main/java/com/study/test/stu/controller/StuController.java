@@ -93,11 +93,6 @@ public class StuController {
 	@GetMapping("/myInfo")
 	public String myInfo(Authentication authentication, MemberSubMenuVO memberSubMenuVO, String stuNo, String memNo, Model model, StuVO stuVO, DeptManageVO deptManageVO,
 			MemberVO memberVO, ColleageVO colleageVO, String profileNickname) {
-	
-		model.addAttribute("menuCode", ConstVariable.ONE_STU_MENU_CODE);
-		if(memberSubMenuVO.getSubMenuCode() == null) {
-			memberSubMenuVO.setSubMenuCode(ConstVariable.DEFAULT_STU_SUB_MENU_CODE);
-		}
 		
 		//System.out.println(memberMenuVO);
 		System.out.println(memberSubMenuVO);
@@ -239,7 +234,7 @@ public class StuController {
 	// ---- 내정보 관리 {
 	// MyInfo
 	@GetMapping("/infoManage")
-	private String infoManage(Authentication authentication, String memNo, Model model, StuVO stuVO, MemberVO memberVO,
+	private String infoManage(Authentication authentication, String memNo, Model model, StuVO stuVO, MemberVO memberVO, MemberSubMenuVO memberSubMenuVO,
 			String subMenuCode) {
 
 		User user = (User) authentication.getPrincipal();
@@ -262,10 +257,6 @@ public class StuController {
 		System.out.println(" 복수 전공 신청 조회 : " + stuService.getStatusDoubleInfo(memberVO.getMemNo()));
 		model.addAttribute("deptManageVO" , stuService.getStatusDoubleInfo(memberVO.getMemNo()));
 
-		model.addAttribute("menuCode", menuCode);
-		model.addAttribute("subMenuCode", subMenuCode);
-
-		// 에러 많음 수정 필요.
 
 		return "/content/stu/stu_myInfo/infoManage";
 	}

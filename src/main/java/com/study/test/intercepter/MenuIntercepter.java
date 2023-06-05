@@ -31,12 +31,17 @@ public class MenuIntercepter implements HandlerInterceptor {
 		
 		//컨트롤러에서 html로 전달되는 데이터 받기
 		 Map<String, Object> data = modelAndView.getModel();
-		 MemberSubMenuVO memberSubMenuVO = (MemberSubMenuVO)data.get("memberSubMenuVO");
-		 String menuCode = memberSubMenuVO.getMenuCode();
+		 if(data != null) {
+			 MemberSubMenuVO memberSubMenuVO = (MemberSubMenuVO)data.get("memberSubMenuVO");
+			 String menuCode = memberSubMenuVO.getMenuCode();
+			 if(memberSubMenuVO != null) {
+				// adminService.getMenuList(); 이걸 밑에 넣어준다.
+					modelAndView.addObject("menuList", memberService.stuMenuList());
+					modelAndView.addObject("subMenuList", memberService.stuSubMenuList(menuCode));
+			 }
+		 }
 		 
-		// adminService.getMenuList(); 이걸 밑에 넣어준다.
-		modelAndView.addObject("menuList", memberService.stuMenuList());
-		modelAndView.addObject("subMenuList", memberService.stuSubMenuList(menuCode));
+		
 		
 		/*
 		String menuCode = request.getParameter("menuCode");
