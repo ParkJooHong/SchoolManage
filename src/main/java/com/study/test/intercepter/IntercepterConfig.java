@@ -17,6 +17,7 @@ public class IntercepterConfig implements WebMvcConfigurer {
 				.addPathPatterns("/stu/**")
 				.addPathPatterns("/stuMenu/**")
 				.addPathPatterns("/board/**")
+				.addPathPatterns("/message/**")
 				.excludePathPatterns("/admin/**")
 				.excludePathPatterns("/professor/**")
 				.excludePathPatterns("/member/**Ajax")
@@ -25,17 +26,24 @@ public class IntercepterConfig implements WebMvcConfigurer {
 				.excludePathPatterns("/stuMenu/updateMynfo")
 				.excludePathPatterns("/stuMenu/board")
 				.excludePathPatterns("/board/board")
-				.excludePathPatterns("/board/boardDetail");
+				.excludePathPatterns("/board/boardDetail")
+				.excludePathPatterns("/message/**Ajax")
+				.excludePathPatterns("/message/talk");
 		
 		//어드민 인터셉터
 		registry.addInterceptor(getAdminMenuIntercepter())
 				.order(1)
 				.addPathPatterns("/admin/**")
 				.addPathPatterns("/board/**")
+				.addPathPatterns("/message/**")
 				.excludePathPatterns("/member/**")
 				.excludePathPatterns("/professor/**")
+				.excludePathPatterns("/stuMenu/**")
 				.excludePathPatterns("/admin/**Ajax")
-				.excludePathPatterns("/board/**Ajax");
+				.excludePathPatterns("/board/**Ajax")
+				.excludePathPatterns("/message/**Ajax")
+				.excludePathPatterns("/message/talk");
+
 		
 		//교수 인터셉터
 		registry.addInterceptor(getProfessorMenuIntercepter())
@@ -44,8 +52,10 @@ public class IntercepterConfig implements WebMvcConfigurer {
 				.addPathPatterns("/message/**")
 				.excludePathPatterns("/admin/**")
 				.excludePathPatterns("/member/**")
+				.excludePathPatterns("/stuMenu/**")
 				.excludePathPatterns("/professor/**Ajax")
-				.excludePathPatterns("/message/**Ajax");
+				.excludePathPatterns("/message/**Ajax")
+				.excludePathPatterns("/message/talk");
 	}
 
 	//학생 메인 메뉴

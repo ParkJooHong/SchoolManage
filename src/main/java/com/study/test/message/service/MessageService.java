@@ -14,4 +14,7 @@ public interface MessageService {
 	
 	//메세지 전송
 	void sendMessage(MessageVO messageVO);
+	
+	//대화 내용 조회
+	List<Map<String, Object>> getConversContent(MessageVO messageVO);
 }

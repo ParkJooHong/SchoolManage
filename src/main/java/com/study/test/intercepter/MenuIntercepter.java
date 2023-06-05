@@ -33,11 +33,10 @@ public class MenuIntercepter implements HandlerInterceptor {
 		 Map<String, Object> data = modelAndView.getModel();
 		 if(data != null) {
 			 MemberSubMenuVO memberSubMenuVO = (MemberSubMenuVO)data.get("memberSubMenuVO");
-			 String menuCode = memberSubMenuVO.getMenuCode();
 			 if(memberSubMenuVO != null) {
 				// adminService.getMenuList(); 이걸 밑에 넣어준다.
 					modelAndView.addObject("menuList", memberService.stuMenuList());
-					modelAndView.addObject("subMenuList", memberService.stuSubMenuList(menuCode));
+					modelAndView.addObject("subMenuList", memberService.stuSubMenuList(memberSubMenuVO.getMenuCode()));
 			 }
 		 }
 		 

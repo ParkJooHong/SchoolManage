@@ -13,8 +13,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.study.test.admin.vo.AdminMenuVO;
+import com.study.test.admin.vo.AdminSubMenuVO;
 import com.study.test.member.vo.MemberMenuVO;
 import com.study.test.member.vo.MemberVO;
 import com.study.test.message.service.MessageService;
@@ -55,11 +57,7 @@ public class MessageController {
 	
 	//메세지 목록
 	@RequestMapping("/messageList")
-	public String message_list(Model model, HttpSession session, AdminMenuVO adminMenuVO, ProfessorMenuVO professorMenuVO, MemberMenuVO memberMenuVO, Authentication authentication) {
-		professorMenuVO.setMenuCode(ConstVariable.NINE_PROFESSOR_MENU_CODE);
-		//세션 정보 가져오기
-		MemberVO member = (MemberVO) session.getAttribute("memberVO");
-		String name = member.getMemName();
+	public String message_list(Model model, AdminMenuVO adminMenuVO, AdminSubMenuVO adminSubMenuVO, ProfessorMenuVO professorMenuVO, MemberMenuVO memberMenuVO, Authentication authentication) {
 
 		//role에 따른 메뉴코드,layout 설정
 		User userInfo = (User)authentication.getPrincipal();
@@ -71,14 +69,15 @@ public class MessageController {
 		//1.메뉴코드,레이아웃 설정
 		if(authorityStrings.contains("ROLE_ADMIN")) {
 			adminMenuVO.setMenuCode(getMenuCode(authentication));
+			adminSubMenuVO.setMenuCode(getMenuCode(authentication));
 			model.addAttribute("mem_role", getLayout(authentication));
 		}
 		else if(authorityStrings.contains("ROLE_PRO")) {
-			adminMenuVO.setMenuCode(getMenuCode(authentication));
+			professorMenuVO.setMenuCode(getMenuCode(authentication));
 			model.addAttribute("mem_role", getLayout(authentication));
 		}
 		else {
-			adminMenuVO.setMenuCode(getMenuCode(authentication));
+			memberMenuVO.setMenuCode(getMenuCode(authentication));
 			model.addAttribute("mem_role", getLayout(authentication));
 		}
 		
@@ -90,6 +89,30 @@ public class MessageController {
 		return "content/message/message_list";
 	}
 	
+	//대화 내용 조회
+	@ResponseBody
+	@PostMapping("/getConversContentAjax")
+	public List<Map<String, Object>> getConversContent(String memName, MessageVO messageVO, Authentication authentication) {
+		//받는 사람 아이디 조회
+		String recvMemNo = messageService.getMemNo(memName);
+		
+		//로그인 아이디 조회
+		User user = (User)authentication.getPrincipal();
+		String sendMemNo = user.getUsername();
+		
+		//대화 내용 조회에 필요한 데이터 저장
+		messageVO.setRecvMemNo(recvMemNo);
+		messageVO.setSendMemNo(sendMemNo);
+		
+		//대화 내용 조회
+		List<Map<String, Object>> conversContentList = messageService.getConversContent(messageVO);
+		
+		for(Map<String, Object> convers : conversContentList) {
+			convers.put("memNo", sendMemNo);
+		}
+		
+		return conversContentList;
+	}
 	
 	
 
