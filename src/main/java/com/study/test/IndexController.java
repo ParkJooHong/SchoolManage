@@ -22,6 +22,8 @@ import com.study.test.stu.service.StuService;
 import com.study.test.stu.vo.StuVO;
 
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpSession;
+import jakarta.websocket.Session;
 
 
 
@@ -37,7 +39,10 @@ public class IndexController {
 	private StuService stuService;
 	
 	@GetMapping("/")
-	public String index() {
+	public String index(HttpSession session) {
+		
+		session.invalidate();
+		
 		return "content/login/login_page";
 
 	}
@@ -45,7 +50,9 @@ public class IndexController {
 	@GetMapping("/mainPage")
 	public String index(Model model, MemberMenuVO memberMenuVO, MemberSubMenuVO memberSubMenuVO, Authentication authentication, LectureVO lectureVO,
 			StuVO stuVO, MemberVO memberVO, String menuCode, String subMenuCode, String profileNickname, String memNo) {
-
+		
+		
+		
 		if(memberMenuVO.getMenuCode() == null) {
 			memberMenuVO.setMenuCode("MENU_001");
 			memberSubMenuVO.setSubMenuCode("SUB_MENU_001");

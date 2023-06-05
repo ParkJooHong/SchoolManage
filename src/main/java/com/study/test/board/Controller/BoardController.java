@@ -24,6 +24,7 @@ import com.study.test.board.vo.BoardCategoryVO;
 import com.study.test.board.vo.BoardReplyVO;
 import com.study.test.board.vo.UniBoardVO;
 import com.study.test.member.service.MemberService;
+import com.study.test.member.vo.MemberMenuVO;
 import com.study.test.member.vo.MemberSubMenuVO;
 import com.study.test.professor.vo.ProfessorSubMenuVO;
 import com.study.test.school.service.SchoolService;
@@ -54,7 +55,7 @@ public class BoardController {
 	// 게시판
 	@GetMapping("/board")
 	private String board(Authentication authentication, Model model, UniBoardVO uniBoardVO,
-			BoardCategoryVO boardCategoryVO, String cateNo, AdminSubMenuVO adminSubMenuVO, 
+			BoardCategoryVO boardCategoryVO, String cateNo, AdminSubMenuVO adminSubMenuVO,  MemberMenuVO memberMenuVO,
 			MemberSubMenuVO memberSubMenuVO, ProfessorSubMenuVO professorSubMenuVO, String menuCode, String subMenuCode) {
 
 		String memLayout = "";
@@ -69,7 +70,8 @@ public class BoardController {
 			adminSubMenuVO.setMenuCode(ConstVariable.FOURTH_MENU_CODE);
 		} else if (authorityStrings.contains("ROLE_STU")) {
 			memLayout = "info";
-			memberSubMenuVO.setMenuCode(ConstVariable.FOURTH_STU_MENU_CODE);
+			memberMenuVO.setMenuCode(ConstVariable.FOURTH_STU_MENU_CODE);
+			memberSubMenuVO.setSubMenuCode(ConstVariable.FIFTEEN_STU_SUB_MENU_CODE);
 		} else if (authorityStrings.contains("ROLE_PRO")) {
 			memLayout = "professor";
 			professorSubMenuVO.setMenuCode(ConstVariable.FIFTH_MENU_CODE);
@@ -81,7 +83,7 @@ public class BoardController {
 
 		cateNo = boardCategoryVO.getCateNo();
 				
-		return "/content/stu/stu_board/myBoard";
+		return "/content/stu/stu_board/board";
 	}
 	
 	//전체 게시판 검색 기능
