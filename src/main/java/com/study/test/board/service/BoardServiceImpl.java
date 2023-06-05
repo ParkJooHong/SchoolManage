@@ -116,6 +116,11 @@ public class BoardServiceImpl implements BoardService {
 		return sqlSession.selectList("boardMapper.getBoardReplyList", boardNo);
 	}
 
+	@Override
+	public int cntBoardList(UniBoardVO uniBoardVO) {
+		return sqlSession.selectOne("boardMapper.cntBoardList",uniBoardVO);
+	}
+
 	
 	
 
