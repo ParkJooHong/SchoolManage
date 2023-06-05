@@ -79,6 +79,7 @@
 			, MENU_NAME
 			, MENU_URL
 		FROM ADMIN_MENU
+		ORDER BY MENU_CODE ASC
 	</select>
 	
 	<select id="getAdminSubMenuList" resultMap="adminSubMenu">

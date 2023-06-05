@@ -21,6 +21,7 @@ import com.study.test.board.service.BoardReplyService;
 import com.study.test.board.service.BoardService;
 import com.study.test.board.vo.BoardCategoryVO;
 import com.study.test.board.vo.BoardReplyVO;
+import com.study.test.board.vo.PageVO;
 import com.study.test.board.vo.UniBoardVO;
 import com.study.test.member.service.MemberService;
 import com.study.test.member.vo.MemberSubMenuVO;
@@ -54,11 +55,20 @@ public class BoardController {
 	@GetMapping("/board")
 	private String board(Authentication authentication, Model model, UniBoardVO uniBoardVO,
 			BoardCategoryVO boardCategoryVO, String cateNo, AdminSubMenuVO adminSubMenuVO, 
-			MemberSubMenuVO memberSubMenuVO, ProfessorSubMenuVO professorSubMenuVO) {
-
+			MemberSubMenuVO memberSubMenuVO, ProfessorSubMenuVO professorSubMenuVO, PageVO pageVO) {
+		
+		
 		String memLayout = "";
 		User user = (User) authentication.getPrincipal();
-
+		System.out.println(uniBoardVO);
+		int totalDataCnt = boardService.cntBoardList(uniBoardVO);
+		
+		System.out.println("@@@@@@@@@@@@@@@@@"+totalDataCnt);
+		uniBoardVO.setTotalDataCnt(totalDataCnt);
+		uniBoardVO.setPageInfo();
+		
+		System.out.println("@@@@@@@@@@@@@@@@"+uniBoardVO);
+		
 		// 로그인한 회원의 권한에 따라 layout 변경 진행
 		List<String> authorityStrings = user.getAuthorities().stream().map(GrantedAuthority::getAuthority)
 				.collect(Collectors.toList());
@@ -74,8 +84,9 @@ public class BoardController {
 			professorSubMenuVO.setMenuCode(ConstVariable.FIFTH_MENU_CODE);
 		}
 		model.addAttribute("memLayOut", memLayout);
+		//카테고리
+		model.addAttribute("cateList", boardService.getBoardCategoryList());
 
-		model.addAttribute("boardList", boardService.getBoardCategoryList());
 		model.addAttribute("uniBoardList", boardService.searchByBoard(uniBoardVO));
 
 		cateNo = boardCategoryVO.getCateNo();

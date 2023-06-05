@@ -59,6 +59,9 @@ public interface BoardService {
 	//댓글 조회
 	List<BoardReplyVO> getBoardReplyList(String boardNo);
 	
+	//전체 페이징
+	int cntBoardList(UniBoardVO uniBoardVO);
+	
 	
 	
 	

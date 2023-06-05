@@ -306,6 +306,26 @@
 		AND REG_BOARD_DATE &gt;= #{fromDate}
 		</if>
 		AND IS_NOTICE = 'N'
+		ORDER BY REG_BOARD_DATE DESC
+		OFFSET #{offsetCnt} ROWS FETCH FIRST #{displayCnt} ROWS ONLY
+	</select>
+	
+	<!-- 게시글 카운트  -->
+	<select id="cntBoardList" resultType="int">
+		SELECT COUNT(BOARD_NO)
+		FROM UNI_BOARD
+		WHERE 1 = 1
+		<if test='boardTitle != null and !boardTitle.equals("")'>
+		AND BOARD_TITLE  LIKE '%' || UPPER(#{boardTitle}) || '%'
+		</if>
+		<if test='boardWriter != null and !boardWriter.equals("")'>
+		AND BOARD_WRITER LIKE '%' || UPPER(#{boardWriter}) || '%'
+		</if>
+		<if test='toDate != null and !toDate.equals("") and fromDate != null and !fromDate.equals("")'>
+		AND REG_BOARD_DATE &lt;= #{toDate}
+		AND REG_BOARD_DATE &gt;= #{fromDate}
+		</if>
+		AND IS_NOTICE = 'N'
 	</select>
 	
 	<!-- 게시판 상세보기 -->
