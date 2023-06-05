@@ -91,7 +91,7 @@ public class StuController {
 
 	// 정보
 	@GetMapping("/myInfo")
-	public String myInfo(Authentication authentication,MemberMenuVO memberMenuVO, MemberSubMenuVO memberSubMenuVO, String stuNo, String memNo, Model model, StuVO stuVO, DeptManageVO deptManageVO,
+	public String myInfo(Authentication authentication, MemberSubMenuVO memberSubMenuVO, String stuNo, String memNo, Model model, StuVO stuVO, DeptManageVO deptManageVO,
 			MemberVO memberVO, ColleageVO colleageVO, String profileNickname) {
 	
 		model.addAttribute("menuCode", ConstVariable.ONE_STU_MENU_CODE);
@@ -99,7 +99,7 @@ public class StuController {
 			memberSubMenuVO.setSubMenuCode(ConstVariable.DEFAULT_STU_SUB_MENU_CODE);
 		}
 		
-		System.out.println(memberMenuVO);
+		//System.out.println(memberMenuVO);
 		System.out.println(memberSubMenuVO);
 		
 		User user = (User) authentication.getPrincipal();
