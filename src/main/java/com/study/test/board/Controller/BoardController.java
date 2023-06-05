@@ -80,8 +80,8 @@ public class BoardController {
 			adminSubMenuVO.setMenuCode(ConstVariable.FOURTH_MENU_CODE);
 		} else if (authorityStrings.contains("ROLE_STU")) {
 			memLayout = "info";
-			memberMenuVO.setMenuCode(ConstVariable.FOURTH_STU_MENU_CODE);
-			memberSubMenuVO.setSubMenuCode(ConstVariable.FIFTEEN_STU_SUB_MENU_CODE);
+			System.out.println("@#!!@#!@#!@#@@");
+			adminSubMenuVO.setMenuCode(ConstVariable.FOURTH_STU_MENU_CODE);
 		} else if (authorityStrings.contains("ROLE_PRO")) {
 			memLayout = "professor";
 			professorSubMenuVO.setMenuCode(ConstVariable.FIFTH_MENU_CODE);

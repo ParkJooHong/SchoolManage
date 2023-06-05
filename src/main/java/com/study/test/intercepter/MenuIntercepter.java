@@ -1,6 +1,7 @@
 package com.study.test.intercepter;
 
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -27,16 +28,17 @@ public class MenuIntercepter implements HandlerInterceptor {
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
-		/*
+		
 		//컨트롤러에서 html로 전달되는 데이터 받기
 		 Map<String, Object> data = modelAndView.getModel();
-		 String menuCode = data.get("menuCode").toString();
+		 MemberSubMenuVO memberSubMenuVO = (MemberSubMenuVO)data.get("memberSubMenuVO");
+		 String menuCode = memberSubMenuVO.getMenuCode();
 		 
 		// adminService.getMenuList(); 이걸 밑에 넣어준다.
-		modelAndView.addObject("menuCode", memberService.stuMenuList());
-		modelAndView.addObject("subMenuCode", memberService.stuSubMenuList(menuCode));
-		*/
+		modelAndView.addObject("menuList", memberService.stuMenuList());
+		modelAndView.addObject("subMenuList", memberService.stuSubMenuList(menuCode));
 		
+		/*
 		String menuCode = request.getParameter("menuCode");
 		String subMenuCode = request.getParameter("subMenuCode");
 			
@@ -51,7 +53,7 @@ public class MenuIntercepter implements HandlerInterceptor {
 		    modelAndView.addObject("menuList", memberService.stuMenuList());
 		    modelAndView.addObject("subMenuList", memberService.stuSubMenuList(menuCode));
 		}
-		
+		*/
 		//memberSubMenuVO.setSubMenuCode(subMenuCode);
 		
 	}

@@ -24,8 +24,8 @@ public class AdminMenuIntercepter implements HandlerInterceptor{
 		if (data != null) {			
 			AdminSubMenuVO subMenu = (AdminSubMenuVO) data.get("adminSubMenuVO");
 			if (subMenu != null) {
-				modelAndView.addObject("adminMenuList", adminService.getAdminMenuList());
-				modelAndView.addObject("adminSubMenuList", adminService.getAdminSubMenuList(subMenu.getMenuCode()));
+				modelAndView.addObject("menuList", adminService.getAdminMenuList());
+				modelAndView.addObject("subMenuList", adminService.getAdminSubMenuList(subMenu.getMenuCode()));
 			}
 		}
 		

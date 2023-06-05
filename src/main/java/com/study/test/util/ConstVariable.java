@@ -39,7 +39,9 @@ public class ConstVariable {
 	public static final String NINE_PROFESSOR_MENU_CODE = "MENU_009";
 	
 	//--------------학생 메뉴 상수--------------
-	public static final String SEVEN_STU_MENU_CODE = "MENU_007";
+	public static final String DEFAULT_STU_SUB_MENU_CODE = "SUB_MENU_001";
+	
+	public static final String SEVEN_STU_MENU_CODE = "MENU_007";	
 	
 	public static final String FIVE_STU_MENU_CODE = "MENU_005";
 	

@@ -84,16 +84,24 @@ public class StuController {
 	
 	   //학사톡
 	   @GetMapping("/talk")
-	   public String toTalk() {
+	   public String toTalk(MemberSubMenuVO memberSubMenuVO) {
 	      return "redirect:/message/messageList";
 	   } 
 	
 
 	// 정보
 	@GetMapping("/myInfo")
-	public String myInfo(Authentication authentication, String stuNo, String memNo, Model model, StuVO stuVO, DeptManageVO deptManageVO,
+	public String myInfo(Authentication authentication,MemberMenuVO memberMenuVO, MemberSubMenuVO memberSubMenuVO, String stuNo, String memNo, Model model, StuVO stuVO, DeptManageVO deptManageVO,
 			MemberVO memberVO, ColleageVO colleageVO, String profileNickname) {
 	
+		model.addAttribute("menuCode", ConstVariable.ONE_STU_MENU_CODE);
+		if(memberSubMenuVO.getSubMenuCode() == null) {
+			memberSubMenuVO.setSubMenuCode(ConstVariable.DEFAULT_STU_SUB_MENU_CODE);
+		}
+		
+		System.out.println(memberMenuVO);
+		System.out.println(memberSubMenuVO);
+		
 		User user = (User) authentication.getPrincipal();
 		String memName = user.getUsername();
 		stuVO.setMemNo(user.getUsername()); // id임
@@ -146,7 +154,7 @@ public class StuController {
 	}
 
 	// 내정보 수정
-	@PostMapping("/updateMyInfo")
+	@PostMapping("/updateMynfo")
 	public String updateMyInfo(MemberVO memberVO, StuVO stuVO, MemImgVO memImgVO, MultipartFile mainImg) {
 
 		stuService.updateStu(stuVO);
@@ -158,7 +166,7 @@ public class StuController {
 
 	// 학적 관리
 	@GetMapping("/myStu")
-	private String myStu(Authentication authentication, StuVO stuVO, MemberVO memberVO, Model model, String stuNo) {
+	private String myStu(Authentication authentication, StuVO stuVO, MemberVO memberVO, Model model, String stuNo, MemberSubMenuVO memberSubMenuVO) {
 		User user = (User) authentication.getPrincipal();
 		String memName = user.getUsername();
 		stuVO.setMemNo(user.getUsername()); // id임
@@ -181,7 +189,7 @@ public class StuController {
 	// 교과수업
 	@RequestMapping("/stuClass")
 	private String stuClass(Authentication authentication, StuVO stuVO, MemberVO memberVO, Model model, SemesterVO semesterVO, String semName,
-			LectureVO lectureVO, String menuCode, String subMenuCode) {
+			LectureVO lectureVO , MemberSubMenuVO memberSubMenuVO) {
 		User user = (User) authentication.getPrincipal();
 		String memName = user.getUsername();
 		stuVO.setStuNo(memName); // id임
@@ -203,8 +211,6 @@ public class StuController {
 
 		model.addAttribute("lecture", enrollStuList);
 		
-		model.addAttribute("menuCode", menuCode);
-		model.addAttribute("subMenuCode", subMenuCode);
 		
 		//Map에 떤져줄 학기조회
 		model.addAttribute("semester" , stuService.getSemester());
@@ -711,7 +717,7 @@ public class StuController {
 	// 성적조회
 	@GetMapping("/grade")
 	private String grade(Authentication authentication, StuVO stuVO, MemberVO memberVO, Model model,
-			LectureVO lectureVO, String menuCode, String subMenuCode, SemesterVO semesterVO, String semNo) {
+			LectureVO lectureVO,  SemesterVO semesterVO, String semNo, MemberSubMenuVO memberSubMenuVO) {
 		User user = (User) authentication.getPrincipal();
 		String memName = user.getUsername();
 		stuVO.setStuNo(memName); // id임
@@ -732,8 +738,7 @@ public class StuController {
 
 		model.addAttribute("lecture", enrollStuList);
 
-		model.addAttribute("menuCode", menuCode);
-		model.addAttribute("subMenuCode", subMenuCode);
+	
 		
 		//Map에 떤져줄 학기조회
 		model.addAttribute("semester" , stuService.getSemester());
@@ -1050,12 +1055,9 @@ public class StuController {
 	
 	//게시판 페이지
 	   @GetMapping("/board")
-	   public String board(AdminSubMenuVO adminSubMenuVO, Model model, UniBoardVO uniBoardVO,String menuCode, String subMenuCode) {
+	   public String board(AdminSubMenuVO adminSubMenuVO, Model model, UniBoardVO uniBoardVO) {
 		   
-		   System.out.println(" ++메뉴코드 :" + menuCode);
-		   System.out.println("+ 서브메뉴 :" + ConstVariable.FIFTEEN_STU_SUB_MENU_CODE);
-		   model.addAttribute("menuCode", menuCode);
-			model.addAttribute("subMenuCode", ConstVariable.FIFTEEN_STU_SUB_MENU_CODE);
+		 
 
 
 			
