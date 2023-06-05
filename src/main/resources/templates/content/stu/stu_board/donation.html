@@ -4,8 +4,11 @@
    layout:decorate="~{fragment/info_layout}">
 
 <th:block layout:fragment="content_css">
-   <link rel="stylesheet" href="/css/content/stu/stu_board/donation.css">
+   <link rel="stylesheet" href="/css/content/info/stu_board/donation.css"\>
+
+
 </th:block>
+
 
 <th:block layout:fragment="content">
 <div style="font-size: 15px; color: blue; font-weight: bold;">즐겨찾기 ☆</div>
@@ -31,13 +34,98 @@
 	</button>
 </div>
 <br>
-<div style="text-align: center;"> 중고 나눔</div>
+<div style="text-align: center;"></div>
 
+<header class="bg-dark py-5">
+	<div class="container px-4 px-lg-5 my-5">
+		<div class="row justify-content-center">
+		  <div class="col-lg-6">
+			<div class="text-center text-white">
+			  <h1 class="display-4 fw-bolder">KH 중고나눔</h1>
+			  <p class="lead fw-normal text-red-50 mb-0">
+				<div class="donation">
+					나눔 하기 버튼을 클릭해보세요!
+					<br>
+					<button class="btn btn-danger donation">
+						<span data-bs-toggle="modal" data-bs-target="#donationModal" style="cursor: pointer;">나눔하기 </span> 
+					</button>
+			  </p>
+			</div>
+		  </div>
+		</div>
+	  </div>
+</header>
+
+
+<!-- 중고상품 나누기 모달 -->
+
+<!-- Modal for Donation -->
+<div class="modal fade" id="donationModal" tabindex="-1" role="dialog" aria-labelledby="donationModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="donationModalLabel"></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">	
+		<form id="" class="row g-3" th:action="@{/donationlogic/donationFetch}" method="post" enctype="multipart/form-data">	
+			<div class="col-12">
+			  <label for="donationCode" class="form-label"></label>
+			  <input type="text" class="form-control" id="donationCode" name="donationCode" placeholder="제품의 태그를 입력하세요!">
+			</div>
+		  
+			<div class="col-12">
+			  <label for="donationName" class="form-label"></label>
+			  <input type="text" class="form-control" id="donationName" name="donationName" placeholder="이름을 입력하세요!">
+			</div>
+		  
+			<div class="col-12">
+			  <label for="donationPrice" class="form-label"></label>
+			  <input type="text" class="form-control" id="donationPrice" name="donationPrice" placeholder="가격을 입력하세요!">
+			</div>
+		  
+			<div class="col-12">
+			  <label for="donationContent" class="form-label"></label>
+			  <textarea class="form-control" rows="10" cols="50" name="donationIntro" placeholder="설명을 입력하세요!"></textarea>
+			</div>
+		  
+			<div class="col-12">
+			  <label for="donationimage" class="form-label"></label>
+			  <input type="file" class="form-control" id="donationImage" name="imageData">
+			</div>
+		  
+			<div class="col-12 d-flex justify-content-center">
+				<input type="button" value="중고품 등록" class="btn btn-danger" th:onclick="insertDonation()">
+			  </div>
+		  </form>
+
+      </div>
+	  <div class="modal-footer">
+		<button type="button" class="btn btn-info" data-dismiss="modal">닫기</button>
+	  </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+<!-- 동적인 화면 렌더링을 위한 자바스크립트 공간  -->
+<section id="productList">
+</section>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js">
+
+</script>
 </th:block>
 
 
 <th:block layout:fragment="content_js">
-<script type="text/javascript" src="/js/content/stu/stu_board/donation.js"></script>
+<script type="text/javascript" src="/js/content/stu/stu_board/donation.js">
+	
+</script>
 </th:block>
 
 </html>
