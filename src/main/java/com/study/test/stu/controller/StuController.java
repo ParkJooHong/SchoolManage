@@ -79,14 +79,7 @@ public class StuController {
 	@Resource(name = "boardReplyService")
 	private BoardReplyService boardReplyService;
 	
-	   //게시판 페이지
-	   @GetMapping("/board")
-	   public String board(AdminSubMenuVO adminSubMenuVO, Model model, UniBoardVO uniBoardVO) {
-	      adminSubMenuVO.setMenuCode(ConstVariable.FOURTH_MENU_CODE);
-
-			
-	      return "redirect:/board/board";
-	   }
+	   
 	
 	
 	   //학사톡
@@ -1053,6 +1046,21 @@ public class StuController {
 	}
 
 	// 교과수업 끝 }
+	
+	
+	//게시판 페이지
+	   @GetMapping("/board")
+	   public String board(AdminSubMenuVO adminSubMenuVO, Model model, UniBoardVO uniBoardVO,String menuCode, String subMenuCode) {
+		   
+		   System.out.println(" ++메뉴코드 :" + menuCode);
+		   System.out.println("+ 서브메뉴 :" + ConstVariable.FIFTEEN_STU_SUB_MENU_CODE);
+		   model.addAttribute("menuCode", menuCode);
+			model.addAttribute("subMenuCode", ConstVariable.FIFTEEN_STU_SUB_MENU_CODE);
+
+
+			
+	      return "redirect:/board/board";
+	   }
 
 	// ------ 게시판 {
 	// 나의 게시판

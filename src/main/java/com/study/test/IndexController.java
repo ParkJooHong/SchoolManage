@@ -61,6 +61,7 @@ public class IndexController {
 		String memName = user.getUsername();
 		stuVO.setMemNo(memName); // id임
 		memberVO.setMemNo(memName);
+		stuVO.setStuNo(user.getUsername());
 
 		if(profileNickname != null) {
 			System.out.println(profileNickname);
@@ -83,7 +84,12 @@ public class IndexController {
 		model.addAttribute("menuList", memberService.stuMenuList());
 		model.addAttribute("subMenuList", memberService.stuSubMenuList(memberMenuVO.getMenuCode()));
 
+		//학기 조회
 		model.addAttribute("semester" , stuService.getSemester());
+		
+		// 수강신청항목 리스트 조회
+		model.addAttribute("applyLecture", stuService.applyLectureList(stuVO.getStuNo()));
+		System.out.println("수강신청한 강의 리스트 :" + stuService.applyLectureList(stuVO.getStuNo()));
 
 		return "/content/stu/info_main";
 

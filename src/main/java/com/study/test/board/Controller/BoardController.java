@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.study.test.admin.vo.AdminSubMenuVO;
 import com.study.test.board.service.BoardReplyService;
@@ -54,7 +55,7 @@ public class BoardController {
 	@GetMapping("/board")
 	private String board(Authentication authentication, Model model, UniBoardVO uniBoardVO,
 			BoardCategoryVO boardCategoryVO, String cateNo, AdminSubMenuVO adminSubMenuVO, 
-			MemberSubMenuVO memberSubMenuVO, ProfessorSubMenuVO professorSubMenuVO) {
+			MemberSubMenuVO memberSubMenuVO, ProfessorSubMenuVO professorSubMenuVO, String menuCode, String subMenuCode) {
 
 		String memLayout = "";
 		User user = (User) authentication.getPrincipal();
@@ -68,7 +69,7 @@ public class BoardController {
 			adminSubMenuVO.setMenuCode(ConstVariable.FOURTH_MENU_CODE);
 		} else if (authorityStrings.contains("ROLE_STU")) {
 			memLayout = "info";
-			memberSubMenuVO.setMenuCode("MENU_004");
+			memberSubMenuVO.setMenuCode(ConstVariable.FOURTH_STU_MENU_CODE);
 		} else if (authorityStrings.contains("ROLE_PRO")) {
 			memLayout = "professor";
 			professorSubMenuVO.setMenuCode(ConstVariable.FIFTH_MENU_CODE);
@@ -79,8 +80,8 @@ public class BoardController {
 		model.addAttribute("uniBoardList", boardService.searchByBoard(uniBoardVO));
 
 		cateNo = boardCategoryVO.getCateNo();
-
-		return "/content/stu/stu_board/board";
+				
+		return "/content/stu/stu_board/myBoard";
 	}
 	
 	//전체 게시판 검색 기능

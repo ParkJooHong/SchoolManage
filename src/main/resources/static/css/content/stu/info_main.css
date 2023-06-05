@@ -35,3 +35,22 @@
 	text-align: center;
 	font-size: 20px;
 }
+
+.main2{
+	margin: 30px;
+}
+
+.course{
+	color: white;
+	width: 300px;
+  background-color:  #e11e1e;
+  padding: 0.5rem;
+  line-height: 2rem;
+  border-radius: 0.5rem;
+  border-radius: 20px;
+}
+
+.myLecture{
+	margin: 10px;
+
+}

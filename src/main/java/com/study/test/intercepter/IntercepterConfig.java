@@ -16,6 +16,7 @@ public class IntercepterConfig implements WebMvcConfigurer {
 				.addPathPatterns("/member/**")
 				.addPathPatterns("/stu/**")
 				.addPathPatterns("/stuMenu/**")
+				.addPathPatterns("/board/**")
 				.excludePathPatterns("/admin/**")
 				.excludePathPatterns("/professor/**")
 				.excludePathPatterns("/member/**Ajax")
@@ -38,7 +39,8 @@ public class IntercepterConfig implements WebMvcConfigurer {
 				.addPathPatterns("/message/**")
 				.excludePathPatterns("/admin/**")
 				.excludePathPatterns("/member/**")
-				.excludePathPatterns("/professor/**Ajax");
+				.excludePathPatterns("/professor/**Ajax")
+				.excludePathPatterns("/message/**Ajax");
 	}
 
 	//학생 메인 메뉴
