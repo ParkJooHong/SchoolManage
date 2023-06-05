@@ -34,4 +34,10 @@ public class MessageServiceImpl implements MessageService {
 		sqlsession.insert("messageMapper.sendMessage", messageVO);
 	}
 
+	//대화 내용 조회
+	@Override
+	public List<Map<String, Object>> getConversContent(MessageVO messageVO) {
+		return sqlsession.selectList("messageMapper.getConversContent", messageVO);
+	}
+
 }

@@ -16,18 +16,53 @@
 
 	<!-- 대화 목록 조회  -->
 	<select id="getMsgList" resultMap="message">
-		SELECT MEM_NAME
-			, MAX(SEND_TIME) AS SEND_TIME
-			, MAX(CONTENT) AS CONTENT
-			, MAX(READ_CHK) AS READ_CHK
+		SELECT 
+			M.MSG_NO,
+		    CASE 
+		        WHEN M.SEND_MEM_NO = #{memNo} THEN UM2.MEM_NAME 
+		        ELSE UM1.MEM_NAME 
+		    END AS MEM_NAME,
+		    TO_CHAR(M.SEND_TIME, 'YYYY.MM.DD HH24:MI') AS SEND_TIME,
+		    M.CONTENT,
+		    M.READ_CHK
 		FROM MESSAGE M
-			, UNI_MEMBER UM
-		WHERE M.RECV_MEM_NO = UM.MEM_NO
-		AND SEND_MEM_NO = #{memNo}
-		GROUP BY MEM_NAME
-		ORDER BY READ_CHK DESC, SEND_TIME DESC
+		LEFT JOIN UNI_MEMBER UM1 ON M.SEND_MEM_NO = UM1.MEM_NO
+		LEFT JOIN UNI_MEMBER UM2 ON M.RECV_MEM_NO = UM2.MEM_NO
+		WHERE (M.SEND_MEM_NO = #{memNo} OR M.RECV_MEM_NO = #{memNo})
+		AND M.SEND_TIME = (
+		        SELECT MAX(M2.SEND_TIME)
+		        FROM MESSAGE M2
+		WHERE (M2.SEND_MEM_NO = #{memNo} OR M2.RECV_MEM_NO = #{memNo})
+		AND (
+			CASE 
+			WHEN M2.SEND_MEM_NO = #{memNo} THEN M2.RECV_MEM_NO
+			ELSE M2.SEND_MEM_NO 
+			END =
+			CASE 
+			WHEN M.SEND_MEM_NO = #{memNo} THEN M.RECV_MEM_NO
+			ELSE M.SEND_MEM_NO 
+			END
+		)
+		)
+		ORDER BY M.READ_CHK DESC, M.SEND_TIME DESC
 	</select>
 	
+	<!-- 대화 내용 조회 -->
+	<select id="getConversContent" resultType="HashMap">
+		SELECT MEM_NAME
+			, SUBSTR(TO_CHAR(SEND_TIME, 'YYYY.MM.DD HH24:MI'), 1, 16) AS SEND_TIME
+			, SEND_MEM_NO
+			, RECV_MEM_NO
+			, CONTENT
+			, READ_CHK
+		FROM MESSAGE M
+		LEFT JOIN UNI_MEMBER UM ON M.SEND_MEM_NO = UM.MEM_NO
+		WHERE (M.SEND_MEM_NO = #{sendMemNo} AND M.RECV_MEM_NO = #{recvMemNo})
+		OR (M.SEND_MEM_NO = #{recvMemNo} AND M.RECV_MEM_NO = #{sendMemNo})
+		ORDER BY SEND_TIME	
+	</select>
+	
+
 	<!-- 메세지 전송(메세지 보내기 창에서) -->
 	<insert id="sendMessage">
 		INSERT INTO MESSAGE (
@@ -36,6 +71,7 @@
 			, RECV_MEM_NO
 			, SEND_TIME
 			, CONTENT
+			, READ_CHK
 		) VALUES (
 			(SELECT 'MSG_'||LPAD(NVL(MAX(TO_NUMBER(SUBSTR(MSG_NO, 5))), 0) +1, LENGTH(NVL(MAX(TO_NUMBER(SUBSTR(MSG_NO, 5))), 0) +1) , '0')
 			FROM MESSAGE)
