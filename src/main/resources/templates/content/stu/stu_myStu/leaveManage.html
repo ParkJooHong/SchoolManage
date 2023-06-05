@@ -98,10 +98,10 @@
 	</tr>
 </th:block> 
 
-<th:block th:each="menuCode : ${menuCode}">
+<th:block th:each="menuCode : ${menuList}">
 		<input type="hidden" th:value="${menuCode}" class="menuCode">
 </th:block>
-<th:block th:each="subMenuCode : ${subMenuCode}">
+<th:block th:each="subMenuCode : ${subMenuList}">
 		<input type="hidden" th:value="${subMenuCode}" class="subMenuCode">
 </th:block>
 

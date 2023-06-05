@@ -93,8 +93,11 @@ public class StuController {
 	@GetMapping("/myInfo")
 	public String myInfo(Authentication authentication, MemberSubMenuVO memberSubMenuVO, String stuNo, String memNo, Model model, StuVO stuVO, DeptManageVO deptManageVO,
 			MemberVO memberVO, ColleageVO colleageVO, String profileNickname) {
+
+		if(memberSubMenuVO.getSubMenuCode() == null) {
+			memberSubMenuVO.setSubMenuCode(ConstVariable.DEFAULT_STU_SUB_MENU_CODE);
+		}
 		
-		//System.out.println(memberMenuVO);
 		System.out.println(memberSubMenuVO);
 		
 		User user = (User) authentication.getPrincipal();
@@ -236,7 +239,7 @@ public class StuController {
 	@GetMapping("/infoManage")
 	private String infoManage(Authentication authentication, String memNo, Model model, StuVO stuVO, MemberVO memberVO, MemberSubMenuVO memberSubMenuVO,
 			String subMenuCode) {
-
+		
 		User user = (User) authentication.getPrincipal();
 		String memName = user.getUsername();
 		stuVO.setMemNo(user.getUsername()); // id임
@@ -263,7 +266,7 @@ public class StuController {
 
 	// 비밀번호변경 페이지
 	@GetMapping("/changePwd")
-	private String changePwd(Authentication authentication, Model model, StuVO stuVO, MemberVO memberVO) {
+	private String changePwd(Authentication authentication, Model model, StuVO stuVO, MemberVO memberVO, MemberSubMenuVO memberSubMenuVO) {
 
 		User user = (User) authentication.getPrincipal();
 		String memName = user.getUsername();
@@ -304,8 +307,7 @@ public class StuController {
 
 	// 휴학신청
 	@GetMapping("/leaveManage")
-	private String leaveManage(Authentication authentication, StuVO stuVO, MemberVO memberVO, Model model, String stuNo,
-			String menuCode, String subMenuCode) {
+	private String leaveManage(Authentication authentication, StuVO stuVO, MemberVO memberVO, Model model, String stuNo, MemberSubMenuVO memberSubMenuVO) {
 
 		User user = (User) authentication.getPrincipal();
 		String memName = user.getUsername();
@@ -317,9 +319,7 @@ public class StuController {
 		System.out.println("멤버 브이오 : " + memberVO);
 		System.out.println("학생 정보 : " + stuService.seletStu(memberVO));
 
-		// 복학 신청 Ajax떄매 던짐
-		model.addAttribute("menuCode", menuCode);
-		model.addAttribute("subMenuCode", subMenuCode);
+
 		// 휴학 신청자 조회
 		model.addAttribute("stuStatus", stuService.getStatusLeaveInfo(stuNo));
 		
@@ -386,7 +386,7 @@ public class StuController {
 	// 복학 신청
 	@GetMapping("/returnManage")
 	private String returnManage(Authentication authentication, StuVO stuVO, MemberVO memberVO, Model model,
-			String stuNo, String menuCode, String subMenuCode, StatusInfoVO statusInfoVO, String ingStatus) {
+			String stuNo, String menuCode, String subMenuCode, StatusInfoVO statusInfoVO, String ingStatus, MemberSubMenuVO memberSubMenuVO) {
 
 		User user = (User) authentication.getPrincipal();
 		String memName = user.getUsername();
@@ -407,10 +407,6 @@ public class StuController {
 		System.out.println("학번 : " + stuNo);
 		System.out.println("승인상태 : " + ingStatus);
 
-		// 복학 신청 Ajax떄매 던짐
-		model.addAttribute("menuCode", menuCode);
-		model.addAttribute("subMenuCode", subMenuCode);
-		
 		System.out.println(" 복수 전공 신청 조회 : " + stuService.getStatusDoubleInfo(memberVO.getMemNo()));
 		model.addAttribute("deptManageVO" , stuService.getStatusDoubleInfo(memberVO.getMemNo()));
 
@@ -475,7 +471,7 @@ public class StuController {
 	// 전과신청
 	@GetMapping("/moveManage")
 	private String moveManage(Authentication authentication, StuVO stuVO, MemberVO memberVO, Model model, String collNo,
-			String menuCode, String subMenuCode, String stuNo) {
+			String menuCode, String subMenuCode, String stuNo, MemberSubMenuVO memberSubMenuVO) {
 		User user = (User) authentication.getPrincipal();
 		String memName = user.getUsername();
 		stuVO.setMemNo(user.getUsername()); // id임
@@ -501,8 +497,8 @@ public class StuController {
 		model.addAttribute("deptManageVO", stuService.getDeptManager(stuNo));
 
 		// 게시판 상세보기할때 던질 메뉴코드, 서브메뉴코드 데이터
-		model.addAttribute("menuCode", menuCode);
-		model.addAttribute("subMenuCode", subMenuCode);
+		//model.addAttribute("menuCode", menuCode);
+		//model.addAttribute("subMenuCode", subMenuCode);
 		
 		System.out.println(" 복수 전공 신청 조회 : " + stuService.getStatusDoubleInfo(memberVO.getMemNo()));
 		model.addAttribute("deptManageVO" , stuService.getStatusDoubleInfo(memberVO.getMemNo()));

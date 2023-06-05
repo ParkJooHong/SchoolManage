@@ -103,7 +103,7 @@
 	<table class="detail_info" th:each="member : ${memberVO}">
 		<tr><td>
 			<th:block>
-			<input type="hidden" name="menuCode" th:value="${menuCode.menuCode}">
+			<input type="hidden" name="menuCode" th:value="${memberSubMenuVO.menuCode}">
 			</th:block>
 			<input type="hidden" name="stuNo" th:value="${member.stuVO.stuNo}">
 			<input type="hidden" name="deptNo" th:value="${member.stuVO.deptNo}">
