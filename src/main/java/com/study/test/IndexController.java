@@ -1,6 +1,10 @@
 package com.study.test;
 
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
@@ -11,12 +15,15 @@ import com.study.test.member.service.MemberService;
 import com.study.test.member.vo.MemberMenuVO;
 import com.study.test.member.vo.MemberSubMenuVO;
 import com.study.test.member.vo.MemberVO;
+import com.study.test.professor.vo.LectureVO;
 import com.study.test.school.colleage.ColleageVO;
 import com.study.test.school.service.SchoolService;
 import com.study.test.stu.service.StuService;
 import com.study.test.stu.vo.StuVO;
 
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpSession;
+import jakarta.websocket.Session;
 
 
 
@@ -32,14 +39,20 @@ public class IndexController {
 	private StuService stuService;
 	
 	@GetMapping("/")
-	public String index() {
+	public String index(HttpSession session) {
+		
+		session.invalidate();
+		
 		return "content/login/login_page";
 
 	}
 
 	@GetMapping("/mainPage")
-	public String index(Model model, MemberMenuVO memberMenuVO, MemberSubMenuVO memberSubMenuVO, Authentication authentication, StuVO stuVO, MemberVO memberVO, String menuCode, String subMenuCode) {
-
+	public String index(Model model, MemberMenuVO memberMenuVO, MemberSubMenuVO memberSubMenuVO, Authentication authentication, LectureVO lectureVO,
+			StuVO stuVO, MemberVO memberVO, String menuCode, String subMenuCode, String profileNickname, String memNo) {
+		
+		
+		
 		if(memberMenuVO.getMenuCode() == null) {
 			memberMenuVO.setMenuCode("MENU_001");
 			memberSubMenuVO.setSubMenuCode("SUB_MENU_001");
@@ -48,12 +61,26 @@ public class IndexController {
 			memberSubMenuVO.setSubMenuCode("SUB_MENU_001");
 		}
 		
+		
+		
+		
 		User user = (User)authentication.getPrincipal();
 		String memName = user.getUsername();
-		stuVO.setMemNo(user.getUsername()); // id임
-		memberVO.setMemNo(user.getUsername());
+		stuVO.setMemNo(memName); // id임
+		memberVO.setMemNo(memName);
+		stuVO.setStuNo(user.getUsername());
+
+		if(profileNickname != null) {
+			System.out.println(profileNickname);
+			System.out.println(memNo);
+			profileNickname = user.getUsername();
+			stuVO.setMemNo(memNo);
+			memberVO.setMemNo(profileNickname);
+			authentication.getPrincipal();
+			
+		}
 		
-		System.out.println(memberVO);
+
 		
 		System.out.println("학생 정보 : " + stuService.seletStu(memberVO));
 		model.addAttribute("memberVO", stuService.seletStu(memberVO));
@@ -64,6 +91,12 @@ public class IndexController {
 		model.addAttribute("menuList", memberService.stuMenuList());
 		model.addAttribute("subMenuList", memberService.stuSubMenuList(memberMenuVO.getMenuCode()));
 
+		//학기 조회
+		model.addAttribute("semester" , stuService.getSemester());
+		
+		// 수강신청항목 리스트 조회
+		model.addAttribute("applyLecture", stuService.applyLectureList(stuVO.getStuNo()));
+		System.out.println("수강신청한 강의 리스트 :" + stuService.applyLectureList(stuVO.getStuNo()));
 
 		return "/content/stu/info_main";
 

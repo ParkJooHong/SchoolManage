@@ -7,6 +7,8 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import javax.swing.plaf.synth.SynthScrollPaneUI;
+
 import org.codehaus.groovy.util.ListHashMap;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -26,6 +28,7 @@ import org.springframework.web.util.HtmlUtils;
 
 import com.study.test.stuChat.vo.Greeting;
 import com.study.test.stuChat.vo.HelloMessage;
+import com.study.test.admin.vo.AdminSubMenuVO;
 import com.study.test.admin.vo.EmpVO;
 import com.study.test.board.service.BoardReplyService;
 import com.study.test.board.service.BoardService;
@@ -51,6 +54,7 @@ import com.study.test.stu.service.StuService;
 import com.study.test.stu.vo.LeaveManageVO;
 import com.study.test.stu.vo.StatusInfoVO;
 import com.study.test.stu.vo.StuVO;
+import com.study.test.util.ConstVariable;
 import com.study.test.util.DateUtil;
 import com.study.test.util.UploadUtil;
 
@@ -75,6 +79,8 @@ public class StuController {
 	@Resource(name = "boardReplyService")
 	private BoardReplyService boardReplyService;
 	
+	   
+	
 	
 	   //학사톡
 	   @GetMapping("/talk")
@@ -85,13 +91,23 @@ public class StuController {
 
 	// 정보
 	@GetMapping("/myInfo")
-	public String myInfo(Authentication authentication, String stuNo, String memNo, Model model, StuVO stuVO,
-			MemberVO memberVO, ColleageVO colleageVO) {
-
+	public String myInfo(Authentication authentication, String stuNo, String memNo, Model model, StuVO stuVO, DeptManageVO deptManageVO,
+			MemberVO memberVO, ColleageVO colleageVO, String profileNickname) {
+	
 		User user = (User) authentication.getPrincipal();
 		String memName = user.getUsername();
 		stuVO.setMemNo(user.getUsername()); // id임
 		memberVO.setMemNo(user.getUsername());
+		
+		if(profileNickname != null) {
+			System.out.println(memNo);
+			memberVO.setMemName(profileNickname);
+			authentication.getPrincipal();
+			
+		}
+		System.out.println(profileNickname);
+		
+		
 
 		model.addAttribute("memberVO", stuService.seletStu(memberVO));
 
@@ -105,7 +121,10 @@ public class StuController {
 
 		// memberVO.getStuVO().setCollNo(collNo);
 		System.out.println(memberVO);
-
+		
+		System.out.println(" 복수 전공 신청 조회 : " + stuService.getStatusDoubleInfo(memberVO.getMemNo()));
+		model.addAttribute("deptManageVO" , stuService.getStatusDoubleInfo(memberVO.getMemNo()));
+		
 		System.out.println("대학정보" + stuService.getColl(memberVO.getMemNo()));
 
 		System.out.println("학생 정보 : " + stuService.seletStu(memberVO));
@@ -152,6 +171,9 @@ public class StuController {
 
 		// 휴학 신청자 조회
 		model.addAttribute("stuStatus", stuService.getStatusLeaveInfo(stuNo));
+		
+		System.out.println(" 복수 전공 신청 조회 : " + stuService.getStatusDoubleInfo(memberVO.getMemNo()));
+		model.addAttribute("deptManageVO" , stuService.getStatusDoubleInfo(memberVO.getMemNo()));
 
 		return "/content/stu/stu_myStu/leaveManage";
 	}
@@ -167,6 +189,7 @@ public class StuController {
 		model.addAttribute("memberVO", stuService.seletStu(memberVO));
 
 		lectureVO.setStuVO(stuVO);
+		System.out.println("조회할 학번 : " +lectureVO.getStuVO().getStuNo());
 		
 		System.out.println(lectureVO);
 		
@@ -185,6 +208,10 @@ public class StuController {
 		
 		//Map에 떤져줄 학기조회
 		model.addAttribute("semester" , stuService.getSemester());
+		
+
+		System.out.println(" 복수 전공 신청 조회 : " + stuService.getStatusDoubleInfo(memberVO.getMemNo()));
+		model.addAttribute("deptManageVO" , stuService.getStatusDoubleInfo(memberVO.getMemNo()));
 
 		return "/content/stu/stu_class/grade";
 	}
@@ -225,6 +252,9 @@ public class StuController {
 		menuCode.setMenuCode("MENU_001");
 
 		System.out.println("메뉴코드는 " + menuCode.getMenuCode());
+		
+		System.out.println(" 복수 전공 신청 조회 : " + stuService.getStatusDoubleInfo(memberVO.getMemNo()));
+		model.addAttribute("deptManageVO" , stuService.getStatusDoubleInfo(memberVO.getMemNo()));
 
 		model.addAttribute("menuCode", menuCode);
 		model.addAttribute("subMenuCode", subMenuCode);
@@ -250,6 +280,8 @@ public class StuController {
 		// model.addAttribute("stuVO" , stuService.seletStu(stuVO.getMemNo()));
 		// System.out.println(model.addAttribute("stuVO" ,
 		// stuService.seletStu(stuVO.getMemNo())));
+		System.out.println(" 복수 전공 신청 조회 : " + stuService.getStatusDoubleInfo(memberVO.getMemNo()));
+		model.addAttribute("deptManageVO" , stuService.getStatusDoubleInfo(memberVO.getMemNo()));
 
 		return "/content/stu/stu_myInfo/changePwd";
 	}
@@ -293,6 +325,9 @@ public class StuController {
 		model.addAttribute("subMenuCode", subMenuCode);
 		// 휴학 신청자 조회
 		model.addAttribute("stuStatus", stuService.getStatusLeaveInfo(stuNo));
+		
+		System.out.println(" 복수 전공 신청 조회 : " + stuService.getStatusDoubleInfo(memberVO.getMemNo()));
+		model.addAttribute("deptManageVO" , stuService.getStatusDoubleInfo(memberVO.getMemNo()));
 
 		return "/content/stu/stu_myStu/leaveManage";
 	}
@@ -378,6 +413,9 @@ public class StuController {
 		// 복학 신청 Ajax떄매 던짐
 		model.addAttribute("menuCode", menuCode);
 		model.addAttribute("subMenuCode", subMenuCode);
+		
+		System.out.println(" 복수 전공 신청 조회 : " + stuService.getStatusDoubleInfo(memberVO.getMemNo()));
+		model.addAttribute("deptManageVO" , stuService.getStatusDoubleInfo(memberVO.getMemNo()));
 
 		return "/content/stu/stu_myStu/returnManage";
 	}
@@ -468,6 +506,9 @@ public class StuController {
 		// 게시판 상세보기할때 던질 메뉴코드, 서브메뉴코드 데이터
 		model.addAttribute("menuCode", menuCode);
 		model.addAttribute("subMenuCode", subMenuCode);
+		
+		System.out.println(" 복수 전공 신청 조회 : " + stuService.getStatusDoubleInfo(memberVO.getMemNo()));
+		model.addAttribute("deptManageVO" , stuService.getStatusDoubleInfo(memberVO.getMemNo()));
 
 		return "/content/stu/stu_myStu/moveManage";
 	}
@@ -571,6 +612,9 @@ public class StuController {
 
 		model.addAttribute("menuCode", menuCode);
 		model.addAttribute("subMenuCode", subMenuCode);
+		
+		System.out.println(" 복수 전공 신청 조회 : " + stuService.getStatusDoubleInfo(memberVO.getMemNo()));
+		model.addAttribute("deptManageVO" , stuService.getStatusDoubleInfo(memberVO.getMemNo()));
 
 		return "/content/stu/stu_myStu/doubleMajorManage";
 	}
@@ -656,13 +700,16 @@ public class StuController {
 		model.addAttribute("probation", stuService.getProbation(stuNo));
 
 		System.out.println(statusInfoVO);
+		
+		System.out.println(" 복수 전공 신청 조회 : " + stuService.getStatusDoubleInfo(memberVO.getMemNo()));
+		model.addAttribute("deptManageVO" , stuService.getStatusDoubleInfo(memberVO.getMemNo()));
 
 		return "/content/stu/stu_myStu/academicManage";
 	}
 
 	// ---- 교과수업 {
 	// 성적조회
-	@GetMapping("grade")
+	@GetMapping("/grade")
 	private String grade(Authentication authentication, StuVO stuVO, MemberVO memberVO, Model model,
 			LectureVO lectureVO, String menuCode, String subMenuCode, SemesterVO semesterVO, String semNo) {
 		User user = (User) authentication.getPrincipal();
@@ -690,6 +737,9 @@ public class StuController {
 		
 		//Map에 떤져줄 학기조회
 		model.addAttribute("semester" , stuService.getSemester());
+		
+		System.out.println(" 복수 전공 신청 조회 : " + stuService.getStatusDoubleInfo(memberVO.getMemNo()));
+		model.addAttribute("deptManageVO" , stuService.getStatusDoubleInfo(memberVO.getMemNo()));
 
 		return "/content/stu/stu_class/grade";
 	}
@@ -701,12 +751,14 @@ public class StuController {
 			String menuCode, String subMenuCode, Model model, LectureVO lectureVO, String semNo) {
 		User user = (User) authentication.getPrincipal();
 		String memName = user.getUsername();
-		stuVO.setMemNo(user.getUsername()); // id임
+		stuVO.setStuNo(user.getUsername()); // id임
 		memberVO.setMemNo(user.getUsername());
 		model.addAttribute("memberVO", stuService.seletStu(memberVO));
 
 		lectureVO.setSemNo(semNo);
-		System.out.println("Ajax에서 semNo : " +semNo);
+		lectureVO.setStuVO(stuVO);
+		System.out.println("Ajax에서 semNo : " +lectureVO.getSemNo());
+		System.out.println("Ajax에서 stuNo : " +lectureVO.getStuVO().getStuNo());
 		
 		List<Map<String, Object>> enrollList = schoolService.getLecStuList(lectureVO);
 
@@ -817,7 +869,7 @@ public class StuController {
 	}
 
 	// 수강신청
-	@RequestMapping("application")
+	@RequestMapping("/application")
 	private String application(String menuCode, String subMenuCode, Model model, StuVO stuVO, String orderBy,
 			MemberVO memberVO, Authentication authentication, String collNo, LectureVO lectureVO) {
 
@@ -879,6 +931,9 @@ public class StuController {
 
 		model.addAttribute("menuCode", menuCode);
 		model.addAttribute("subMenuCode", subMenuCode);
+		
+		System.out.println(" 복수 전공 신청 조회 : " + stuService.getStatusDoubleInfo(memberVO.getMemNo()));
+		model.addAttribute("deptManageVO" , stuService.getStatusDoubleInfo(memberVO.getMemNo()));
 
 		return "/content/stu/stu_class/application";
 	}
@@ -902,21 +957,35 @@ public class StuController {
 		stuGradeVO.setStuNo(stuNo);
 		stuGradeVO.setSemNo(semNo);
 
-		// 수강신청하기.
-		stuService.applyLecture(enrollmentVO);
-		// 수강신청시 학생 점수판 삽입
-		stuService.insertGrade(stuGradeVO);
-		// 수강 신청시 해당 과목 인원수 업데이트
-		stuService.updateLectureCount(lectureVO);
+		int duply = stuService.getFindEnol(enrollmentVO);
+		System.out.println("중복 확인 : " +duply);
+		System.out.println(duply);
+	
+		if(duply <= 0) {
+			// 수강신청하기.
+			stuService.applyLecture(enrollmentVO);
+			// 수강신청시 학생 점수판 삽입
+			stuService.insertGrade(stuGradeVO);
+			// 수강 신청시 해당 과목 인원수 업데이트
+			stuService.updateLectureCount(lectureVO);
+			
+			Map<String, Object> data = new HashMap<>();
+			data.put("menuCode", menuCode);
+			data.put("subMenuCode", subMenuCode);
 
-		Map<String, Object> data = new HashMap<>();
-		data.put("menuCode", menuCode);
-		data.put("subMenuCode", subMenuCode);
+			model.addAttribute("subMenuCode", subMenuCode);
+			model.addAttribute("menuCode", menuCode);
+			
+			return data;
+		}
+		
+		Map<String, Object> falseData = new HashMap<>();
+		
+		return falseData;
 
-		model.addAttribute("subMenuCode", subMenuCode);
-		model.addAttribute("menuCode", menuCode);
+		
 
-		return data;
+		
 	}
 
 	// 수강 취소 화면
@@ -956,18 +1025,42 @@ public class StuController {
 	}
 
 	// 수업평가
-	@GetMapping("evaluation")
+	@GetMapping("/evaluation")
 	private String evaluation(Authentication authentication, StuVO stuVO, MemberVO memberVO, Model model) {
 		User user = (User) authentication.getPrincipal();
 		String memName = user.getUsername();
 		stuVO.setMemNo(user.getUsername()); // id임
 		memberVO.setMemNo(user.getUsername());
+		stuVO.setStuNo(user.getUsername());
+		memberVO.setStuVO(stuService.getColl(user.getUsername()));
 		model.addAttribute("memberVO", stuService.seletStu(memberVO));
+		
+		// 수강신청항목 리스트 조회
+		model.addAttribute("applyLecture", stuService.applyLectureList(stuVO.getStuNo()));
+		System.out.println("수강신청한 강의 리스트 :" + stuService.applyLectureList(stuVO.getStuNo()));
 
+		System.out.println(" 복수 전공 신청 조회 : " + stuService.getStatusDoubleInfo(memberVO.getMemNo()));
+		model.addAttribute("deptManageVO" , stuService.getStatusDoubleInfo(memberVO.getMemNo()));
+		
 		return "/content/stu/stu_class/evaluation";
 	}
 
 	// 교과수업 끝 }
+	
+	
+	//게시판 페이지
+	   @GetMapping("/board")
+	   public String board(AdminSubMenuVO adminSubMenuVO, Model model, UniBoardVO uniBoardVO,String menuCode, String subMenuCode) {
+		   
+		   System.out.println(" ++메뉴코드 :" + menuCode);
+		   System.out.println("+ 서브메뉴 :" + ConstVariable.FIFTEEN_STU_SUB_MENU_CODE);
+		   model.addAttribute("menuCode", menuCode);
+			model.addAttribute("subMenuCode", ConstVariable.FIFTEEN_STU_SUB_MENU_CODE);
+
+
+			
+	      return "redirect:/board/board";
+	   }
 
 	// ------ 게시판 {
 	// 나의 게시판
@@ -1005,13 +1098,31 @@ public class StuController {
 
 		System.out.println(month);
 
-		if (uniBoardVO.getFromDate() == null) {
-			uniBoardVO.setFromDate(firstDate);
+		if(uniBoardVO.getMonth() == 0) {
+			uniBoardVO.setFromDate(null);
+			uniBoardVO.setToDate(null);
+		} else if(uniBoardVO.getMonth() == -1) {
+			uniBoardVO.setFromDate(null);
+			uniBoardVO.setToDate(null);
+		}else if(uniBoardVO.getMonth() == -3) {
+			uniBoardVO.setFromDate(null);
+			uniBoardVO.setToDate(null);
+		}
+		else {
+			if (uniBoardVO.getFromDate() == null) {
+				uniBoardVO.setFromDate(firstDate);
+			}
+
+			if (uniBoardVO.getToDate() == null) {
+				uniBoardVO.setToDate(nowDate);
+			}
+		}
+		
+		if(uniBoardVO.getToDate() != null || uniBoardVO.getFromDate() != null) {
+			uniBoardVO.setMonth(0);
 		}
 
-		if (uniBoardVO.getToDate() == null) {
-			uniBoardVO.setToDate(nowDate);
-		}
+		
 		System.out.println(uniBoardVO.getFromDate());
 		model.addAttribute("uniBoardFromDate", uniBoardVO.getFromDate());
 		System.out.println(uniBoardVO.getToDate());
@@ -1055,7 +1166,7 @@ public class StuController {
 	}
 
 	// 전체 게시판
-	@GetMapping("/totalBoard")
+	@RequestMapping("/totalBoard")
 	private String totalBoard(Authentication authentication, Model model, MemberVO memberVO, StuVO stuVO, String toDate,
 			String fromDate, UniBoardVO uniBoardVO, BoardCategoryVO boardCategoryVO, String cateNo, String menuCode,
 			String subMenuCode) {
@@ -1076,14 +1187,44 @@ public class StuController {
 		if (uniBoardVO.getOrderBy() == null) {
 			uniBoardVO.setOrderBy("REG_BOARD_DATE");
 		}
-
-		if (uniBoardVO.getFromDate() == null) {
-			uniBoardVO.setFromDate(firstDate);
+		if (uniBoardVO.getSearchKeyword() == null) {
+			uniBoardVO.setSearchKeyword("BOARD_WRITER");
+		}
+		if (uniBoardVO.getSearchValue() == null) {
+			uniBoardVO.setSearchValue("");
 		}
 
-		if (uniBoardVO.getToDate() == null) {
-			uniBoardVO.setToDate(nowDate);
+		if (uniBoardVO.getMonth() == 0) {
+			uniBoardVO.setMonth(0);
 		}
+		
+		System.out.println(uniBoardVO.getOrderBy());
+		
+		// Month랑 toDate, FromDate 함꼐 실행 불가
+		if(uniBoardVO.getMonth() == 0) {
+			uniBoardVO.setFromDate(null);
+			uniBoardVO.setToDate(null);
+		} else if(uniBoardVO.getMonth() == -1) {
+			uniBoardVO.setFromDate(null);
+			uniBoardVO.setToDate(null);
+		}else if(uniBoardVO.getMonth() == -3) {
+			uniBoardVO.setFromDate(null);
+			uniBoardVO.setToDate(null);
+		}
+		else {
+			if (uniBoardVO.getFromDate() == null) {
+				uniBoardVO.setFromDate(firstDate);
+			}
+
+			if (uniBoardVO.getToDate() == null) {
+				uniBoardVO.setToDate(nowDate);
+			}
+		}
+		
+		if(uniBoardVO.getToDate() != null || uniBoardVO.getFromDate() != null) {
+			uniBoardVO.setMonth(0);
+		}
+		
 		System.out.println(uniBoardVO.getFromDate());
 		model.addAttribute("uniBoardFromDate", uniBoardVO.getFromDate());
 		System.out.println(uniBoardVO.getToDate());
@@ -1338,7 +1479,9 @@ public class StuController {
 
 	// 내 할일
 	@GetMapping("/mySchedule")
-	private String mySchedule() {
+	private String mySchedule(String menuCode, 	String subMenuCode, Model model) {
+		
+		
 
 		return "/content/stu/stu_calender/mySchedule";
 	}
@@ -1367,11 +1510,13 @@ public class StuController {
 
 		User user = (User) authentication.getPrincipal();
 		String memName = user.getUsername();
-		stuVO.setMemNo(user.getUsername()); // id임
+		stuVO.setStuNo(user.getUsername()); // id임	
 		memberVO.setMemNo(user.getUsername());
+		memberVO =  stuService.seletStu(memberVO);
+		System.out.println(stuService.seletStu(memberVO));
 
-		Thread.sleep(1000);
-		return new Greeting(memberVO.getMemNo() + " : " + HtmlUtils.htmlEscape(message.getName()));
+		Thread.sleep(100);
+		return new Greeting(memberVO.getMemName() + " / " + memberVO.getMemNo() +" : "+ HtmlUtils.htmlEscape(message.getName()));
 
 	}
 }

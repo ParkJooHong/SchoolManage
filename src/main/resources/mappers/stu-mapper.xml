@@ -194,8 +194,7 @@
 		FROM UNI_STU US, UNI_MEMBER UM, COLLEAGE C, DEPT D, MEM_IMG MI
 		WHERE US.COLL_NO = C.COLL_NO
 		AND UM.MEM_NO = US.MEM_NO
-		AND D.DEPT_NO =
-		US.DEPT_NO
+		AND D.DEPT_NO = US.DEPT_NO
 		AND UM.MEM_NO = MI.MEM_NO
 		AND UM.MEM_NO = #{memNo}
 	</select>
@@ -539,6 +538,13 @@
 			, MEM_NO
 		FROM ACADEMIC_PROBATION
 		WHERE STU_NO = #{stuNo}
+	</select>
+	<!-- 중복여부 확인  -->
+	<select id="getFindEnol" resultType="int">
+		SELECT COUNT(ENROLLMENT_NO)
+		FROM ENROLLMENT
+		WHERE STU_NO = #{stuNo}
+		AND LEC_NO = #{lecNo}   
 	</select>
 
 	<!-- 수강신청 -->

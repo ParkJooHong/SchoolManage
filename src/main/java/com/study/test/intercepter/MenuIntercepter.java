@@ -27,16 +27,19 @@ public class MenuIntercepter implements HandlerInterceptor {
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
-
+		/*
+		//컨트롤러에서 html로 전달되는 데이터 받기
+		 Map<String, Object> data = modelAndView.getModel();
+		 String menuCode = data.get("menuCode").toString();
+		 
+		// adminService.getMenuList(); 이걸 밑에 넣어준다.
+		modelAndView.addObject("menuCode", memberService.stuMenuList());
+		modelAndView.addObject("subMenuCode", memberService.stuSubMenuList(menuCode));
+		*/
 		
-		MemberMenuVO memberMenuVO = new MemberMenuVO();
-		MemberSubMenuVO memberSubMenuVO = new MemberSubMenuVO();
-
 		String menuCode = request.getParameter("menuCode");
 		String subMenuCode = request.getParameter("subMenuCode");
-		
-		
-	
+			
 		System.out.println("!!!!!!!!!!!!!!!!!!!!!!" + menuCode);
 		System.out.println("#######################" + subMenuCode);
 		
@@ -49,7 +52,8 @@ public class MenuIntercepter implements HandlerInterceptor {
 		    modelAndView.addObject("subMenuList", memberService.stuSubMenuList(menuCode));
 		}
 		
-		memberSubMenuVO.setSubMenuCode(subMenuCode);
+		//memberSubMenuVO.setSubMenuCode(subMenuCode);
+		
 	}
 
 	

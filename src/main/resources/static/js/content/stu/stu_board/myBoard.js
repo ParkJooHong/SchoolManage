@@ -1,19 +1,4 @@
 
-window.addEventListener('load', function(){
-	
-	var orderDates = document.querySelectorAll('.orderDate');
-  
-  // orderDate 클래스를 가진 모든 요소의 클래스 제거
-  orderDates.forEach(function(orderDate) {
-    orderDate.classList.remove('orderDate');
-  });
-  
-  // 변경된 상태를 localStorage에 저장
-  localStorage.setItem('isOrderDatesRemoved', true);
-
-	
-	
-})
 
 //정렬 기능 날짜순
 function getOrderListDesc(REG_BOARD_DATE){

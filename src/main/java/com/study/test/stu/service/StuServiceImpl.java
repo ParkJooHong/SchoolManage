@@ -217,6 +217,12 @@ public class StuServiceImpl implements StuService {
 		return sqlSession.selectList("stuMapper.getSemester");
 	}
 
+	//강의 중복
+	@Override
+	public int getFindEnol(EnrollmentVO enrollmentVO) {
+		return sqlSession.selectOne("stuMapper.getFindEnol", enrollmentVO);
+	}
+
 	
 
 

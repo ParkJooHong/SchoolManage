@@ -8,27 +8,38 @@
 </th:block>
 
 <th:block layout:fragment="content">
-<div style="font-size: 15px; color: blue; font-weight: bold;">즐겨찾기 ☆</div>
-<div style="font-size: 20px; color: red; font-weight: bold;" >학생기본정보</div>
+<div style="font-size: 20px; color: red; font-weight: bold; margin: 10px;" >🧑‍🎓학생기본정보</div>
 <div class="tableAdd">
-	<table border="3" style="border-color: red;" class="default_info">
-		<tr>
+	<table border="3" style="border-color: red; " class="default_info">
+		<tr th:each="member : ${memberVO}">
 			<td>학번</td>
-			<td><input type="text" readonly></td>
+			<td><input type="text" readonly th:value="${member.memNo}"> </td>
 			<td>성명</td>
-			<td><input type="text" readonly></td>
+			<td><input type="text" readonly th:value="${session.memberVO.memName}"></td>
 			<td>학년</td>
-			<td><input type="text" readonly></td>
+			<td><input type="text" readonly th:value="${member.stuVO.stuYear}">
+			</td>
 			<td>학적상태</td>
-			<td><input type="text" readonly></td>
+			<td><input type="text" readonly th:value="${member.stuVO.stuStatus}" ></td>
 		</tr>
 	</table>
 </div>
 <div style="text-align: center;">
-	<button onclick="plus();" class="plus" style="width: 40px; height:30px; border-bottom-left-radius:10px; border-bottom-right-radius:10px;
+<th:block th:each="processStatus : ${deptManageVO}">
+	<tr >
+		<td><input type="hidden" th:value="${processStatus.processStatus}" class="processStatus"></td>
+		<td><input type="hidden" th:value="${processStatus.colleageVO.collName}" class="doubleCollName"></td>
+		<td><input type="hidden" th:value="${processStatus.deptVO.deptName}" class="doubleDeptName"></td>
+	</tr>
+</th:block>
+
+<th:block th:each="member : ${memberVO}">
+	
+	<button th:onclick="plus([[${member.memNo}]], [[${member.memName}]], [[${member.stuVO.stuYear}]] , [[${member.stuVO.stuStatus}]] , [[${memberVO.colleageVO.collName}]] , [[${memberVO.deptVO.deptName}]]  );" class="plus" style="width: 40px; height:30px; border-bottom-left-radius:10px; border-bottom-right-radius:10px;
 		font-size: 20px; font-weight: bold; border-color: red;  color: white; background-color: red;">
 		+
 	</button>
+</th:block>
 </div>
 <br>
 <h3>전과 신청</h3>

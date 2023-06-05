@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="donationMapper">
+	<resultMap type="com.study.test.donation.DonationBoardVO" id="donation">
+		<id column="DONATION_CODE" 			property="donationCode"/>
+		<result column="DONATION_NAME" 		property="donationName"/>
+		<result column="DONATION_PRICE" 	property="donationPrice"/>
+		<result column="DONATION_INTRO" 	property="donationIntro"/>
+        <result column="IMAGE_DATA"         property="imageData"/>
+    </resultMap>
+
+
+		<!--중고 물품 등록  -->
+	<insert id="regDonationItem">
+    INSERT INTO DONATION_ITEM(
+        DONATION_CODE,
+        DONATION_NAME,
+        DONATION_PRICE,
+        DONATION_INTRO,
+        IMAGE_DATA
+    ) VALUES (
+        #{donationCode},
+        #{donationName},
+        #{donationPrice},
+        #{donationIntro},
+        #{imageData, jdbcType=BLOB}
+    )
+</insert>
+
+
+<!-- 중고 물품 상품 조회하는 MY-BATIS 쿼리 -->
+
+
+     <select id="selectDonationData" resultMap="donation">
+        SELECT DONATION_CODE, 
+        DONATION_NAME,
+        DONATION_PRICE,
+        DONATION_INTRO, 
+        IMAGE_DATA
+        FROM DONATION_ITEM
+    </select>
+
+</mapper>

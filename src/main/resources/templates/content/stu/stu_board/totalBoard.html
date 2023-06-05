@@ -45,12 +45,12 @@
 					  </td>
 					</tr>
 				  </table>
-				  <form th:action="@{/stuMenu/myBoard}" method="post" id="month-form">
+				  <form th:action="@{/stuMenu/totalBoard}" method="post" id="month-form">
 				  	<input type="hidden" value="" name="month">
 				  	<input type="hidden" th:value="${menuCode}" name="menuCode"> 
 					<input type="hidden" th:value="${subMenuCode}" name="subMenuCode"> 
 				  </form>
-				  <form th:action="@{/stuMenu/myBoard}" method="post" id="orderBy">
+				  <form th:action="@{/stuMenu/totalBoard}" method="post" id="orderBy">
 				  	<input type="hidden" value="" name="orderBy">
 				  	<input type="hidden" th:value="${menuCode}" name="menuCode"> 
 					<input type="hidden" th:value="${subMenuCode}" name="subMenuCode"> 
@@ -71,7 +71,7 @@
 								</div>
 								
 								<div class="col-6 text-end">
-									<form th:action="@{/stuMenu/myBoard}" method="post" id="month-form">
+									<form th:action="@{/stuMenu/totalBoard}" method="post" id="month-form">
 								
 									<input type="date" name="fromDate" placeholder="이달의 첫날" th:value="${uniBoardFromDate}" >
 									<input type="date" placeholder="이달의 마지막날"  name="toDate" th:value="${uniBoardToDate}"> 
@@ -86,12 +86,11 @@
 						</td>
 
 						<td>	
-						  <form th:action="@{/stuMenu/myBoard}" method="post">
+						  <form th:action="@{/stuMenu/totalBoard}" method="post">
 							  <div class="btn-group">
 							  	<input type="hidden" th:value="${menuCode}" name="menuCode"> 
 								<input type="hidden" th:value="${subMenuCode}" name="subMenuCode"> 
 							  	<select class="form-control"  name="searchKeyword">
-									<option >전체</option>
 									<option  value="BOARD_TITLE">제목</option>
 									<option  value="BOARD_CONTENT" >내용</option>
 									<option  value="BOARD_WRITER" >작성자</option>
@@ -114,6 +113,13 @@
 				  </div>
 		  		<div class="detail_info">
 				  <table class="table">
+				  	<colgroup>
+				  		<col style="width: 20%;">
+				  		<col style="width: 20%;">
+				  		<col style="width: 20%;">
+				  		<col style="width: 20%;">
+				  		<col style="width: 20%;">
+				  	</colgroup>
 					<thead>
 					  <tr>
 						<th>No</th>

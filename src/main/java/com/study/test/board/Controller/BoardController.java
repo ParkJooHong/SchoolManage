@@ -16,14 +16,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+
 import com.study.test.admin.vo.AdminSubMenuVO;
 import com.study.test.board.service.BoardReplyService;
 import com.study.test.board.service.BoardService;
 import com.study.test.board.vo.BoardCategoryVO;
 import com.study.test.board.vo.BoardReplyVO;
-import com.study.test.board.vo.PageVO;
+
 import com.study.test.board.vo.UniBoardVO;
 import com.study.test.member.service.MemberService;
+import com.study.test.member.vo.MemberMenuVO;
 import com.study.test.member.vo.MemberSubMenuVO;
 import com.study.test.professor.vo.ProfessorSubMenuVO;
 import com.study.test.school.service.SchoolService;
@@ -54,10 +56,10 @@ public class BoardController {
 	// 게시판
 	@GetMapping("/board")
 	private String board(Authentication authentication, Model model, UniBoardVO uniBoardVO,
-			BoardCategoryVO boardCategoryVO, String cateNo, AdminSubMenuVO adminSubMenuVO, 
-			MemberSubMenuVO memberSubMenuVO, ProfessorSubMenuVO professorSubMenuVO, PageVO pageVO) {
-		
-		
+			BoardCategoryVO boardCategoryVO, String cateNo, AdminSubMenuVO adminSubMenuVO,  MemberMenuVO memberMenuVO,
+			MemberSubMenuVO memberSubMenuVO, ProfessorSubMenuVO professorSubMenuVO, String menuCode, String subMenuCode) {
+
+
 		String memLayout = "";
 		User user = (User) authentication.getPrincipal();
 		System.out.println(uniBoardVO);
@@ -78,7 +80,8 @@ public class BoardController {
 			adminSubMenuVO.setMenuCode(ConstVariable.FOURTH_MENU_CODE);
 		} else if (authorityStrings.contains("ROLE_STU")) {
 			memLayout = "info";
-			memberSubMenuVO.setMenuCode("MENU_004");
+			memberMenuVO.setMenuCode(ConstVariable.FOURTH_STU_MENU_CODE);
+			memberSubMenuVO.setSubMenuCode(ConstVariable.FIFTEEN_STU_SUB_MENU_CODE);
 		} else if (authorityStrings.contains("ROLE_PRO")) {
 			memLayout = "professor";
 			professorSubMenuVO.setMenuCode(ConstVariable.FIFTH_MENU_CODE);
@@ -90,7 +93,7 @@ public class BoardController {
 		model.addAttribute("uniBoardList", boardService.searchByBoard(uniBoardVO));
 
 		cateNo = boardCategoryVO.getCateNo();
-
+				
 		return "/content/stu/stu_board/board";
 	}
 	

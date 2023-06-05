@@ -347,7 +347,7 @@
 			, REPLY_WRITER
 			, IS_PRIVATE
 		FROM BOARD_REPLY
-		WHERE BOARD_NO =#{boardNO}
+		WHERE BOARD_NO =#{boardNo}
 	</select>
 
 </mapper>
