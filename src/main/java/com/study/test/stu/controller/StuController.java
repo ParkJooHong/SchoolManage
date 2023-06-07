@@ -177,7 +177,7 @@ public class StuController {
 		stuService.updateStu(stuVO);
 		stuService.updateMem(memberVO);
 
-		return "redirect:/mainPage";
+		return "redirect:/stuMenu/myInfo";
 
 	}
 
