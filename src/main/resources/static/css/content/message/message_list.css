@@ -70,7 +70,7 @@
 }
 
 .convers_list::-webkit-scrollbar-thumb{
-	background-color: #b7ffe9;
+	background-color: #897c76;
 	border-radius: 10px;
 }
 
@@ -79,9 +79,55 @@
 	border-radius: 5px;
 }
 
+.one_convers:hover{
+	background-color:  #f2f2f2;
+}
+
+.recv_name{
+	padding: 5px;
+	border: 1px solid silver;
+	border-radius: 5px;
+	font-size: 24px;
+	font-weight: bolder;
+}
+
 .convers_content{
+	display: flex;
+	flex-direction: column;
 	border: 0.5px solid silver;
 	border-radius: 5px;
+}
+
+/* 대화창 스크롤바 */
+.content_list{
+	max-height: 100%;
+	overflow-y: auto;
+}
+
+.content_list::-webkit-scrollbar{
+	width: 15px;
+}
+
+.content_list::-webkit-scrollbar-track{
+	background-color: #f2f2f2;
+}
+
+.content_list::-webkit-scrollbar-thumb{
+	background-color: #897c76;
+	border-radius: 10px;
+}
+/* 대화창 스크롤바 */
+
+/* 대화내용 하나 */
+.content{
+	background-color: #897c76;
+	font: white;
+}
+
+.convers_content > .send_message{
+	justify-content: center;
+	margin-top: auto;
+	margin-bottom: 15px;
 }
 
 .nav-tabs{

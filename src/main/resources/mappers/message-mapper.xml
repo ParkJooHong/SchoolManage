@@ -66,6 +66,14 @@
 		ORDER BY SEND_TIME	
 	</select>
 	
+	<!-- 대화 내용 읽음으로 업데이트 -->
+	<update id="updateReadChk">
+		UPDATE MESSAGE 
+		SET READ_CHK = 0	
+		WHERE SEND_MEM_NO = #{recvMemNo}
+		AND RECV_MEM_NO = #{sendMemNo}
+	</update>
+	
 
 	<!-- 메세지 전송(메세지 보내기 창에서) -->
 	<insert id="sendMessage">

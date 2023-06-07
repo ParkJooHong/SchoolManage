@@ -22,7 +22,7 @@
 				<div class="row mt-2">
 					<div class="col-4 convers_list">
 						<th:block th:each="convers : ${msgList}">
-							<div class="row one_convers" th:onclick="getConversContent([[${convers.memName}]])">
+							<div class="row one_convers" th:onclick="getConversContent([[${convers.recvMemNo}]],[[${convers.memName}]])">
 								<div class="col-6 pt-3 mb-2 text-start">
 									<h5><strong>[[${convers.memName}]]</strong></h5>
 								</div>
@@ -51,7 +51,8 @@
 								받는사람
 							</div>
 							<div class="col-11 mb-4 dropdown">
-								<input class="form-control recvMem" type="text" name="recvMemNo" onkeyup="findMem()">
+								<input class="form-control recvMem" type="text" name="recvName" onkeyup="findMem()">
+								<input type="hidden" name="recvMemNo" value="">
 								<ul class="col-11" id="memberDropdown">
 							</ul>
 							</div>

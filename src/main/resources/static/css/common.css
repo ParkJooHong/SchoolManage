@@ -119,3 +119,9 @@ table tbody tr:hover{
 .onclick{
 	cursor: pointer;
 }
+
+/* 메세지 내용 css */
+.msg:hover{
+	background-color:  #897c76;
+	cursor: inherit;
+}
