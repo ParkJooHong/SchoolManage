@@ -11,11 +11,11 @@
 <div style="font-size: 20px; color: red; font-weight: bold; margin: 10px;" >🧑‍🎓학생기본정보</div>
 <div class="tableAdd">
 	<table border="3" style="border-color: red;" class="default_info">
-		<tr th:each="member : ${memberVO}">
+		<tr th:each="member : ${info['memberVO']}">
 			<td>학번</td>
 			<td><input type="text" readonly th:value="${member.memNo}"> </td>
 			<td>성명</td>
-			<td><input type="text" readonly th:value="${session.memberVO.memName}"></td>
+			<td><input type="text" readonly th:value="${member.memName}"></td>
 			<td>학년</td>
 			<td><input type="text" readonly th:value="${member.stuVO.stuYear}">
 			</td>
@@ -25,7 +25,7 @@
 	</table>
 </div>
 <div style="text-align: center;">
-<th:block th:each="processStatus : ${deptManageVO}">
+<th:block th:each="processStatus : ${info['deptManageVO']}">
 	<tr >
 		<td><input type="hidden" th:value="${processStatus.processStatus}" class="processStatus"></td>
 		<td><input type="hidden" th:value="${processStatus.colleageVO.collName}" class="doubleCollName"></td>
@@ -33,9 +33,9 @@
 	</tr>
 </th:block>
 
-<th:block th:each="member : ${memberVO}">
+<th:block th:each="member : ${info['memberVO']}">
 	
-	<button th:onclick="plus([[${member.memNo}]], [[${member.memName}]], [[${member.stuVO.stuYear}]] , [[${member.stuVO.stuStatus}]] , [[${memberVO.colleageVO.collName}]] , [[${memberVO.deptVO.deptName}]]  );" class="plus" style="width: 40px; height:30px; border-bottom-left-radius:10px; border-bottom-right-radius:10px;
+	<button th:onclick="plus([[${member.memNo}]], [[${member.memName}]], [[${member.stuVO.stuYear}]] , [[${member.stuVO.stuStatus}]] , [[${member.colleageVO.collName}]] , [[${member.deptVO.deptName}]]  );" class="plus" style="width: 40px; height:30px; border-bottom-left-radius:10px; border-bottom-right-radius:10px;
 		font-size: 20px; font-weight: bold; border-color: red;  color: white; background-color: red;">
 		+
 	</button>
@@ -44,7 +44,7 @@
 <br>
 <h3>휴학 신청</h3>
 
-<table border="1" class="detail_info" th:each="member : ${memberVO}">
+<table border="1" class="detail_info" th:each="member : ${info['memberVO']}">
 	<tr>
 		<td>이름</td>
 		<td>[[${member.memName}]]</td>
@@ -55,9 +55,9 @@
 	</tr>
 	<tr>
 		<td>전공대학</td>
-		<td></td>
+		<td>[[${member.colleageVO.collName}]]</td>
 		<td>전공학과</td>
-		<td></td>
+		<td>[[${member.deptVO.deptName}]]</td>
 		<td>복수전공</td>
 		<td></td>
 	</tr>
@@ -68,7 +68,7 @@
 		<td>[[${member.stuVO.stuYear}]]</td>
 		<td>학적상태</td>
 		<td>
-			<input type="hidden" class="stuStatus" th:value="${member.stuVO.stuStatus}">
+			<input type="hidden" class="stuStatus" th:value="${info['memberVO'].stuVO.stuStatus}">
 			[[${member.stuVO.stuStatus}]]
 		</td>
 	</tr>
@@ -83,15 +83,15 @@
 </table>
 
 
- <th:block th:if="${#lists.size(stuStatus) == 0}">
+ <th:block th:if="${#lists.size(info['stuStatus']) == 0}">
 	<tr>
 		<td>
 			<input type="hidden" class="ingStatus" value="0">
 		</td>
 	</tr>
 </th:block>
-<th:block th:if="${#lists.size(stuStatus) != 0}">
-	<tr th:each="stuStatus, state : ${stuStatus}">
+<th:block th:if="${#lists.size(info['stuStatus']) != 0}">
+	<tr th:each="stuStatus, state : ${info['stuStatus']}">
 		<td>
 			<input type="hidden" class="ingStatus" th:value=${stuStatus.ingStatus}>
 		</td>
@@ -107,7 +107,7 @@
 
 
 <div style="text-align: center;">
-	<th:block th:each="member : ${memberVO}">		
+	<th:block th:each="member : ${info['memberVO']}">		
 		<input type="button" value="휴학 신청" class="btn btn-primary" th:onclick="leave([[${member.memNo}]]);">
 	</th:block>	
 </div>

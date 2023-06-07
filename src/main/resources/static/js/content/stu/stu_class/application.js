@@ -1,4 +1,8 @@
 
+// 알림창 오른쪽 아래 정렬
+toastr.options.positionClass = 'toast-bottom-right';
+toastr.options.rtl = true;
+
 
 function getOrderBy(orderBy){
 	const orderForm = document.querySelector('#orderForm');
@@ -6,6 +10,7 @@ function getOrderBy(orderBy){
 	orderForm.querySelector('input').value = orderBy;
 	orderForm.submit();
 }
+
 
 
 //수강 신청 클릭
@@ -29,6 +34,8 @@ function apllication(lecNo, maxMem, nowMem, semNo,stuNo, menuCode, subMenuCode){
 						setTimeout(function() {
 						location.reload();
 						}, 1000);
+			    toastr.options.progressBar = true;
+				toastr.info(`시간표에 추가되었습니다`, `신청완료`, {timeOut: 1000});	
 			}
 			else{
 				swal("실패", "이미 신청하셨습니다.", "error");

@@ -88,30 +88,49 @@ public class StuController {
 	      return "redirect:/message/messageList";
 	   } 
 	
-
+	//메인 페이지
+	   @GetMapping("/main")
+	   public String main(MemberSubMenuVO memberSubMenuVO) {
+		   memberSubMenuVO.setMenuCode(ConstVariable.ONE_STU_MENU_CODE);
+			memberSubMenuVO.setSubMenuCode(ConstVariable.DEFAULT_STU_SUB_MENU_CODE);
+		   
+		   return "/content/stu/info_main";
+	   }
+	   
+	   
 	// 정보
 	@GetMapping("/myInfo")
-	public String myInfo(Authentication authentication, MemberSubMenuVO memberSubMenuVO, String stuNo, String memNo, Model model, StuVO stuVO, DeptManageVO deptManageVO,
+	public String myInfo(Authentication authentication, MemberSubMenuVO memberSubMenuVO,  String stuNo, String memNo, Model model, StuVO stuVO, DeptManageVO deptManageVO,
 			MemberVO memberVO, ColleageVO colleageVO, String profileNickname) {
 
-		if(memberSubMenuVO.getSubMenuCode() == null) {
-			memberSubMenuVO.setSubMenuCode(ConstVariable.DEFAULT_STU_SUB_MENU_CODE);
-		}
+		memberSubMenuVO.setMenuCode(ConstVariable.ONE_STU_MENU_CODE);
+		memberSubMenuVO.setSubMenuCode(ConstVariable.DEFAULT_STU_SUB_MENU_CODE);
+		
 		
 		System.out.println(memberSubMenuVO);
+		
+		System.out.println("이까지 오나?");
+		
+		if (authentication != null && authentication.getPrincipal() != null) {
+		    User user = (User) authentication.getPrincipal();
+		    // 사용자 정보를 활용하는 로직을 여기에 작성합니다.
+		} else {
+			System.out.println(memNo);
+			memberVO.setMemName(profileNickname);
+			System.out.println(profileNickname);
+			User user = (User) authentication.getPrincipal();
+			String memName = user.getUsername();
+			stuVO.setMemNo(user.getUsername()); // id임
+			memberVO.setMemNo(user.getUsername());
+		}
 		
 		User user = (User) authentication.getPrincipal();
 		String memName = user.getUsername();
 		stuVO.setMemNo(user.getUsername()); // id임
 		memberVO.setMemNo(user.getUsername());
 		
-		if(profileNickname != null) {
-			System.out.println(memNo);
-			memberVO.setMemName(profileNickname);
-			authentication.getPrincipal();
-			
-		}
-		System.out.println(profileNickname);
+
+		
 		
 		
 
@@ -170,16 +189,20 @@ public class StuController {
 		stuVO.setMemNo(user.getUsername()); // id임
 		memberVO.setMemNo(user.getUsername());
 		stuNo = stuService.seletStu(memberVO).getStuVO().getStuNo();
-
-		model.addAttribute("memberVO", stuService.seletStu(memberVO));
-		System.out.println("멤버 브이오 : " + memberVO);
-		System.out.println("학생 정보 : " + stuService.seletStu(memberVO));
-
-		// 휴학 신청자 조회
-		model.addAttribute("stuStatus", stuService.getStatusLeaveInfo(stuNo));
 		
-		System.out.println(" 복수 전공 신청 조회 : " + stuService.getStatusDoubleInfo(memberVO.getMemNo()));
-		model.addAttribute("deptManageVO" , stuService.getStatusDoubleInfo(memberVO.getMemNo()));
+
+
+		Map<String, Object> stuManage = new HashMap<>();
+		memberVO = stuService.seletStu(memberVO);
+		List<StatusInfoVO> status = stuService.getStatusLeaveInfo(stuNo); //휴학신청자 조회
+		List<DeptManageVO> deptManage = stuService.getStatusDoubleInfo(memberVO.getMemNo()); // 복수 전공 신청 조회
+		stuManage.put("stuStatus", status);
+		stuManage.put("deptManageVO", deptManage);
+		stuManage.put("memberVO", memberVO);
+		
+		model.addAttribute("info", stuManage);
+		
+
 
 		return "/content/stu/stu_myStu/leaveManage";
 	}
@@ -315,16 +338,15 @@ public class StuController {
 		memberVO.setMemNo(user.getUsername());
 		stuNo = stuService.seletStu(memberVO).getStuVO().getStuNo();
 
-		model.addAttribute("memberVO", stuService.seletStu(memberVO));
-		System.out.println("멤버 브이오 : " + memberVO);
-		System.out.println("학생 정보 : " + stuService.seletStu(memberVO));
-
-
-		// 휴학 신청자 조회
-		model.addAttribute("stuStatus", stuService.getStatusLeaveInfo(stuNo));
+		Map<String, Object> stuManage = new HashMap<>();
+		memberVO = stuService.seletStu(memberVO);
+		List<StatusInfoVO> status = stuService.getStatusLeaveInfo(stuNo); //휴학신청자 조회
+		List<DeptManageVO> deptManage = stuService.getStatusDoubleInfo(memberVO.getMemNo()); // 복수 전공 신청 조회
+		stuManage.put("stuStatus", status);
+		stuManage.put("deptManageVO", deptManage);
+		stuManage.put("memberVO", memberVO);
 		
-		System.out.println(" 복수 전공 신청 조회 : " + stuService.getStatusDoubleInfo(memberVO.getMemNo()));
-		model.addAttribute("deptManageVO" , stuService.getStatusDoubleInfo(memberVO.getMemNo()));
+		model.addAttribute("info", stuManage);
 
 		return "/content/stu/stu_myStu/leaveManage";
 	}

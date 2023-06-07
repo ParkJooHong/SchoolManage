@@ -38,7 +38,7 @@ function kakaoLogin(){
 							
 								let memNo = 0101;
 								alert(result['profileNickname']);
-								location.href=`/mainPage?menuCode=${result['menuCode']}&profileNickname=${result['profileNickname']}&memNo=${memNo}`;
+								location.href=`/stuMenu/myInfo?menuCode=${result['menuCode']}&profileNickname=${result['profileNickname']}&memNo=${memNo}`;
 								
 								
 							},

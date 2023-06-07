@@ -8,6 +8,8 @@ function leave(memNo){
 	const applyReason = document.querySelector('.applyReason').value;
 	const stuStatus = document.querySelector('.stuStatus').value;
 	
+	
+	
 	const menuCode = document.querySelector('.menuCode').value;
 	const subMenuCode = document.querySelector('.subMenuCode').value;
 	
@@ -32,6 +34,8 @@ function leave(memNo){
 	
 	
 	let shouldExecute = true;
+	
+	
 
 	ingStatusInputs.forEach(input => {
 	  if (input.value === '승인대기') {
@@ -94,12 +98,12 @@ function leave(memNo){
 				swal("실패", "이미 처리중인 신청이 있습니다.", "error");
 			}
 			else{
-				swal("실패", "이미 휴학중인 상태입니다.", "error");
+				swal("실패", "제적 상태입니다. 학과에 문의하세요.", "error");
 			}
 		}
 	} 
 	else {
-	  swal("실패", "이미 처리중인 신청이 있습니다.", "error");
+	  swal("실패", "제적 상태입니다. 학과에 문의하세요.", "error");
 	}
 	
 	//alert(stuStatus);

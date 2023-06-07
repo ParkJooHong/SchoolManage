@@ -58,9 +58,13 @@
 </th:block>
 
 
+
 	 <h4 style="text-align: center;">💻 [[${memberVO.memName}]]님의 수업 시간표</h4>
 <div>
-	<table class="schedule">
+<div>
+	<button id="shot" th:onclick="capture([[${memberVO.memName}]]);" class="btn btn-danger">시간표 캡처</button>
+</div> <br>
+	<table class="schedule" id="capture">
 		<colgroup>
 			<col width="5%">
 			<col width="20%">
@@ -151,6 +155,9 @@
 
 
 <th:block layout:fragment="content_js">
+ <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+	<!-- 화면 캡쳐 CDN -->
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 <script type="text/javascript" src="/js/content/stu/stu_class/evaluation.js"></script>
 </th:block>
 

@@ -6,6 +6,7 @@
 
 <th:block layout:fragment="content_css">
 <link rel="stylesheet" href="/css/content/stu/info_main.css">
+<link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
 </th:block>
 
 <th:block layout:fragment="content">
@@ -76,11 +77,14 @@
 	</div>
 </div>
 
-
+<input type="hidden" th:value="${memberVO.memName}" class="memName">
+<input type="hidden" id="example" th:onclick="alert([[${memberVO.memName}]]);">
 </th:block>
 
 
 <th:block layout:fragment="content_js">
+  <!-- toastr js 라이브러리 -->
+<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script type="text/javascript" src="/js/content/stu/info_main.js"></script>
 </th:block>
 
