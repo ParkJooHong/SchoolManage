@@ -29,7 +29,8 @@ public class IntercepterConfig implements WebMvcConfigurer {
 				.excludePathPatterns("/board/board")
 				.excludePathPatterns("/board/boardDetail")
 				.excludePathPatterns("/message/**Ajax")
-				.excludePathPatterns("/message/talk");
+				.excludePathPatterns("/message/talk")
+				.excludePathPatterns("/stuMenu/talk");
 		
 		//어드민 인터셉터
 		registry.addInterceptor(getAdminMenuIntercepter())

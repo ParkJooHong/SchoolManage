@@ -1461,14 +1461,14 @@ public class StuController {
 	// ----------- 캘린더 {
 	// 학과 일정
 	@GetMapping("/departmentSchedule")
-	private String departmentSchedule() {
+	private String departmentSchedule(MemberSubMenuVO memberSubMenuVO) {
 
 		return "/content/stu/stu_calender/departmentSchedule";
 	}
 
 	// 내 할일
 	@GetMapping("/mySchedule")
-	private String mySchedule(String menuCode, 	String subMenuCode, Model model) {
+	private String mySchedule(MemberSubMenuVO memberSubMenuVO) {
 		
 		
 
