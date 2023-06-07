@@ -89,8 +89,6 @@ function sendMessageConvers(recvMemNo){
 }
 
 //대화 메세지 목록 조회(1:1대화 내용들)
-let interval_id;
-
 function getConversContent(recvMemNo, recvName){
 	//ajax start
 	$.ajax({
@@ -144,7 +142,6 @@ function getConversContent(recvMemNo, recvName){
 				const msg_minute = sendTime.getMinutes(); //분
 				
 
-
 				// 날짜가 변경되었는지 확인
 				const currentDate = new Date(msg_year, msg_month - 1, msg_day); // 연, 월(0부터 시작하므로 1을 빼줌), 일로 Date 객체 생성
 				if (!previousDate || currentDate > previousDate) {
@@ -194,10 +191,6 @@ function getConversContent(recvMemNo, recvName){
 			
 			convers_content_tag.insertAdjacentHTML('afterbegin', str);
 			
-		//5초마다 새로운 메세지가 있는지 확인
-	    init(recvMemNo, recvName);
-	    
-		
 		},
 		error: function() {
 			alert('실패');
@@ -206,20 +199,6 @@ function getConversContent(recvMemNo, recvName){
 	//ajax end 
 }
 
-//5초마다 새로운 메세지가 있는지 확인
-function init(recvMemNo, recvName){
-    
-	const intervalDuration = 5000; // 이미지 전환 간격 (밀리초)
-	
-	// 이전 타이머 종료
-    if (interval_id) {
-        clearInterval(interval_id);
-    }
-	
-	interval_id = setInterval(() => {
-		getConversContent(recvMemNo, recvName);	
-  }, intervalDuration);
-}
 
 /*
 const FirstMessageList = function() {
