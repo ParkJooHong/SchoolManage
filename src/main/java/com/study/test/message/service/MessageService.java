@@ -17,4 +17,7 @@ public interface MessageService {
 	
 	//대화 내용 조회
 	List<Map<String, Object>> getConversContent(MessageVO messageVO);
+	
+	//대화 내용 읽음으로 업데이트
+	void updateReadChk(MessageVO messageVO);
 }

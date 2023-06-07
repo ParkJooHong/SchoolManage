@@ -38,13 +38,9 @@ public class MessageController {
 	@GetMapping("/sendMessage")
 	public String sendMessage(MessageVO messageVO, String recvName, Authentication authentication) {
 		User user = (User)authentication.getPrincipal();
-		//메시지 받는 회원 아이디 조회
-		String recvMemNo = messageService.getMemNo(recvName);
-		
-		System.out.println("@@@@@@@@@@@유저 아이디 확인" + user.getUsername()); 
 		
 		//보낼 메세지에 정보 저장
-		messageVO.setRecvMemNo(recvMemNo);
+		messageVO.setRecvMemNo(messageVO.getRecvMemNo());
 		messageVO.setSendMemNo(user.getUsername());
 		
 		System.out.println("보낼 메세지 데이터 확인" + messageVO);
@@ -54,6 +50,23 @@ public class MessageController {
 		
 		return "redirect:/message/messageList";
 	}
+	
+	//메세지 전송(대화창에서)
+	@ResponseBody
+	@PostMapping("/sendMessageAjax")
+	public void sendMessageAjax(MessageVO messageVO, Authentication authentication) {
+		User user = (User)authentication.getPrincipal();
+		
+		//보낼 메세지에 정보 저장
+		messageVO.setRecvMemNo(messageVO.getRecvMemNo());
+		messageVO.setSendMemNo(user.getUsername());
+		
+		System.out.println("보낼 메세지 데이터 확인" + messageVO);
+		
+		//메세지 전송 쿼리 실행
+		messageService.sendMessage(messageVO);
+	}
+	
 	
 	
 	//메세지 목록
@@ -105,17 +118,18 @@ public class MessageController {
 	//대화 내용 조회
 	@ResponseBody
 	@PostMapping("/getConversContentAjax")
-	public List<Map<String, Object>> getConversContent(String memName, MessageVO messageVO, Authentication authentication) {
-		//받는 사람 아이디 조회
-		String recvMemNo = messageService.getMemNo(memName);
+	public List<Map<String, Object>> getConversContent(MessageVO messageVO, Authentication authentication) {
 		
 		//로그인 아이디 조회
 		User user = (User)authentication.getPrincipal();
 		String sendMemNo = user.getUsername();
 		
 		//대화 내용 조회에 필요한 데이터 저장
-		messageVO.setRecvMemNo(recvMemNo);
+		messageVO.setRecvMemNo(messageVO.getRecvMemNo());
 		messageVO.setSendMemNo(sendMemNo);
+		
+		//대화 읽음 으로 업데이트
+		messageService.updateReadChk(messageVO);
 		
 		//대화 내용 조회
 		List<Map<String, Object>> conversContentList = messageService.getConversContent(messageVO);

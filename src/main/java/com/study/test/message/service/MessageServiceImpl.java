@@ -40,4 +40,10 @@ public class MessageServiceImpl implements MessageService {
 		return sqlsession.selectList("messageMapper.getConversContent", messageVO);
 	}
 
+	//대화 내용 읽음으로 업데이트
+	@Override
+	public void updateReadChk(MessageVO messageVO) {
+		sqlsession.update("messageMapper.updateReadChk", messageVO);
+	}
+
 }
