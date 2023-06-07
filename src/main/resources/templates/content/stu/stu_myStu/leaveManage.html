@@ -59,13 +59,13 @@
 		<td>전공학과</td>
 		<td>[[${member.deptVO.deptName}]]</td>
 		<td>복수전공</td>
-		<td></td>
+		<td><input type="text" th:value="${info['deptManageVO']}"></td>
 	</tr>
 	<tr>
 		<td>성별</td>
 		<td></td>
 		<td>생년월일</td>
-		<td>[[${member.stuVO.stuYear}]]</td>
+		<td>[[${member.stuVO.stuYear}].deptVO.deptName]</td>
 		<td>학적상태</td>
 		<td>
 			<input type="hidden" class="stuStatus" th:value="${info['memberVO'].stuVO.stuStatus}">
