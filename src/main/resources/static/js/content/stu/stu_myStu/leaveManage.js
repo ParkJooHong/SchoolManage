@@ -31,6 +31,7 @@ function leave(memNo){
 	// 마지막 .ingStatus 요소의 value 값을 추출합니다.
 	let ingStatus = lastIngStatusInput.value;
 	
+	alert()
 	
 	
 	let shouldExecute = true;

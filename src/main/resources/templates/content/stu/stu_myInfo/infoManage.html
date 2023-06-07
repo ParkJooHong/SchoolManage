@@ -55,7 +55,7 @@
 		<td><input type="text"></td>
 		<td rowspan="3" style="text-align: right;">
 			<img th:src="${'/image/memImg/' + member.memImgVO.attachedFileName}" height="90px;" width="80px;">
-			<form th:action="@{/stuMenu/updateMyInfo}" method="post" enctype="multipart/form-data">
+			<form th:action="@{/stuMenu/updateMynfo}" method="post" enctype="multipart/form-data">
 			<input type="file" class="form-control" name="mainImg" required>
 		        <input type="submit" class="btn btn-primary" value="이미지 등록" >
 		    </form>
@@ -99,7 +99,7 @@
 
 
 
-<form action="/stuMenu/updateMyInfo" method="post">	
+<form action="/stuMenu/updateMynfo" method="post">	
 	<table class="detail_info" th:each="member : ${memberVO}">
 		<tr><td>
 			<th:block>

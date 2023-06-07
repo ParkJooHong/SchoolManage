@@ -173,7 +173,6 @@ public class StuController {
 	// 내정보 수정
 	@PostMapping("/updateMynfo")
 	public String updateMyInfo(MemberVO memberVO, StuVO stuVO, MemImgVO memImgVO, MultipartFile mainImg) {
-
 		stuService.updateStu(stuVO);
 		stuService.updateMem(memberVO);
 
