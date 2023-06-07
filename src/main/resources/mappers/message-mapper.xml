@@ -54,7 +54,7 @@
 	<!-- 대화 내용 조회 -->
 	<select id="getConversContent" resultType="HashMap">
 		SELECT MEM_NAME
-			, SUBSTR(TO_CHAR(SEND_TIME, 'YYYY.MM.DD HH24:MI'), 1, 16) AS SEND_TIME
+			, SUBSTR(TO_CHAR(SEND_TIME, 'YYYY.MM.DD HH24:MI:SS'), 1, 16) AS SEND_TIME
 			, SEND_MEM_NO
 			, RECV_MEM_NO
 			, CONTENT

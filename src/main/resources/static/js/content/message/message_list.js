@@ -70,8 +70,6 @@ function sendMessageConvers(recvMemNo, recvName){
 	//보낼 메세지(content)
 	const content = document.querySelector('#conversSendContent').value;
 	
-	alert(recvMemNo);
-	
 	//ajax start
 	$.ajax({
 		url: '/message/sendMessageAjax', //요청경로
@@ -161,12 +159,12 @@ function getConversContent(recvMemNo, recvName){
 						str += `</span>`
 					}
 					str += `		<span style="margin-right:5px;">${msg_hour}:${msg_minute}</span>`;
-					str += `		<span class="content btn btn-primary msg" disabled>${convers['CONTENT']}</span>`;
+					str += `		<button class="content btn btn-primary msg" disabled>${convers['CONTENT']}</button>`;
 					str += `	</div>`;
 				}
 				else{
 					str += `	<div class="col-12 text-start mt-3 mb-3">`;
-					str += `		<span class="content btn btn-primary" style="margin-right:5px;" disabled>${convers['CONTENT']}</span>`;
+					str += `		<button class="content btn btn-primary msg" style="margin-right:5px;" disabled>${convers['CONTENT']}</button>`;
 					str += `		<span>${msg_hour}:${msg_minute}</span>`;
 					if(convers['READ_CHK']==1){
 						str += `<span>`;

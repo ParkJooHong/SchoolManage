@@ -43,7 +43,7 @@
 }
 
 .dropdown .show #memberDropdown {
-  display: block;
+ 	display: block;
 }
 
 #memberDropdown > li:hover {
@@ -89,9 +89,12 @@
 	border-radius: 5px;
 	font-size: 24px;
 	font-weight: bolder;
+	background-color: #897c76;
+	color: white;
 }
 
 .convers_content{
+	max-height: 71vh;
 	display: flex;
 	flex-direction: column;
 	border: 0.5px solid silver;
@@ -102,6 +105,8 @@
 .content_list{
 	max-height: 100%;
 	overflow-y: auto;
+	margin-bottom: 15px;
+	margin-top: 15px;
 }
 
 .content_list::-webkit-scrollbar{
@@ -118,6 +123,15 @@
 }
 /* 대화창 스크롤바 */
 
+.convers_date{
+	border-radius: 5px;
+	margin: 0 auto;
+	width: 20vw;
+	background-color: #554d4a;
+	font-size: 18px;
+	color: white;
+}
+
 /* 대화내용 하나 */
 .content{
 	background-color: #897c76;
@@ -132,4 +146,14 @@
 
 .nav-tabs{
 	border-bottom: none;
+}
+
+.nav-link{
+	color: black;
+}
+
+.nav-link.active {
+  background-color: #897c76 !important;
+  color: #FFF !important;
+  border-bottom: 1px solid silver !important;
 }
