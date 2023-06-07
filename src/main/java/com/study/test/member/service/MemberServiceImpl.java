@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.study.test.member.vo.MemberMenuVO;
+import com.study.test.member.vo.MemberSubMenuVO;
 import com.study.test.member.vo.MemberVO;
 
 @Service("memberService")
@@ -25,7 +26,7 @@ public class MemberServiceImpl implements MemberService {
 
 	//학생서브 메뉴
 	@Override
-	public List<MemberMenuVO> stuSubMenuList(String menuCode) {
+	public List<MemberSubMenuVO> stuSubMenuList(String menuCode) {
 		return sqlSession.selectList("memberMenuMapper.stuSubMenuList", menuCode);
 	}
 

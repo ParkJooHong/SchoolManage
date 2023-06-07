@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.study.test.member.vo.MemberMenuVO;
+import com.study.test.member.vo.MemberSubMenuVO;
 import com.study.test.member.vo.MemberVO;
 
 public interface MemberService {
@@ -12,7 +13,7 @@ public interface MemberService {
 	List<MemberMenuVO> stuMenuList();
 	
 	//학생 서브 메뉴
-	List<MemberMenuVO> stuSubMenuList(String menuCode);
+	List<MemberSubMenuVO> stuSubMenuList(String menuCode);
 	
 	//회원가입
 	void regMember(MemberVO memberVO);

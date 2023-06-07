@@ -31,6 +31,7 @@ public class MenuIntercepter implements HandlerInterceptor {
 		
 		//컨트롤러에서 html로 전달되는 데이터 받기
 		 Map<String, Object> data = modelAndView.getModel();
+		 System.out.println("@@@@@@@@@@@@@@@학생 메뉴 리스트 : " + data);
 		 if(data != null) {
 			 MemberSubMenuVO memberSubMenuVO = (MemberSubMenuVO)data.get("memberSubMenuVO");
 			 if(memberSubMenuVO != null) {

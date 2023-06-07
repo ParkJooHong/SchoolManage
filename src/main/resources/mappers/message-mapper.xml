@@ -22,6 +22,10 @@
 		        WHEN M.SEND_MEM_NO = #{memNo} THEN UM2.MEM_NAME 
 		        ELSE UM1.MEM_NAME 
 		    END AS MEM_NAME,
+		    CASE 
+		        WHEN M.SEND_MEM_NO = #{memNo} THEN UM2.MEM_NO
+		        ELSE UM1.MEM_NO 
+		    END AS RECV_MEM_NO,
 		    TO_CHAR(M.SEND_TIME, 'YYYY.MM.DD HH24:MI') AS SEND_TIME,
 		    M.CONTENT,
 		    M.READ_CHK

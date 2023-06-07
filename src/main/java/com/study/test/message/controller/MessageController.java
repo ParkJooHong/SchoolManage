@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.study.test.admin.vo.AdminMenuVO;
 import com.study.test.admin.vo.AdminSubMenuVO;
 import com.study.test.member.vo.MemberMenuVO;
+import com.study.test.member.vo.MemberSubMenuVO;
 import com.study.test.member.vo.MemberVO;
 import com.study.test.message.service.MessageService;
 import com.study.test.message.vo.MessageVO;
@@ -57,7 +58,7 @@ public class MessageController {
 	
 	//메세지 목록
 	@RequestMapping("/messageList")
-	public String message_list(Model model, AdminMenuVO adminMenuVO, AdminSubMenuVO adminSubMenuVO, ProfessorMenuVO professorMenuVO, MemberMenuVO memberMenuVO, Authentication authentication) {
+	public String message_list(Model model, AdminMenuVO adminMenuVO, AdminSubMenuVO adminSubMenuVO, ProfessorMenuVO professorMenuVO, MemberMenuVO memberMenuVO, MemberSubMenuVO memberSubMenuVO, Authentication authentication) {
 
 		//role에 따른 메뉴코드,layout 설정
 		User userInfo = (User)authentication.getPrincipal();
@@ -68,16 +69,28 @@ public class MessageController {
 		
 		//1.메뉴코드,레이아웃 설정
 		if(authorityStrings.contains("ROLE_ADMIN")) {
-			adminMenuVO.setMenuCode(getMenuCode(authentication));
-			adminSubMenuVO.setMenuCode(getMenuCode(authentication));
+			adminMenuVO.setMenuCode(ConstVariable.SEVEN_MENU_CODE);
+			adminSubMenuVO.setMenuCode(ConstVariable.SEVEN_MENU_CODE);
+			professorMenuVO.setMenuCode(ConstVariable.NINE_PROFESSOR_MENU_CODE);
+			memberMenuVO.setMenuCode(ConstVariable.SEVEN_STU_MENU_CODE);
+			memberSubMenuVO.setMenuCode(ConstVariable.SEVEN_STU_MENU_CODE);
 			model.addAttribute("mem_role", getLayout(authentication));
 		}
 		else if(authorityStrings.contains("ROLE_PRO")) {
-			professorMenuVO.setMenuCode(getMenuCode(authentication));
+			adminMenuVO.setMenuCode(ConstVariable.SEVEN_MENU_CODE);
+			adminSubMenuVO.setMenuCode(ConstVariable.SEVEN_MENU_CODE);
+			professorMenuVO.setMenuCode(ConstVariable.NINE_PROFESSOR_MENU_CODE);
+			memberMenuVO.setMenuCode(ConstVariable.SEVEN_STU_MENU_CODE);
+			memberSubMenuVO.setMenuCode(ConstVariable.SEVEN_STU_MENU_CODE);
 			model.addAttribute("mem_role", getLayout(authentication));
 		}
 		else {
 			memberMenuVO.setMenuCode(getMenuCode(authentication));
+			adminMenuVO.setMenuCode(ConstVariable.SEVEN_MENU_CODE);
+			adminSubMenuVO.setMenuCode(ConstVariable.SEVEN_MENU_CODE);
+			professorMenuVO.setMenuCode(ConstVariable.NINE_PROFESSOR_MENU_CODE);
+			memberMenuVO.setMenuCode(ConstVariable.SEVEN_STU_MENU_CODE);
+			memberSubMenuVO.setMenuCode(ConstVariable.SEVEN_STU_MENU_CODE);
 			model.addAttribute("mem_role", getLayout(authentication));
 		}
 		
