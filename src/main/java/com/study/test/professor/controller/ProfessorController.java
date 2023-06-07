@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.study.test.admin.service.AdminService;
 import com.study.test.admin.vo.AdminSubMenuVO;
 import com.study.test.admin.vo.EmpVO;
+import com.study.test.board.vo.UniBoardVO;
 import com.study.test.member.service.MemberService;
 import com.study.test.member.vo.MemImgVO;
 
@@ -371,6 +372,13 @@ public class ProfessorController {
 		//학생 성적 수정 쿼리
 		professorService.updateStuGrade(stuGradeVO);
 		
+	}
+	
+	//게시판 페이지
+	@GetMapping("/board")
+	public String board(AdminSubMenuVO adminSubMenuVO, Model model, UniBoardVO uniBoardVO) {
+		adminSubMenuVO.setMenuCode(ConstVariable.FOURTH_MENU_CODE);
+		return "redirect:/board/board";
 	}
 	
 	
