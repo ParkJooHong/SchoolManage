@@ -51,29 +51,21 @@
 		<td>학번</td>
 		<td>[[${member.memNo}]]</td>
 		<td>학년</td>
-		<td></td>
+		<td>[[${member.stuVO.stuYear}]]</td>
 	</tr>
 	<tr>
 		<td>전공대학</td>
 		<td>[[${member.colleageVO.collName}]]</td>
 		<td>전공학과</td>
 		<td>[[${member.deptVO.deptName}]]</td>
-		<td>복수전공</td>
-		<td><input type="text" th:value="${info['deptManageVO']}"></td>
-	</tr>
-	<tr>
-		<td>성별</td>
-		<td></td>
-		<td>생년월일</td>
-		<td>[[${member.stuVO.stuYear}].deptVO.deptName]</td>
 		<td>학적상태</td>
 		<td>
 			<input type="hidden" class="stuStatus" th:value="${info['memberVO'].stuVO.stuStatus}">
 			[[${member.stuVO.stuStatus}]]
 		</td>
 	</tr>
-</table>
 
+</table>
 
 <table border="1" class="detail_info">
 	<tr>
