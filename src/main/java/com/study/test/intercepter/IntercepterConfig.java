@@ -21,6 +21,7 @@ public class IntercepterConfig implements WebMvcConfigurer {
 				.excludePathPatterns("/admin/**")
 				.excludePathPatterns("/professor/**")
 				.excludePathPatterns("/member/**Ajax")
+				.excludePathPatterns("/stuMenu/**Ajax")
 				.excludePathPatterns("/stu/**Ajax")
 				.excludePathPatterns("/board/**Ajax")
 				.excludePathPatterns("/stuMenu/updateMynfo")

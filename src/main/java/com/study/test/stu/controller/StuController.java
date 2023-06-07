@@ -224,7 +224,7 @@ public class StuController {
 
 	// 캘린더
 	@GetMapping("/calender")
-	private String calender() {
+	private String calender(MemberSubMenuVO memberSubMenuVO) {
 
 		return "/content/stu/stu_calender/departmentSchedule";
 	}
@@ -582,7 +582,7 @@ public class StuController {
 	// 복수전공신청
 	@GetMapping("/doubleMajorManage")
 	private String doubleMajorManage(Authentication authentication, StuVO stuVO, MemberVO memberVO, Model model,
-			String collNo, String stuNo, String menuCode, String subMenuCode) {
+			String collNo, String stuNo, MemberSubMenuVO memberSubMenuVO) {
 		User user = (User) authentication.getPrincipal();
 		String memName = user.getUsername();
 		stuVO.setMemNo(user.getUsername()); // id임
@@ -603,8 +603,8 @@ public class StuController {
 
 		model.addAttribute("deptManageVO", stuService.getDeptManager(stuNo));
 
-		model.addAttribute("menuCode", menuCode);
-		model.addAttribute("subMenuCode", subMenuCode);
+		//model.addAttribute("menuCode", menuCode);
+		//model.addAttribute("subMenuCode", subMenuCode);
 		
 		System.out.println(" 복수 전공 신청 조회 : " + stuService.getStatusDoubleInfo(memberVO.getMemNo()));
 		model.addAttribute("deptManageVO" , stuService.getStatusDoubleInfo(memberVO.getMemNo()));
@@ -659,7 +659,7 @@ public class StuController {
 
 	// 학적신청현황조회
 	@GetMapping("/academicManage")
-	private String academicManage(Authentication authentication, String stuNo, DeptManageVO deptManageVO,
+	private String academicManage(Authentication authentication, String stuNo, DeptManageVO deptManageVO, MemberSubMenuVO memberSubMenuVO,
 			MemberVO memberVO, Model model, StuVO stuVO, String memNo, String nowStatus, StatusInfoVO statusInfoVO) {
 		User user = (User) authentication.getPrincipal();
 		String memName = user.getUsername();
@@ -863,7 +863,7 @@ public class StuController {
 	// 수강신청
 	@RequestMapping("/application")
 	private String application(String menuCode, String subMenuCode, Model model, StuVO stuVO, String orderBy,
-			MemberVO memberVO, Authentication authentication, String collNo, LectureVO lectureVO) {
+			MemberVO memberVO, Authentication authentication, String collNo, LectureVO lectureVO, MemberSubMenuVO memberSubMenuVO) {
 
 		System.out.println(orderBy);
 
@@ -1016,9 +1016,9 @@ public class StuController {
 		return data;
 	}
 
-	// 수업평가
+	// 시간표 조회
 	@GetMapping("/evaluation")
-	private String evaluation(Authentication authentication, StuVO stuVO, MemberVO memberVO, Model model) {
+	private String evaluation(Authentication authentication, StuVO stuVO, MemberVO memberVO, Model model, MemberSubMenuVO memberSubMenuVO) {
 		User user = (User) authentication.getPrincipal();
 		String memName = user.getUsername();
 		stuVO.setMemNo(user.getUsername()); // id임
@@ -1476,17 +1476,14 @@ public class StuController {
 	}
 
 	@GetMapping("/chat")
-	private String chat(Authentication authentication, StuVO stuVO, MemberVO memberVO, Model model, String menuCode,
-			String subMenuCode) {
+	private String chat(Authentication authentication, StuVO stuVO, MemberVO memberVO, Model model, MemberSubMenuVO memberSubMenuVO) {
 
 		User user = (User) authentication.getPrincipal();
 		String memName = user.getUsername();
 		stuVO.setMemNo(user.getUsername()); // id임
 		memberVO.setMemNo(user.getUsername());
 		model.addAttribute("memberVO", stuService.seletStu(memberVO));
-
-		model.addAttribute("subMenuCode", subMenuCode);
-		model.addAttribute("menuCode", menuCode);
+	
 
 		return "/content/stu/stu_chat/totalChat";
 	}

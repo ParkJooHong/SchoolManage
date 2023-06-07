@@ -42,12 +42,12 @@
 </th:block>
 </div>
 <br>
-<input type="hidden" th:value="${menuCode}" class="menuCode">
-<input type="hidden" th:value="${subMenuCode}" class="subMenuCode">
+<input type="hidden" th:value="${memberSubMenuVO.menuCode}" class="menuCode">
+<input type="hidden" th:value="${memberSubMenuVO.subMenuCode}" class="subMenuCode">
 <h8>🌐 학기별 성적 조회</h8>
 <div class="row">
 	<div class="col-2">
-		<select class="form-select" id="semNo" th:onchange="getChange([[${menuCode}]], [[${subMenuCode}]]);">
+		<select class="form-select" id="semNo" th:onchange="getChange([[${memberSubMenuVO.menuCode}]], [[${memberSubMenuVO.subMenuCode}]]);">
 				<option value="">전체</option>
 			 <th:block th:each="semName : ${semester}">
 			 	<option th:value="${semName.semNo}">[[${semName.semName}]]</option>
@@ -55,8 +55,8 @@
 		</select>
 		<form th:action="@{/stuMenu/stuClass}" method="post" id="grade_search_form">
 			<input type="hidden" name="semNo" th:value="${lectureVO.semNo}">
-			<input type="hidden" name="menuCode" th:value="${menuCode}">
-			<input type="hidden" name="subMenuCode" th:value="${subMenuCode}">
+			<input type="hidden" name="menuCode" th:value="${memberSubMenuVO.menuCode}">
+			<input type="hidden" name="subMenuCode" th:value="${memberSubMenuVO.subMenuCode}">
 		</form>
 	</div>
 </div>
