@@ -52,9 +52,15 @@ public class BoardController {
 
 	@Resource(name = "boardReplyService")
 	private BoardReplyService boardReplyService;
+	
+	
+	
+	
+	
+	
+	
 //////////////////////////////////////////////////////////
-	
-	
+
 	// 학사 공지사항
 	@RequestMapping("/notice")
 	private String board(Authentication authentication, Model model, UniBoardVO uniBoardVO) {
