@@ -70,7 +70,7 @@ public class MessageController {
 	
 	
 	//메세지 목록
-	@RequestMapping("/messageList")
+	@GetMapping("/messageList")
 	public String message_list(Model model, AdminMenuVO adminMenuVO, AdminSubMenuVO adminSubMenuVO, ProfessorMenuVO professorMenuVO, MemberMenuVO memberMenuVO, MemberSubMenuVO memberSubMenuVO, Authentication authentication) {
 
 		//role에 따른 메뉴코드,layout 설정
@@ -80,28 +80,19 @@ public class MessageController {
 			    .map(GrantedAuthority::getAuthority)
 			    .collect(Collectors.toList());
 		
+		System.out.println("@@@@@@@@@@@@@@@@@@@@" + authorityStrings);
+		
 		//1.메뉴코드,레이아웃 설정
 		if(authorityStrings.contains("ROLE_ADMIN")) {
 			adminMenuVO.setMenuCode(ConstVariable.SEVEN_MENU_CODE);
 			adminSubMenuVO.setMenuCode(ConstVariable.SEVEN_MENU_CODE);
-			professorMenuVO.setMenuCode(ConstVariable.NINE_PROFESSOR_MENU_CODE);
-			memberMenuVO.setMenuCode(ConstVariable.SEVEN_STU_MENU_CODE);
-			memberSubMenuVO.setMenuCode(ConstVariable.SEVEN_STU_MENU_CODE);
 			model.addAttribute("mem_role", getLayout(authentication));
 		}
 		else if(authorityStrings.contains("ROLE_PRO")) {
-			adminMenuVO.setMenuCode(ConstVariable.SEVEN_MENU_CODE);
-			adminSubMenuVO.setMenuCode(ConstVariable.SEVEN_MENU_CODE);
 			professorMenuVO.setMenuCode(ConstVariable.NINE_PROFESSOR_MENU_CODE);
-			memberMenuVO.setMenuCode(ConstVariable.SEVEN_STU_MENU_CODE);
-			memberSubMenuVO.setMenuCode(ConstVariable.SEVEN_STU_MENU_CODE);
 			model.addAttribute("mem_role", getLayout(authentication));
 		}
 		else {
-			memberMenuVO.setMenuCode(getMenuCode(authentication));
-			adminMenuVO.setMenuCode(ConstVariable.SEVEN_MENU_CODE);
-			adminSubMenuVO.setMenuCode(ConstVariable.SEVEN_MENU_CODE);
-			professorMenuVO.setMenuCode(ConstVariable.NINE_PROFESSOR_MENU_CODE);
 			memberMenuVO.setMenuCode(ConstVariable.SEVEN_STU_MENU_CODE);
 			memberSubMenuVO.setMenuCode(ConstVariable.SEVEN_STU_MENU_CODE);
 			model.addAttribute("mem_role", getLayout(authentication));
@@ -109,6 +100,8 @@ public class MessageController {
 		
 		//메세지 리스트 조회
 		List<Map<String, Object>> msgList = messageService.getMsgList(userInfo.getUsername());
+		
+		System.out.println("@@@@@@@@@@@@@@@@@@@@@@msglist" + msgList);
 
 		model.addAttribute("msgList", msgList);
 

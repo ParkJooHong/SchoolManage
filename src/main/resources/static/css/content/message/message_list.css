@@ -57,6 +57,7 @@
 }
 
 .convers_list{
+	height:71vh;
 	max-height: 71vh; /* 원하는 높이로 설정 */
 	overflow-y: auto;
 }
@@ -94,6 +95,7 @@
 }
 
 .convers_content{
+	height:71vh;
 	max-height: 71vh;
 	display: flex;
 	flex-direction: column;
