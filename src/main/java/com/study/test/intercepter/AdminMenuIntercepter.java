@@ -19,13 +19,13 @@ public class AdminMenuIntercepter implements HandlerInterceptor{
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
-		
+		System.out.println("@@@@@@@ AdminMenuIntercepter 실행~");
 		Map<String, Object> data = modelAndView.getModel();
 		if (data != null) {			
 			AdminSubMenuVO subMenu = (AdminSubMenuVO) data.get("adminSubMenuVO");
 			if (subMenu != null) {
-				modelAndView.addObject("menuList", adminService.getAdminMenuList());
-				modelAndView.addObject("subMenuList", adminService.getAdminSubMenuList(subMenu.getMenuCode()));
+				modelAndView.addObject("adminMenuList", adminService.getAdminMenuList());
+				modelAndView.addObject("adminSubMenuList", adminService.getAdminSubMenuList(subMenu.getMenuCode()));
 			}
 		}
 		

@@ -40,12 +40,14 @@
 				</div>
 			</div>
 			<div class="row justify-content-start mb-5">
-				<div class="col-1 d-grid">
-					<input type="button" value="수정" class="btn btn-success">
-				</div>
-				<div class="col-1 d-grid">
-					<input type="button" value="삭제" class="btn btn-danger">
-				</div>
+				<th:block th:if="${#authentication.name == boardMap['boardDetail'].boardWriter || #authorization.expression('hasRole(''ROLE_ADMIN'')')}">
+					<div class="col-1 d-grid">
+						<input type="button" value="수정" th:onclick="setBoardDetail([[${boardMap['boardDetail'].boardNo}]]);" class="btn btn-success">
+					</div>
+					<div class="col-1 d-grid">
+						<input type="button" value="삭제" th:onclick="delBoardDetail([[${boardMap['boardDetail'].boardNo}]]);" class="btn btn-danger">
+					</div>
+				</th:block>
 			</div>
 			<div class="row mb-5">
 				<div class="col">※ 총 [[${#lists.size(boardMap['replyList'])}]] 개의 댓글이 있습니다.</div>
@@ -83,7 +85,7 @@
 
 <!-- 연결해야 할 외부 js 파일 -->
 <th:block layout:fragment="content_js">
-	<script type="text/javascript" src=""></script>
+	<script type="text/javascript" src="/js/content/board/board_detail.js"></script>
 </th:block>	
 
 </html>

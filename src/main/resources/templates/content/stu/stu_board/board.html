@@ -15,6 +15,8 @@
 					<h3>전체 게시판</h3>
 				</div>
 			</div>
+			<form action="/board/board" method="post" id="searchForm">
+			<input type="hidden" name="nowPage" id="nowPage" th:value="${uniBoardVO.nowPage}">
 			<div class="row mb-3 justify-content-center">
 				<div class="col-10">
 					<table class="table">
@@ -25,25 +27,25 @@
 							<col width="20%">
 						</colgroup>
 						<tr>
-							<td><select class="form-select" id="searchSelect">
-									<option value="">전체</option>
-									<option value="boardWriter">작성자</option>
-									<option value="boardTitle">제목</option>
+							<td><select class="form-select" id="searchKeyword" name="searchKeyword">
+									<option th:selected="${uniBoardVO.searchKeyword == ''}"  value="">전체</option>
+									<option th:selected="${uniBoardVO.searchKeyword == 'BOARD_WRITER'}" value="BOARD_WRITER">작성자</option>
+									<option th:selected="${uniBoardVO.searchKeyword == 'BOARD_TITLE'}" value="BOARD_TITLE">제목</option>
 							</select></td>
 							<td colspan="2"><input type="text" id="searchValue"
-								class="form-control"></td>
+								name="searchValue" class="form-control" th:value="${uniBoardVO.searchValue}"></td>
 							<td class="d-grid"><input type="button" value="검색"
 								onclick="searchByStatusInBoard();" class="btn btn-primary">
 							</td>
 						</tr>
 						<tr>
-							<td><input type="date" id="monthDate" class="form-control"
-								value=""></td>
-							<td><input type="date" id="toDate" class="form-control"
-								value=""></td>
+							<td><input type="date" id="monthDate" name="fromDate" class="form-control"
+								th:value="${uniBoardVO.fromDate}"></td>
+							<td><input type="date" id="toDate" name="toDate" class="form-control"
+								th:value="${uniBoardVO.toDate}"></td>
 							<td></td>
 							<td class="d-grid"><input type="button" value="글쓰기"
-								class="btn btn-primary"></td>
+								class="btn btn-primary" onclick="moveRegForm();"></td>
 						</tr>
 					</table>
 				</div>
@@ -107,16 +109,16 @@
 							<div class="col-3">
 								<nav aria-label="Page navigation example">
 								  <ul class="pagination">
-								    <li class="page-item">
-								      <a class="page-link" href="javascript:void(0);" th:classappend="${uniBoardVO.prev ? '' : 'disabled'}" aria-label="Previous">
+								    <li class="page-item" th:classappend="${uniBoardVO.prev ? '' : 'disabled'}">
+								      <a class="page-link" href="javascript:void(0);" th:onclick="getOrderListPaging([[${uniBoardVO.beginPage-1}]])"  aria-label="Previous">
 								        <span aria-hidden="true">&laquo;</span>
 								      </a>
 								    </li>
-								    	<li class="page-item" th:classappend="${uniBoardVO.getNowPage == pageNum ? 'active' : ''}" th:each="pageNum : ${#numbers.sequence(uniBoardVO.getBeginPage,uniBoardVO.getEndPage)}">
-								    		<a class="page-link" >[[${pageNum}]]</a>
+								    	<li class="page-item" th:classappend="${uniBoardVO.getNowPage == pageNum ? 'active' : ''}" th:each="pageNum : ${#numbers.sequence(uniBoardVO.beginPage,uniBoardVO.endPage)}">
+								    		<a class="page-link" th:onclick="getOrderListPaging([[${pageNum}]])">[[${pageNum}]]</a>
 								    	</li>
-								    <li class="page-item" >
-								      <a class="page-link" href="javascript:void(0);" th:classappend="${uniBoardVO.next ? '' : 'disabled'}" aria-label="Next">
+								    <li class="page-item" th:classappend="${uniBoardVO.next ? '' : 'disabled'}">
+								      <a class="page-link" href="javascript:void(0);" th:onclick="getOrderListPaging([[${uniBoardVO.endPage+1}]])"  aria-label="Next">
 								        <span aria-hidden="true">&raquo;</span>
 								      </a>
 								    </li>
@@ -127,6 +129,7 @@
 					</div>
 				</div>
 			</div>
+			</form>
 		</div>
 	</div>
 	<!-- 비밀번호 입력 모달  -->

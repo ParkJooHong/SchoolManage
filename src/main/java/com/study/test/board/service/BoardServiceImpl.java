@@ -115,11 +115,39 @@ public class BoardServiceImpl implements BoardService {
 	public List<BoardReplyVO> getBoardReplyList(String boardNo) {
 		return sqlSession.selectList("boardMapper.getBoardReplyList", boardNo);
 	}
-
+	//게시글 카운트(페이징)
 	@Override
 	public int cntBoardList(UniBoardVO uniBoardVO) {
 		return sqlSession.selectOne("boardMapper.cntBoardList",uniBoardVO);
 	}
+	
+	//게시글 등록
+	@Override
+	public void insertByBoard(UniBoardVO uniBoardVO) {
+		sqlSession.insert("boardMapper.insertByBoard", uniBoardVO);
+		
+	}
+	//조회수 업데이트
+	@Override
+	public void setReadCnt(String boardNo) {
+		sqlSession.update("boardMapper.setReadCnt",boardNo);
+		
+	}
+
+	//게시글 업데이트
+	@Override
+	public void setBoardDetail(UniBoardVO uniBoardVO) {
+		sqlSession.update("boardMapper.setBoardDetail",uniBoardVO);
+		
+	}
+	//게시글 삭제
+	@Override
+	public void delBoard(String boardNo) {
+		sqlSession.delete("boardMapper.delBoard",boardNo);
+		
+	}
+	
+	
 
 	
 	

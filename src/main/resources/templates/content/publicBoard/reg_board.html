@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{fragment/__${memLayOut}___layout}"
+   >
+
+<!-- 연결해야 할 외부 css 파일  -->
+<th:block layout:fragment="content_css">
+	<link rel="stylesheet" href="">
+</th:block>	
+
+<th:block layout:fragment="content">
+	<form action="/board/insertByBoard" id="regBoardForm" method="post">
+		<div class="row">
+			<div class="col-10">
+				<div class="row mt-3 mb-5">
+					<div class="col">
+						<h3>게시글 등록</h3>
+					</div>
+				</div>
+				<div class="row mb-4">
+					<div class="col-2">
+						글 제목 : 
+					</div>
+					<div class="col-9">
+						<input type="text" class="form-control" id="boardTitle" name="boardTitle">
+					</div>
+				</div>
+				<div class="row mb-4">
+					<div class="col-2">
+						카테고리 :
+					</div>
+					<div class="col-9">
+						<select class="form-select" name="cateNo">
+							<th:block th:each="cate:${cateList}">
+								<option th:value="${cate.cateNo}">[[${cate.cateName}]]</option>
+							</th:block>
+						</select>
+					</div>
+				</div>
+				<div class="row mb-4">
+					<div class="col-2">
+						내용 : 
+					</div>
+					<div class="col-9">
+						<textarea rows="10" cols="50" style="resize: none;" id="boardContent" class="form-control" name="boardContent"></textarea>
+					</div>
+				</div>
+				<div class="row mb-4">
+					<div class="col-2">비밀글 여부:</div>
+					<div class="col-1">
+						<input type="radio" value="Y" class="form-check-input" onchange="radioCtrl(this);" name="isPrivate">&nbsp;Y	
+					</div>
+					<div class="col-1">
+						<input type="radio" value="N" class="form-check-input" checked onchange="radioCtrl(this);" name="isPrivate">&nbsp;N
+					</div>
+					<div class="col-7" id="boardPw">
+						
+					</div>
+				</div>
+				<div class="row mb-4">
+					<div class="col-2">공지사항 여부</div>
+					<div class="col-1">
+						<input type="radio" value="Y" name="isNotice" th:onchange="changeNotice([[${#authentication.authorities}]],this);" class="form-check-input">&nbsp;Y
+					</div>
+					<div class="col-1">
+						<input type="radio" value="N" checked name="isNotice" class="form-check-input">&nbsp;N
+					</div>
+				</div>
+				<div class="row">
+					<div class="col4">
+						<input type="button" value="글등록" onclick="regBoard();" class="btn btn-primary">
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</th:block>
+
+<!-- 연결해야 할 외부 js 파일 -->
+<th:block layout:fragment="content_js">
+	<script type="text/javascript" src="/js/content/board/reg_board.js"></script>
+</th:block>	
+
+</html>
