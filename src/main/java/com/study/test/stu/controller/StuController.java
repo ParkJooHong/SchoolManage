@@ -1182,8 +1182,10 @@ public class StuController {
 	// 전체 게시판
 	@RequestMapping("/totalBoard")
 	private String totalBoard(Authentication authentication, Model model, MemberVO memberVO, StuVO stuVO, String toDate,
-			String fromDate, UniBoardVO uniBoardVO, BoardCategoryVO boardCategoryVO, String cateNo, String menuCode,
-			String subMenuCode) {
+			String fromDate, UniBoardVO uniBoardVO, BoardCategoryVO boardCategoryVO, String cateNo, MemberSubMenuVO memberSubMenuVO) {
+		
+		
+		
 		User user = (User) authentication.getPrincipal();
 		String memName = user.getUsername();
 		// System.out.println(memName);
@@ -1258,17 +1260,14 @@ public class StuController {
 		System.out.println("보드 카테고리 정보 : " + boardService.getBoardCategoryList());
 		model.addAttribute("uniBoardList", boardService.getTotalBoardList(uniBoardVO));
 
-		// 게시판 상세보기할때 던질 메뉴코드, 서브메뉴코드 데이터
-		model.addAttribute("menuCode", menuCode);
-		model.addAttribute("subMenuCode", subMenuCode);
-
 		return "/content/stu/stu_board/totalBoard";
 	}
 
-	// 학과 게시판
+	// 학사 공지사항 게시판
 	@GetMapping("/deptBoard")
-	private String deptBoard(Authentication authentication, StuVO stuVO, MemberVO memberVO, Model model,
-			String menuCode, String subMenuCode, UniBoardVO uniBoardVO) {
+	private String deptBoard(Authentication authentication, StuVO stuVO, MemberVO memberVO, Model model, UniBoardVO uniBoardVO, MemberSubMenuVO memberSubMenuVO) {
+		memberSubMenuVO.setMenuCode(ConstVariable.FOURTH_STU_MENU_CODE);
+		
 		User user = (User) authentication.getPrincipal();
 		String memName = user.getUsername();
 		// System.out.println(memName);
@@ -1281,9 +1280,6 @@ public class StuController {
 
 		model.addAttribute("uniBoardList", boardService.getTotalDeptBoardList(uniBoardVO));
 
-		// 게시판 상세보기할때 던질 메뉴코드, 서브메뉴코드 데이터
-		model.addAttribute("menuCode", menuCode);
-		model.addAttribute("subMenuCode", subMenuCode);
 
 		return "/content/stu/stu_board/deptBoard";
 	}
@@ -1352,13 +1348,11 @@ public class StuController {
 	// 게시글 상세보기
 	@GetMapping("/boardDetail")
 	private String boardDetail(Authentication authentication, String cateNo, String boardNo, Model model,
-			UniBoardVO uniBoardVO, BoardReplyVO boardReplyVO, MemberVO memberVO, StuVO stuVO, String menuCode,
-			String subMenuCode, MemberMenuVO memberMenuVO, MemberSubMenuVO memberSubMenuVO, int readCnt) {
+			UniBoardVO uniBoardVO, BoardReplyVO boardReplyVO, MemberVO memberVO, StuVO stuVO,MemberMenuVO memberMenuVO, MemberSubMenuVO memberSubMenuVO, int readCnt) {
 
-		model.addAttribute("menuCode", menuCode);
-		model.addAttribute("subMenuCode", subMenuCode);
-		System.out.println(" @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" + menuCode);
-		System.out.println(" @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" + subMenuCode);
+		memberSubMenuVO.setMenuCode(ConstVariable.FOURTH_STU_MENU_CODE);
+
+
 
 		User user = (User) authentication.getPrincipal();
 		String memName = user.getUsername();

@@ -33,6 +33,7 @@
 			, MENU_CODE
 		FROM STU_SUB_MENU
 		WHERE MENU_CODE = #{menuCode}
+		ORDER BY SUB_MENU_CODE ASC
 	</select>
 
 	
