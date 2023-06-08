@@ -34,35 +34,46 @@
 </div>
 <br>
 
-<div class="container center-block" style="width: 500px">
-		<h2 style="text-align:center">To Do List</h2>
-		<form>
-			<div class="form-row" style="width: 500px">
-				<div class="col">
-					<input type="text" autocomplete="off" style="width: 400px" class="form-control" placeholder="일정을 추가하세요" id="todo">
-				</div>
-				<div>
-					<button id="btn-todo" class="btn btn-primary active">일정 추가</button>
-				</div>
-			</div>
-			<c:forEach var="todo"  items="${todolist.content}">
-				<br>
-				<div class="card" style="width: 500px">
-					<div class="card-body">
-						<p>${todo.createDate.getMonth()+1 }월 ${todo.createDate.getDate() }일</p>
-						<div class = "form-row">
-						<div class="col">
-						<h4 class="card-title">${todo.todo}</h4>
-						</div>
-						<div class="col">
-						<button onClick="index.deleteById(${todo.id})" id ="btn-delete" class="btn btn-success float-right active" >일정 완료</button>
-						</div>
-						</div>
-					</div>
-				</div>
-			</c:forEach>
-		</form>
-	</div>
+<input type="hidden" th:value="${memberVO.memNo}" class="memNo">
+<div >
+
+ <div id='external-events' style="float:left; width: 15%; padding-right: 30px; padding-left: 20px;">
+    <p>
+      <strong>드래그해서 일정을 추가하세요.</strong>
+    </p>
+
+    <div class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event'>
+      <div class='fc-event-main'>My Event 1</div>
+    </div>
+    <div class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event'>
+      <div class='fc-event-main'>My Event 2</div>
+    </div>
+    <div class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event'>
+      <div class='fc-event-main'>My Event 3</div>
+    </div>
+    <div class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event'>
+      <div class='fc-event-main'>My Event 4</div>
+    </div>
+    <div class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event'>
+      <div class='fc-event-main'>My Event 5</div>
+    </div>
+
+    <p>
+      <input type='checkbox' id='drop-remove' />
+      <label for='drop-remove'>remove after drop</label>
+    </p>
+  </div>
+	
+	 <div style="float:left; width: 80%;">
+	 	<div style="height: 30px; text-align: center">일정 관리</div>
+	 	<div>
+	 		<input type="button" value="저장" onclick="allSave();">
+	 	</div>
+	 	<div id='calendar'></div>
+	 </div>
+	 
+	
+</div>
 
 
 </th:block>
@@ -74,7 +85,9 @@
 
 
 <th:block layout:fragment="content_js">
+ <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js'></script>
 <script type="text/javascript" src="/js/content/stu/stu_calender/mySchedule.js"></script>
+<script type="text/javascript" src="/js/ko.js"></script> 
 </th:block>
 
 </html>

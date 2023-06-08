@@ -50,6 +50,7 @@ import com.study.test.school.enrollment.EnrollmentVO;
 import com.study.test.school.semester.SemesterVO;
 import com.study.test.school.service.SchoolService;
 import com.study.test.school.stu_grade.StuGradeVO;
+import com.study.test.stu.service.ScheduleService;
 import com.study.test.stu.service.StuService;
 import com.study.test.stu.vo.LeaveManageVO;
 import com.study.test.stu.vo.StatusInfoVO;
@@ -78,6 +79,9 @@ public class StuController {
 
 	@Resource(name = "boardReplyService")
 	private BoardReplyService boardReplyService;
+	
+	@Resource(name = "scheduleService")
+	private ScheduleService scheduleService;
 	
 	   
 	
@@ -1489,8 +1493,15 @@ public class StuController {
 
 	// 내 할일
 	@GetMapping("/mySchedule")
-	private String mySchedule(MemberSubMenuVO memberSubMenuVO) {
+	private String mySchedule(Authentication authentication ,StuVO stuVO, Model model, MemberVO memberVO ,MemberSubMenuVO memberSubMenuVO) {
+		User user = (User) authentication.getPrincipal();
+		String memName = user.getUsername();
+		// System.out.println(memName);
+		stuVO.setMemNo(user.getUsername()); // id임
+		memberVO.setMemNo(user.getUsername());
+		model.addAttribute("memberVO", stuService.seletStu(memberVO));
 		
+		scheduleService.selectMySchedule(memberVO.getMemNo());
 		
 
 		return "/content/stu/stu_calender/mySchedule";
