@@ -26,11 +26,14 @@ import com.study.test.board.vo.UniBoardVO;
 import com.study.test.member.service.MemberService;
 import com.study.test.member.vo.MemberMenuVO;
 import com.study.test.member.vo.MemberSubMenuVO;
+import com.study.test.member.vo.MemberVO;
 import com.study.test.professor.vo.ProfessorMenuVO;
 import com.study.test.professor.vo.ProfessorSubMenuVO;
 import com.study.test.school.service.SchoolService;
 import com.study.test.stu.service.StuService;
+import com.study.test.stu.vo.StuVO;
 import com.study.test.util.ConstVariable;
+import com.study.test.util.DateUtil;
 
 import jakarta.annotation.Resource;
 
@@ -53,8 +56,172 @@ public class BoardController {
 	@Resource(name = "boardReplyService")
 	private BoardReplyService boardReplyService;
 	
+	//전체 게시판
+	@RequestMapping("/board")
+	private String totalBoard(Authentication authentication, Model model, MemberVO memberVO, StuVO stuVO, String toDate,
+			String fromDate, UniBoardVO uniBoardVO, BoardCategoryVO boardCategoryVO, String cateNo, MemberSubMenuVO memberSubMenuVO) {
+
+		String memLayout = getCode(authentication, model);
+		
+		User user = (User) authentication.getPrincipal();
+		String memName = user.getUsername();
+		// System.out.println(memName);
+		stuVO.setMemNo(user.getUsername()); // id임
+		memberVO.setMemNo(user.getUsername());
+		model.addAttribute("memberVO", stuService.seletStu(memberVO));
+		System.out.println("학생정보 : " + stuService.seletStu(memberVO));
+
+		// 오늘 날짜
+		String nowDate = DateUtil.getNowDateToString();
+
+		// 이번달의 첫날
+		String firstDate = DateUtil.getFirstDateOfMonth();
+
+		if (uniBoardVO.getOrderBy() == null) {
+			uniBoardVO.setOrderBy("REG_BOARD_DATE");
+		}
+		if (uniBoardVO.getSearchKeyword() == null) {
+			uniBoardVO.setSearchKeyword("BOARD_WRITER");
+		}
+		if (uniBoardVO.getSearchValue() == null) {
+			uniBoardVO.setSearchValue("");
+		}
+
+		if (uniBoardVO.getMonth() == 0) {
+			uniBoardVO.setMonth(0);
+		}
+		
+		System.out.println(uniBoardVO.getOrderBy());
+		
+		// Month랑 toDate, FromDate 함꼐 실행 불가
+		if(uniBoardVO.getMonth() == 0) {
+			uniBoardVO.setFromDate(null);
+			uniBoardVO.setToDate(null);
+		} else if(uniBoardVO.getMonth() == -1) {
+			uniBoardVO.setFromDate(null);
+			uniBoardVO.setToDate(null);
+		}else if(uniBoardVO.getMonth() == -3) {
+			uniBoardVO.setFromDate(null);
+			uniBoardVO.setToDate(null);
+		}
+		else {
+			if (uniBoardVO.getFromDate() == null) {
+				uniBoardVO.setFromDate(firstDate);
+			}
+
+			if (uniBoardVO.getToDate() == null) {
+				uniBoardVO.setToDate(nowDate);
+			}
+		}
+		
+		if(uniBoardVO.getToDate() != null || uniBoardVO.getFromDate() != null) {
+			uniBoardVO.setMonth(0);
+		}
+		
+		System.out.println(uniBoardVO.getFromDate());
+		model.addAttribute("uniBoardFromDate", uniBoardVO.getFromDate());
+		System.out.println(uniBoardVO.getToDate());
+		model.addAttribute("uniBoardToDate", uniBoardVO.getToDate());
+
+		
+		
+		cateNo = boardCategoryVO.getCateNo();
+
+		int totalDateCnt = boardService.totalBoardPage(uniBoardVO);
+		uniBoardVO.setTotalDataCnt(totalDateCnt);
+
+		// 페이징 정보 세팅
+		uniBoardVO.setPageInfo();
+
+		System.out.println("페이징 정보 : " + uniBoardVO);
+
+		model.addAttribute("boardCategoryVO", boardService.getBoardCategoryList());
+		System.out.println("보드 카테고리 정보 : " + boardService.getBoardCategoryList());
+		model.addAttribute("uniBoardList", boardService.getTotalBoardList(uniBoardVO));
+		
+		model.addAttribute("memLayOut", memLayout);
+				
+		return "/content/publicBoard/totalBoard";
+	}
 	
-	
+	// 전체게시글 상세보기
+		@GetMapping("/boardDetail")
+		private String boardDetail(Authentication authentication, String cateNo, String boardNo, Model model,
+				UniBoardVO uniBoardVO, BoardReplyVO boardReplyVO, MemberVO memberVO, StuVO stuVO,MemberMenuVO memberMenuVO, MemberSubMenuVO memberSubMenuVO, int readCnt) {
+
+			memberSubMenuVO.setMenuCode(ConstVariable.FOURTH_STU_MENU_CODE);
+
+
+
+			User user = (User) authentication.getPrincipal();
+			String memName = user.getUsername();
+			// System.out.println(memName);
+			stuVO.setMemNo(user.getUsername()); // id임
+			memberVO.setMemNo(user.getUsername());
+			model.addAttribute("memberVO", stuService.seletStu(memberVO));
+
+			System.out.println(boardNo);
+			boardService.boardDetail(boardNo);
+
+			// 게시판 조회 수 업데이트
+			readCnt += 1;
+			uniBoardVO.setReadCnt(readCnt);
+			boardService.readCnt(uniBoardVO);
+
+			// 댓글 수 업데이트
+			System.out.println(boardReplyVO);
+			// boardReplyService.replyCnt(boardReplyVO);
+
+			// uniBoardVO = (UniBoardVO)boardService.boardDetail(boardNo);
+
+			System.out.println("보드VO" + uniBoardVO);
+			System.out.println("보드 상세 정보  : " + boardService.boardDetail(boardNo));
+			model.addAttribute("uniBoardVO", boardService.boardDetail(boardNo));
+
+			// 게시글 댓글 수
+			System.out.println(boardNo);
+			boardReplyService.replyCount(boardNo);
+			System.out.println("댓글 수 : " + boardReplyService.replyCount(boardNo));
+
+			cateNo = uniBoardVO.getCateNo();
+			// 게시판 카테고리 정보
+			model.addAttribute("boardCategoryVO", boardService.getBoardCategoryList());
+
+			// 댓글 보기
+			model.addAttribute("boardReplyVO", boardReplyService.selectReply(boardNo));
+
+			// 이전글다음글
+
+			String numberStr = boardNo.substring(6);
+			System.out.println(numberStr);
+			int prevNumber = Integer.parseInt(boardNo.substring(6)) - 1;
+			System.out.println(prevNumber);
+			int nextNumber = Integer.parseInt(boardNo.substring(6)) + 1;
+			System.out.println(nextNumber);
+
+			String prevStr = boardNo.replace(numberStr, String.format("%03d", prevNumber)); // 숫자를 3자리로 포맷팅하여 대체
+			String nextStr = boardNo.replace(numberStr, String.format("%03d", nextNumber)); // 숫자를 3자리로 포맷팅하여 대체
+
+			UniBoardVO prevDetail = boardService.boardDetail(prevStr);
+			UniBoardVO nextDetail = boardService.boardDetail(nextStr);
+
+			System.out.println("@@@@@@@@@@@@@@@이전글" + prevDetail);
+			System.out.println("@@@@@@@@@@@@다음글" + nextDetail);
+
+			if (prevDetail == null) {
+				prevDetail = new UniBoardVO();
+				prevDetail.setBoardTitle("이전글이 없습니다.");
+			}
+			if (nextDetail == null) {
+				nextDetail = new UniBoardVO();
+				nextDetail.setBoardTitle("다음글이 없습니다.");
+			}
+
+			model.addAttribute("prevList", prevDetail);
+			model.addAttribute("nextList", nextDetail);
+
+			return "/content/stu/stu_board/boardDetail";
+		}
 	
 	
 	
