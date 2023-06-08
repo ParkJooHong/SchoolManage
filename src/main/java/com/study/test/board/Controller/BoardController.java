@@ -52,23 +52,24 @@ public class BoardController {
 
 	@Resource(name = "boardReplyService")
 	private BoardReplyService boardReplyService;
+	
+	
+	
+	
+	
+	
+	
 //////////////////////////////////////////////////////////
-	
-	
-	// 게시판
-	@RequestMapping("/board")
-	private String board(Authentication authentication, Model model, UniBoardVO uniBoardVO,
-			BoardCategoryVO boardCategoryVO, String cateNo, AdminSubMenuVO adminSubMenuVO,  MemberMenuVO memberMenuVO,
-			MemberSubMenuVO memberSubMenuVO, ProfessorSubMenuVO professorSubMenuVO, AdminMenuVO adminMenuVO, ProfessorMenuVO professorMenuVO, String menuCode, String subMenuCode) {
 
+	// 학사 공지사항
+	@RequestMapping("/notice")
+	private String board(Authentication authentication, Model model, UniBoardVO uniBoardVO) {
 
 		String memLayout = "";
 		User user = (User) authentication.getPrincipal();
 		System.out.println(uniBoardVO);
 		
-		// 로그인한 회원의 권한에 따라 layout 변경 진행
-		List<String> authorityStrings = user.getAuthorities().stream().map(GrantedAuthority::getAuthority)
-				.collect(Collectors.toList());
+		memLayout = getCode(authentication, model);
 		
 		
 		int totalDataCnt = boardService.cntBoardList(uniBoardVO);
@@ -78,56 +79,22 @@ public class BoardController {
 		
 		System.out.println("@@@@@@@@@@@@@@@@"+uniBoardVO);
 
-		if (authorityStrings.contains("ROLE_ADMIN")) {
-			memLayout = "admin";
-			adminMenuVO.setMenuCode(ConstVariable.FOURTH_MENU_CODE);
-			adminSubMenuVO.setMenuCode(ConstVariable.FOURTH_MENU_CODE);
-		} else if (authorityStrings.contains("ROLE_STU")) {
-			memLayout = "info";
-			System.out.println("@#!!@#!@#!@#@@");
-			memberSubMenuVO.setMenuCode(ConstVariable.FOURTH_STU_MENU_CODE);
-			memberMenuVO.setMenuCode(ConstVariable.FOURTH_STU_MENU_CODE);
-		} else if (authorityStrings.contains("ROLE_PRO")) {
-			memLayout = "professor";
-			professorSubMenuVO.setMenuCode(ConstVariable.FIFTH_MENU_CODE);
-			professorMenuVO.setMenuCode(ConstVariable.FIFTH_MENU_CODE);
-		}
-
 		model.addAttribute("memLayOut", memLayout);
 
 		model.addAttribute("uniBoardList", boardService.searchByBoard(uniBoardVO));
 				
-		return "/content/stu/stu_board/board";
+		return "/content/publicBoard/notice";
 	}
 	
 	
-	//게시판 상세조회
-	@GetMapping("/boardDetail")
-	public String boardDetailAjax(Authentication authentication,UniBoardVO uniBoardVO, Model model,AdminMenuVO adminMenuVO, AdminSubMenuVO adminSubMenuVO
-									,MemberMenuVO memberMenuVO, MemberSubMenuVO memberSubMenuVO,ProfessorMenuVO professorMenuVO, ProfessorSubMenuVO professorSubMenuVO) {
+	//학사공지사항 상세조회
+	@GetMapping("/noticeDetail")
+	public String noticeDetailAjax(Authentication authentication,UniBoardVO uniBoardVO, Model model) {
 		String memLayout = "";
-		User user = (User) authentication.getPrincipal();
 
 		// 로그인한 회원의 권한에 따라 layout 변경 진행
-		List<String> authorityStrings = user.getAuthorities().stream().map(GrantedAuthority::getAuthority)
-				.collect(Collectors.toList());
-		
+		memLayout = getCode(authentication, model);
 
-
-		if (authorityStrings.contains("ROLE_ADMIN")) {
-			memLayout = "admin";
-			adminMenuVO.setMenuCode(ConstVariable.FOURTH_MENU_CODE);
-			adminSubMenuVO.setMenuCode(ConstVariable.FOURTH_MENU_CODE);
-		} else if (authorityStrings.contains("ROLE_STU")) {
-			memLayout = "info";
-			System.out.println("@#!!@#!@#!@#@@");
-			memberSubMenuVO.setMenuCode(ConstVariable.FOURTH_STU_MENU_CODE);
-			memberMenuVO.setMenuCode(ConstVariable.FOURTH_STU_MENU_CODE);
-		} else if (authorityStrings.contains("ROLE_PRO")) {
-			memLayout = "professor";
-			professorSubMenuVO.setMenuCode(ConstVariable.FIFTH_MENU_CODE);
-			professorMenuVO.setMenuCode(ConstVariable.FIFTH_MENU_CODE);
-		}
 		model.addAttribute("memLayOut", memLayout);
 		boardService.setReadCnt(uniBoardVO.getBoardNo());
 		//상세조회
@@ -137,48 +104,17 @@ public class BoardController {
 		boardMap.put("replyList", boardService.getBoardReplyList(uniBoardVO.getBoardNo()));
 		model.addAttribute("boardMap",boardMap);
 		
-		return "content/publicBoard/board_detail";
+		return "content/publicBoard/notice_detail";
 	}
 	
 	//게시글 등록 페이지 이동
 	@GetMapping("/regBoard")
-	public String regBoard(Model model, Authentication authentication,AdminMenuVO adminMenuVO, AdminSubMenuVO adminSubMenuVO
-			,MemberMenuVO memberMenuVO, MemberSubMenuVO memberSubMenuVO,ProfessorMenuVO professorMenuVO, ProfessorSubMenuVO professorSubMenuVO) {
+	public String regBoard(Model model, Authentication authentication) {
 		
 		String memLayout = "";
-		User user = (User) authentication.getPrincipal();
-		
-		// 로그인한 회원의 권한에 따라 layout 변경 진행
-		List<String> authorityStrings = user.getAuthorities().stream().map(GrantedAuthority::getAuthority)
-				.collect(Collectors.toList());
-		
-		if (authorityStrings.contains("ROLE_ADMIN")) {
-			memLayout = "admin";
-			adminMenuVO.setMenuCode(ConstVariable.FOURTH_MENU_CODE);
-			adminSubMenuVO.setMenuCode(ConstVariable.FOURTH_MENU_CODE);
-			memberSubMenuVO.setMenuCode(ConstVariable.FOURTH_STU_MENU_CODE);
-			memberMenuVO.setMenuCode(ConstVariable.FOURTH_STU_MENU_CODE);
-			professorSubMenuVO.setMenuCode(ConstVariable.FIFTH_MENU_CODE);
-			professorMenuVO.setMenuCode(ConstVariable.FIFTH_MENU_CODE);
-		} else if (authorityStrings.contains("ROLE_STU")) {
-			memLayout = "info";
-			System.out.println("@#!!@#!@#!@#@@");
-			adminMenuVO.setMenuCode(ConstVariable.FOURTH_MENU_CODE);
-			adminSubMenuVO.setMenuCode(ConstVariable.FOURTH_MENU_CODE);
-			memberSubMenuVO.setMenuCode(ConstVariable.FOURTH_STU_MENU_CODE);
-			memberMenuVO.setMenuCode(ConstVariable.FOURTH_STU_MENU_CODE);
-			professorSubMenuVO.setMenuCode(ConstVariable.FIFTH_MENU_CODE);
-			professorMenuVO.setMenuCode(ConstVariable.FIFTH_MENU_CODE);
-		} else if (authorityStrings.contains("ROLE_PRO")) {
-			memLayout = "professor";
-			adminMenuVO.setMenuCode(ConstVariable.FOURTH_MENU_CODE);
-			adminSubMenuVO.setMenuCode(ConstVariable.FOURTH_MENU_CODE);
-			memberSubMenuVO.setMenuCode(ConstVariable.FOURTH_STU_MENU_CODE);
-			memberMenuVO.setMenuCode(ConstVariable.FOURTH_STU_MENU_CODE);
-			professorSubMenuVO.setMenuCode(ConstVariable.FIFTH_MENU_CODE);
-			professorMenuVO.setMenuCode(ConstVariable.FIFTH_MENU_CODE);
-		}
 
+		memLayout = getCode(authentication, model);
+		
 		model.addAttribute("memLayOut", memLayout);
 		
 		model.addAttribute("cateList",boardService.getBoardCategoryList());
@@ -193,61 +129,25 @@ public class BoardController {
 		uniBoardVO.setBoardWriter(memId);
 		
 		String memLayout = "";
-		User user = (User) authentication.getPrincipal();
 		
-		// 로그인한 회원의 권한에 따라 layout 변경 진행
-		List<String> authorityStrings = user.getAuthorities().stream().map(GrantedAuthority::getAuthority)
-				.collect(Collectors.toList());
+		memLayout = getCode(authentication, model);
 		
-		if (authorityStrings.contains("ROLE_ADMIN")) {
-			memLayout = "admin";
-			adminMenuVO.setMenuCode(ConstVariable.FOURTH_MENU_CODE);
-			adminSubMenuVO.setMenuCode(ConstVariable.FOURTH_MENU_CODE);
-		} else if (authorityStrings.contains("ROLE_STU")) {
-			memLayout = "info";
-			System.out.println("@#!!@#!@#!@#@@");
-			memberSubMenuVO.setMenuCode(ConstVariable.FOURTH_STU_MENU_CODE);
-			memberMenuVO.setMenuCode(ConstVariable.FOURTH_STU_MENU_CODE);
-		} else if (authorityStrings.contains("ROLE_PRO")) {
-			memLayout = "professor";
-			professorSubMenuVO.setMenuCode(ConstVariable.FIFTH_MENU_CODE);
-			professorMenuVO.setMenuCode(ConstVariable.FIFTH_MENU_CODE);
-		}
 		model.addAttribute("memLayOut", memLayout);
 		
 		boardService.insertByBoard(uniBoardVO);
 		
-		return "redirect:/board/board";
+		return "redirect:/board/notice";
 	}
 	
-	//게시글 수정 페이지
+	//공지사항 수정 페이지 이동
 	@GetMapping("/setBoardDetailPage")
-	public String setBoardDetailPage(String boardNo, Model model, Authentication authentication, AdminMenuVO adminMenuVO, AdminSubMenuVO adminSubMenuVO
-			,MemberMenuVO memberMenuVO, MemberSubMenuVO memberSubMenuVO,ProfessorMenuVO professorMenuVO, ProfessorSubMenuVO professorSubMenuVO) {
+	public String setBoardDetailPage(String boardNo, Model model, Authentication authentication) {
 		model.addAttribute("boardDetail",boardService.getBoardDetail(boardNo));
 		model.addAttribute("cateList",boardService.getBoardCategoryList());
 		
 		String memLayout = "";
-		User user = (User) authentication.getPrincipal();
+		memLayout = getCode(authentication, model);
 		
-		// 로그인한 회원의 권한에 따라 layout 변경 진행
-		List<String> authorityStrings = user.getAuthorities().stream().map(GrantedAuthority::getAuthority)
-				.collect(Collectors.toList());
-		
-		if (authorityStrings.contains("ROLE_ADMIN")) {
-			memLayout = "admin";
-			adminMenuVO.setMenuCode(ConstVariable.FOURTH_MENU_CODE);
-			adminSubMenuVO.setMenuCode(ConstVariable.FOURTH_MENU_CODE);
-		} else if (authorityStrings.contains("ROLE_STU")) {
-			memLayout = "info";
-			System.out.println("@#!!@#!@#!@#@@");
-			memberSubMenuVO.setMenuCode(ConstVariable.FOURTH_STU_MENU_CODE);
-			memberMenuVO.setMenuCode(ConstVariable.FOURTH_STU_MENU_CODE);
-		} else if (authorityStrings.contains("ROLE_PRO")) {
-			memLayout = "professor";
-			professorSubMenuVO.setMenuCode(ConstVariable.FIFTH_MENU_CODE);
-			professorMenuVO.setMenuCode(ConstVariable.FIFTH_MENU_CODE);
-		}
 		model.addAttribute("memLayOut", memLayout);
 		
 		
@@ -259,14 +159,14 @@ public class BoardController {
 	@PostMapping("/setBoardDetail")
 	public String setBoardDetail(UniBoardVO uniBoardVO) {
 		boardService.setBoardDetail(uniBoardVO);
-		return"redirect:/board/board";
+		return"redirect:/board/notice";
 	}
 	
 	//게시글 삭제
 	@GetMapping("/delBoardDetail")
 	public String delBoardDetail(String boardNo) {
 		boardService.delBoard(boardNo);
-		return "redirect:/board/board";
+		return "redirect:/board/notice";
 	}
 	
 	//비밀글
@@ -275,19 +175,6 @@ public class BoardController {
 	public int checkPwAjax(UniBoardVO uniBoardVO) {
 		
 		return boardService.getCheckPw(uniBoardVO);
-	}
-	
-	//댓글 등록
-	@PostMapping("/regReplyAjax")
-	@ResponseBody
-	public List<BoardReplyVO> regReplyAjax(BoardReplyVO boardReplyVO, Authentication authentication) {
-		String memName = authentication.getName();
-		boardReplyVO.setReplyWriter(memName);
-		
-		boardService.regReply(boardReplyVO);
-		
-		return boardService.getBoardReplyList(boardReplyVO.getBoardNo());
-		
 	}
 	
 	
@@ -361,7 +248,37 @@ public class BoardController {
 		return data;
 	}
 	
+	
+	
+	   @RequestMapping("/getCode")
+	   public String getCode(Authentication authentication, Model model) {
+		  String memLayout = "";
+	      User userInfo = (User) authentication.getPrincipal();
+	      AdminSubMenuVO adminSubMenuVO = new AdminSubMenuVO();
+	      ProfessorSubMenuVO professorSubMenuVO = new ProfessorSubMenuVO();
+	      MemberSubMenuVO memberSubMenuVO = new MemberSubMenuVO();
 
+	      List<String> authorityStrings = userInfo.getAuthorities().stream().map(GrantedAuthority::getAuthority)
+	            .collect(Collectors.toList());
+	      
+	      if(authorityStrings.contains("ROLE_PRO")){
+	    	 memLayout = "professor";
+	    	 professorSubMenuVO.setMenuCode(ConstVariable.FIFTH_MENU_CODE);
+	         model.addAttribute("professorSubMenuVO", professorSubMenuVO);
+	      }
+	      else if(authorityStrings.contains("ROLE_ADMIN")) {
+	    	  memLayout = "admin";
+	         adminSubMenuVO.setMenuCode(ConstVariable.FOURTH_MENU_CODE);
+	         model.addAttribute("adminSubMenuVO", adminSubMenuVO);
+	      }
+	      else {
+	    	 memLayout = "info";
+	         memberSubMenuVO.setMenuCode(ConstVariable.FOURTH_STU_MENU_CODE);
+	         model.addAttribute("memberSubMenuVO", memberSubMenuVO);
+	      }
+	      
+	      return memLayout;
+	   }
 	
 
 }

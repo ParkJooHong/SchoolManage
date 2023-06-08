@@ -72,7 +72,7 @@
 			, PROFESSOR_SUB_MENU_URL
 			, PROFESSOR_MENU_CODE
 		FROM PROFESSOR_SUB_MENU
-		WHERE MENU_CODE = #{menuCode}
+		WHERE PROFESSOR_MENU_CODE = #{menuCode}
 	</select>
 	
 	<!-- 다음 등록될 강의 넘버 조회 -->
