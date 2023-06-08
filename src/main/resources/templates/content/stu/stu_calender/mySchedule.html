@@ -36,44 +36,37 @@
 
 <input type="hidden" th:value="${memberVO.memNo}" class="memNo">
 <div >
-
- <div id='external-events' style="float:left; width: 15%; padding-right: 30px; padding-left: 20px;">
-    <p>
-      <strong>드래그해서 일정을 추가하세요.</strong>
-    </p>
-
-    <div class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event'>
-      <div class='fc-event-main'>My Event 1</div>
-    </div>
-    <div class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event'>
-      <div class='fc-event-main'>My Event 2</div>
-    </div>
-    <div class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event'>
-      <div class='fc-event-main'>My Event 3</div>
-    </div>
-    <div class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event'>
-      <div class='fc-event-main'>My Event 4</div>
-    </div>
-    <div class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event'>
-      <div class='fc-event-main'>My Event 5</div>
-    </div>
-
     <p>
       <input type='checkbox' id='drop-remove' />
       <label for='drop-remove'>remove after drop</label>
     </p>
   </div>
-	
-	 <div style="float:left; width: 80%;">
-	 	<div style="height: 30px; text-align: center">일정 관리</div>
-	 	<div>
-	 		<input type="button" value="저장" onclick="allSave();">
-	 	</div>
-	 	<div id='calendar'></div>
-	 </div>
+  
+ <div  style="float:right;">
+	<div><input type="button" value="저장" onclick="allSave();" id="save-button" class="btn btn-danger" style="margin: 5px;"></div>
+	<div><input type="button" value="전체 삭제" onclick="allDelete();" id="delete-button" class="btn btn-danger" style="margin: 5px;"></div>
+ </div>
+  	
+ <div style="float:left; width: 90%;">
+ 	<div>
+ 		
+ 		
+ 		<div id='external-events' style="float:left; width: 15%; padding-right: 30px; padding-left: 20px;">
+		    <div class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event'>
+		    	  <div class='fc-event-main'>과제</div>
+		    </div>
+		    <div class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event'>
+		    	  <div class='fc-event-main'>중간고사</div>
+		    </div>
+		    <div class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event'>
+		     	 <div class='fc-event-main'>기말고사</div>
+		    </div>
+		</div>
+ 	</div>
+ 	<div id='calendar'></div>
+ </div>
 	 
-	
-</div>
+	 
 
 
 </th:block>
@@ -87,7 +80,8 @@
 <th:block layout:fragment="content_js">
  <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js'></script>
 <script type="text/javascript" src="/js/content/stu/stu_calender/mySchedule.js"></script>
-<script type="text/javascript" src="/js/ko.js"></script> 
+<script type="text/javascript" src="/js/content/stu/stu_calender/save.js"></script>
+<script type="text/javascript" src="/js/content/stu/stu_calender/ko.js"></script> 
 </th:block>
 
 </html>

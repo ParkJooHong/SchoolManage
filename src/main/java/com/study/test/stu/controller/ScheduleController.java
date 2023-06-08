@@ -1,16 +1,21 @@
 package com.study.test.stu.controller;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.study.test.stu.service.ScheduleService;
 import com.study.test.stu.vo.ScheduleVO;
@@ -26,19 +31,22 @@ public class ScheduleController {
 	
 	@ResponseBody
 	@PostMapping("/selectMyScheduleAjax")
-	public String selectMyScheduleAjax(String memNo) {
-		System.out.println("멤노노노노" +memNo);
+	public Map<String, Object> selectMyScheduleAjax(String memNo) {
 		
-		scheduleService.selectMySchedule(memNo);
+		Map<String, Object> myScheduleList = new HashMap<>();
 		
-		return "";
+		myScheduleList.put("mySchedul", scheduleService.selectMySchedule(memNo));
+		
+		return myScheduleList;
 	}
 	
 	
 	@ResponseBody
 	@PostMapping("/myScheduleAjax")
-	public Map<String, Object> myScheduleAjax(@RequestBody String json, ScheduleVO scheduleVO) {
+	public Map<String, Object> myScheduleAjax(@RequestBody String json, ScheduleVO scheduleVO,  @RequestParam("mem") String mem) {
 
+		//일정 초기화(삭제)
+		scheduleService.deleteSchedule(mem);
 		
 		Map<String, Object> myScheduleList = new HashMap<>();
 			
@@ -62,8 +70,6 @@ public class ScheduleController {
                 LocalDateTime dateTime2 = LocalDateTime.parse(end, DateTimeFormatter.ISO_DATE_TIME);
                 String endTime = dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
-                
-
                 System.out.println("Title: " + title);
                 System.out.println("All Day: " + allDay);
                 System.out.println("Start: " + startTime);
@@ -77,9 +83,7 @@ public class ScheduleController {
                 scheduleVO.setViewTitle(viewTitle);
                 scheduleVO.setMemNo(memNo);
                 
-                
-                scheduleService.regMySchedule(scheduleVO);
-                
+                scheduleService.regMySchedule(scheduleVO);            
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -87,4 +91,21 @@ public class ScheduleController {
         return myScheduleList;
 		
 	}
+	
+	//일정 모두 삭제
+	@ResponseBody
+	@PostMapping("/deleteScheduleAjax")
+	public void deleteScheduleAjax(@RequestBody String json, ScheduleVO scheduleVO,  @RequestParam("mem") String mem) {
+		scheduleService.deleteSchedule(mem);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

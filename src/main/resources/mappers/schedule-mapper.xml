@@ -46,6 +46,10 @@
 			, #{memNo}
 		)
 	</insert>
+	
+	<delete id="deleteSchedule">
+		DELETE SCHEDULE WHERE MEM_NO = #{memNo}
+	</delete>
 
 
 </mapper>

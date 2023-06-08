@@ -25,6 +25,13 @@ public class ScheduleServiceImpl implements ScheduleService {
 	public List<ScheduleVO> selectMySchedule(String memNo) {
 		return sqlSession.selectList("scheduleMapper.selectMySchedule", memNo);
 	}
+
+	//학생 일정 삭제
+	@Override
+	public void deleteSchedule(String memNo) {
+		sqlSession.delete("scheduleMapper.deleteSchedule", memNo);
+		
+	}
 	
 	
 	

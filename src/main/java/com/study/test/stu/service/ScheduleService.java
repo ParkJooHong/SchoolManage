@@ -12,4 +12,7 @@ public interface ScheduleService {
 	
 	//학생 일정 조회
 	List<ScheduleVO> selectMySchedule(String memNo);
+	
+	//일정 삭제
+	void deleteSchedule(String memNo);
 }

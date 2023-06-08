@@ -11,6 +11,7 @@
 
 <th:block layout:fragment="content">
 
+<input type="hidden" th:value="${memberVO.memNo}" class="memNo">
 
 <div class="row main1">
 	<div class="col-6">
@@ -22,7 +23,7 @@
 			<tr class="status">
 				<td colspan="4">[[${memberVO.colleageVO.collName}]] / [[${memberVO.deptVO.deptName}]]</td>
 			</tr>
-			<tr class="icon">
+			<tr class="icon" >
 				<td><a href="/stuMenu/evaluation?menuCode=MENU_003&subMenuCode=SUB_MENU_010"><i class="far fa-clock"></i>강의 시간표</a></td>
 				<td><i class="fas fa-chalkboard-teacher"></i>나의 지도교수</a></td>
 				<td><i class="fas fa-award"></i>인터넷 증명서</td>
@@ -41,15 +42,15 @@
 	</div>
 </div>
 <div class="row main2">
-	<div class="col-6">
-		<table class="course">
+	<div class="col-6" >
+		<table class="course" style="align-items: center; justify-content: center; display: flex; margin-left: auto; margin-right: auto;">
 			<tr th:each="semName, iterStat : ${semester}">
-				<td th:if="${iterStat.index == 0}" th:value="${semName.semNo}" class="semName">
+				<td th:if="${iterStat.index == 0}" th:value="${semName.semNo}" class="semName" style="text-align: center;">
 					[[${semName.semName}]] 수강과목
 				</td>
 			</tr>
 		</table>
-		<table class="myLecture">
+		<table class="myLecture" style="align-items: center; justify-content: center; display: flex; margin-left: auto; margin-right: auto;">
 			<tr th:each="myLecture : ${applyLecture}">
 				<td>
 					<li>[[${myLecture.lecName}]]</li>
@@ -57,21 +58,15 @@
 			</tr>
 		</table>
 	</div>
-	<div class="col-2">
-		<table>
+	<div class="col-6">
+		<table style="width: 100%; margin-top: -100px;">
 			<tr>
-				<td>0월 </td>
-				<td>학사 일정</td>
+				<td><div id='calendar'></div></td>
 			</tr>
-			<tr>달력</tr>
-		</table>
-	</div>
-	<div class="col-4">
-		<table >
 			<tr>
-				<td>전체일정 </td>
-				<td>이달의 일정</td>
-				<td>오늘의 일정</td>
+				<td>
+	
+				</td>
 			</tr>
 		</table>
 	</div>
@@ -83,9 +78,11 @@
 
 
 <th:block layout:fragment="content_js">
+ <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js'></script>
   <!-- toastr js 라이브러리 -->
 <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script type="text/javascript" src="/js/content/stu/info_main.js"></script>
+<script type="text/javascript" src="/js/content/stu/stu_calender/ko.js"></script> 
 </th:block>
 
 </html>
