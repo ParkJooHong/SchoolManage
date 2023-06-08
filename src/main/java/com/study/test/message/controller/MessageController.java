@@ -71,7 +71,7 @@ public class MessageController {
 	
 	//메세지 목록
 	@GetMapping("/messageList")
-	public String message_list(Model model, AdminMenuVO adminMenuVO, AdminSubMenuVO adminSubMenuVO, ProfessorMenuVO professorMenuVO, MemberMenuVO memberMenuVO, MemberSubMenuVO memberSubMenuVO, Authentication authentication) {
+	public String message_list(Model model, Authentication authentication) {
 
 		//role에 따른 메뉴코드,layout 설정
 		User userInfo = (User)authentication.getPrincipal();
@@ -82,27 +82,18 @@ public class MessageController {
 		
 		System.out.println("@@@@@@@@@@@@@@@@@@@@" + authorityStrings);
 		
-		//1.메뉴코드,레이아웃 설정
-		if(authorityStrings.contains("ROLE_ADMIN")) {
-			adminMenuVO.setMenuCode(ConstVariable.SEVEN_MENU_CODE);
-			adminSubMenuVO.setMenuCode(ConstVariable.SEVEN_MENU_CODE);
-			model.addAttribute("mem_role", getLayout(authentication));
-		}
-		else if(authorityStrings.contains("ROLE_PRO")) {
-			professorMenuVO.setMenuCode(ConstVariable.NINE_PROFESSOR_MENU_CODE);
-			model.addAttribute("mem_role", getLayout(authentication));
-		}
-		else {
-			memberMenuVO.setMenuCode(ConstVariable.SEVEN_STU_MENU_CODE);
-			memberSubMenuVO.setMenuCode(ConstVariable.SEVEN_STU_MENU_CODE);
-			model.addAttribute("mem_role", getLayout(authentication));
-		}
+		//메뉴 코드 설정
+		getCode(authentication, model);
+		
+		//레이아웃 코드 가져오기
+		String layout = getLayout(authentication);
 		
 		//메세지 리스트 조회
 		List<Map<String, Object>> msgList = messageService.getMsgList(userInfo.getUsername());
 		
 		System.out.println("@@@@@@@@@@@@@@@@@@@@@@msglist" + msgList);
 
+		model.addAttribute("mem_role", layout);
 		model.addAttribute("msgList", msgList);
 
 		return "content/message/message_list";
@@ -238,6 +229,30 @@ public class MessageController {
 		}
 		
 		return menuCode;
+	}
+	
+	@RequestMapping("/getCode")
+	public void getCode(Authentication authentication, Model model) {
+		User userInfo = (User) authentication.getPrincipal();
+		AdminSubMenuVO adminSubMenuVO = new AdminSubMenuVO();
+		ProfessorMenuVO professorMenuVO = new ProfessorMenuVO();
+		MemberSubMenuVO memberSubMenuVO = new MemberSubMenuVO();
+
+		List<String> authorityStrings = userInfo.getAuthorities().stream().map(GrantedAuthority::getAuthority)
+				.collect(Collectors.toList());
+		
+		if(authorityStrings.contains("ROLE_PRO")){
+			professorMenuVO.setMenuCode(ConstVariable.NINE_PROFESSOR_MENU_CODE);
+			model.addAttribute("professorMenuVO", professorMenuVO);
+		}
+		else if(authorityStrings.contains("ROLE_ADMIN")) {
+			adminSubMenuVO.setMenuCode(ConstVariable.SEVEN_MENU_CODE);
+			model.addAttribute("adminSubMenuVO", adminSubMenuVO);
+		}
+		else {
+			memberSubMenuVO.setMenuCode(ConstVariable.SEVEN_STU_MENU_CODE);
+			model.addAttribute("memberSubMenuVO", memberSubMenuVO);
+		}
 	}
 
 }
