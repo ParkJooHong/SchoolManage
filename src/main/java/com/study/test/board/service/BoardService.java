@@ -62,8 +62,22 @@ public interface BoardService {
 	//전체 페이징
 	int cntBoardList(UniBoardVO uniBoardVO);
 	
+	//게시판 등록
+	void insertByBoard(UniBoardVO uniBoardVO);
 	
+	//게시판 조회수 업데이트
+	void setReadCnt(String boardNo);
 	
+	//게시판 상세정보 업데이트
+	void setBoardDetail(UniBoardVO uniBoardVO);
 	
+	//게시글 삭제
+	void delBoard(String boardNo);
+	
+	//비밀글 비밀번호 확인
+	int getCheckPw(UniBoardVO uniBoardVO);
+	
+	//댓글 등록
+	void regReply(BoardReplyVO boardReplyVO);
 	
 }

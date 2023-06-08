@@ -13,24 +13,26 @@
 
 
 	<resultMap type="com.study.test.board.vo.UniBoardVO" id="uniBoard">
-		<id column="BOARD_NO" 			property="boardNo"/>
-		<result column="BOARD_TITLE" 			property="boardTitle"/>
-		<result column="BOARD_CONTENT" 			property="boardContent"/>
-		<result column="BOARD_WRITER" 			property="boardWriter"/>
-		<result column="REG_BOARD_DATE" 			property="regBoardDate"/>
-		<result column="READ_CNT" 		property="readCnt"/>
+		<id column="BOARD_NO" 				property="boardNo"/>
+		<result column="BOARD_TITLE" 		property="boardTitle"/>
+		<result column="BOARD_CONTENT" 		property="boardContent"/>
+		<result column="BOARD_WRITER" 		property="boardWriter"/>
+		<result column="REG_BOARD_DATE" 	property="regBoardDate"/>
+		<result column="READ_CNT" 			property="readCnt"/>
 		<result column="CATE_NO" 			property="cateNo"/>
 		<result column="REPLY_CNT" 			property="replyCnt"/>
 		<result column="IS_PRIVATE" 		property="isPrivate"/>
 		<result column="IS_NOTICE" 			property="isNotice"/>
+		<result column="BOARD_PW" 			property="boardPw"/>
 	</resultMap>
 	
 	<resultMap type="com.study.test.board.vo.BoardReplyVO" id="reply">
-		<id column="REPLY_NO" 			property="replyNo"/>
-		<result column="BOARD_NO" 			property="boardNo"/>
+		<id column="REPLY_NO" 					property="replyNo"/>
+		<result column="BOARD_NO" 				property="boardNo"/>
 		<result column="REPLY_CONTENT" 			property="replyContent"/>
 		<result column="REPLY_WRITER" 			property="replyWriter"/>
 		<result column="IS_PRIVATE" 			property="isPrivate"/>
+		<result column="REPLY_PW" 				property="replyPw"/>
 	</resultMap> 
 	
 	<!-- 보드 게시판 카테고리 조회 -->
@@ -295,18 +297,14 @@
 			, IS_PRIVATE
 		FROM UNI_BOARD
 		WHERE 1 = 1
-		<if test='boardTitle != null and !boardTitle.equals("")'>
-		AND BOARD_TITLE  LIKE '%' || UPPER(#{boardTitle}) || '%'
-		</if>
-		<if test='boardWriter != null and !boardWriter.equals("")'>
-		AND BOARD_WRITER LIKE '%' || UPPER(#{boardWriter}) || '%'
+		<if test='searchKeyword != null and !searchKeyword.equals("") and searchValue != null and !searchValue.equals("")'>
+		AND UPPER(${searchKeyword})  LIKE '%' || UPPER(#{searchValue}) || '%'
 		</if>
 		<if test='toDate != null and !toDate.equals("") and fromDate != null and !fromDate.equals("")'>
 		AND REG_BOARD_DATE &lt;= #{toDate}
 		AND REG_BOARD_DATE &gt;= #{fromDate}
 		</if>
-		AND IS_NOTICE = 'N'
-		ORDER BY REG_BOARD_DATE DESC
+		ORDER BY BOARD_NO DESC
 		OFFSET #{offsetCnt} ROWS FETCH FIRST #{displayCnt} ROWS ONLY
 	</select>
 	
@@ -315,17 +313,14 @@
 		SELECT COUNT(BOARD_NO)
 		FROM UNI_BOARD
 		WHERE 1 = 1
-		<if test='boardTitle != null and !boardTitle.equals("")'>
-		AND BOARD_TITLE  LIKE '%' || UPPER(#{boardTitle}) || '%'
-		</if>
-		<if test='boardWriter != null and !boardWriter.equals("")'>
-		AND BOARD_WRITER LIKE '%' || UPPER(#{boardWriter}) || '%'
+		<if test='searchKeyword != null and !searchKeyword.equals("") and searchValue != null and !searchValue.equals("")'>
+		AND UPPER(${searchKeyword})  LIKE '%' || UPPER(#{searchValue}) || '%'
 		</if>
 		<if test='toDate != null and !toDate.equals("") and fromDate != null and !fromDate.equals("")'>
 		AND REG_BOARD_DATE &lt;= #{toDate}
 		AND REG_BOARD_DATE &gt;= #{fromDate}
 		</if>
-		AND IS_NOTICE = 'N'
+		OFFSET #{offsetCnt} ROWS FETCH FIRST #{displayCnt} ROWS ONLY
 	</select>
 	
 	<!-- 게시판 상세보기 -->
@@ -335,9 +330,46 @@
 			, BOARD_CONTENT
 			, BOARD_WRITER
 			, REG_BOARD_DATE
+			, READ_CNT
 		FROM UNI_BOARD
 		WHERE BOARD_NO = #{boardNo}
 	</select>
+	
+	<!-- 게시글 등록  -->
+	<insert id="insertByBoard">
+		INSERT INTO UNI_BOARD (
+			BOARD_NO
+			, BOARD_TITLE
+			, BOARD_CONTENT
+			, BOARD_WRITER
+			, CATE_NO
+			, IS_PRIVATE
+			<if test='isPrivate != null and isPrivate.equals("Y")'>
+			, BOARD_PW
+			</if>
+			, IS_NOTICE
+		) VALUES (
+	         (SELECT 'BOARD_'||LPAD(NVL(MAX(TO_NUMBER(SUBSTR(BOARD_NO, 7))), 0) +1 , 3, '0')
+	            FROM UNI_BOARD)
+	         , #{boardTitle}
+	         , #{boardContent}
+	         , #{boardWriter}
+	         , #{cateNo}
+	         , #{isPrivate}
+	         <if test='isPrivate != null and isPrivate.equals("Y")'>
+			 , #{boardPw}
+			 </if>
+			 , #{isNotice}
+		)			
+	</insert>
+	
+	<!-- 조회수 업데이트  -->
+	<update id="setReadCnt">
+		UPDATE UNI_BOARD
+		SET READ_CNT = (SELECT NVL(MAX(READ_CNT),0)+1 
+		FROM UNI_BOARD WHERE BOARD_NO = #{boardNo})
+		WHERE BOARD_NO = #{boardNo}
+	</update>
 	
 	<!-- 댓글 조회 -->
 	<select id="getBoardReplyList" resultMap="reply">
@@ -349,6 +381,57 @@
 		FROM BOARD_REPLY
 		WHERE BOARD_NO =#{boardNo}
 	</select>
+	
+	<!-- 게시글 업데이트 -->
+	<update id="setBoardDetail">
+		UPDATE UNI_BOARD
+		SET BOARD_TITLE = #{boardTitle}
+			, BOARD_CONTENT = #{boardContent}
+			, IS_PRIVATE = #{isPrivate}
+			, IS_NOTICE = #{isNotice}
+		<if test='isPrivate != null and isPrivate.equals("Y")'>
+			, BOARD_PW = #{boardPw}
+		</if>
+		WHERE BOARD_NO = #{boardNo}
+	</update>
+	
+	<!-- 게시글 삭제 -->
+	<delete id="delBoard">
+		DELETE UNI_BOARD
+		WHERE BOARD_NO = #{boardNo}
+	</delete>
+	
+	<!-- 비밀글 비밀번호 확인  -->
+	<select id="getCheckPw" resultType="int">
+		SELECT COUNT(BOARD_NO)
+		FROM UNI_BOARD
+		WHERE BOARD_NO = #{boardNo}
+		AND BOARD_PW = #{boardPw}
+	</select>
+	
+	<!-- 댓글 등록 -->
+	<insert id="regReply">
+		INSERT INTO BOARD_REPLY (
+			REPLY_NO
+			, BOARD_NO
+			, REPLY_CONTENT
+			, REPLY_WRITER
+			, IS_PRIVATE
+			<if test='isPrivate != null and isPrivate.equals("Y")'>
+			, REPLY_PW
+			</if>
+		) VALUES (
+			(SELECT 'REPLY_'||LPAD(NVL(MAX(TO_NUMBER(SUBSTR(REPLY_NO, 7))), 0) +1 , 3, '0')
+	            FROM BOARD_REPLY)
+	        , #{boardNo}
+	        , #{replyContent}
+	        , #{replyWriter}
+	        , #{isPrivate}
+	        <if test='isPrivate != null and isPrivate.equals("Y")'>
+			, #{replyPw}
+			</if>
+		)
+	</insert>
 
 </mapper>
 

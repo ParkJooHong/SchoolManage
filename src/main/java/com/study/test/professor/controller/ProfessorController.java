@@ -72,7 +72,6 @@ public class ProfessorController {
 		//메뉴코드 등록
 		professorMenuVO.setMenuCode(ConstVariable.DEFAULT_PROFESSOR_MENU_CODE);
 		
-		
 		//지금 학기 조회
 		//학기 정보를 지정하기 위해 오늘 날짜 데이터 조회
 		SemesterVO currentSemester = new SemesterVO();
@@ -86,8 +85,6 @@ public class ProfessorController {
 		else {
 			currentSemester.setSemester("2");
 		}
-		
-		System.out.println("@@@@@@@@@@@@@@@@@데이터 확인 :" + currentSemester);
 		
 		List<SemesterVO> semester = schoolService.getSemeList(currentSemester);
 		model.addAttribute("semester", semester);
@@ -104,7 +101,6 @@ public class ProfessorController {
 		//첫화면 소속교수님 리스트
 		String deptNo = "DEPT_001";
 		List<EmpVO> empList = schoolService.getProfessor(deptNo);
-		System.out.println("@@@@@@@@@@@@@데이터 확인 : " + empList);
 		model.addAttribute("professorList", empList);
 		
 		return "content/professor/reg_lecture";
@@ -162,7 +158,6 @@ public class ProfessorController {
 				timeCheck = false;
 			}
 		}
-		System.out.println("@@@@@@@@@@데이터확인" + timeCheck);
 		
 		return timeCheck;
 	}
@@ -227,8 +222,6 @@ public class ProfessorController {
 		lecture.setEmpNo(member.getMemNo());
 		List<Map<String, Object>> lectureList = professorService.getLectureListMap(lecture);
 		
-		System.out.println("@@@@@@@@@@데이터 확인 :" + lectureList);
-		
 		return lectureList;
 	}
 	
@@ -277,8 +270,6 @@ public class ProfessorController {
 		for(LectureVO lecture : lectureList) {
 			lectureVO = lecture;
 		}
-		
-		System.out.println("@@@@@@@@@@데잍처" + lectureVO);
 		
 		UploadUtil.downloadPdfFile(lectureVO, response);
 	}

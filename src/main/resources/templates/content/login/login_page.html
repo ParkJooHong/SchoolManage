@@ -44,8 +44,8 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 				</div>
 			</th:block>
 			<th:block th:unless="${param.lang == null}">
-				<div class="col-1"  th:classappend='${param.lang.toString == "kr" ? "bd_bottom" : ""}'>
-					<a href="?lang=kr">KR</a>
+				<div class="col-1"  th:classappend='${param.lang.toString == "ko" ? "bd_bottom" : ""}'>
+					<a href="?lang=ko">KR</a>
 				</div>
 				<div class="col-1"  th:classappend='${param.lang.toString == "en" ? "bd_bottom" : ""}'>
 					<a href="?lang=en">EN</a>
@@ -53,8 +53,6 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 			</th:block>
 			<div class="col-9"></div>
 		</div>
-		<img src="https://www.kefe.co.kr/m/image/sub/signup/signup_28.jpg" style="height: 30px; width: auto;" onclick="kakaoLogin();" >
-		<input type="button" value="로그아웃" onclick="logout();">
 		<div class="row mt-3">
 			<div class="col-1"></div>
 			<div class="col-4 px-0">
@@ -71,6 +69,15 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 			<div class="col-6">
 			</div>
 		</div>
+		<div class="row mt-3">
+			<div class="col-1"></div>
+			<div class="col-4">
+				<img src="https://www.kefe.co.kr/m/image/sub/signup/signup_28.jpg" style="height: 30px; width: auto;" onclick="kakaoLogin();" >
+			</div>
+			<div class="col-1">
+				<input type="button" value="로그아웃" onclick="logout();">
+			</div>
+		</div>
 		<div class="row iuput_info">
 			<div class="col-1"></div>
 			<div class="col-5 mt-3">
@@ -81,8 +88,8 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 		<div class="row sub_menu mt-5 text-start">
 			<div class="col-1"></div>
 			<div class="col-11">
-				<span id="main_homepage" th:text="#{main_homepage}">메인 홈페이지</span>
-				<span id="remote_support" th:text="#{remote_support}">원격지원</span>		
+				<span id="main_homepage" th:text="#{main_homepage}"></span>
+				<span id="remote_support" th:text="#{remote_support}"></span>		
 						
 			</div>
 		</div>
@@ -91,9 +98,9 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 		<div class="row">
 			<div class="col-1"></div>
 			<div class="col-11">
-				<span id="footer1" th:text="#{footer1}">개인정보처리방침</span>
+				<span id="footer1" th:text="#{footer1}"></span>
 				<span>&nbsp;&nbsp;&nbsp;&nbsp;</span> 
-				<span id="footer2" th:text="#{footer2}"> 이메일무단수집거부</span>
+				<span id="footer2" th:text="#{footer2}"></span>
 			</div>
 		</div>
 	</div>
@@ -189,6 +196,8 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 		integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
 		crossorigin="anonymous">
 	</script>
+	
+	<!-- 카카오 로그인 js파일 로딩 -->
 	<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 	<script type="text/javascript" src="/js/content/login/kakao_login.js"></script>
 </body>

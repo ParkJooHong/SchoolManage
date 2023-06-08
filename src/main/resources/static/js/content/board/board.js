@@ -6,78 +6,104 @@ function init() {
 	const monthAgo = new Date(today);
 	monthAgo.setMonth(today.getMonth() - 1);
 
-	document.querySelector('#toDate').valueAsDate = today;
+	const now_date = document.querySelector('#toDate');
+	const month_date = document.querySelector('#monthDate')
+	if (now_date.value == '') {
+		now_date.valueAsDate = today;
+	}
+	if (month_date.value == '') {
+		month_date.valueAsDate = monthAgo;
+	}
 
-	document.querySelector('#monthDate').valueAsDate = monthAgo;
-	
-	
-	
+
+
+
 	//모달 데이터 삭제
 	const pw_modal = new bootstrap.Modal('#boardPwModal');
-	
-	$(pw_modal._element).on('hidden.bs.modal', function(e){
-		document.querySelector('#boardPw').value='';
+
+	$(pw_modal._element).on('hidden.bs.modal', function(e) {
+		document.querySelector('#boardPw').value = '';
 	});
-	
-	
+
+
 
 
 }
+//페이지 이동
+function getOrderListPaging(page_num) {
+	document.querySelector('#nowPage').value = page_num;
+	searchByStatusInBoard();
+}
+
 
 //검색기능
 function searchByStatusInBoard() {
-	const search_select = document.querySelector('#searchSelect').value;
-	const to_date = document.querySelector('#toDate').value;
-	const month_date = document.querySelector('#monthDate').value;
-	const search_value = document.querySelector('#searchValue').value;
-	const board_tbody = document.querySelector('.boardTbody');
-	const board_cnt = document.querySelector('#boardCnt');
-	searchData = {
-		'toDate': to_date,
-		'fromDate': month_date,
-		'searchSelect': search_select,
-		'searchValue': search_value
-	};
+	const search_form = document.querySelector('#searchForm');
+	search_form.submit();
+}
 
+//게시글 상세정보
+function readBoardDetail(board_no, is_private) {
+	const pw_modal = new bootstrap.Modal('#boardPwModal');
+	const modal_board_no = document.querySelector('#modalNo');
+	modal_board_no.value = board_no;
+	if (is_private == 'Y') {
+		pw_modal.show();
+	}
+	else {
+		location.href = `/board/boardDetail?boardNo=${board_no}`
+	}
+}
+
+//게시글 등록 페이지 이동
+function moveRegForm() {
+	swal.fire({
+		title: "게시글 등록",
+		text: "게시글 등록 페이지로 이동합니다.",
+		icon: "success",
+		button: '확인',
+	}).then((r) => {
+		location.href = "/board/regBoard";
+	})
+}
+
+//비밀글 비밀번호 확인
+function checkPw() {
+	const board_pw = document.querySelector('#boardPw').value;
+	const board_no = document.querySelector('#modalNo').value;
+
+	console.log(board_pw);
+	console.log(board_no);
 
 	//ajax start
 	$.ajax({
-		url: '/board/searchByStatusInBoardAjax', //요청경로
+		url: '/board/checkPwAjax', //요청경로
 		type: 'post',
 		async: true,
-		contentType: 'application/json; charset=UTF-8',
-		//contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-		data: JSON.stringify(searchData), //필요한 데이터
+		//contentType : 'application/json; charset=UTF-8',
+		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+		data: { 'boardPw': board_pw, 'boardNo': board_no }, //필요한 데이터
 		success: function(result) {
-			console.log(result);
-			board_tbody.replaceChildren();
-			board_cnt.replaceChildren();
-
-			let str = '';
-			let str1 = '';
-			str1 += `총 ${result.length} 개의 게시글이 검색되었습니다.`;
-			if (result.length == 0) {
-				str += '<tr>';
-				str += '<td colspan="6">등록된 게시글이 없습니다.</td>';
-				str += '</tr>';
+			if (result != 1) {
+				swal.fire({
+					title: "경고",
+					text: "비밀번호가 다릅니다 \n 다시 확인해주세요.",
+					icon: "warning",
+					button: '확인',
+				})
 			}
-			else {
-				result.forEach(function(board, idx) {
-					str += '<tr>';
-					str += `<td>${idx + 1}</td>`;
-					str += `<td>${board.boardTitle}</td>`;
-					str += `<td>${board.boardWriter}</td>`;
-					str += `<td>${board.regBoardDate}</td>`;
-					str += `<td>${board.readCnt}</td>`;
-					str += `<td>${board.isPrivate}</td>`;
-					str += `</tr>`;
-				});
-
-				board_tbody.insertAdjacentHTML('afterbegin', str);
-
+			else{
+				swal.fire({
+					title: "확인",
+					text: "비밀번호가 일치합니다 \n 게시글 상세 페이지로 \n 이동합니다.",
+					icon: "success",
+					button: '확인',
+				}).then((r)=>{
+					location.href = `/board/boardDetail?boardNo=${board_no}`;
+				})
+					
+			
 			}
-			board_cnt.insertAdjacentHTML('afterbegin', str1);
-
 		},
 		error: function() {
 			alert('실패');
@@ -85,20 +111,8 @@ function searchByStatusInBoard() {
 	});
 	//ajax end
 
+
+
 }
-
-//게시글 상세정보
-function readBoardDetail(board_no, is_private){
-	const pw_modal = new bootstrap.Modal('#boardPwModal');
-	
-	if(is_private == 'Y'){
-		pw_modal.show();
-	}
-	else{
-		location.href=`/board/boardDetail?boardNo=${board_no}`
-	}
-}
-
-
 
 
