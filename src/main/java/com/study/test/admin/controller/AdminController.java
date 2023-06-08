@@ -624,11 +624,32 @@ public class AdminController {
 		return boardService.getBoardCategoryList();
 	}
 	
-	//게시판 페이지
+	//학사 공지사항 페이지
+	@GetMapping("/notice")
+	public String notice(AdminSubMenuVO adminSubMenuVO, Model model, UniBoardVO uniBoardVO) {
+		adminSubMenuVO.setMenuCode(ConstVariable.FOURTH_MENU_CODE);
+		return "redirect:/board/notice";
+	}
+	
+	//학사 공지사항 페이지
 	@GetMapping("/board")
 	public String board(AdminSubMenuVO adminSubMenuVO, Model model, UniBoardVO uniBoardVO) {
 		adminSubMenuVO.setMenuCode(ConstVariable.FOURTH_MENU_CODE);
 		return "redirect:/board/board";
+	}
+	
+	//학과 게시판
+	@GetMapping("/deptBoard")
+	public String deptBoard(AdminSubMenuVO adminSubMenuVO, Model model, UniBoardVO uniBoardVO) {
+		adminSubMenuVO.setMenuCode(ConstVariable.FOURTH_MENU_CODE);
+		return "redirect:/board/deptBoard";
+	}
+	
+	//중고 나눔 게시판
+	@GetMapping("/donation")
+	public String donation(AdminSubMenuVO adminSubMenuVO, Model model, UniBoardVO uniBoardVO) {
+		adminSubMenuVO.setMenuCode(ConstVariable.FOURTH_MENU_CODE);
+		return "redirect:/board/donation";
 	}
 	
 	//학사톡

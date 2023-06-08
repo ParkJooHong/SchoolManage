@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{fragment/__${memLayOut}___layout}">
+
+<th:block layout:fragment="content_css">
+	<link rel="stylesheet" href="">
+</th:block>
+
+<th:block layout:fragment="content">
+	<div class="row">
+		<div class="col-10">
+			<div class="row mt-3 mb-3">
+				<div class="col">
+					<h3>학사 공지사항</h3>
+				</div>
+			</div>
+			<form action="/board/board" method="post" id="searchForm">
+			<input type="hidden" name="nowPage" id="nowPage" th:value="${uniBoardVO.nowPage}">
+			<div class="row mb-3 justify-content-center">
+				<div class="col-10">
+					<table class="table">
+						<colgroup>
+							<col width="30%">
+							<col width="30%">
+							<col width="20%">
+							<col width="20%">
+						</colgroup>
+						<tr>
+							<td><select class="form-select" id="searchKeyword" name="searchKeyword">
+									<option th:selected="${uniBoardVO.searchKeyword == ''}"  value="">전체</option>
+									<option th:selected="${uniBoardVO.searchKeyword == 'BOARD_WRITER'}" value="BOARD_WRITER">작성자</option>
+									<option th:selected="${uniBoardVO.searchKeyword == 'BOARD_TITLE'}" value="BOARD_TITLE">제목</option>
+							</select></td>
+							<td colspan="2"><input type="text" id="searchValue"
+								name="searchValue" class="form-control" th:value="${uniBoardVO.searchValue}"></td>
+							<td class="d-grid"><input type="button" value="검색"
+								onclick="searchByStatusInBoard();" class="btn btn-primary">
+							</td>
+						</tr>
+						<tr>
+							<td><input type="date" id="monthDate" name="fromDate" class="form-control"
+								th:value="${uniBoardVO.fromDate}"></td>
+							<td><input type="date" id="toDate" name="toDate" class="form-control"
+								th:value="${uniBoardVO.toDate}"></td>
+							<td>
+								<select class="form-select" name="cateNo">
+									<option></option>
+								</select>
+							</td>
+							<td class="d-grid"><input type="button" value="글쓰기"
+								class="btn btn-primary" onclick="moveRegForm();"></td>
+						</tr>
+					</table>
+				</div>
+				<div class="row mb-3">
+					<div class="col-5">
+						<span id="boardCnt">총 <span>[[${#lists.size(uniBoardList)}]]</span>
+							개의 개시글이 검색되었습니다.
+						</span>
+					</div>
+					<div class="col-7 text-end">
+						<span>게시글 제목을 클릭하면 게시글 상세정보를 확인할 수 있습니다.</span>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						<table class="table text-center">
+							<colgroup>
+								<col width="7%">
+								<col width="35%">
+								<col width="15%">
+								<col width="15%">
+								<col width="7%">
+								<col width="7%">
+							</colgroup>
+							<thead>
+								<tr>
+									<td>No</td>
+									<td>게시글 제목</td>
+									<td>작성자</td>
+									<td>등록일</td>
+									<td>조회수</td>
+									<td>비밀글 여부</td>
+								</tr>
+							</thead>
+							<tbody class="boardTbody">
+								<th:block th:if="${#lists.size(uniBoardList) == 0}">
+									<tr>
+										<td colspan="6">등록된 게시글이 없습니다.</td>
+									</tr>
+								</th:block>
+								<th:block th:unless="${#lists.size(uniBoardList) == 0}">
+									<th:block th:each="board,state:${uniBoardList}">
+										<tr>
+											<td>[[${state.count}]]</td>
+											<td><a href="javascript:void(0);"
+												th:onclick="readBoardDetail([[${board.boardNo}]],[[${board.isPrivate}]]);">[[${board.boardTitle}]]</a></td>
+											<td>[[${board.boardWriter}]]</td>
+											<td>[[${board.regBoardDate}]]</td>
+											<td>[[${board.readCnt}]]</td>
+											<td>[[${board.isPrivate}]]</td>
+										</tr>
+									</th:block>
+								</th:block>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						<div class="row justify-content-center">
+							<div class="col-3">
+								<nav aria-label="Page navigation example">
+								  <ul class="pagination">
+								    <li class="page-item" th:classappend="${uniBoardVO.prev ? '' : 'disabled'}">
+								      <a class="page-link" href="javascript:void(0);" th:onclick="getOrderListPaging([[${uniBoardVO.beginPage-1}]])"  aria-label="Previous">
+								        <span aria-hidden="true">&laquo;</span>
+								      </a>
+								    </li>
+								    	<li class="page-item" th:classappend="${uniBoardVO.getNowPage == pageNum ? 'active' : ''}" th:each="pageNum : ${#numbers.sequence(uniBoardVO.beginPage,uniBoardVO.endPage)}">
+								    		<a class="page-link" th:onclick="getOrderListPaging([[${pageNum}]])">[[${pageNum}]]</a>
+								    	</li>
+								    <li class="page-item" th:classappend="${uniBoardVO.next ? '' : 'disabled'}">
+								      <a class="page-link" href="javascript:void(0);" th:onclick="getOrderListPaging([[${uniBoardVO.endPage+1}]])"  aria-label="Next">
+								        <span aria-hidden="true">&raquo;</span>
+								      </a>
+								    </li>
+								  </ul>
+								</nav>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			</form>
+		</div>
+	</div>
+	<!-- 비밀번호 입력 모달  -->
+	<div class="modal fade" id="boardPwModal" tabindex="-1"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-md">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="exampleModalLabel">비밀글</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-12">
+							<h4>비밀번호를 입력하세요</h4>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-8">
+							<input type="hidden" id="modalNo" value="">
+							<input type="password" class="form-control" id="boardPw">
+						</div>
+						<div class="col-4 d-grid">
+							<input type="button" class="btn btn-primary" onclick="checkPw();" value="입력">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</th:block>
+
+
+<th:block layout:fragment="content_js">
+	<script type="text/javascript" src="/js/content/board/notice.js"></script>
+</th:block>
+
+</html>

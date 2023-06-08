@@ -14,4 +14,5 @@ public class BoardReplyVO {
 	private String replyContent;
 	private String replyWriter;
 	private String isPrivate;
+	private String replyPw;
 }

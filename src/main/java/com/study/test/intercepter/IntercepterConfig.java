@@ -38,6 +38,7 @@ public class IntercepterConfig implements WebMvcConfigurer {
 					.excludePathPatterns("/member/**")
 					.excludePathPatterns("/stuMenu/**")
 					.excludePathPatterns("/professor/**Ajax")
+					.excludePathPatterns("/board/**Ajax")
 					.excludePathPatterns("/message/**Ajax")
 					.excludePathPatterns("/professor/talk");
 			//학생 인터셉터

@@ -295,15 +295,17 @@
 			, TO_CHAR(REG_BOARD_DATE, 'YYYY-MM-DD') AS REG_BOARD_DATE
 			, READ_CNT
 			, IS_PRIVATE
+			, CATE_NO
 		FROM UNI_BOARD
 		WHERE 1 = 1
 		<if test='searchKeyword != null and !searchKeyword.equals("") and searchValue != null and !searchValue.equals("")'>
 		AND UPPER(${searchKeyword})  LIKE '%' || UPPER(#{searchValue}) || '%'
 		</if>
 		<if test='toDate != null and !toDate.equals("") and fromDate != null and !fromDate.equals("")'>
-		AND REG_BOARD_DATE &lt;= #{toDate}
-		AND REG_BOARD_DATE &gt;= #{fromDate}
+		AND TO_CHAR(REG_BOARD_DATE, 'YYYY-MM-DD') &lt;= #{toDate}
+		AND TO_CHAR(REG_BOARD_DATE, 'YYYY-MM-DD') &gt;= #{fromDate}
 		</if>
+		AND IS_NOTICE = 'Y'
 		ORDER BY BOARD_NO DESC
 		OFFSET #{offsetCnt} ROWS FETCH FIRST #{displayCnt} ROWS ONLY
 	</select>
@@ -317,9 +319,10 @@
 		AND UPPER(${searchKeyword})  LIKE '%' || UPPER(#{searchValue}) || '%'
 		</if>
 		<if test='toDate != null and !toDate.equals("") and fromDate != null and !fromDate.equals("")'>
-		AND REG_BOARD_DATE &lt;= #{toDate}
-		AND REG_BOARD_DATE &gt;= #{fromDate}
+		AND TO_CHAR(REG_BOARD_DATE, 'YYYY-MM-DD') &lt;= #{toDate}
+		AND TO_CHAR(REG_BOARD_DATE, 'YYYY-MM-DD') &gt;= #{fromDate}
 		</if>
+		AND IS_NOTICE = 'Y'
 		OFFSET #{offsetCnt} ROWS FETCH FIRST #{displayCnt} ROWS ONLY
 	</select>
 	

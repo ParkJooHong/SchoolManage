@@ -51,7 +51,7 @@ function readBoardDetail(board_no, is_private) {
 		pw_modal.show();
 	}
 	else {
-		location.href = `/board/boardDetail?boardNo=${board_no}`
+		location.href = `/board/noticeDetail?boardNo=${board_no}`
 	}
 }
 
@@ -99,7 +99,7 @@ function checkPw() {
 					icon: "success",
 					button: '확인',
 				}).then((r)=>{
-					location.href = `/board/boardDetail?boardNo=${board_no}`;
+					location.href = `/board/noticeDetail?boardNo=${board_no}`;
 				})
 					
 			
