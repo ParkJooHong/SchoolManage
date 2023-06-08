@@ -1360,6 +1360,8 @@ public class StuController {
 		stuVO.setMemNo(user.getUsername()); // id임
 		memberVO.setMemNo(user.getUsername());
 		model.addAttribute("memberVO", stuService.seletStu(memberVO));
+		
+		
 
 		System.out.println(boardNo);
 		boardService.boardDetail(boardNo);

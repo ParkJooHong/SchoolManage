@@ -18,6 +18,12 @@ public class MemberServiceImpl implements MemberService {
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 	
+	//회원 정보 조회
+	@Override
+	public MemberVO getMemInfo(MemberVO memberVO) {
+		return sqlSession.selectOne("memberMapper.getMemInfo", memberVO);
+	}
+	
 	//학생 메뉴
 	@Override
 	public List<MemberMenuVO> stuMenuList() {
@@ -62,5 +68,7 @@ public class MemberServiceImpl implements MemberService {
 	public List<Map<String, Object>> getMemList(MemberVO memberVO) {
 		return sqlSession.selectList("memberMapper.getMemList", memberVO);
 	}
+
+	
 	
 }

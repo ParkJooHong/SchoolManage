@@ -151,14 +151,13 @@ public class BoardController {
 
 			memberSubMenuVO.setMenuCode(ConstVariable.FOURTH_STU_MENU_CODE);
 
-
-
 			User user = (User) authentication.getPrincipal();
-			String memName = user.getUsername();
-			// System.out.println(memName);
-			stuVO.setMemNo(user.getUsername()); // id임
+			
 			memberVO.setMemNo(user.getUsername());
-			model.addAttribute("memberVO", stuService.seletStu(memberVO));
+			model.addAttribute("memberVO", memberService.getMemInfo(memberVO));
+			System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@유저 아이디 : " + memberService.getMemInfo(memberVO));
+			
+			System.out.println("멤버브비오 : " +stuService.seletStu(memberVO));
 
 			System.out.println(boardNo);
 			boardService.boardDetail(boardNo);
@@ -219,8 +218,11 @@ public class BoardController {
 
 			model.addAttribute("prevList", prevDetail);
 			model.addAttribute("nextList", nextDetail);
+			
+			String memLayout = getCode(authentication, model);
+			model.addAttribute("memLayOut", memLayout);
 
-			return "/content/stu/stu_board/boardDetail";
+			return "content/publicBoard/boardDetail";
 		}
 	
 	

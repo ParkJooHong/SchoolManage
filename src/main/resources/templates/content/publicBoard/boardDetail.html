@@ -1,42 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-   layout:decorate="~{fragment/info_layout}">
+   layout:decorate="~{fragment/__${memLayOut}___layout}">
 
 <th:block layout:fragment="content_css">
    <link rel="stylesheet" href="/css/content/stu/stu_board/boardDetail.css">
 </th:block>
 
 <th:block layout:fragment="content">
-<div style="font-size: 15px; color: blue; font-weight: bold;">즐겨찾기 ☆</div>
-<div style="font-size: 20px; color: red; font-weight: bold;" >학생기본정보</div>
-<div class="tableAdd">
-	<table border="3" style="border-color: red;" class="default_info">
-		<tr>
-			<td>학번</td>
-			<td><input type="text" readonly></td>
-			<td>성명</td>
-			<td><input type="text" readonly></td>
-			<td>학년</td>
-			<td><input type="text" readonly></td>
-			<td>학적상태</td>
-			<td><input type="text" readonly></td>
-		</tr>
-	</table>
-</div>
-<div style="text-align: center;">
-	<button onclick="plus();" class="plus" style="width: 40px; height:30px; border-bottom-left-radius:10px; border-bottom-right-radius:10px;
-		font-size: 20px; font-weight: bold; border-color: red;  color: white; background-color: red;">
-		+
-	</button>
-</div>
 
 
-<div>
-	
-		
-	
-</div>
 
 <th:block th:each="boardCategoryVO : ${boardCategoryVO}">
 	<div>		
@@ -54,16 +27,19 @@
 			<tr>
 				<td colspan="3" class="boardTitle"><h1>[[${uni.boardTitle}]]</h1></td>		
 				<td><input type="hidden" th:value="${uni.boardNo}" class="boardNo"></td>		
-				<td><input type="hidden" th:value="${memberVO.stuVO.stuNo}" class="stuNo"></td>		
 			</tr>
 			<tr>
 				<td colspan="5">
 					<table>
-						<tr th:each="member : ${memberVO}" >
+						<tr>
+						
 							<td rowspan="2">
-								<img th:src="${'/image/memImg/' + member.memImgVO.attachedFileName}" height="90px;" width="80px;">
+								<th:block th:if="${memberVO.memImgVO != null}">
+									<img th:src="${'/image/memImg/' + memberVO.memImgVO.attachedFileName}" height="90px;" width="80px;">
+								</th:block>
 							</td>
 							<td> [[${uni.boardWriter}]]</td>
+							
 						</tr>
 						<tr>
 							<td>[[${uni.regBoardDate}]] 조회 [[${uni.readCnt}]]</td>
@@ -79,8 +55,9 @@
 
 			</tr>
 		</tbody>
-		<!-- 글쓴이가 맞으면 수정, 삭제 가능 -->
-		<tr th:if="${memberVO.stuVO.stuNo == uni.boardWriter}">
+
+		<!-- 글쓴이가 맞으면 수정, 삭제 가능 -->	
+		<tr th:if="${memberVO.memNo == uni.boardWriter}">
 			<td class="updateOrDelete" colspan="5">
 				<input type="button" value="수정" class="btn btn-primary" th:onclick="updateBoard( [[${uni.boardContent}]] , [[${uni.boardTitle}]] ,[[${uni.boardNo}]] )">
 				<input type="button" value="삭제" class="btn btn-danger" th:onclick="deleteBoard([[${uni.boardNo}]], [[${menuCode}]] , [[${subMenuCode}]])">
@@ -176,7 +153,7 @@
 
 
 <th:block layout:fragment="content_js">
-<script type="text/javascript" src="/js/content/stu/stu_board/boardDetail.js"></script>
+<script type="text/javascript" src="/js/content/publicBoard/boardDetail.js"></script>
 </th:block>
 
 </html>

@@ -8,6 +8,9 @@ import com.study.test.member.vo.MemberSubMenuVO;
 import com.study.test.member.vo.MemberVO;
 
 public interface MemberService {
+	
+	//회원 정보 조회
+	MemberVO getMemInfo(MemberVO memberVO); 
 
 	//학생 메뉴
 	List<MemberMenuVO> stuMenuList();

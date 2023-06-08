@@ -26,6 +26,14 @@
 		<result column="MEM_NO" 			property="memNo"/>
 	</resultMap>
 	
+	<!-- 회원 정보 조회 -->
+	<select id="getMemInfo" resultMap="member">
+		SELECT UM.MEM_NO, MEM_NAME, MI.ATTACHED_FILE_NAME
+		FROM UNI_MEMBER UM
+		LEFT JOIN MEM_IMG MI ON UM.MEM_NO = MI.MEM_NO
+		WHERE UM.MEM_NO = #{memNo}
+	</select>
+	
 	<!-- 회원등록 -->
 	<insert id="regMember">
 		INSERT INTO UNI_MEMBER (
