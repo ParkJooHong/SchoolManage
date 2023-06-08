@@ -27,11 +27,12 @@
 	</resultMap>
 	
 	<resultMap type="com.study.test.board.vo.BoardReplyVO" id="reply">
-		<id column="REPLY_NO" 			property="replyNo"/>
-		<result column="BOARD_NO" 			property="boardNo"/>
+		<id column="REPLY_NO" 					property="replyNo"/>
+		<result column="BOARD_NO" 				property="boardNo"/>
 		<result column="REPLY_CONTENT" 			property="replyContent"/>
 		<result column="REPLY_WRITER" 			property="replyWriter"/>
 		<result column="IS_PRIVATE" 			property="isPrivate"/>
+		<result column="REPLY_PW" 				property="replyPw"/>
 	</resultMap> 
 	
 	<!-- 보드 게시판 카테고리 조회 -->
@@ -397,8 +398,40 @@
 	<!-- 게시글 삭제 -->
 	<delete id="delBoard">
 		DELETE UNI_BOARD
-		WHERE BOARD_NO #{boardNo}
+		WHERE BOARD_NO = #{boardNo}
 	</delete>
+	
+	<!-- 비밀글 비밀번호 확인  -->
+	<select id="getCheckPw" resultType="int">
+		SELECT COUNT(BOARD_NO)
+		FROM UNI_BOARD
+		WHERE BOARD_NO = #{boardNo}
+		AND BOARD_PW = #{boardPw}
+	</select>
+	
+	<!-- 댓글 등록 -->
+	<insert id="regReply">
+		INSERT INTO BOARD_REPLY (
+			REPLY_NO
+			, BOARD_NO
+			, REPLY_CONTENT
+			, REPLY_WRITER
+			, IS_PRIVATE
+			<if test='isPrivate != null and isPrivate.equals("Y")'>
+			, REPLY_PW
+			</if>
+		) VALUES (
+			(SELECT 'REPLY_'||LPAD(NVL(MAX(TO_NUMBER(SUBSTR(REPLY_NO, 7))), 0) +1 , 3, '0')
+	            FROM BOARD_REPLY)
+	        , #{boardNo}
+	        , #{replyContent}
+	        , #{replyWriter}
+	        , #{isPrivate}
+	        <if test='isPrivate != null and isPrivate.equals("Y")'>
+			, #{replyPw}
+			</if>
+		)
+	</insert>
 
 </mapper>
 

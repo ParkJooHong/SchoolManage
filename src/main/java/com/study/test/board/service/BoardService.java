@@ -74,6 +74,10 @@ public interface BoardService {
 	//게시글 삭제
 	void delBoard(String boardNo);
 	
+	//비밀글 비밀번호 확인
+	int getCheckPw(UniBoardVO uniBoardVO);
 	
+	//댓글 등록
+	void regReply(BoardReplyVO boardReplyVO);
 	
 }

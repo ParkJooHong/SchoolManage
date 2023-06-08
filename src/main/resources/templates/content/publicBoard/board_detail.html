@@ -52,27 +52,36 @@
 			<div class="row mb-5">
 				<div class="col">※ 총 [[${#lists.size(boardMap['replyList'])}]] 개의 댓글이 있습니다.</div>
 			</div>
-			<div class="row mb-3">
-				<div class="col-10">
+			<div class="row mb-3" id="replyIct">
+				<div class="col-7">
 					<input type="text" placeholder="댓글 작성" class="form-control">
 				</div>
-				<div class="col-2 d-grid">
-					<input type="button" class="btn btn-success" value="등록">
+				<div class="col-1 text-center">
+					<label>비밀글 여부</label>
+					<input type="radio" name="isPrivate" class="form-check-input" onchange="radioCtrl(this);" value="Y">&nbsp; Y
+					<input type="radio" name="isPrivate" class="form-check-input" onchange="radioCtrl(this);" checked value="N">&nbsp; N
+				</div>
+				<div class="col-3" id="replyPwDiv">
+					
+				</div>
+				<div class="col-1 d-grid">
+					<input type="button" class="btn btn-success" th:onclick="regReply([[${boardMap['boardDetail'].boardNo}]]);" value="등록">
 				</div>
 			</div>
 			<div class="row mb-5">
-				<div class="col-12">
+				<div class="col-12" id="replyList">
 					<th:block th:if="${#lists.size(boardMap['replyList']) == 0}">
 						등록된 댓글이 없습니다.
 					</th:block>
 					<th:block th:unless="${#lists.size(boardMap['replyList']) == 0}">
 						<th:block th:each="reply,state:${boardMap['replyList']}">
-							<th:block th:if="${reply.isPrivate != 'N'}">
-								댓글번호 : [[${state.count}]]<br>
-								작성자 : [[${reply.replyWriter}]]<br>
-								내용 : [[${reply.replyContent}]]<br>
+							<th:block th:if="${reply.isPrivate == 'N'}">
+									댓글번호 : [[${#lists.size(boardMap['replyList']) - state.index}]]<br>
+									작성자 : [[${reply.replyWriter}]]<br>
+									내용 : [[${reply.replyContent}]]<br>
+									<div class="mb-3"></div>
 							</th:block>
-							<th:block th:unless="${reply.isPrivate != 'N'}">
+							<th:block th:if="${reply.isPrivate == 'Y'}">
 								비밀글 입니다 비밀번호를 입력하세요 &nbsp; <input type="password"> <input type="button" class="btn btn-success" value="확인">
 							</th:block>
 						</th:block>

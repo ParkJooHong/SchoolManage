@@ -146,6 +146,18 @@ public class BoardServiceImpl implements BoardService {
 		sqlSession.delete("boardMapper.delBoard",boardNo);
 		
 	}
+	//비밀글 비밀번호 확인
+	@Override
+	public int getCheckPw(UniBoardVO uniBoardVO) {
+		return sqlSession.selectOne("boardMapper.getCheckPw",uniBoardVO);
+	}
+	
+	//댓글 등록
+	@Override
+	public void regReply(BoardReplyVO boardReplyVO) {
+		sqlSession.insert("boardMapper.regReply",boardReplyVO);
+		
+	}
 	
 	
 
