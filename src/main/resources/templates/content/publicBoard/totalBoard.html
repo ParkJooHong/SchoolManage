@@ -171,15 +171,15 @@
 							 <nav aria-label="Page navigation example">
 							  <ul class="pagination justify-content-center">
 							    <li class="page-item" th:classappend="${uniBoardVO.prev ? ' ' : 'disabled'}">
-							      <a class="page-link"  th:href="@{/stuMenu/totalBoard(nowPage=${uniBoardVO.beginPage -1},  menuCode=${menuCode}, subMenuCode=${subMenuCode})}" aria-label="Previous">
+							      <a class="page-link"  th:href="@{/board/board(nowPage=${uniBoardVO.beginPage -1},  menuCode=${menuCode}, subMenuCode=${subMenuCode})}" aria-label="Previous">
 							        <span aria-hidden="true">&laquo;</span>
 							      </a>
 							    </li>
 							    <li class="page-item" th:each="pageNum : ${#numbers.sequence(uniBoardVO.beginPage,uniBoardVO.endPage)}">
-							    	<a th:classappend="${uniBoardVO.nowPage == pageNum ? 'active' : ' '}" class="page-link" th:href="@{/stuMenu/totalBoard(nowPage=${pageNum} , menuCode=${menuCode}, subMenuCode=${subMenuCode})}">[[${pageNum}]]</a>
+							    	<a th:classappend="${uniBoardVO.nowPage == pageNum ? 'active' : ' '}" class="page-link" th:href="@{/board/board(nowPage=${pageNum} , menuCode=${menuCode}, subMenuCode=${subMenuCode})}">[[${pageNum}]]</a>
 							    </li>
 							    <li class="page-item" th:classappend="${uniBoardVO.next ? ' ' : 'disabled'}">
-							    	<a class="page-link" th:href="@{/stuMenu/totalBoard(nowPage=${uniBoardVO.endPage + 1},  menuCode=${menuCode}, subMenuCode=${subMenuCode})}" aria-label="Next"><span aria-hidden="true">&raquo;</span>
+							    	<a class="page-link" th:href="@{/board/board(nowPage=${uniBoardVO.endPage + 1},  menuCode=${menuCode}, subMenuCode=${subMenuCode})}" aria-label="Next"><span aria-hidden="true">&raquo;</span>
 							      </a>
 							    </li>
 							  </ul>

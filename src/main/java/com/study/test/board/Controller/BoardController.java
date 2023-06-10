@@ -56,6 +56,26 @@ public class BoardController {
 	@Resource(name = "boardReplyService")
 	private BoardReplyService boardReplyService;
 	
+	@GetMapping("/boardMain")
+	public String boardMain(MemberSubMenuVO memberSubMenuVO, Authentication authentication, Model model, MemberVO memberVO, StuVO stuVO) {
+		memberSubMenuVO.setMenuCode(ConstVariable.ONE_STU_MENU_CODE);
+		memberSubMenuVO.setSubMenuCode(ConstVariable.DEFAULT_STU_SUB_MENU_CODE);
+		
+		String memLayout = getCode(authentication, model);
+		
+		User user = (User) authentication.getPrincipal();
+		String memName = user.getUsername();
+		// System.out.println(memName);
+		stuVO.setMemNo(user.getUsername()); // id임
+		memberVO.setMemNo(user.getUsername());
+		model.addAttribute("memberVO", stuService.seletStu(memberVO));
+		System.out.println("학생정보 : " + stuService.seletStu(memberVO));
+		
+		model.addAttribute("memLayOut", memLayout);
+		
+		return "/content/publicBoard/board_main";
+	}
+	
 	//전체 게시판
 	@RequestMapping("/board")
 	private String totalBoard(Authentication authentication, Model model, MemberVO memberVO, StuVO stuVO, String toDate,

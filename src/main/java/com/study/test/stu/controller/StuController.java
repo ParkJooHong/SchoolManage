@@ -1085,12 +1085,10 @@ public class StuController {
 	//게시판 페이지
 	   @GetMapping("/board")
 	   public String board(AdminSubMenuVO adminSubMenuVO, Model model, UniBoardVO uniBoardVO) {
-		   
-		 
 
 
 			
-	      return "redirect:/board/board";
+	      return "redirect:/board/boardMain";
 	   }
 
 	// ------ 게시판 {

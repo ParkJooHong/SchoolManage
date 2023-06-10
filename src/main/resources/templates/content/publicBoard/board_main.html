@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{fragment/__${memLayOut}___layout}">
+
+<th:block layout:fragment="content_css">
+	<link rel="stylesheet" href="/css/content/board/board_main.css">
+	
+		<!-- ㅇㅇ -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+</th:block>
+
+<th:block layout:fragment="content">
+
+	<div class="center">
+    <main class="wrap">
+ 	<video src="img/bg.mp4" loop autoplay muted> </video>
+ 	
+ 	<section id="circle">
+ 		<article class="face1">
+ 			<h1>게시판 목록</h1>
+ 			<div class="inner">
+ 				<div>
+ 					<h2><a th:href="@{/board/board}"> 🌍 전체 게시판</a></h2>			
+ 				</div>
+ 				<div>
+ 					<h2><a th:href="@{/board/totalBoard}">🏛️ 학과 게시판</a> </h2>
+ 				</div>
+ 				<div>
+ 					<h2><a th:href="@{/board/notice}"> 📢 학사 공지사항 </a></h2>
+ 				</div>
+ 				<div>
+ 					<h2><a th:href="@{/board/donation}"> 🎁 중고나눔 </a></h2>
+ 				</div>
+ 			</div>
+ 		</article>
+ 	</section>
+ </main>
+ </div>
+	
+</th:block>
+
+
+<th:block layout:fragment="content_js">
+	<script type="text/javascript" src="/js/content/board/board_main.js"></script>
+</th:block>
+
+</html>
