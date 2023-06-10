@@ -61,6 +61,9 @@ public class BoardController {
 	private String totalBoard(Authentication authentication, Model model, MemberVO memberVO, StuVO stuVO, String toDate,
 			String fromDate, UniBoardVO uniBoardVO, BoardCategoryVO boardCategoryVO, String cateNo, MemberSubMenuVO memberSubMenuVO) {
 
+		memberSubMenuVO.setMenuCode(ConstVariable.ONE_STU_MENU_CODE);
+		memberSubMenuVO.setSubMenuCode(ConstVariable.DEFAULT_STU_SUB_MENU_CODE);
+		
 		String memLayout = getCode(authentication, model);
 		
 		User user = (User) authentication.getPrincipal();

@@ -44,5 +44,9 @@ input[type="text"]{
 	cursor: move;
 }
 
-
-
+#external-events{
+	display: none;
+}
+#drop-remove{
+	display: none;
+}

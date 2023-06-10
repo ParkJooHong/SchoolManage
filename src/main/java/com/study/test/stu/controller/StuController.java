@@ -250,8 +250,25 @@ public class StuController {
 
 	// 캘린더
 	@GetMapping("/calender")
-	private String calender(MemberSubMenuVO memberSubMenuVO) {
+	private String calender( Authentication authentication , StuVO stuVO, MemberVO memberVO, Model model, String stuNo, MemberSubMenuVO memberSubMenuVO) {
 
+		User user = (User) authentication.getPrincipal();
+		String memName = user.getUsername();
+		stuVO.setMemNo(user.getUsername()); // id임
+		memberVO.setMemNo(user.getUsername());
+		stuNo = stuService.seletStu(memberVO).getStuVO().getStuNo();
+
+		Map<String, Object> stuManage = new HashMap<>();
+		memberVO = stuService.seletStu(memberVO);
+		List<StatusInfoVO> status = stuService.getStatusLeaveInfo(stuNo); //휴학신청자 조회
+		List<DeptManageVO> deptManage = stuService.getStatusDoubleInfo(memberVO.getMemNo()); // 복수 전공 신청 조회
+		stuManage.put("stuStatus", status);
+		stuManage.put("deptManageVO", deptManage);
+		stuManage.put("memberVO", memberVO);
+		
+		model.addAttribute("info", stuManage);
+		
+		
 		return "/content/stu/stu_calender/departmentSchedule";
 	}
 
@@ -1082,7 +1099,7 @@ public class StuController {
 	private String myBoard(Authentication authentication, Model model, MemberVO memberVO, StuVO stuVO,
 			String boardWriter, String toDate, String fromDate, UniBoardVO uniBoardVO, BoardCategoryVO boardCategoryVO,
 			String cateNo, String menuCode, SearchVO searchVO, String subMenuCode, BoardListSearchVO boardListSearchVO,
-			String boardNo, @RequestParam(name = "month", required = false) Integer month) {
+			String boardNo, @RequestParam(name = "month", required = false) Integer month, MemberSubMenuVO memberSubMenuVO) {
 
 		System.out.println(month);
 
@@ -1489,13 +1506,24 @@ public class StuController {
 
 	// 내 할일
 	@GetMapping("/mySchedule")
-	private String mySchedule(Authentication authentication ,StuVO stuVO, Model model, MemberVO memberVO ,MemberSubMenuVO memberSubMenuVO) {
+	private String mySchedule(Authentication authentication ,StuVO stuVO, Model model, MemberVO memberVO ,MemberSubMenuVO memberSubMenuVO, String stuNo) {
 		User user = (User) authentication.getPrincipal();
 		String memName = user.getUsername();
 		// System.out.println(memName);
 		stuVO.setMemNo(user.getUsername()); // id임
 		memberVO.setMemNo(user.getUsername());
-		model.addAttribute("memberVO", stuService.seletStu(memberVO));
+
+		stuNo = stuService.seletStu(memberVO).getStuVO().getStuNo();
+
+		Map<String, Object> stuManage = new HashMap<>();
+		memberVO = stuService.seletStu(memberVO);
+		List<StatusInfoVO> status = stuService.getStatusLeaveInfo(stuNo); //휴학신청자 조회
+		List<DeptManageVO> deptManage = stuService.getStatusDoubleInfo(memberVO.getMemNo()); // 복수 전공 신청 조회
+		stuManage.put("stuStatus", status);
+		stuManage.put("deptManageVO", deptManage);
+		stuManage.put("memberVO", memberVO);
+		
+		model.addAttribute("info", stuManage);
 		
 		scheduleService.selectMySchedule(memberVO.getMemNo());
 		

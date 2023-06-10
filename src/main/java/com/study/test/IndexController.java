@@ -73,10 +73,12 @@ public class IndexController {
 		if(profileNickname != null) {
 			System.out.println(profileNickname);
 			System.out.println(memNo);
-			profileNickname = user.getUsername();
-			stuVO.setMemNo(memNo);
-			memberVO.setMemNo(profileNickname);
-			authentication.getPrincipal();
+			memName = profileNickname;	
+			stuVO.setMemNo(memName);
+			memberVO.setMemNo(memName);
+			stuVO.setStuNo(memName);
+			System.out.println(stuVO);
+			System.out.println(memberVO);
 			
 		}
 		

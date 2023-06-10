@@ -10,27 +10,38 @@
 </th:block>
 
 <th:block layout:fragment="content">
-<div style="font-size: 15px; color: blue; font-weight: bold;">즐겨찾기 ☆</div>
-<div style="font-size: 20px; color: red; font-weight: bold;" >학생기본정보</div>
+<div style="font-size: 20px; color: red; font-weight: bold; margin: 10px;" >🧑‍🎓학생기본정보</div>
 <div class="tableAdd">
-   <table border="3" style="border-color: red;" class="default_info">
-      <tr>
-         <td>학번</td>
-         <td><input type="text" readonly></td>
-         <td>성명</td>
-         <td><input type="text" readonly></td>
-         <td>학년</td>
-         <td><input type="text" readonly></td>
-         <td>학적상태</td>
-         <td><input type="text" readonly></td>
-      </tr>
-   </table>
+	<table border="3" style="border-color: red;" class="default_info">
+		<tr th:each="member : ${info['memberVO']}">
+			<td>학번</td>
+			<td><input type="text" readonly th:value="${member.memNo}"> </td>
+			<td>성명</td>
+			<td><input type="text" readonly th:value="${member.memName}"></td>
+			<td>학년</td>
+			<td><input type="text" readonly th:value="${member.stuVO.stuYear}">
+			</td>
+			<td>학적상태</td>
+			<td><input type="text" readonly th:value="${member.stuVO.stuStatus}" ></td>
+		</tr>
+	</table>
 </div>
 <div style="text-align: center;">
-   <button onclick="plus();" class="plus" style="width: 40px; height:30px; border-bottom-left-radius:10px; border-bottom-right-radius:10px;
-      font-size: 20px; font-weight: bold; border-color: red;  color: white; background-color: red;">
-      +
-   </button>
+<th:block th:each="processStatus : ${info['deptManageVO']}">
+	<tr >
+		<td><input type="hidden" th:value="${processStatus.processStatus}" class="processStatus"></td>
+		<td><input type="hidden" th:value="${processStatus.colleageVO.collName}" class="doubleCollName"></td>
+		<td><input type="hidden" th:value="${processStatus.deptVO.deptName}" class="doubleDeptName"></td>
+	</tr>
+</th:block>
+
+<th:block th:each="member : ${info['memberVO']}">
+	
+	<button th:onclick="plus([[${member.memNo}]], [[${member.memName}]], [[${member.stuVO.stuYear}]] , [[${member.stuVO.stuStatus}]] , [[${member.colleageVO.collName}]] , [[${member.deptVO.deptName}]]  );" class="plus" style="width: 40px; height:30px; border-bottom-left-radius:10px; border-bottom-right-radius:10px;
+		font-size: 20px; font-weight: bold; border-color: red;  color: white; background-color: red;">
+		+
+	</button>
+</th:block>
 </div>
 <br>
 
@@ -38,16 +49,15 @@
 <div >
     <p>
       <input type='checkbox' id='drop-remove' />
-      <label for='drop-remove'>remove after drop</label>
     </p>
   </div>
   
  <div  style="float:right;">
-	<div><input type="button" value="일정 저장" onclick="allSave();" id="save-button" class="btn btn-danger" style="margin: 5px;"></div>
-	<div><input type="button" value="전체 삭제" onclick="allDelete();" id="delete-button" class="btn btn-danger" style="margin: 5px;"></div>
+	<div><input type="hidden" value="일정 저장" onclick="allSave();" id="save-button" class="btn btn-danger" style="margin: 5px;"></div>
+	<div><input type="hidden" value="전체 삭제" onclick="allDelete();" id="delete-button" class="btn btn-danger" style="margin: 5px;"></div>
  </div>
   	
- <div style="float:left; width: 90%;">
+ <div style="float:left; width: 100%;">
  	<div>
  		
  		
@@ -82,6 +92,7 @@
 <script type="text/javascript" src="/js/content/stu/stu_calender/mySchedule.js"></script>
 <script type="text/javascript" src="/js/content/stu/stu_calender/save.js"></script>
 <script type="text/javascript" src="/js/content/stu/stu_calender/ko.js"></script> 
+
 </th:block>
 
 </html>

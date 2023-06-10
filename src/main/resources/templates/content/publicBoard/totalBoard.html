@@ -45,12 +45,12 @@
 					  </td>
 					</tr>
 				  </table>
-				  <form th:action="@{/stuMenu/totalBoard}" method="post" id="month-form">
+				  <form th:action="@{/board/board}" method="post" id="month-form">
 				  	<input type="hidden" value="" name="month">
 				  	<input type="hidden" th:value="${menuCode}" name="menuCode"> 
 					<input type="hidden" th:value="${subMenuCode}" name="subMenuCode"> 
 				  </form>
-				  <form th:action="@{/stuMenu/totalBoard}" method="post" id="orderBy">
+				  <form th:action="@{/board/board}" method="post" id="orderBy">
 				  	<input type="hidden" value="" name="orderBy">
 				  	<input type="hidden" th:value="${menuCode}" name="menuCode"> 
 					<input type="hidden" th:value="${subMenuCode}" name="subMenuCode"> 
@@ -71,7 +71,7 @@
 								</div>
 								
 								<div class="col-6 text-end">
-									<form th:action="@{/stuMenu/totalBoard}" method="post" id="month-form">
+									<form th:action="@{/board/board}" method="post" id="month-form">
 								
 									<input type="date" name="fromDate" placeholder="이달의 첫날" th:value="${uniBoardFromDate}" >
 									<input type="date" placeholder="이달의 마지막날"  name="toDate" th:value="${uniBoardToDate}"> 
@@ -86,7 +86,7 @@
 						</td>
 
 						<td>	
-						  <form th:action="@{/stuMenu/totalBoard}" method="post">
+						  <form th:action="@{/board/board}" method="post">
 							  <div class="btn-group">
 							  	<input type="hidden" th:value="${menuCode}" name="menuCode"> 
 								<input type="hidden" th:value="${subMenuCode}" name="subMenuCode"> 
@@ -282,7 +282,7 @@
 
 
 <th:block layout:fragment="content_js">
-<script type="text/javascript" src="/js/content/board/totalBoard.js"></script>
+<script type="text/javascript" src="/js/content/publicBoard/totalBoard.js"></script>
 </th:block>
 
 </html>
