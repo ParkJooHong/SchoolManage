@@ -71,8 +71,8 @@ function loadingEvents(memNo) {
         for (i = 0; i < return_value.length; i++) { // 수정된 부분: result.length 대신에 return_value.length 사용
           events.push({
             title: return_value[i]['title'],
-            start: return_value[i]['startTime'],
-            end: return_value[i]['endTime']
+            date: return_value[i]['startTime'],
+            allDay : true
           });
         }
         resolve(events); // 데이터 처리 완료 후 Promise를 이용하여 결과값 전달
@@ -120,7 +120,7 @@ document.addEventListener('DOMContentLoaded', function () {
     headerToolbar: {
       left: 'prev,next today',
       center: 'title',
-      right: 'dayGridMonth,timeGridWeek,timeGridDay'
+      right: 'dayGridMonth'
     },
     editable: true,
     droppable: true,
