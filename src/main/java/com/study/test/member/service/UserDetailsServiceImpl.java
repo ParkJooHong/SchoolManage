@@ -28,7 +28,7 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 		}
 		
 		UserDetails user = User.withUsername(userInfo.getMemNo())
-								.password("{noop}" + userInfo.getMemPw())
+								.password(userInfo.getMemPw())
 								.roles(userInfo.getMemRole())
 								.build();
 		return user;

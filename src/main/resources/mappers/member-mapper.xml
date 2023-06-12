@@ -123,6 +123,13 @@
 		</if>
 	</select>
 	
+	<!-- 비번 업데이트  -->
+	<update id="setPw">
+		UPDATE UNI_MEMBER
+		SET MEM_PW = #{memPw}
+		WHERE MEM_NO = #{memNo}
+	</update>
+	
 </mapper>
 
 

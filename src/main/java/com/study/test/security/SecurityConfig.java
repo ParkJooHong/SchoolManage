@@ -20,7 +20,8 @@ public class SecurityConfig {
 		security.csrf().disable()
 				.authorizeHttpRequests()
 				.requestMatchers("/"
-								, "/**").permitAll()
+								, "/**"
+								, "/member/findPwAjax").permitAll()
 				.requestMatchers("/admin/**").hasRole("ADMIN")
 				//권한이 여러개 있을때 아래와 같이 코드작성
 				//.requestMatchers("/admin").hasAnyRole("ADMIN", "MANAGER")
@@ -46,11 +47,11 @@ public class SecurityConfig {
 		return security.build();
 	}
 	
-//	//암호화 객체 생성
-//	@Bean
-//	public PasswordEncoder getPasswordEncoder() {
-//		return new BCryptPasswordEncoder();
-//	}
+	//암호화 객체 생성
+	@Bean
+	public PasswordEncoder getPasswordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
 	
 	//로그인 성공시 실행되는 핸들러 객체생성
 	@Bean
