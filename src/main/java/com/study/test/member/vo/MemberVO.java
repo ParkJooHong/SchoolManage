@@ -26,6 +26,7 @@ public class MemberVO {
 	private String memGender;
 	private String memBirth;
 	private String memRole;
+	private String engName;
 	private MemImgVO memImgVO;
 	private StuVO stuVO;
 	private ColleageVO colleageVO;

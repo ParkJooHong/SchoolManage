@@ -37,6 +37,7 @@
 		<result column="MEM_GENDER" property="memGender" />
 		<result column="MEM_BIRTH" property="memBirth" />
 		<result column="MEM_ROLE" property="memRole" />
+		<result column="ENG_NAME" property="engName" />		
 		<association property="memImgVO" resultMap="memberMapper.memImg" />
 		<association property="stuVO" resultMap="stu" />
 		<association property="doubleMajorVO" resultMap="schoolMapper.doubleMajor" />
@@ -191,6 +192,10 @@
 		, ORIGIN_FILE_NAME
 		, ATTACHED_FILE_NAME
 		, IS_MAIN
+		, MEM_TELL
+		, MEM_EMAIL
+		, MEM_IMAGE
+		, ENG_NAME
 		FROM UNI_STU US, UNI_MEMBER UM, COLLEAGE C, DEPT D, MEM_IMG MI
 		WHERE US.COLL_NO = C.COLL_NO
 		AND UM.MEM_NO = US.MEM_NO
@@ -358,6 +363,9 @@
 		UPDATE UNI_MEMBER
 		SET MEM_ADDR = #{memAddr}
 		, MEM_ADDR_DETAIL = #{memAddrDetail}
+		, MEM_TELL = #{memTell}
+		, MEM_EMAIL = #{memEmail}
+		, ENG_NAME = #{engName}
 		WHERE MEM_NO = #{memNo}
 	</update>
 

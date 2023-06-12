@@ -126,6 +126,7 @@ function deleteBoard(boardNo, menuCode, subMenuCode ){
 					 setTimeout(function() {
 						location.reload();
 						}, 500);
+					window.history.go(-1);
 					//location.href=`/stuMenu/myBoard?menuCode=${menuCode} & subMenuCode=${subMenuCode}`;
 				}
 				else{
