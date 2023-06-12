@@ -19,7 +19,8 @@ repositories {
 }
 
 dependencies {
-
+	implementation 'org.springframework.boot:spring-boot-starter-mail' // 메일 서비스
+	
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa' // JapRepository 사용
 
 	implementation 'org.springframework:spring-web' // 웹소켓

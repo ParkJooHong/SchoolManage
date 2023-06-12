@@ -36,6 +36,7 @@ import com.study.test.professor.vo.LecturePdfVO;
 import com.study.test.professor.vo.LectureTimeVO;
 import com.study.test.professor.vo.LectureVO;
 import com.study.test.professor.vo.ProfessorMenuVO;
+import com.study.test.professor.vo.ProfessorSubMenuVO;
 import com.study.test.school.colleage.ColleageVO;
 import com.study.test.school.dept.DeptVO;
 import com.study.test.school.enrollment.EnrollmentVO;
@@ -345,8 +346,6 @@ public class ProfessorController {
 		//수강신청한 학생 목록 조회
 		List<Map<String, Object>> enrollList = schoolService.getLecStuList(lectureVO);
 		
-		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@학생 목록" + enrollList);
-		
 		//성적과 성적에따른 학점 목록 조회
 		List<GradeVO> gradeScoreList =  schoolService.getGradeScore();
 		
@@ -371,29 +370,29 @@ public class ProfessorController {
 	
 	//게시판 페이지
 	@GetMapping("/board")
-	public String board(AdminSubMenuVO adminSubMenuVO, Model model, UniBoardVO uniBoardVO) {
-		adminSubMenuVO.setMenuCode(ConstVariable.FOURTH_MENU_CODE);
+	public String board(ProfessorMenuVO professorMenuVO, ProfessorSubMenuVO professorSubMenuVO, Model model, UniBoardVO uniBoardVO) {
+		professorSubMenuVO.setMenuCode(ConstVariable.FIVE_PROFESSOR_MENU_CODE);
 		return "redirect:/board/board";
 	}
 
 	// 학사 공지사항 페이지
 	@GetMapping("/notice")
-	public String notice(AdminSubMenuVO adminSubMenuVO, Model model) {
-		adminSubMenuVO.setMenuCode(ConstVariable.FOURTH_MENU_CODE);
+	public String notice(ProfessorMenuVO professorMenuVO, ProfessorSubMenuVO professorSubMenuVO, Model model) {
+		professorSubMenuVO.setMenuCode(ConstVariable.FIVE_PROFESSOR_MENU_CODE);
 		return "redirect:/board/notice";
 	}
 
 	// 학과 게시판
 	@GetMapping("/deptBoard")
-	public String deptBoard(AdminSubMenuVO adminSubMenuVO, Model model) {
-		adminSubMenuVO.setMenuCode(ConstVariable.FOURTH_MENU_CODE);
+	public String deptBoard(ProfessorMenuVO professorMenuVO, ProfessorSubMenuVO professorSubMenuVO, Model model) {
+		professorSubMenuVO.setMenuCode(ConstVariable.FIVE_PROFESSOR_MENU_CODE);
 		return "redirect:/board/deptBoard";
 	}
 
 	// 중고 나눔 게시판
 	@GetMapping("/donation")
-	public String donation(AdminSubMenuVO adminSubMenuVO, Model model) {
-		adminSubMenuVO.setMenuCode(ConstVariable.FOURTH_MENU_CODE);
+	public String donation(ProfessorMenuVO professorMenuVO, ProfessorSubMenuVO professorSubMenuVO, Model model) {
+		professorSubMenuVO.setMenuCode(ConstVariable.FIVE_PROFESSOR_MENU_CODE);
 		return "redirect:/board/donation";
 	}
 	

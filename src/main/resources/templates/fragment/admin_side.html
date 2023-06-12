@@ -4,15 +4,15 @@
 <th:block th:fragment="adminSideFragment">
 	<link rel="stylesheet" href="/css/fragment/admin_side.css">
 	<div class="row main_div">
-		<div class="col-8 menu_name_div">
-			<ul class="menu_ul">
+		<div class="col-6 menu_name_div">
+			<ul class="menu_ul pt-3">
 				<th:block th:each="adminMenu:${adminMenuList}">
 					<li><a href="javascript:void(0)"
 						th:onclick="moveByMenuCode([[${adminMenu.menuCode}]],[[${adminMenu.menuUrl}]])">[[${adminMenu.menuName}]]</a></li>
 				</th:block>
 			</ul>
 		</div>
-		<div class="col-4">
+		<div class="col-6">
 			<ul class="subMenu_ul">
 				<th:block th:each="subMenu:${adminSubMenuList}">
 					<li><a href="javascript:void(0)"

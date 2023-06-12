@@ -1,0 +1,14 @@
+@charset "UTF-8";
+
+.bottom_row{
+	color: #e6e7e7;	
+}
+
+.copyright{
+	color: #686c6f;
+}
+
+.bottom_row img {
+	height: 100%;
+	object-fit: contain;
+}

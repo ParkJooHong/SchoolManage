@@ -116,29 +116,41 @@ function findId() {
 function findPw(){
 	const mem_no = document.querySelector('#findPwModal #memNo').value;
 	const mem_email = document.querySelector('#findPwModal #memEmail').value;
-	
+
 	//ajax start
-		$.ajax({
-		   url: '/member/findPwAjax', //요청경로
-		   type: 'post',
-		   async: true,
-		   contentType : 'application/json; charset=UTF-8',
-		   contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-		   data: {'memNo':mem_no,'memEmail': mem_email}, //필요한 데이터
-		   success: function(result) {
-		      if(result == 1){
-				alert('비번 업뎃 완료');
+	$.ajax({
+		url: '/member/findPwAjax', //요청경로
+		type: 'post',
+		async: true,
+		contentType: 'application/json; charset=UTF-8',
+		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+		data: { 'memNo': mem_no, 'memEmail': mem_email }, //필요한 데이터
+		success: function(result) {
+			if (result == true) {
+				swal.fire({
+					title: "성공",
+					text: "입력하신 이메일로 임시 비밀번호가 \n 발송되었습니다.",
+					icon: 'success',
+					button: '확인',
+
+				});
 			}
-		   },
-		   error: function() {
-		      alert('실패');
-		   }
-		});
+			else {
+				swal.fire({
+					title: "실패",
+					text: "알 수 없는 오류가 발생했습니다 \n 관리자에게 문의하세요",
+					icon: 'warning',
+					button: '확인',
+
+				});
+			}
+		},
+		error: function() {
+			alert('실패');
+		}
+	});
 		//ajax end
 
-	
-	
-	
 }
 
 

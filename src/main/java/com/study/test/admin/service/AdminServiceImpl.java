@@ -249,13 +249,18 @@ public class AdminServiceImpl implements AdminService{
 	}
 	//비밀번호 검증
 	@Override
-	public int countMemPw(MemberVO memberVO) {
+	public String countMemPw(MemberVO memberVO) {
 		return sqlsession.selectOne("adminMapper.countMemPw",memberVO);
 	}
 	//비밀번호 변경
 	@Override
 	public int changePw(MemberVO memberVO) {
 		return sqlsession.update("adminMapper.changePw",memberVO);
+	}
+	//아이디 중복검사
+	@Override
+	public int getCntById(String memNo) {
+		return sqlsession.selectOne("adminMapper.getCntById",memNo);
 	}
 	
 
