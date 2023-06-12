@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.sound.midi.Soundbank;
+
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -343,6 +345,8 @@ public class ProfessorController {
 		//수강신청한 학생 목록 조회
 		List<Map<String, Object>> enrollList = schoolService.getLecStuList(lectureVO);
 		
+		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@학생 목록" + enrollList);
+		
 		//성적과 성적에따른 학점 목록 조회
 		List<GradeVO> gradeScoreList =  schoolService.getGradeScore();
 		
@@ -371,7 +375,27 @@ public class ProfessorController {
 		adminSubMenuVO.setMenuCode(ConstVariable.FOURTH_MENU_CODE);
 		return "redirect:/board/board";
 	}
-	
+
+	// 학사 공지사항 페이지
+	@GetMapping("/notice")
+	public String notice(AdminSubMenuVO adminSubMenuVO, Model model) {
+		adminSubMenuVO.setMenuCode(ConstVariable.FOURTH_MENU_CODE);
+		return "redirect:/board/notice";
+	}
+
+	// 학과 게시판
+	@GetMapping("/deptBoard")
+	public String deptBoard(AdminSubMenuVO adminSubMenuVO, Model model) {
+		adminSubMenuVO.setMenuCode(ConstVariable.FOURTH_MENU_CODE);
+		return "redirect:/board/deptBoard";
+	}
+
+	// 중고 나눔 게시판
+	@GetMapping("/donation")
+	public String donation(AdminSubMenuVO adminSubMenuVO, Model model) {
+		adminSubMenuVO.setMenuCode(ConstVariable.FOURTH_MENU_CODE);
+		return "redirect:/board/donation";
+	}
 	
 	//학사톡
 	@GetMapping("/talk")
