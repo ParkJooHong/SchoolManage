@@ -24,20 +24,35 @@
 					<table class="detail_info">
 						<tr>
 							<td>학번/교직원번호</td>
-							<td class="d-grid">
-								<input type="text" name="memNo"  required placeholder="본인의 학번 및 교번을 입력하세요">
+							<td class="row">
+								<div class="col-9 d-grid">
+									<input type="text" name="memNo" id="memId" class="form-control"  required placeholder="본인의 학번 및 교번을 입력하세요">
+								</div>
+								<div class="col-3 d-grid">
+									<input type="button" class="btn btn-primary" onclick="checkId();" value="ID 중복검사">
+								</div>
 							</td>
 						</tr>
 						<tr>
 							<td>비밀번호</td>
 							<td class="d-grid">
-								<input type="password" name="memPw"  required placeholder="비밀번호를 입력하세요">
+								<input type="password" name="memPw" id="memPw"  required placeholder="비밀번호를 입력하세요">
+								<div class="row">
+									<div class="col-12" id="valiPw">
+										
+									</div>
+								</div>
 							</td>
 						</tr>
 						<tr>
 							<td>이름</td>
 							<td class="d-grid">
-								<input type="text" name="memName"  required placeholder="이름 입력은 필수입니다.">
+								<input type="text" name="memName" id="memName" required placeholder="이름 입력은 필수입니다.">
+								<div class="row">
+									<div class="col-12" id="valiName">
+										
+									</div>
+								</div>
 							</td>
 						</tr>
 						<tr>
@@ -51,19 +66,34 @@
 										<input type="button" class="btn btn-primary addr_search_btn" onclick="searchAddr();" value="검색">
 									</div>
 								</div>
+								<div class="row">
+									<div class="col-12" id="valiAddr">
+										
+									</div>
+								</div>
 								
 							</td>
 						</tr>
 						<tr>
 							<td>상세주소</td>
 							<td class="d-grid">
-								<input type="text" name="memAddrDetail"  required placeholder="상세주소 입력은 필수입니다.">
+								<input type="text" name="memAddrDetail"  id="inputAddrDetail" required placeholder="상세주소 입력은 필수입니다.">
+								<div class="row">
+									<div class="col-12" id="valiDetail">
+										
+									</div>
+								</div>								
 							</td>
 						</tr>
 						<tr>
 							<td>이메일</td>
 							<td class="d-grid">
-								<input type="text" name="memEmail" required placeholder="이메일 입력은 필수입니다.">
+								<input type="text" name="memEmail" id="memEmail" required placeholder="이메일 입력은 필수입니다.">
+								<div class="row">
+									<div class="col-12" id="valiEmail">
+										
+									</div>
+								</div>								
 							</td>
 						</tr>
 						<tr>
@@ -83,7 +113,12 @@
 						<tr>
 							<td>생년월일</td>
 							<td>
-								<input type="date" name="memBirth">
+								<input type="date" id="memBirth" name="memBirth">
+								<div class="row">
+									<div class="col-12" id="valiBirth">
+										
+									</div>
+								</div>
 							</td>
 						</tr>
 						<tr>
@@ -96,7 +131,12 @@
 						<tr>
 							<td>이미지 등록(필수)</td>
 							<td class="d-grid">
-								<input type="file" name="mainImg">
+								<input type="file" id="memImg" name="mainImg">
+								<div class="row">
+									<div class="col-12" id="valiImg">
+										
+									</div>
+								</div>								
 							</td>
 						</tr>
 					</table>	
@@ -104,7 +144,7 @@
 			</div>
 			<div class="row">
 				<div class="col d-grid">
-					<input type="button" onclick="insertMember();" class="btn btn-primary" value="회원 등록">
+					<input type="button" onclick="validate();" disabled id="joinBtn" class="btn btn-primary" value="회원 등록">
 				</div>
 			</div>
 		</div>

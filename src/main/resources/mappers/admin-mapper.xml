@@ -91,6 +91,14 @@
 		WHERE MENU_CODE = #{menuCode}
 	</select>
 	
+	<!-- 아이디 중복 확인 -->
+	<select id="getCntById" resultType="int">
+		SELECT COUNT(MEM_NO)
+		FROM UNI_MEMBER
+		WHERE MEM_NO = #{memNo}
+	</select>
+	
+	
 	<insert id="regStu">
 		INSERT INTO UNI_STU (
 			STU_NO
@@ -821,11 +829,10 @@
 	</delete>
 	
 	<!--회원의 비밀번호 검증  -->
-	<select id="countMemPw" resultType="int">
-		SELECT COUNT(MEM_NO)
+	<select id="countMemPw" resultType="String">
+		SELECT MEM_PW
 		FROM UNI_MEMBER
 		WHERE MEM_NO = #{memNo}
-		AND MEM_PW = #{memPw}
 	</select>
 	<!-- 비밀번호 변경  -->
 	<update id="changePw">

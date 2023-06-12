@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.study.test.member.service.MemberService;
+import com.study.test.member.vo.MailVO;
 import com.study.test.member.vo.MemberMenuVO;
 import com.study.test.member.vo.MemberSubMenuVO;
 import com.study.test.member.vo.MemberVO;
+import com.study.test.util.MailService;
 
 import jakarta.annotation.Resource;
 
@@ -28,6 +30,8 @@ public class MemberController {
 	private MemberService memberService;
 	@Autowired
 	private PasswordEncoder encoder;
+	@Resource(name = "mailService")
+	private MailService mailService;
 	
 	
 	
@@ -63,9 +67,28 @@ public class MemberController {
 	//비밀번호 찾기
 	@ResponseBody
 	@PostMapping("/findPwAjax")
-	public int findPwAjax(MemberVO memberVO) {
-		memberVO.setMemPw(encoder.encode("qwe123"));
-		return memberService.setPw(memberVO);
+	public boolean findPwAjax(MemberVO memberVO) {
+		
+		if(memberVO.getMemEmail() != null) {
+			//임시비번 생성 하고 db저장
+			String imsiPw = mailService.createRandomPw();
+			
+			String encodePw = encoder.encode(imsiPw);
+			memberVO.setMemPw(encodePw);
+			
+			memberService.setPw(memberVO);
+			
+			//메일 보내기
+			MailVO mailVO = new MailVO();
+			List<String> emailList = new ArrayList<>();
+			emailList.add(memberVO.getMemEmail());
+			mailVO.setTitle("임시 비밀번호 발송");
+			mailVO.setRecipientList(emailList);
+			mailVO.setContent("임시 비밀번호는 : " + imsiPw + "입니다.");
+			mailService.sendSimpleEmail(mailVO);
+		}
+
+		return memberVO.getMemEmail() != null ? true : false;
 	}
 	
 	

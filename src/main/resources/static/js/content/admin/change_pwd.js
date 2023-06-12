@@ -82,7 +82,7 @@ function updatePw() {
 					contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 					data: { 'memPw': now_pwd, 'memNo': mem_id }, //필요한 데이터
 					success: function(result) {
-						if (result == 0) {
+						if (result == false) {
 							swal.fire({
 								title: "현재 비밀번호가 일치하지 않습니다.",
 								icon: 'warning',

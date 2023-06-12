@@ -64,6 +64,14 @@ public class AdminController {
 
 		return "content/admin/join_member";
 	}
+	
+	//아이디 중복 확인
+	@PostMapping("/checkIdAjax")
+	@ResponseBody
+	public int checkIdAjax(String memNo) {
+		
+		return adminService.getCntById(memNo);
+	}
 
 	// 비밀번호 변겅 페이지 이동
 	@GetMapping("/changePwd")
@@ -75,14 +83,17 @@ public class AdminController {
 	//회원의 비밀번호 검증
 	@PostMapping("/updatePwAjax")
 	@ResponseBody
-	public int updatePwAjax(MemberVO memberVO) {
-		return adminService.countMemPw(memberVO);
+	public boolean updatePwAjax(MemberVO memberVO) {
+		String beforPw = adminService.countMemPw(memberVO);
+		return encoder.matches(memberVO.getMemPw(),beforPw);
 	}
 	
 	//비밀번호 변경
 	@PostMapping("/changePwAjax")
 	@ResponseBody
 	public int changePwAjax(MemberVO memberVO) {
+		String encodedPw = encoder.encode(memberVO.getMemPw());
+		memberVO.setMemPw(encodedPw);
 		return adminService.changePw(memberVO);
 	}
 
