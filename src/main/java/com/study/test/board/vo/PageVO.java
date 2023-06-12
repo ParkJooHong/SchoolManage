@@ -22,7 +22,7 @@ public class PageVO {
 	// 생성자
 	public PageVO() {
 		nowPage = 1;
-		displayCnt = 5;
+		displayCnt = 10;
 		displayPageCnt = 3;
 	}
 	

@@ -25,37 +25,6 @@ function getOrderListDesc(REPLY_CNT){
 	orderBy.submit();
 }
 
-//전체
-function cateList(CATE_001){
-
-	const orderBy = document.querySelector('#categoryList');
-	orderBy.querySelector('input').value = CATE_001;
-	orderBy.submit();
-}
-
-
-//질문
-function cateList(CATE_003){
-
-	const orderBy = document.querySelector('#categoryList');
-	orderBy.querySelector('input').value = CATE_003;
-	orderBy.submit();
-}
-
-//잡담
-function cateList(CATE_004){
-	const orderBy = document.querySelector('#categoryList');
-	orderBy.querySelector('input').value = CATE_004;
-	orderBy.submit();
-}
-
-//정보
-function cateList(CATE_005){
-	const orderBy = document.querySelector('#categoryList');
-	orderBy.querySelector('input').value = CATE_005;
-	orderBy.submit();
-}
-
 
 //검색기능
 function searchList(month){
@@ -93,6 +62,8 @@ function success(menuCode, subMenuCode){
 	const isNotice = document.querySelector('input[name="isNotice"]:checked').value;
 	const boardWriter = document.querySelector('.boardWriter').value;
 	const cateNo =document.querySelector('.cateNo').value;
+	console.log(cateNo);
+	
 	const deptNo = document.querySelector('.deptNo').value;
 	
 	//비밀번호 등록
@@ -110,8 +81,8 @@ function success(menuCode, subMenuCode){
 			url: '/stuMenu/boardWriteAjax', //요청경로
 			type: 'post',
 			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-			data: { 'menuCode' : menuCode, 'subMenuCode' : subMenuCode,  'boardTitle' : boardTitle, 
-			'boardContent' : boardContent, 'isPrivate' : isPrivate, 'isNotice' : isNotice, 'boardWriter' : boardWriter, 'cateNo' : cateNo, 'inputPwd' : inputPwd, 'deptNo' : deptNo}, //필요한 데이터
+			data: { 'menuCode' : menuCode, 'subMenuCode' : subMenuCode,  'boardTitle' : boardTitle, 'boardContent' : boardContent, 
+			'isPrivate' : isPrivate, 'isNotice' : isNotice, 'boardWriter' : boardWriter, 'cateNo' : cateNo, 'inputPwd' : inputPwd, 'deptNo' : deptNo}, //필요한 데이터
 			success: function(result) {
 				if(result){
 					swal("등록 성공!", "게시글이 등록되었습니다.", "success");
@@ -147,7 +118,7 @@ function checkPwd(isPrivate ,boardNo, menuCode, subMenuCode, readCnt){
 				success: function(result) {
 					if(result){		
 			
-						location.href=`/board/boardDetail?menuCode=${menuCode}&subMenuCode=${subMenuCode}&boardNo=${boardNo}&readCnt=${readCnt} `;
+						location.href=`/stuMenu/boardDetail?menuCode=${menuCode}&subMenuCode=${subMenuCode}&boardNo=${boardNo}&readCnt=${readCnt} `;
 					}
 					else{
 						alert('일시적 오류가 발생했습니다.');
@@ -170,71 +141,3 @@ function checkPwd(isPrivate ,boardNo, menuCode, subMenuCode, readCnt){
 }
 
 
-
-function plus(){
-	const button = document.querySelector('.plus');
-	const table = document.querySelector('.tableAdd');
-	
-	const pOrm = button.textContent;
-	button.textContent = '';
-
-	table.textContent= '';
-
-	let str = '';
-	let str2 ='';
-	if(pOrm=='+')
-	{
-		str +='-';
-		str2 +='<table border="3" style="border-color: red;" class="default_info">'
-		str2 +='	<tr>'
-		str2 +='	<td>학번</td>'
-		str2 +='	<td><input type="text" readonly></td>'
-		str2 +='	<td>성명</td>'
-		str2 +='	<td><input type="text" readonly></td>'
-		str2 +='	<td>학년</td>'
-		str2 +='	<td><input type="text" readonly></td>'
-		str2 +='	<td>학적상태</td>'
-		str2 +='	<td><input type="text" readonly></td>'
-		str2 +='</tr>'
-		str2 +='<tr>'
-		str2 +='	<td>학과코드</td>'
-		str2 +='	<td><input type="text" readonly></td>'
-		str2 +='	<td>전공</td>'
-		str2 +='	<td><input type="text" readonly></td>'
-		str2 +='	<td>복수전공</td>'
-		str2 +='	<td><input type="text" readonly></td>'
-		str2 +='	<td>부전공</td>'
-		str2 +='	<td><input type="text" readonly></td>'
-		str2 +='</tr>'
-		str2 +='<tr>'
-		str2 +='	<td>교직</td>'
-		str2 +='	<td><input type="text" readonly></td>'
-		str2 +='	<td>지도교수</td>'
-		str2 +='	<td><input type="text" readonly></td>'
-		str2 +='	<td></td>'
-		str2 +='	<td></td>'
-		str2 +='	<td></td>'
-		str2 +='	<td></td>'
-		str2 +='</tr>'
-		str2 +='</table>'
-	}
-	else
-	{
-		str +='+';
-		str2 += '<table border="3" style="border-color: red;" class="default_info">';
-		str2 += '<tr>';
-		str2 += '<td>학번</td>';
-		str2 += '<td><input type="text" readonly></td>';
-		str2 += '<td>성명</td>';
-		str2 += '<td><input type="text" readonly></td>';
-		str2 += '<td>학년</td>';
-		str2 += '<td><input type="text" readonly></td>';
-		str2 += '<td>학적상태</td>';
-		str2 += '<td><input type="text" readonly></td>';
-		str2 += '</tr>';
-		str2 += '</table>';
-	}
-	
-	button.insertAdjacentHTML('afterbegin', str);
-	table.insertAdjacentHTML('afterbegin', str2);
-}

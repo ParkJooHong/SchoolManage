@@ -4,15 +4,15 @@
 <th:block th:fragment="professorSideFragment">
 	<link rel="stylesheet" href="/css/fragment/professor_side.css">
 	<div class="row main_div">
-		<div class="col-8 menu_name_div">
-			<ul class="menu_ul">
+		<div class="col-6 menu_name_div">
+			<ul class="menu_ul pt-3">
 				<th:block th:each="professorMenu:${professorMenuList}">
-					<li><a href="#"
+					<li class="main_menu_li" th:classappend="${professorMenu.menuCode} == ${professorMenuVO.menuCode} ? 'active' : ''"><a href="#"
 						th:onclick="moveByMenuCode([[${professorMenu.menuCode}]],[[${professorMenu.menuUrl}]])">[[${professorMenu.menuName}]]</a></li>
 				</th:block>
 			</ul>
 		</div>
-		<div class="col-4">
+		<div class="col-6">
 			<ul class="subMenu_ul">
 				<th:block th:each="subMenu:${professorSubMenuList}">
 					<li><a href="javascript:void(0)"

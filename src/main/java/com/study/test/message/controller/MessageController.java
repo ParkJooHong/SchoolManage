@@ -41,8 +41,6 @@ public class MessageController {
 		messageVO.setRecvMemNo(messageVO.getRecvMemNo());
 		messageVO.setSendMemNo(user.getUsername());
 
-		System.out.println("보낼 메세지 데이터 확인" + messageVO);
-
 		// 메세지 전송 쿼리 실행
 		messageService.sendMessage(messageVO);
 
@@ -59,8 +57,6 @@ public class MessageController {
 		messageVO.setRecvMemNo(messageVO.getRecvMemNo());
 		messageVO.setSendMemNo(user.getUsername());
 
-		System.out.println("보낼 메세지 데이터 확인" + messageVO);
-
 		// 메세지 전송 쿼리 실행
 		messageService.sendMessage(messageVO);
 	}
@@ -75,8 +71,6 @@ public class MessageController {
 		List<String> authorityStrings = userInfo.getAuthorities().stream().map(GrantedAuthority::getAuthority)
 				.collect(Collectors.toList());
 
-		System.out.println("@@@@@@@@@@@@@@@@@@@@" + authorityStrings);
-
 		// 메뉴 코드 설정
 		getCode(authentication, model);
 
@@ -85,8 +79,6 @@ public class MessageController {
 
 		// 메세지 리스트 조회
 		List<Map<String, Object>> msgList = messageService.getMsgList(userInfo.getUsername());
-
-		System.out.println("@@@@@@@@@@@@@@@@@@@@@@msglist" + msgList);
 
 		model.addAttribute("mem_role", layout);
 		model.addAttribute("msgList", msgList);

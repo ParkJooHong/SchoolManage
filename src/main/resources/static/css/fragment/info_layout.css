@@ -11,8 +11,6 @@
 body{
 width: 100%;
 	margin: 0px;
-
-
 }
 
 .side{
@@ -21,5 +19,4 @@ width: 100%;
 
 .full_layout {
 	height: 100vh;
-	
 }
