@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -671,6 +673,17 @@ public class AdminController {
    public String toTalk(AdminSubMenuVO adminSubMenuVO) {
 	  adminSubMenuVO.setMenuCode("MENU_007");
       return "redirect:/message/messageList";
+   }
+   
+ //캘린더
+   @GetMapping("/calender")
+   public String calender(AdminSubMenuVO adminSubMenuVO, Authentication authentication, MemberVO memberVO) {
+	  adminSubMenuVO.setMenuCode("MENU_006");
+	  
+	  User user = (User) authentication.getPrincipal();
+		memberVO.setMemNo(user.getUsername());
+	  
+      return "/content/admin/calender";
    }
 	
 }
