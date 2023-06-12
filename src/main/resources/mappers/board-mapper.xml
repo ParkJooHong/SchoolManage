@@ -125,7 +125,10 @@
 				AND TO_CHAR(REG_BOARD_DATE, 'YYYY-MM-DD') &gt;= #{fromDate}
 				AND TO_CHAR(REG_BOARD_DATE, 'YYYY-MM-DD') &lt;= #{toDate}
 			</if>
-			ORDER BY REG_BOARD_DATE DESC
+			<if test='searchValue != null and !searchValue.equals("")'>
+	       		  AND UPPER(${searchKeyword}) LIKE '%' || UPPER(#{searchValue}) || '%'
+	        </if>
+			ORDER BY ${orderBy} DESC
 			 OFFSET #{offsetCnt} ROWS FETCH FIRST #{displayCnt} ROWS ONLY
 		</select>
 		

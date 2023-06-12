@@ -1275,12 +1275,20 @@ public class StuController {
 		System.out.println("보드 카테고리 정보 : " + boardService.getBoardCategoryList());
 		model.addAttribute("uniBoardList", boardService.getTotalBoardList(uniBoardVO));
 
-		return "/content/stu/stu_board/totalBoard";
+		//위에꺼 다필요없음
+		return "redirect:/board/board";
 	}
 
+	//학과 공지사항
+	@GetMapping("deptBoard")
+	private String deptBoard() {
+		
+		return "redirect:/board/deptBoard";
+	}
+	
 	// 학사 공지사항 게시판
-	@GetMapping("/deptBoard")
-	private String deptBoard(Authentication authentication, StuVO stuVO, MemberVO memberVO, Model model, UniBoardVO uniBoardVO, MemberSubMenuVO memberSubMenuVO) {
+	@GetMapping("/notice")
+	private String notice(Authentication authentication, StuVO stuVO, MemberVO memberVO, Model model, UniBoardVO uniBoardVO, MemberSubMenuVO memberSubMenuVO) {
 		memberSubMenuVO.setMenuCode(ConstVariable.FOURTH_STU_MENU_CODE);
 		
 		User user = (User) authentication.getPrincipal();
@@ -1295,8 +1303,9 @@ public class StuController {
 
 		model.addAttribute("uniBoardList", boardService.getTotalDeptBoardList(uniBoardVO));
 
+		//위에꺼 다필요없음
 
-		return "/content/stu/stu_board/deptBoard";
+		return "redirect:/board/notice";
 	}
 
 	// 게시글 비밀번호 확인

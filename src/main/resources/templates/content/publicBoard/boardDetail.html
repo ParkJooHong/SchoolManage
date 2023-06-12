@@ -10,6 +10,7 @@
 <th:block layout:fragment="content">
 
 
+<input type="hidden" th:value="${memberVO.memNo}" class="stuNo">
 
 <th:block th:each="boardCategoryVO : ${boardCategoryVO}">
 	<div>		
@@ -124,7 +125,7 @@
 				<input type="hidden" th:value="${subMenuCode}" class="subMenuCode" >
 				<td rowspan="2">🧖‍♀️</td>							
 				<td>[[${boardReply.replyWriter}]]</td>		
-				<td rowspan="2" th:if="${memberVO.stuVO.stuNo == boardReply.replyWriter}" class="upOrDe">
+				<td rowspan="2" th:if="${memberVO.memNo == boardReply.replyWriter}" class="upOrDe">
 					<input type="button" th:onclick="replyUpdate( [[${boardReply.replyContent}]] ,[[${menuCode}]] , [[${subMenuCode}]])" value="✅">  
 					<input type="button" th:onclick="replyDelete([[${boardReply.replyWriter}]] , [[${boardReply.replyNo}]] , [[${menuCode}]] , [[${subMenuCode}]])" value="❎">
 				</td>					

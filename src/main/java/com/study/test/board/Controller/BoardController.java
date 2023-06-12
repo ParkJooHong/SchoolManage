@@ -81,6 +81,8 @@ public class BoardController {
 	private String totalBoard(Authentication authentication, Model model, MemberVO memberVO, StuVO stuVO, String toDate,
 			String fromDate, UniBoardVO uniBoardVO, BoardCategoryVO boardCategoryVO, String cateNo, MemberSubMenuVO memberSubMenuVO) {
 
+		System.out.println(uniBoardVO.getOrderBy());
+		
 		memberSubMenuVO.setMenuCode(ConstVariable.ONE_STU_MENU_CODE);
 		memberSubMenuVO.setSubMenuCode(ConstVariable.DEFAULT_STU_SUB_MENU_CODE);
 		
@@ -248,6 +250,91 @@ public class BoardController {
 			return "content/publicBoard/boardDetail";
 		}
 	
+		//학과 게시판
+	@GetMapping("/deptBoard")
+	private String deptBoard(MemberSubMenuVO memberSubMenuVO, Model model, Authentication authentication, MemberVO memberVO, StuVO stuVO, UniBoardVO uniBoardVO
+			,String cateNo, BoardCategoryVO boardCategoryVO) {
+
+		String memLayout = getCode(authentication, model);
+		model.addAttribute("memLayOut", memLayout);
+		
+		User user = (User) authentication.getPrincipal();
+		String memName = user.getUsername();
+		stuVO.setMemNo(user.getUsername()); // id임
+		memberVO.setMemNo(user.getUsername());
+		model.addAttribute("memberVO", stuService.seletStu(memberVO));
+		System.out.println("학생정보 : " + stuService.seletStu(memberVO));
+
+		// 오늘 날짜
+				String nowDate = DateUtil.getNowDateToString();
+
+				// 이번달의 첫날
+				String firstDate = DateUtil.getFirstDateOfMonth();
+
+				if (uniBoardVO.getOrderBy() == null) {
+					uniBoardVO.setOrderBy("REG_BOARD_DATE");
+				}
+				if (uniBoardVO.getSearchKeyword() == null) {
+					uniBoardVO.setSearchKeyword("BOARD_WRITER");
+				}
+				if (uniBoardVO.getSearchValue() == null) {
+					uniBoardVO.setSearchValue("");
+				}
+
+				if (uniBoardVO.getMonth() == 0) {
+					uniBoardVO.setMonth(0);
+				}
+				
+				System.out.println(uniBoardVO.getOrderBy());
+				
+				// Month랑 toDate, FromDate 함꼐 실행 불가
+				if(uniBoardVO.getMonth() == 0) {
+					uniBoardVO.setFromDate(null);
+					uniBoardVO.setToDate(null);
+				} else if(uniBoardVO.getMonth() == -1) {
+					uniBoardVO.setFromDate(null);
+					uniBoardVO.setToDate(null);
+				}else if(uniBoardVO.getMonth() == -3) {
+					uniBoardVO.setFromDate(null);
+					uniBoardVO.setToDate(null);
+				}
+				else {
+					if (uniBoardVO.getFromDate() == null) {
+						uniBoardVO.setFromDate(firstDate);
+					}
+
+					if (uniBoardVO.getToDate() == null) {
+						uniBoardVO.setToDate(nowDate);
+					}
+				}
+				
+				if(uniBoardVO.getToDate() != null || uniBoardVO.getFromDate() != null) {
+					uniBoardVO.setMonth(0);
+				}
+				
+				System.out.println(uniBoardVO.getFromDate());
+				model.addAttribute("uniBoardFromDate", uniBoardVO.getFromDate());
+				System.out.println(uniBoardVO.getToDate());
+				model.addAttribute("uniBoardToDate", uniBoardVO.getToDate());
+
+				
+				
+				cateNo = boardCategoryVO.getCateNo();
+
+				int totalDateCnt = boardService.totalBoardPage(uniBoardVO);
+				uniBoardVO.setTotalDataCnt(totalDateCnt);
+
+				// 페이징 정보 세팅
+				uniBoardVO.setPageInfo();
+
+				System.out.println("페이징 정보 : " + uniBoardVO);
+
+				model.addAttribute("boardCategoryVO", boardService.getBoardCategoryList());
+				System.out.println("보드 카테고리 정보 : " + boardService.getBoardCategoryList());
+				model.addAttribute("uniBoardList", boardService.getTotalBoardList(uniBoardVO));
+		
+		return "content/publicBoard/deptBoard";
+	}
 	
 	
 	
