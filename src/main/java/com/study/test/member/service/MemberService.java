@@ -11,6 +11,9 @@ public interface MemberService {
 	
 	//회원 정보 조회
 	MemberVO getMemInfo(MemberVO memberVO); 
+	
+	//회원 정보 조회(전체 게시판)
+	MemberVO getMemInfoForBoard(MemberVO memberVO);
 
 	//학생 메뉴
 	List<MemberMenuVO> stuMenuList();

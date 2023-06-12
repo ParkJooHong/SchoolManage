@@ -1,5 +1,6 @@
 package com.study.test.member.vo;
 
+import com.study.test.admin.vo.EmpVO;
 import com.study.test.admin.vo.StuOutVO;
 import com.study.test.school.colleage.ColleageVO;
 import com.study.test.school.dept.DeptVO;
@@ -28,6 +29,7 @@ public class MemberVO {
 	private String memRole;
 	private MemImgVO memImgVO;
 	private StuVO stuVO;
+	private EmpVO empVO;
 	private ColleageVO colleageVO;
 	private DeptVO deptVO;
 	private DoubleMajorVO doubleMajorVO;
