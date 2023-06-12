@@ -3,27 +3,18 @@
 
 <th:block th:fragment="infoSideFragment">
 <link rel="stylesheet" href="/css/fragment/info_side.css">
-<div class="row">
-	<div>
-		<span>
-			
-			<input type="search" class="menuSearch"  placeholder="🔎   메뉴를 검색하세요."> 
-		</span>
-	</div>
-	<div> </div>
-
+<div class="row side_row">
 <div class="div-container">
-	<div class="div-left">
+	<div class="div-left mt-3">
 		<table>
 			<th:block th:each="menu : ${menuList}">
-				<tr>
-					<td class="list-group-item submenuTd" th:onclick="mainMenu([[${menu.menuCode}]],[[${menu.menuUrl}]]);">
-						✨ [[${menu.menuName}]]</td>
+				<tr class="submenuTr" th:classappend="${menu.menuCode} == ${memberSubMenuVO.menuCode} ? 'active' : ''">
+					<td class="list-group-item submenuTd" th:onclick="mainMenu([[${menu.menuCode}]],[[${menu.menuUrl}]]);">[[${menu.menuName}]]</td>
 				</tr>
-			</th:block>	
+			</th:block>
 		</table>
 	</div>
-	<div class="div-center">
+	<div class="div-center pt-3">
 		<table>
 		<th:block th:each="menu : ${menuList}">
 			<th:block th:each="subMenu : ${subMenuList}">					
@@ -31,7 +22,7 @@
 						<tr>
 							<td class="list-group-item submenuTd"
 								th:onclick="subMenu([[${subMenu.subMenuCode}]],[[${subMenu.subMenuUrl}]],[[${menu.menuCode}]]);">
-								🍒 [[${subMenu.subMenuName}]] <br></td>
+								[[${subMenu.subMenuName}]]</td>
 						</tr>
 					</th:block>
 			</th:block>			
