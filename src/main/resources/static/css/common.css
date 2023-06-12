@@ -61,12 +61,6 @@ body{
 	height: 15vh;
 }
 
-/* 메인메뉴 서브메뉴 글꼴 */
-li > a{
-	font-size: 16px;
-	color: white;
-}
-
 
 /* 버튼 모음 */
 

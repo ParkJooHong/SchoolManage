@@ -29,4 +29,5 @@ li {
 
 li > a {
 	color: white;
+	font-weight: bold;
 }
