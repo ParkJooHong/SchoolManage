@@ -1,3 +1,85 @@
+//전체, 강의중, 폐강 ajax 목록조회
+function getLetureList() {
+	//강의상태 radio 선택값 가져오기
+	const lec_statuses = document.querySelectorAll('.lec_status');
+	//변수지정
+	let lec_status;
+	let semNo;
+
+	lec_statuses.forEach(function(status) {
+		if (status.checked) {
+			lec_status = status.value;
+		}
+	});
+	//전체 선택시 null값을 줌
+	if (lec_status == 'all') {
+		lec_status = null;
+	}
+	//입력값
+	//1.선택한 학기
+	const semesters = document.querySelectorAll('.semNo');
+	semesters.forEach(function(seme) {
+		if (seme.selected) {
+			semNo = seme.value;
+		}
+	});
+	//2.교과목명
+	const lecName = document.querySelector('.search_row #lecName').value;
+
+	const lectureVO = {
+		lecStatus: lec_status,
+		semNo: semNo,
+		lecName: ''
+	}
+	if (lecName != null || lecName != '') {
+		lectureVO.lecName = lecName;
+	}
+
+	//ajax start
+	$.ajax({
+		url: '/professor/getLectureListAjax', //요청경로
+		type: 'post',
+		async: false, //동기 방식으로 실행, 작성하지 않으면 기본 true값을 가짐
+		contentType: 'application/json; charset=UTF-8',
+		data: JSON.stringify(lectureVO),			//JSON.stringify(classInfo), //필요한 데이터
+		success: function(lecture_list) {
+			//목록이 그려질 tbody태그 선택
+			const tbody_tag = document.querySelector('tbody');
+
+			//기존리스트 삭제
+			tbody_tag.replaceChildren();
+
+			//검색한 목록 추가
+			let str = '';
+
+			if (lecture_list.length != 0) {
+				for (const lecture of lecture_list) {
+					str += `<tr onclick="getLecStuList(${lecture.lecNo})>`;
+					str += `<td>${lecture.lecName}</td>`;
+					str += `<td>${lecture.lecScore}</td>`;
+					str += `<td>${lecture.colleageVO.collName}</td>`;
+					str += `<td>${lecture.deptVO.deptName}</td>`;
+					str += `</tr>`;
+				}
+			}
+			else {
+				str += `<tr>`;
+				str += `<td colspan="10">조회된 강의가 없습니다.</td>`;
+				str += `</tr>`;
+			}
+
+			//검색된 목록 삽입
+			tbody_tag.insertAdjacentHTML('afterbegin', str);
+
+		},
+		error: function() {
+			alert('실패');
+		}
+	});
+	//ajax end 
+}
+
+
 //수강 신청한 학생 목록 조회
 function getLecStuList(lec_no) {
 	//ajax start

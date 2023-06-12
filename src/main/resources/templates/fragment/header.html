@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <!-- jQuery CDN 추가 -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -19,25 +20,28 @@
 				<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#chatModal">
                     학생챗봇도우미
                 </button>
-
-
-            </span>
-
-            <span>
-                <span id="timer">🕦60:0</span>
-                <input type="button" value="연장" class="btn btn-primary" onclick="resetTimer();">
-                <span class="btn-group name" th:if="${session.memberVO != null}">
-					    <button class="btn btn-secondary btn-lg dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-					        [[${session.memberVO.memName}]]
-					    </button>
-					    <ul class="dropdown-menu">
-					        <li>색 변경 공간.</li>
-					        <li>비밀번호 변경<hr></li>
-					        <li><a th:href="@{/}">로그아웃</a></li>
-					    </ul>
-                </span>
-                 <span th:unless="${session.memberVO != null}">세션이 없습니다.</span>
-            </span>
+            </span> 
+            <span> 
+            	<span id="timer">🕦60:0</span> <input
+				type="button" value="연장" class="btn btn-primary"
+				onclick="resetTimer();"> <span class="btn-group name"
+				th:if="${session.memberVO != null}">
+					<button class="btn btn-secondary dropdown-toggle"
+						data-bs-toggle="dropdown" aria-expanded="false">
+						[[${session.memberVO.memName}]]</button>
+					<input type="hidden" id="memNo" th:value="${#authentication.name}">
+					<ul class="dropdown-menu">
+						<li>색 변경 공간.</li>
+						<li>비밀번호 변경
+							<hr>
+						</li>
+						<li><a th:href="@{/}">로그아웃</a></li>
+					</ul>
+				</span> 
+				<span class="msg_btn_wrap">
+				</span>
+				<span th:unless="${session.memberVO != null}">세션이 없습니다.</span>
+			</span>
 
 
 			<div class="modal fade" id="weatherModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

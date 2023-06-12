@@ -152,8 +152,10 @@
 		<if test="semNo != null and semNo != ''">
 		AND S.SEM_NO =#{semNo}
 		</if>
-		<if test="stuVO.stuNo != null and stuVO.stuNo != ''">
-		AND US.STU_NO = #{stuVO.stuNo}
+		<if test="stuVO != null">
+			<if test="stuVO.stuNo != null and stuVO.stuNo != ''">
+			AND US.STU_NO = #{stuVO.stuNo}
+			</if>
 		</if>
 
 	</select>
