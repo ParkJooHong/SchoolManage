@@ -84,13 +84,15 @@
 				, TO_CHAR(REG_BOARD_DATE,'YYYY-MM-DD') AS REG_BOARD_DATE
 				, TO_CHAR(REG_BOARD_DATE,'YYYY-MM-DD HH24:MI:SS') AS REG_BOARD_DATE_ORDER
 				, READ_CNT
-				, CATE_NO
+				, UB.CATE_NO
 				, REPLY_CNT
 				, IS_PRIVATE
 				, IS_NOTICE
 				, DEPT_NO
-			FROM UNI_BOARD
+				, CATE_NAME
+			FROM UNI_BOARD UB, BOARD_CATEGORY BC
 			WHERE DEPT_NO =#{deptNo}
+			AND UB.CATE_NO = BC.CATE_NO
 			<if test="month != 0">
 				AND TO_CHAR(REG_BOARD_DATE, 'YYYY-MM-DD' ) &gt;= TO_CHAR(ADD_MONTHS(SYSDATE, #{month}), 'YYYY-MM-DD') 
 			</if>
@@ -122,7 +124,7 @@
 			FROM UNI_BOARD, BOARD_CATEGORY
 			WHERE UNI_BOARD.CATE_NO = BOARD_CATEGORY.CATE_NO
 			AND UNI_BOARD.CATE_NO != 'CATE_002'
-			<if test="categoryList != null">
+			<if test='categoryList != null and !categoryList.equals("CATE_001")'>
 				AND UNI_BOARD.CATE_NO = '${categoryList}'
 			</if>
 			<if test="month != null and month != 0">
@@ -190,6 +192,9 @@
 			<if test='searchValue != null and searchValue.equals("")'>
 	        AND UPPER(${searchKeyword}) LIKE '%' || UPPER(#{searchValue}) || '%'
 	        </if>
+	        <if test='categoryList != null and !categoryList.equals("")'>
+				AND UNI_BOARD.CATE_NO = '${categoryList}'
+			</if>
 	        
 		</select>
 		

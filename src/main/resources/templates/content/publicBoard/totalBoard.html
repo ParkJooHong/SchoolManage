@@ -88,18 +88,19 @@
 					  </tr>
 					</tbody>
 				  </table>
-				  <div style="text-align: left;">
-					  <div class="order" style="display: inline-block;">
+				  <div style="display: flex;">
+					  <div class="order" style="text-align: left; flex: 1;">
 					    <input type="button" class="btn btn-secondary" id="orderDate" value="날짜순" onclick="getOrderListDesc('REG_BOARD_DATE');">
 					    <input type="button" class="btn btn-secondary" id="orderRead" value="조회순" onclick="getOrderListDesc('READ_CNT');">
 					    <input type="button" class="btn btn-secondary" id="orderReply" value="댓글순" onclick="getOrderListDesc('REPLY_CNT');">  	
 					  </div>
-					  <div class="categoryList" style="display: inline-block;">
-					    <input type="button" class="btn btn-secondary" id="orderDate" value="질문" onclick="cateList('CATE_003');">
-					    <input type="button" class="btn btn-secondary" id="orderRead" value="잡담" onclick="cateList('CATE_004');">
-					    <input type="button" class="btn btn-secondary" id="orderReply" value="정보" onclick="cateList('CATE_005');">
-					  </div>
-					</div>
+					  <div class="categoryList" style="text-align: right; flex: 1;">
+					 	 <input type="button" class="btn btn-danger" id="orderDate" value="전체" onclick="cateList('CATE_001');">
+					    <input type="button" class="btn btn-danger" id="orderDate" value="질문" onclick="cateList('CATE_003');">
+					    <input type="button" class="btn btn-danger" id="orderRead" value="잡담" onclick="cateList('CATE_004');">
+					    <input type="button" class="btn btn-danger" id="orderReply" value="정보" onclick="cateList('CATE_005');">
+					  </div>					  
+					</div>					
 				  <br>
 				 
 				  

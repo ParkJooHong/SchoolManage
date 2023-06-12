@@ -117,7 +117,7 @@ public class BoardController {
 		}
 		
 		//카테고리 정렬
-		if(uniBoardVO.getCategoryList() == null) {
+		if(uniBoardVO.getCategoryList() == "CATE_001") {
 			uniBoardVO.setCategoryList("");
 		}
 		System.out.println("카테고리 ::::  " + uniBoardVO.getCategoryList());
@@ -154,23 +154,23 @@ public class BoardController {
 		System.out.println(uniBoardVO.getToDate());
 		model.addAttribute("uniBoardToDate", uniBoardVO.getToDate());
 
-		
-		
-		cateNo = boardCategoryVO.getCateNo();
-
 		int totalDateCnt = boardService.totalBoardPage(uniBoardVO);
 		uniBoardVO.setTotalDataCnt(totalDateCnt);
 
 		// 페이징 정보 세팅
 		uniBoardVO.setPageInfo();
-
 		System.out.println("페이징 정보 : " + uniBoardVO);
+		
+		model.addAttribute("memLayOut", memLayout);
+		
+		cateNo = boardCategoryVO.getCateNo();
+	
 
 		model.addAttribute("boardCategoryVO", boardService.getBoardCategoryList());
 		System.out.println("보드 카테고리 정보 : " + boardService.getBoardCategoryList());
 		model.addAttribute("uniBoardList", boardService.getTotalBoardList(uniBoardVO));
 		
-		model.addAttribute("memLayOut", memLayout);
+		
 				
 		return "/content/publicBoard/totalBoard";
 	}

@@ -94,6 +94,7 @@
 					<thead>
 					  <tr>
 						<th>No</th>
+						<th>분류</th>
 						<th>글쓴이</th>
 						<th>글 제목</th>
 						<th>작성일</th>
@@ -109,6 +110,7 @@
 					<th:block th:if="${#lists.size(uniBoardList) != 0}">
 						<tr th:each="uniBoard, state : ${uniBoardList}">
 							<td>[[${state.count}]]</td>
+							<td>[[${uniBoard.cateName}]]</td>
 							<td>[[${uniBoard.boardWriter}]]</td>
 							<td th:if="${uniBoard.isPrivate !='N'} and ${uniBoard.replyCnt != 0}">
 								<a href="#" th:onclick="checkPwd( [[${uniBoard.isPrivate}]] , [[${uniBoard.boardNo}]], [[${menuCode}]], [[${subMenuCode}]], [[${uniBoard.readCnt}]]);" class="title"> 
@@ -142,15 +144,15 @@
 							 <nav aria-label="Page navigation example">
 							  <ul class="pagination justify-content-center">
 							    <li class="page-item" th:classappend="${uniBoardVO.prev ? ' ' : 'disabled'}">
-							      <a class="page-link"  th:href="@{/stuMenu/totalBoard(nowPage=${uniBoardVO.beginPage -1},  menuCode=${menuCode}, subMenuCode=${subMenuCode})}" aria-label="Previous">
+							      <a class="page-link"  th:href="@{/board/deptBoard(nowPage=${uniBoardVO.beginPage -1},  menuCode=${menuCode}, subMenuCode=${subMenuCode})}" aria-label="Previous">
 							        <span aria-hidden="true">&laquo;</span>
 							      </a>
 							    </li>
 							    <li class="page-item" th:each="pageNum : ${#numbers.sequence(uniBoardVO.beginPage,uniBoardVO.endPage)}">
-							    	<a th:classappend="${uniBoardVO.nowPage == pageNum ? 'active' : ' '}" class="page-link" th:href="@{/stuMenu/totalBoard(nowPage=${pageNum} , menuCode=${menuCode}, subMenuCode=${subMenuCode})}">[[${pageNum}]]</a>
+							    	<a th:classappend="${uniBoardVO.nowPage == pageNum ? 'active' : ' '}" class="page-link" th:href="@{/board/deptBoard(nowPage=${pageNum} , menuCode=${menuCode}, subMenuCode=${subMenuCode})}">[[${pageNum}]]</a>
 							    </li>
 							    <li class="page-item" th:classappend="${uniBoardVO.next ? ' ' : 'disabled'}">
-							    	<a class="page-link" th:href="@{/stuMenu/totalBoard(nowPage=${uniBoardVO.endPage + 1},  menuCode=${menuCode}, subMenuCode=${subMenuCode})}" aria-label="Next"><span aria-hidden="true">&raquo;</span>
+							    	<a class="page-link" th:href="@{/board/deptBoard(nowPage=${uniBoardVO.endPage + 1},  menuCode=${menuCode}, subMenuCode=${subMenuCode})}" aria-label="Next"><span aria-hidden="true">&raquo;</span>
 							      </a>
 							    </li>
 							  </ul>
@@ -174,6 +176,9 @@
 		</div>
 	</div>
 
+<div class="boardWriterGoSize">
+ <button class="btn btn-danger boardWriteGo"><span data-bs-toggle="modal" data-bs-target="#writeModal" style="cursor: pointer;">글쓰기 </span> </button>
+</div>
 
 <!-- 글쓰기 모달 -->
 <div class="modal fade" id="writeModal" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -198,9 +203,9 @@
 							</div>
  							<div class="col-9"> 
 								<label for="memId" class="form-label">카테고리</label> 
-								<select th:name="cateNo">
+								<select th:name="cateNo" class="cateNo">
 									<th:block th:each="boardCategory : ${boardCategoryVO}">
-										<option class="cateNo" th:value="${boardCategory.cateNo}">[[${boardCategory.cateName}]]</option>
+										<option th:value="${boardCategory.cateNo}">[[${boardCategory.cateName}]]</option>
 									</th:block>
 								</select>
 							</div>						
@@ -243,12 +248,12 @@
     </div>
   </div>
 </div>	
-
+<input type="hidden" th:value="${memberVO.deptVO.deptNo}" class="deptNo">
 
 
 
 <th:block layout:fragment="content_js">
-<script type="text/javascript" src="/js/content/stu/stu_board/deptBoard.js"></script>
+<script type="text/javascript" src="/js/content/publicBoard/deptBoard.js"></script>
 </th:block>
 
 </html>
