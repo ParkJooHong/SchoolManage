@@ -402,4 +402,15 @@ public class ProfessorController {
 		return "redirect:/message/messageList";
 	}
 	
+	//캘린더
+	   @GetMapping("/calender")
+	   public String calender(ProfessorMenuVO professorMenuVO, ProfessorSubMenuVO professorSubMenuVO, Authentication authentication, MemberVO memberVO) {
+		   professorSubMenuVO.setMenuCode(ConstVariable.SIX_PROFESSOR_MENU_CODE);
+		  
+		  User user = (User) authentication.getPrincipal();
+			memberVO.setMemNo(user.getUsername());
+		  
+	      return "content/professor/calender";
+	   }
+	
 }
