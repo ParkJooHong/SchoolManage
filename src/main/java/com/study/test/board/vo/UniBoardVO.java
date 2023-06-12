@@ -21,10 +21,12 @@ public class UniBoardVO extends SearchVO {
 	private String boardPw;
 	private BoardReplyVO boardReplyVO;
 	
+	private String cateName;
+	
 	@Override
 	public String toString() {
 		return "UniBoardVO [boardNo=" + boardNo + ", boardTitle=" + boardTitle + ", boardContent=" + boardContent
-				+ ", boardWriter=" + boardWriter + ", regBoardDate=" + regBoardDate + ", readCnt=" + readCnt
+				+ ", boardWriter=" + boardWriter + ", regBoardDate=" + regBoardDate + ", readCnt=" + readCnt + ", deptNo = " + deptNo
 				+ ", cateNo=" + cateNo + ", replyCnt=" + replyCnt + ", isPrivate=" + isPrivate + ", isNotice="
 				+ isNotice + ", boardReplyVO=" + boardReplyVO + ", toString()=" + super.toString() + "]";
 	}

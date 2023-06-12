@@ -23,7 +23,9 @@
 		<result column="REPLY_CNT" 			property="replyCnt"/>
 		<result column="IS_PRIVATE" 		property="isPrivate"/>
 		<result column="IS_NOTICE" 			property="isNotice"/>
+		<result column="DEPT_NO" 			property="deptNo"/>
 		<result column="BOARD_PW" 			property="boardPw"/>
+		<result column="CATE_NAME" 			property="cateName"/>
 	</resultMap>
 	
 	<resultMap type="com.study.test.board.vo.BoardReplyVO" id="reply">
@@ -88,7 +90,7 @@
 				, IS_NOTICE
 				, DEPT_NO
 			FROM UNI_BOARD
-			WHERE DEPT_NO = #{deptNo}
+			WHERE DEPT_NO =#{deptNo}
 			<if test="month != 0">
 				AND TO_CHAR(REG_BOARD_DATE, 'YYYY-MM-DD' ) &gt;= TO_CHAR(ADD_MONTHS(SYSDATE, #{month}), 'YYYY-MM-DD') 
 			</if>
@@ -112,12 +114,17 @@
 				, TO_CHAR(REG_BOARD_DATE,'YYYY-MM-DD') AS REG_BOARD_DATE
 				, TO_CHAR(REG_BOARD_DATE,'YYYY-MM-DD HH24:MI:SS') AS REG_BOARD_DATE_ORDER
 				, READ_CNT
-				, CATE_NO
+				, UNI_BOARD.CATE_NO
+				, CATE_NAME
 				, REPLY_CNT
 				, IS_PRIVATE
 				, IS_NOTICE
-			FROM UNI_BOARD
-			WHERE READ_CNT  &gt;= 0
+			FROM UNI_BOARD, BOARD_CATEGORY
+			WHERE UNI_BOARD.CATE_NO = BOARD_CATEGORY.CATE_NO
+			AND UNI_BOARD.CATE_NO != 'CATE_002'
+			<if test="categoryList != null">
+				AND UNI_BOARD.CATE_NO = '${categoryList}'
+			</if>
 			<if test="month != null and month != 0">
 			AND TO_CHAR(REG_BOARD_DATE, 'YYYYMMDD' ) &gt;= TO_CHAR(ADD_MONTHS(SYSDATE, #{month}), 'YYYYMMDD') 
 			</if>
@@ -199,6 +206,7 @@
           , REPLY_CNT
           , IS_PRIVATE
           , IS_NOTICE       
+
 	    ) VALUES(
 	         (SELECT 'BOARD_'||LPAD(NVL(MAX(TO_NUMBER(SUBSTR(BOARD_NO, 7))), 0) +1 , 3, '0')
 	            FROM DEPT_MANAGE)
@@ -211,6 +219,7 @@
 	         , #{replyCnt}
 	         , #{isPrivate}
 	         , #{isNotice}
+
 	    )
 		</insert>
 	
@@ -227,6 +236,9 @@
           , REPLY_CNT
           , IS_PRIVATE 
           , IS_NOTICE
+          <if test="deptNo != null">
+	          , DEPT_NO
+          </if>
 	    ) VALUES(
 	         (SELECT 'BOARD_'||LPAD(NVL(MAX(TO_NUMBER(SUBSTR(BOARD_NO, 7))), 0) +1 , 3, '0')
 	            FROM UNI_BOARD)
@@ -239,7 +251,9 @@
 	         , 0
 	         , #{isPrivate}
 	         , #{isNotice}
-
+	         <if test="deptNo !=null">
+	         	, #{deptNo}
+	         </if>
 	    )
 	</insert>
 	

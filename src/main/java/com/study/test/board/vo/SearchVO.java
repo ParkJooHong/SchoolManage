@@ -16,13 +16,18 @@ public class SearchVO extends PageVO{
 	private String searchValue;
 	
 	private String orderBy;
+	
+	private String categoryList;
 
 	@Override
 	public String toString() {
 		return "SearchVO [month=" + month + ", fromDate=" + fromDate + ", toDate=" + toDate + ", searchKeyword="
-				+ searchKeyword + ", searchValue=" + searchValue + ", orderBy=" + orderBy + ", toString()="
-				+ super.toString() + "]";
+				+ searchKeyword + ", searchValue=" + searchValue + ", orderBy=" + orderBy + ", categoryList="
+				+ categoryList + "]";
 	}
+
+
+	
 	
 	
 }

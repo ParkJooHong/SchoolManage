@@ -34,6 +34,9 @@
 				  	<input type="hidden" th:value="${menuCode}" name="menuCode"> 
 					<input type="hidden" th:value="${subMenuCode}" name="subMenuCode"> 
 				  </form>
+				  <form th:action="@{/board/board}" method="post" id="categoryList">
+				  	<input type="hidden" value="" name="categoryList">
+				  </form>
 				  <table class="table">
 					<tbody>
 					  <tr>
@@ -85,15 +88,26 @@
 					  </tr>
 					</tbody>
 				  </table>
-				  <div class="order">
-				  	<input type="button" class="btn btn-secondary" id="orderDate" value="날짜순" onclick="getOrderListDesc('REG_BOARD_DATE');">
-				  	<input type="button" class="btn btn-secondary" id="orderRead" value="조회순" onclick="getOrderListDesc('READ_CNT');">
-				  	<input type="button" class="btn btn-secondary" id="orderReply" value="댓글순" onclick="getOrderListDesc('REPLY_CNT');">
-				  </div>
+				  <div style="text-align: left;">
+					  <div class="order" style="display: inline-block;">
+					    <input type="button" class="btn btn-secondary" id="orderDate" value="날짜순" onclick="getOrderListDesc('REG_BOARD_DATE');">
+					    <input type="button" class="btn btn-secondary" id="orderRead" value="조회순" onclick="getOrderListDesc('READ_CNT');">
+					    <input type="button" class="btn btn-secondary" id="orderReply" value="댓글순" onclick="getOrderListDesc('REPLY_CNT');">  	
+					  </div>
+					  <div class="categoryList" style="display: inline-block;">
+					    <input type="button" class="btn btn-secondary" id="orderDate" value="질문" onclick="cateList('CATE_003');">
+					    <input type="button" class="btn btn-secondary" id="orderRead" value="잡담" onclick="cateList('CATE_004');">
+					    <input type="button" class="btn btn-secondary" id="orderReply" value="정보" onclick="cateList('CATE_005');">
+					  </div>
+					</div>
+				  <br>
+				 
+				  
 		  		<div class="detail_info">
 				  <table class="table">
 				  	<colgroup>
-				  		<col style="width: 20%;">
+				  		<col style="width: 5%;">
+				  		<col style="width: 15%;">
 				  		<col style="width: 20%;">
 				  		<col style="width: 20%;">
 				  		<col style="width: 20%;">
@@ -102,6 +116,7 @@
 					<thead>
 					  <tr>
 						<th>No</th>
+						<th>분류</th>
 						<th>글쓴이</th>
 						<th>글 제목</th>
 						<th>작성일</th>
@@ -117,6 +132,7 @@
 					<th:block th:if="${#lists.size(uniBoardList) != 0}">
 						<tr th:each="uniBoard, state : ${uniBoardList}">
 							<td>[[${state.count}]]</td>
+							<td>[[${uniBoard.cateName}]]</td>
 							<td>[[${uniBoard.boardWriter}]]</td>
 							<td th:if="${uniBoard.isPrivate !='N'} and ${uniBoard.replyCnt != 0}">
 								<a href="#" th:onclick="checkPwd( [[${uniBoard.isPrivate}]] , [[${uniBoard.boardNo}]], [[${menuCode}]], [[${subMenuCode}]], [[${uniBoard.readCnt}]]);" class="title"> 
@@ -182,6 +198,8 @@
 		</div>
 	</div>
 
+
+
 <div class="boardWriterGoSize">
  <button class="btn btn-danger boardWriteGo"><span data-bs-toggle="modal" data-bs-target="#writeModal" style="cursor: pointer;">글쓰기 </span> </button>
 </div>
@@ -204,7 +222,6 @@
 									   <input type="hidden" class="boardWriter" th:name="boardWriter" th:value="${member.stuVO.stuNo}"> 
 									   <input type="hidden" class="deptNo" th:value="${member.stuVO.deptNo}"> 
 									    	[[${member.memName}]] / [[${member.memNo}]]
-
 								   </th:block>
 							</div>
  							<div class="col-9"> 
@@ -247,6 +264,7 @@
 							</div>					
 							<br>
 							<div class="col-6 d-grid">
+							
 								<input type="button" value="게시글 등록" class="btn btn-primary" th:onclick="success([[${menuCode}]], [[${subMenuCode}]]);">
 						</div>
 						</form>					
@@ -254,7 +272,7 @@
     </div>
   </div>
 </div>	
-
+<input type="hidden" th:value="${memberVO.deptVO.deptNo}" class="deptNo">
 
 
 </th:block>

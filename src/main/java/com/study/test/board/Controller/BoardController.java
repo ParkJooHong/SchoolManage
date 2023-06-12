@@ -116,6 +116,12 @@ public class BoardController {
 			uniBoardVO.setMonth(0);
 		}
 		
+		//카테고리 정렬
+		if(uniBoardVO.getCategoryList() == null) {
+			uniBoardVO.setCategoryList("");
+		}
+		System.out.println("카테고리 ::::  " + uniBoardVO.getCategoryList());
+		
 		System.out.println(uniBoardVO.getOrderBy());
 		
 		// Month랑 toDate, FromDate 함꼐 실행 불가
@@ -253,7 +259,7 @@ public class BoardController {
 		//학과 게시판
 	@GetMapping("/deptBoard")
 	private String deptBoard(MemberSubMenuVO memberSubMenuVO, Model model, Authentication authentication, MemberVO memberVO, StuVO stuVO, UniBoardVO uniBoardVO
-			,String cateNo, BoardCategoryVO boardCategoryVO) {
+			,String cateNo, BoardCategoryVO boardCategoryVO, String deptNo) {
 
 		String memLayout = getCode(authentication, model);
 		model.addAttribute("memLayOut", memLayout);
@@ -331,7 +337,10 @@ public class BoardController {
 
 				model.addAttribute("boardCategoryVO", boardService.getBoardCategoryList());
 				System.out.println("보드 카테고리 정보 : " + boardService.getBoardCategoryList());
-				model.addAttribute("uniBoardList", boardService.getTotalBoardList(uniBoardVO));
+
+				uniBoardVO.setDeptNo(stuService.seletStu(memberVO).getDeptVO().getDeptNo());
+				System.out.println(uniBoardVO.getDeptNo());
+				model.addAttribute("uniBoardList", boardService.getTotalDeptBoardList(uniBoardVO));
 		
 		return "content/publicBoard/deptBoard";
 	}

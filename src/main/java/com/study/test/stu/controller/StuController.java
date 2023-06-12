@@ -1336,13 +1336,16 @@ public class StuController {
 			String deptNo) {
 
 		System.out.println("카테고리 코드 : " + cateNo);
-		System.out.println(deptNo);
 		
+		System.out.println(deptNo);
 		// 카테고리가 학과로 표시되어있으면, DEPT_NO 삽입
-		if (cateNo == "CATE_002") {
+		if (cateNo.equals("CATE_002")) {
 			uniBoardVO.setDeptNo(deptNo);
+		}else {
+			uniBoardVO.setDeptNo(null);
 		}
-
+		System.out.println(uniBoardVO.getDeptNo());
+		
 		uniBoardVO.setBoardTitle(boardTitle);
 		uniBoardVO.setBoardContent(boardContent);
 

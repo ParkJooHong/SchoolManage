@@ -25,6 +25,28 @@ function getOrderListDesc(REPLY_CNT){
 	orderBy.submit();
 }
 
+//질문
+function cateList(CATE_003){
+
+	const orderBy = document.querySelector('#categoryList');
+	orderBy.querySelector('input').value = CATE_003;
+	orderBy.submit();
+}
+
+//잡담
+function cateList(CATE_004){
+	const orderBy = document.querySelector('#categoryList');
+	orderBy.querySelector('input').value = CATE_004;
+	orderBy.submit();
+}
+
+//정보
+function cateList(CATE_005){
+	const orderBy = document.querySelector('#categoryList');
+	orderBy.querySelector('input').value = CATE_005;
+	orderBy.submit();
+}
+
 
 //검색기능
 function searchList(month){
@@ -62,6 +84,7 @@ function success(menuCode, subMenuCode){
 	const isNotice = document.querySelector('input[name="isNotice"]:checked').value;
 	const boardWriter = document.querySelector('.boardWriter').value;
 	const cateNo =document.querySelector('.cateNo').value;
+	const deptNo = document.querySelector('.deptNo').value;
 	
 	//비밀번호 등록
 	const inputPwd = document.querySelector('.inputPwd').value;
@@ -78,7 +101,8 @@ function success(menuCode, subMenuCode){
 			url: '/stuMenu/boardWriteAjax', //요청경로
 			type: 'post',
 			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-			data: { 'menuCode' : menuCode, 'subMenuCode' : subMenuCode,  'boardTitle' : boardTitle, 'boardContent' : boardContent, 'isPrivate' : isPrivate, 'isNotice' : isNotice, 'boardWriter' : boardWriter, 'cateNo' : cateNo, 'inputPwd' : inputPwd}, //필요한 데이터
+			data: { 'menuCode' : menuCode, 'subMenuCode' : subMenuCode,  'boardTitle' : boardTitle, 
+			'boardContent' : boardContent, 'isPrivate' : isPrivate, 'isNotice' : isNotice, 'boardWriter' : boardWriter, 'cateNo' : cateNo, 'inputPwd' : inputPwd, 'deptNo' : deptNo}, //필요한 데이터
 			success: function(result) {
 				if(result){
 					swal("등록 성공!", "게시글이 등록되었습니다.", "success");
