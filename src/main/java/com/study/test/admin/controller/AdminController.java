@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +25,6 @@ import com.study.test.admin.vo.ProbationVO;
 import com.study.test.admin.vo.StuOutVO;
 import com.study.test.board.service.BoardService;
 import com.study.test.board.vo.BoardCategoryVO;
-import com.study.test.board.vo.UniBoardVO;
 import com.study.test.member.service.MemberService;
 import com.study.test.member.vo.MemImgVO;
 
@@ -52,6 +53,8 @@ public class AdminController {
 	private SchoolService schoolService;
 	@Resource(name = "boardService")
 	private BoardService boardService;
+	@Autowired
+	private PasswordEncoder encoder;
 
 	// 회원등록 페이지 이동
 	@GetMapping("/joinMember")
@@ -94,7 +97,8 @@ public class AdminController {
 		} else {
 			path = "redirect:/admin/insertEmpInfo?memNo=" + memberVO.getMemNo();
 		}
-
+		String inputPw = memberVO.getMemPw();
+		memberVO.setMemPw(encoder.encode(inputPw));
 		// UploadUtill 객체 호출해서(util패키지에 만들어놓음)MemImgVO 객체에 받음
 		MemImgVO attachedImgVO = UploadUtil.uploadFile(mainImg);
 		// memberVO에서 받아온 memNo memImgVO에 넣음

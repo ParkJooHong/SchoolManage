@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +26,8 @@ public class MemberController {
 	
 	@Resource(name = "memberService")
 	private MemberService memberService;
+	@Autowired
+	private PasswordEncoder encoder;
 	
 	
 	
@@ -55,6 +59,14 @@ public class MemberController {
 		return memList;
 	}
 	
+	
+	//비밀번호 찾기
+	@ResponseBody
+	@PostMapping("/findPwAjax")
+	public int findPwAjax(MemberVO memberVO) {
+		memberVO.setMemPw(encoder.encode("qwe123"));
+		return memberService.setPw(memberVO);
+	}
 	
 	
 	

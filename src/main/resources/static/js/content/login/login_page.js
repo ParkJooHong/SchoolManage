@@ -113,6 +113,36 @@ function findId() {
 	//ajax end
 }
 
+function findPw(){
+	const mem_no = document.querySelector('#findPwModal #memNo').value;
+	const mem_email = document.querySelector('#findPwModal #memEmail').value;
+	
+	//ajax start
+		$.ajax({
+		   url: '/member/findPwAjax', //요청경로
+		   type: 'post',
+		   async: true,
+		   contentType : 'application/json; charset=UTF-8',
+		   contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+		   data: {'memNo':mem_no,'memEmail': mem_email}, //필요한 데이터
+		   success: function(result) {
+		      if(result == 1){
+				alert('비번 업뎃 완료');
+			}
+		   },
+		   error: function() {
+		      alert('실패');
+		   }
+		});
+		//ajax end
+
+	
+	
+	
+}
+
+
+
 
 //배경 자동전환 (애니메이션)
 //메인페이지 전체 선택

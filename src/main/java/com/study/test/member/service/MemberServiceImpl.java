@@ -68,6 +68,11 @@ public class MemberServiceImpl implements MemberService {
 	public List<Map<String, Object>> getMemList(MemberVO memberVO) {
 		return sqlSession.selectList("memberMapper.getMemList", memberVO);
 	}
+	//비번 업데이트
+	@Override
+	public int setPw(MemberVO memberVO) {
+		return sqlSession.update("memberMapper.setPw",memberVO);
+	}
 
 	
 	
