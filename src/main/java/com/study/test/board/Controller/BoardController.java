@@ -134,8 +134,8 @@ public class BoardController {
 		}
 		
 		//카테고리 정렬
-		if(uniBoardVO.getCategoryList() == "CATE_001") {
-			uniBoardVO.setCategoryList("");
+		if(uniBoardVO.getCategoryList() == null) {
+			uniBoardVO.setCategoryList("CATE_001");
 		}
 		System.out.println("카테고리 ::::  " + uniBoardVO.getCategoryList());
 		
@@ -334,6 +334,9 @@ public class BoardController {
 				if(uniBoardVO.getToDate() != null || uniBoardVO.getFromDate() != null) {
 					uniBoardVO.setMonth(0);
 				}
+				
+				//카테고리 정렬
+				uniBoardVO.setCategoryList("CATE_002");
 				
 				System.out.println(uniBoardVO.getFromDate());
 				model.addAttribute("uniBoardFromDate", uniBoardVO.getFromDate());

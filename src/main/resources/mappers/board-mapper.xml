@@ -123,10 +123,17 @@
 				, IS_NOTICE
 			FROM UNI_BOARD, BOARD_CATEGORY
 			WHERE UNI_BOARD.CATE_NO = BOARD_CATEGORY.CATE_NO
-			AND UNI_BOARD.CATE_NO != 'CATE_002'
-			<if test='categoryList != null and !categoryList.equals("CATE_001")'>
-				AND UNI_BOARD.CATE_NO = '${categoryList}'
-			</if>
+			AND UNI_BOARD.CATE_NO != 'CATE_002'		
+			<if test='categoryList != null'>
+				<choose>
+			        <when test='categoryList.equals("CATE_001")'>
+			            AND (UNI_BOARD.CATE_NO = 'CATE_001' OR UNI_BOARD.CATE_NO = 'CATE_003' OR UNI_BOARD.CATE_NO = 'CATE_004' OR UNI_BOARD.CATE_NO = 'CATE_005')
+			        </when>
+			        <otherwise>
+			            AND UNI_BOARD.CATE_NO = '${categoryList}'
+			        </otherwise>
+			    </choose>
+			</if>				
 			<if test="month != null and month != 0">
 			AND TO_CHAR(REG_BOARD_DATE, 'YYYYMMDD' ) &gt;= TO_CHAR(ADD_MONTHS(SYSDATE, #{month}), 'YYYYMMDD') 
 			</if>
