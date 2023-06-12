@@ -122,7 +122,6 @@ public class AdminController {
 		memberVO.setMemImgVO(attachedImgVO);
 		System.out.println("@@@@@@@@@@@@@@" + memberVO);
 		memberService.regMember(memberVO);
-
 		return path;
 	}
 

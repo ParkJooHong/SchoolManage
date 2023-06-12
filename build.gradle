@@ -19,6 +19,8 @@ repositories {
 }
 
 dependencies {
+	compileOnly 'javax.servlet:javax.servlet-api:4.0.1'
+
 	implementation 'org.springframework.boot:spring-boot-starter-mail' // 메일 서비스
 	
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa' // JapRepository 사용
@@ -29,7 +31,7 @@ dependencies {
 	implementation 'com.oracle.database.security:osdt_cert:21.3.0.0'   //오라클 클라우드
     implementation 'com.oracle.database.security:oraclepki:21.3.0.0'   //오라클 클라우드
     implementation 'com.oracle.database.security:osdt_core:21.3.0.0'   //오라클 클라우드 그래들에 dependency에 이거 추가하고
-
+	
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -43,6 +45,7 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
+	
 }
 
 tasks.named('test') {

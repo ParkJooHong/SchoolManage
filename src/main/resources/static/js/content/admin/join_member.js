@@ -79,7 +79,7 @@ function validate(){
 	const reg_pass = /^[A-Za-z0-9]{6,12}$/;
 	const reg_name =  /^[가-힣]{2,4}$/;
 	const reg_mail = /^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
-	const reg_birth = /^(19[0-9][0-9]|20\d{2})(0[0-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$/;
+	const reg_birth = /^(19[0-9][0-9]|20\d{2})-(0[0-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/;
 	
 	//오류 메세지
 	let str_pw_ck = '';
@@ -117,7 +117,7 @@ function validate(){
 	const vali_email = document.querySelector('#valiEmail');
 	const vali_birth = document.querySelector('#valiBirth');
 	const vali_img = document.querySelector('#valiImg');
-	
+	console.log(input_birth);
 	
 	
 	

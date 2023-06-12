@@ -59,16 +59,6 @@ public class SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 			p.flush();
 		}
 
-		// 세션에 회원이름 저장
-		String memNo = userDetails.getUsername();
-		MemberVO memberInfo = new MemberVO();
-		memberInfo.setMemNo(memNo);
-
-		HttpSession session = request.getSession();
-		session.setMaxInactiveInterval(1800);
-		session.setAttribute("memberVO", memberService.login(memberInfo));
-		System.out.println("@@@@@@@@@@@데이터 확인 : " + memberService.login(memberInfo));
-
 		super.onAuthenticationSuccess(request, response, authentication);
 	}
 	
