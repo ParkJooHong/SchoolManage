@@ -4,6 +4,9 @@
 <th:block th:fragment="adminSideFragment">
 	<link rel="stylesheet" href="/css/fragment/admin_side.css">
 	<div class="row main_div">
+		<div class="col-12 menu_image_wrap py-3">
+			<img alt="menu" src="/image/icon/menu.png" width="40%">
+		</div>
 		<div class="col-6 menu_name_div">
 			<ul class="menu_ul pt-3">
 				<th:block th:each="adminMenu:${adminMenuList}">

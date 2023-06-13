@@ -46,7 +46,9 @@ function lecScheduleAjax() {
 				}
 				str += `</tr>`;
 			}
-			document.querySelector('tbody').insertAdjacentHTML('afterend', str);
+			const tbody_tag = document.querySelector('tbody');
+			
+			tbody_tag.insertAdjacentHTML('afterend', str);
 
 		},
 		error: function() {

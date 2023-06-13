@@ -54,8 +54,6 @@ a{
 }
 
 .side_row{
-	display: grid;
-	grid-template-rows: 100%;
 	padding: 0;
 	margin: 0 0;
 }
@@ -65,7 +63,7 @@ a{
 	padding-bottom: 40px;
 	padding-right: 0;
 	padding-left: 0;
-	margin: 0 auto;
+	margin:0;
 }
 
 .content_col{
@@ -185,8 +183,80 @@ table tbody tr:hover{
 	border-color: #897c76;
 }
 
-.d-grid{
+
+
+
+/* 사이드 css 모음 */
+.main_div {
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	background-color: #9b021d;
+	width: 100%;
 	height: 100%;
+	margin: 0;
 }
+
+.menu_image_wrap{
+	display: flex;
+	justify-content: center;
+	height:12vh;
+	z-index: 999;
+	border-bottom: 1px solid #54000f;
+	box-shadow: 0 2px 4px #54000f;
+}
+
+.menu_wrap{
+	flex-grow: 1;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+}
+
+.menu_image_wrap > img{
+	vertical-align: middle;
+}
+
+.menu_name_div{
+	padding: 0;
+}
+
+.submenu_div{
+	flex-grow: 1;
+}
+
+.main_div ul {
+	width: 100%;
+	margin: 0 auto;
+	list-style: none;
+	padding: 0;
+}
+
+.main_div li {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 5vh;
+	margin: 0 auto;
+	text-align: center;
+}
+
+.menu_ul{
+}
+
+.menu_ul .active {
+	background-color: #870119;
+}
+
+.subMenu_ul{
+	background-color: #870119;
+}
+
+.main_div li > a {
+	color: white;
+	font-weight: bold;
+}
+/* 사이드 css 모음 */
 
 

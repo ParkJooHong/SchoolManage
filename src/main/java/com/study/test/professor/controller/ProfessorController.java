@@ -210,7 +210,7 @@ public class ProfessorController {
 	
 	//강의 시간표 페이지 이동
 	@GetMapping("/lectureSchedule")
-	public String lectureSchedule(Model model, ProfessorMenuVO professorMenuVO, HttpSession session) {
+	public String lectureSchedule(Model model, ProfessorMenuVO professorMenuVO) {
 		professorMenuVO.setMenuCode(ConstVariable.SECOND_PROFESSOR_MENU_CODE);
 		return "content/professor/lecture_schedule";
 	}
@@ -218,11 +218,11 @@ public class ProfessorController {
 	//강의 시간표 목록 조회 ajax
 	@ResponseBody
 	@PostMapping("/lectureScheduleAjax")
-	public List<Map<String, Object>> lectureScheduleAjax(HttpSession session){
+	public List<Map<String, Object>> lectureScheduleAjax(Authentication authentication){
 		//강의 목록 조회
-		MemberVO member = (MemberVO) session.getAttribute("memberVO");
+		User user = (User)authentication.getPrincipal();
 		LectureVO lecture = new LectureVO();
-		lecture.setEmpNo(member.getMemNo());
+		lecture.setEmpNo(user.getUsername());
 		List<Map<String, Object>> lectureList = professorService.getLectureListMap(lecture);
 		
 		return lectureList;
@@ -230,13 +230,13 @@ public class ProfessorController {
 	
 	//강의 리스트 페이지 이동
 	@GetMapping("/lectureList")
-	public String lectureList(Model model, ProfessorMenuVO professorMenuVO, HttpSession session) {
+	public String lectureList(Model model, ProfessorMenuVO professorMenuVO, Authentication authentication) {
 		professorMenuVO.setMenuCode(ConstVariable.THIRD_PROFESSOR_MENU_CODE);
 		
 		//강의 목록 조회
-		MemberVO member = (MemberVO)session.getAttribute("memberVO");
+		User user = (User)authentication.getPrincipal();
 		LectureVO lecture = new LectureVO();
-		lecture.setEmpNo(member.getMemNo());
+		lecture.setEmpNo(user.getUsername());
 		List<LectureVO> lectureList = schoolService.getLectureList(lecture);
 		
 		//강의 학기 조회
@@ -252,10 +252,10 @@ public class ProfessorController {
 	//강의 목록 조회(ajax)
 	@ResponseBody
 	@PostMapping("/getLectureListAjax")
-	public List<LectureVO> getLectureListAjax(@RequestBody LectureVO lectureVO, HttpSession session){
+	public List<LectureVO> getLectureListAjax(@RequestBody LectureVO lectureVO, Authentication authentication){
 		//로그인 정보 불러오기
-		MemberVO member = (MemberVO)session.getAttribute("memberVO");
-		lectureVO.setEmpNo(member.getMemNo());
+		User user = (User)authentication.getPrincipal();
+		lectureVO.setEmpNo(user.getUsername());
 		
 		//1.강의 상태에 따른 목록조회
 		List<LectureVO> lectureList = schoolService.getLectureList(lectureVO);
@@ -318,12 +318,12 @@ public class ProfessorController {
 	
 	//성적 등록 페이지 이동
 	@GetMapping("/regGrade")
-	public String regGrade(Model model, ProfessorMenuVO professorMenuVO, HttpSession session, LectureVO lectureVO) {
+	public String regGrade(Model model, ProfessorMenuVO professorMenuVO, Authentication authentication, LectureVO lectureVO) {
 		professorMenuVO.setMenuCode(ConstVariable.FOURTH_PROFESSOR_MENU_CODE);
 		
 		//로그인 정보 불러오기
-		MemberVO member = (MemberVO)session.getAttribute("memberVO");
-		lectureVO.setEmpNo(member.getMemNo());
+		User user = (User)authentication.getPrincipal();
+		lectureVO.setEmpNo(user.getUsername());
 		lectureVO.setLecStatus("Y");
 		
 		//강의 목록 조회
