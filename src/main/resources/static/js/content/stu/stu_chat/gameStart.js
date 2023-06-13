@@ -17,7 +17,7 @@ let duration = 500;
 let downInterval;
 let tempMovingItem;
 
-/*
+/*11111
 const BLOCKS = {
 	tree: [
 		[[2,1],[0,1],[1,0],[1,1]],

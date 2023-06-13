@@ -27,14 +27,68 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 					<input type="hidden" id="memNo" th:value="${#authentication.name}">
 					<ul class="dropdown-menu">
 						<li>색 변경 공간.</li>
-						<li>비밀번호 변경
+						<li><a data-bs-toggle="modal" data-bs-target="#passwordChangeModal">비밀번호 변경</a>
 							<hr>
 						</li>
 						<li><a href="/member/logout">로그아웃</a></li>
 					</ul>
 				</span> 
 				<span class="msg_btn_wrap"></span>
-				
+
+
+
+
+<!-- 비밀번호 변경 모달  -->
+<div class="modal fade" id="passwordChangeModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">비밀번호 변경</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+		<div class="row justify-content-center">
+			<div class="col-10">
+				<div class="row mt-3 mb-3">
+					<div class="col-8">
+						<table class="table">
+							<colgroup>
+								<col width="20%">
+								<col width="*">
+							</colgroup>
+							<tr>
+								<td>현재 비밀번호</td>
+								<td>
+									<input type="hidden" id="memId" th:value="${#authentication.name}">
+									<input type="password" id="nowPwd" class="form-control">
+								</td>
+							</tr>
+							<tr>
+								<td>변경할 비밀번호</td>
+								<td>
+									<input type="password" id="changePwd" class="form-control">
+								</td>
+							</tr>
+							<tr>
+								<td>비밀번호 중복 체크</td>
+								<td>
+									<input type="password" id="checkPwd" class="form-control">
+								</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col d-gird">
+						<input type="button" value="비밀번호 변경" onclick="updatePwByCk();" class="btn btn-primary">
+					</div>
+				</div>
+			</div>
+		</div>
+      </div>
+    </div>
+  </div>
+</div>				
 			
 
 
@@ -145,6 +199,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 			  </div>
 			</div>
 		  </div>
+		  <script type="text/javascript" src="/js/content/member/change_mem_pw.js"></script>
     </th:block>   
 </body>
 </html>
