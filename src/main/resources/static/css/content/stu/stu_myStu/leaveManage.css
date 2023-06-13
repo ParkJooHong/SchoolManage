@@ -3,7 +3,7 @@
 @charset "UTF-8";
 
 .detail_info {
-    background: #ebe7e3;
+    background:#897c76;
 }
 
 table.detail_info{
@@ -21,6 +21,17 @@ table.detail_info td:nth-child(odd){
 
 table.detail_info td:nth-child(even){
 	background-color: white;
+}
+
+/* 홀수 번째 td 요소에 white 배경색 적용 */
+.detail_info tr td:nth-child(odd) {
+    color: white;
+    font-weight: bold;
+    text-align: center;
+}
+
+.detail_info tr td:nth-child(even) {
+    text-align: center;
 }
 
 textarea{

@@ -1,4 +1,9 @@
 
+//뒤로가기
+function goBack(){
+	window.history.go(-1);
+}
+
 //글 상세보기, 이전글
 function prev(boardNo, readCnt, menuCode, subMenuCode){
    var number = parseInt(boardNo.substr(9), 10); // 문자열에서 숫자 부분 추출
@@ -6,7 +11,7 @@ function prev(boardNo, readCnt, menuCode, subMenuCode){
    var replacedStr = boardNo.replace(number, incrementedNumber); // 문자열에서 숫자 대체
    console.log(replacedStr);   
 
-   location.href='/stuMenu/boardDetail?boardNo=' + replacedStr  + '&readCnt=' + readCnt + '&menuCode=' + menuCode + '&subMenuCode=' + subMenuCode;
+   location.href='/board/boardDetail?boardNo=' + replacedStr  + '&readCnt=' + readCnt + '&menuCode=' + menuCode + '&subMenuCode=' + subMenuCode;
 }
 
 //글 상세보기, 다음글
@@ -16,7 +21,7 @@ function next(boardNo, readCnt, menuCode, subMenuCode){
    var replacedStr = boardNo.replace(number, incrementedNumber); // 문자열에서 숫자 대체
    console.log(replacedStr);   
 
-   location.href='/stuMenu/boardDetail?boardNo=' + replacedStr  + '&readCnt=' + readCnt + '&menuCode=' + menuCode + '&subMenuCode=' + subMenuCode;
+   location.href='/board/boardDetail?boardNo=' + replacedStr  + '&readCnt=' + readCnt + '&menuCode=' + menuCode + '&subMenuCode=' + subMenuCode;
 }
 
 
@@ -27,8 +32,11 @@ function insertReply(menuCode, subMenuCode){
 	const boardNo = document.querySelector('.boardNo').value;
 	const stuNo = document.querySelector('.stuNo').value;
 
-	
-	$.ajax({
+	if(replyContent.length ==0){
+		swal("댓글 등록 실패", "공백은 입력할 수 없습니다.", "error");
+	}
+	else{
+		$.ajax({
 			url: '/stuMenu/replyAjax', //요청경로
 			type: 'post',
 			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
@@ -50,6 +58,8 @@ function insertReply(menuCode, subMenuCode){
 				
 			}
 		});
+	}
+	
 }
 
 //게시글 수정
@@ -199,7 +209,7 @@ function updateReplyGo(replyNo, menuCode, subMenuCode){
 //댓글 삭제.
 function replyDelete(replyWriter, replyNo, menuCode, subMenuCode){
 	const boardNo = document.querySelector('.boardNo').value;
-	alert(boardNo);
+	//alert(boardNo);
 		$.ajax({
 			url: '/board/replyDeleteAjax', //요청경로
 			type: 'post',

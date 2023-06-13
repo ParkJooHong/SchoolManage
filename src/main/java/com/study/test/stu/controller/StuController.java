@@ -268,8 +268,10 @@ public class StuController {
 
 		User user = (User) authentication.getPrincipal();
 		String memName = user.getUsername();
+		// System.out.println(memName);
 		stuVO.setMemNo(user.getUsername()); // id임
 		memberVO.setMemNo(user.getUsername());
+
 		stuNo = stuService.seletStu(memberVO).getStuVO().getStuNo();
 
 		Map<String, Object> stuManage = new HashMap<>();
@@ -282,8 +284,10 @@ public class StuController {
 		
 		model.addAttribute("info", stuManage);
 		
+		scheduleService.selectMySchedule(memberVO.getMemNo());
 		
-		return "/content/stu/stu_calender/departmentSchedule";
+
+		return "/content/stu/stu_calender/mySchedule";
 	}
 
 	// -----------------------------------------------------------------------------------------------------------------------------
@@ -1102,7 +1106,7 @@ public class StuController {
 
 
 			
-	      return "redirect:/board/boardMain";
+	      return "redirect:/board/board";
 	   }
 
 	// ------ 게시판 {
