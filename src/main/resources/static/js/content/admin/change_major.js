@@ -284,12 +284,16 @@ function searchByStatus(status) {
 				str += `<td>${dept.toCollName}</td>`;
 				str += `<td>${dept.toDeptName}</td>`;
 				str += `<td>${dept.applyDate}</td>`;
-				str += '<td class="d-grid">';
+				str += '<td>';
 				if (dept.processStatus == '승인대기') {
+					str += '<div class="d-grid">';
 					str += `<input type="button" value="승인" onclick="acceptChangeMajor(${index + 1});" class="btn btn-primary">`;
+					str += '</div>';
 				}
 				if (dept.processStatus == '승인완료') {
+					str += '<div class="d-grid">';
 					str += `<input type="button" value="완료" onclick="acceptChangeMajor(${index + 1});" class="btn btn-primary">`;
+					str += '</div>';
 				}
 				str += '</td>';
 				str += '</tr>';
@@ -338,12 +342,16 @@ function searchByDate() {
 				str += `<td>${dept.toCollName}</td>`;
 				str += `<td>${dept.toDeptName}</td>`;
 				str += `<td>${dept.applyDate}</td>`;
-				str += '<td class="d-grid">';
+				str += '<td>';
 				if (dept.processStatus == '승인대기') {
+					str += '<div class="d-grid">';
 					str += `<input type="button" value="승인" onclick="acceptChangeMajor(${index + 1});" class="btn btn-primary">`;
+					str += '</div>';
 				}
 				if (dept.processStatus == '승인완료') {
+					str += '<div class="d-grid">';
 					str += `<input type="button" value="완료" onclick="acceptChangeMajor(${index + 1});" class="btn btn-primary">`;
+					str += '</div>';
 				}
 				str += '</td>';
 				str += '</tr>';
@@ -555,12 +563,16 @@ function searchByDoubleStatus(status) {
 				str += `<td>${double.doubleMajorCollName}</td>`;
 				str += `<td>${double.doubleMajorDeptName}</td>`;
 				str += `<td>${double.applyDate}</td>`;
-				str += '<td class="d-grid">';
+				str += '<td>';
 				if (double.processStatus == '승인대기') {
+					str += '<div class="d-grid">';
 					str += `<input type="button" value="승인" onclick="acceptDoubleMajor(${index + 1});" class="btn btn-primary">`;
+					str += '</div>';
 				}
 				if (double.processStatus == '승인완료') {
+					str += '<div class="d-grid">';
 					str += `<input type="button" value="완료" onclick="acceptDoubleMajor(${index + 1});" class="btn btn-primary">`;
+					str += '</div>';
 				}
 				str += '</td>';
 				str += '</tr>';
@@ -611,12 +623,16 @@ function searchByDateDouble() {
 				str += `<td>${double.doubleMajorCollName}</td>`;
 				str += `<td>${double.doubleMajorDeptName}</td>`;
 				str += `<td>${double.applyDate}</td>`;
-				str += '<td class="d-grid">';
+				str += '<td>';
 				if (double.processStatus == '승인대기') {
+					str += '<div class="d-grid">';
 					str += `<input type="button" value="승인" onclick="acceptDoubleMajor(${index + 1});" class="btn btn-primary">`;
+					str += '</div>';
 				}
 				if (double.processStatus == '승인완료') {
+					str += '<div class="d-grid">';
 					str += `<input type="button" value="완료" onclick="acceptDoubleMajor(${index + 1});" class="btn btn-primary">`;
+					str += '</div>';
 				}
 				str += '</td>';
 				str += '</tr>';

@@ -11,8 +11,8 @@
 </th:block>	
 
 <th:block layout:fragment="content">
-	<div class="row">
-		<div class="col-10">
+	<div class="row container">
+		<div class="col-12">
 			<div class="row mt-3 mb-3">
 				<div class="col-12">
 					<h4>1.전과신청 접수현황</h4>
@@ -49,8 +49,10 @@
 							<td>
 								<input type="radio" class="form-check-input" onclick="searchByStatus(this);" value="승인완료" name="status-1">승인완료
 							</td>
-							<td class="d-grid">
-								<input type="button" class="btn btn-primary" onclick="searchByDate();" value="search">
+							<td>
+								<div class="d-grid">
+									<input type="button" class="btn btn-primary" onclick="searchByDate();" value="search">
+								</div>
 							</td>
 						</tr>
 					</table>
@@ -112,12 +114,16 @@
 									<td>[[${dept.toCollName}]]</td>
 									<td>[[${dept.toDeptName}]]</td>
 									<td>[[${dept.applyDate}]]</td>
-									<td class="d-grid">
+									<td>
 										<th:block th:if="${dept.processStatus == '승인대기'}">
-											<input type="button" value="승인" th:onclick="acceptChangeMajor([[${state.count}]]);" class="btn btn-primary">
+											<div class="d-grid">
+												<input type="button" value="승인" th:onclick="acceptChangeMajor([[${state.count}]]);" class="btn btn-primary">
+											</div>
 										</th:block>
 										<th:block th:unless="${dept.processStatus == '승인대기'}">
-											<input type="button" value="완료" th:onclick="acceptChangeMajor([[${state.count}]]);" class="btn btn-primary">
+											<div class="d-grid">
+												<input type="button" value="완료" th:onclick="acceptChangeMajor([[${state.count}]]);" class="btn btn-primary">
+											</div>
 										</th:block>
 									</td>
 								</tr>
@@ -167,8 +173,10 @@
 							<td>
 								<input type="radio" class="form-check-input" onclick="searchByDoubleStatus('승인완료');" value="승인완료"  name="status-3">승인완료
 							</td>
-							<td class="d-grid">
-								<input type="button" class="btn btn-primary" onclick="searchByDateDouble();" value="search">
+							<td>
+								<div class="d-grid">
+									<input type="button" class="btn btn-primary" onclick="searchByDateDouble();" value="search">
+								</div>
 							</td>
 						</tr>
 					</table>
@@ -229,12 +237,16 @@
 									<td>[[${double.doubleMajorCollName}]]</td>
 									<td>[[${double.doubleMajorDeptName}]]</td>
 									<td>[[${double.applyDate}]]</td>
-									<td class="d-grid">
+									<td>
 										<th:block th:if="${double.processStatus == '승인대기'}">
-											<input type="button" value="승인" th:onclick="acceptDoubleMajor([[${dState.count}]]);" class="btn btn-primary">
+											<div class="d-grid">
+												<input type="button" value="승인" th:onclick="acceptDoubleMajor([[${dState.count}]]);" class="btn btn-primary">
+											</div>
 										</th:block>
 										<th:block th:unless="${double.processStatus == '승인대기'}">
-											<input type="button" value="완료" th:onclick="acceptDoubleMajor([[${dState.count}]]);" class="btn btn-primary">
+											<div class="d-grid">
+												<input type="button" value="완료" th:onclick="acceptDoubleMajor([[${dState.count}]]);" class="btn btn-primary">
+											</div>
 										</th:block>
 									</td>
 								</tr>

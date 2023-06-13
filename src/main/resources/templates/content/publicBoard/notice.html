@@ -15,7 +15,7 @@
 					<h3>학사 공지사항</h3>
 				</div>
 			</div>
-			<form action="/board/board" method="post" id="searchForm">
+			<form action="/board/notice" method="post" id="searchForm">
 			<input type="hidden" name="nowPage" id="nowPage" th:value="${uniBoardVO.nowPage}">
 			<div class="row mb-3 justify-content-center">
 				<div class="col-10">
@@ -34,7 +34,7 @@
 							</select></td>
 							<td colspan="2"><input type="text" id="searchValue"
 								name="searchValue" class="form-control" th:value="${uniBoardVO.searchValue}"></td>
-							<td class="d-grid"><input type="button" value="검색"
+							<td><input type="button" value="검색"
 								onclick="searchByStatusInBoard();" class="btn btn-primary">
 							</td>
 						</tr>
@@ -44,11 +44,8 @@
 							<td><input type="date" id="toDate" name="toDate" class="form-control"
 								th:value="${uniBoardVO.toDate}"></td>
 							<td>
-								<select class="form-select" name="cateNo">
-									<option></option>
-								</select>
 							</td>
-							<td class="d-grid"><input type="button" value="글쓰기"
+							<td><input type="button" value="글쓰기"
 								class="btn btn-primary" onclick="moveRegForm();"></td>
 						</tr>
 					</table>
@@ -118,8 +115,8 @@
 								        <span aria-hidden="true">&laquo;</span>
 								      </a>
 								    </li>
-								    	<li class="page-item" th:classappend="${uniBoardVO.getNowPage == pageNum ? 'active' : ''}" th:each="pageNum : ${#numbers.sequence(uniBoardVO.beginPage,uniBoardVO.endPage)}">
-								    		<a class="page-link" th:onclick="getOrderListPaging([[${pageNum}]])">[[${pageNum}]]</a>
+								    	<li class="page-item" th:each="pageNum : ${#numbers.sequence(uniBoardVO.beginPage,uniBoardVO.endPage)}">
+								    		<a class="page-link" th:classappend="${uniBoardVO.getNowPage == pageNum ? 'active' : ''}"  th:onclick="getOrderListPaging([[${pageNum}]])">[[${pageNum}]]</a>
 								    	</li>
 								    <li class="page-item" th:classappend="${uniBoardVO.next ? '' : 'disabled'}">
 								      <a class="page-link" href="javascript:void(0);" th:onclick="getOrderListPaging([[${uniBoardVO.endPage+1}]])"  aria-label="Next">
