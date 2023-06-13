@@ -291,7 +291,7 @@ public class MemberController {
       
       if(authorityStrings.contains("ROLE_PRO")){
     	 memLayout = "professor";
-    	 professorSubMenuVO.setMenuCode(ConstVariable.DEFAULT_PROFESSOR_MENU_CODE);
+    	 professorSubMenuVO.setMenuCode(ConstVariable.FIVE_PROFESSOR_MENU_CODE);
          model.addAttribute("professorSubMenuVO", professorSubMenuVO);
       }
       else if(authorityStrings.contains("ROLE_ADMIN")) {

@@ -18,7 +18,7 @@ function getChartDataList(){
 	      alert('실패');
 	   }
 	});
-	//ajax end
+	//ajax end111111
 }
 
 
