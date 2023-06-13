@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="readMapper">
+
+	
+	<resultMap type="com.study.test.readingRoom.vo.ReadVO" id="read">
+		<result column="SEAT_NO" 		property="seatNo"/>
+		<result column="SEAT_NAME" 		property="seatName"/>
+	</resultMap>
+	
+	<resultMap type="com.study.test.readingRoom.vo.ReservationVO" id="reserv">
+		<result column="RESER_NO" 				property="reserNo"/>
+		<result column="MEM_NO" 				property="memNo"/>
+		<result column="SEAT_NO" 				property="seatNo"/>
+		<result column="START_TIME" 			property="startTime"/>
+		<result column="END_TIME" 				property="endTime"/>
+		<result column="RESER_DATE" 			property="reserDate"/>
+		<result column="REG_DATE" 				property="regDate"/>	
+	</resultMap>
+	
+	<select id="getSeatList" resultMap="read">
+		SELECT SEAT_NO
+			, SEAT_NAME
+		FROM UNI_READING_ROOM
+	</select>
+	
+	
+	
+	
+	
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

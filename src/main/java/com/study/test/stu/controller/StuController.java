@@ -43,6 +43,8 @@ import com.study.test.member.vo.MemberMenuVO;
 import com.study.test.member.vo.MemberSubMenuVO;
 import com.study.test.member.vo.MemberVO;
 import com.study.test.professor.vo.LectureVO;
+import com.study.test.readingRoom.service.ReadService;
+import com.study.test.readingRoom.vo.ReadVO;
 import com.study.test.school.colleage.ColleageVO;
 import com.study.test.school.dept.DeptManageVO;
 import com.study.test.school.dept.DeptVO;
@@ -83,7 +85,8 @@ public class StuController {
 	@Resource(name = "scheduleService")
 	private ScheduleService scheduleService;
 	
-	   
+	@Resource(name = "readService")
+	private ReadService readService;   
 	
 	
 	   //학사톡
@@ -1590,4 +1593,43 @@ public class StuController {
 		return new Greeting(memberVO.getMemName() + " / " + memberVO.getMemNo() +" : "+ HtmlUtils.htmlEscape(message.getName()));
 
 	}
+	
+	
+	
+	
+	
+	//----------------------------열람실 기능!!!!!! 건드리지 마시오!!!!!!-------------------------------------------------//
+	
+	//첫페이지
+	@GetMapping("/read")
+	public String readPage(Model model, MemberMenuVO memberMenuVO , MemberSubMenuVO memberSubMenuVO) {
+		System.out.println("@@@@@@@@ 데이터: " + memberSubMenuVO);
+		
+		memberSubMenuVO.setMenuCode(ConstVariable.SEVEN_STU_MENU_CODE);
+		return "content/read/read_page";
+	}
+	
+	
+	//시작하자마자 정보 가져오기
+	@PostMapping("/getSeatDataAjax")
+	@ResponseBody
+	public List<ReadVO> getSeatDataAjax() {
+		
+		return readService.getSeatList();
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
