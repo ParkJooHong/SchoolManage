@@ -11,14 +11,14 @@
 	padding: 0;
 }
 
-ul {
+.main_div ul {
 	width: 100%;
 	margin: 0 auto;
 	list-style: none;
 	padding: 0;
 }
 
-li {
+.main_div li {
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -36,7 +36,7 @@ li {
 	background-color: #870119;
 }
 
-li > a {
+.main_div li > a {
 	color: white;
 	font-weight: bold;
 }

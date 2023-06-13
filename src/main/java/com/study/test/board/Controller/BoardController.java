@@ -194,7 +194,7 @@ public class BoardController {
 	
 	// 전체게시글 상세보기
 		@GetMapping("/boardDetail")
-		private String boardDetail(Authentication authentication, String cateNo, String boardNo, Model model,
+		private String boardDetail(Authentication authentication, ProfessorMenuVO professorMenuVO, AdminMenuVO adminMenuVO, String cateNo, String boardNo, Model model,
 				UniBoardVO uniBoardVO, BoardReplyVO boardReplyVO, MemberVO memberVO, StuVO stuVO,MemberMenuVO memberMenuVO, MemberSubMenuVO memberSubMenuVO, int readCnt) {
 
 			memberSubMenuVO.setMenuCode(ConstVariable.FOURTH_STU_MENU_CODE);
@@ -203,9 +203,26 @@ public class BoardController {
 			
 			memberVO.setMemNo(user.getUsername());
 			model.addAttribute("memberVO", memberService.getMemInfo(memberVO));
-			System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@유저 아이디 : " + memberService.getMemInfo(memberVO));
 			
-			System.out.println("멤버브비오 : " +stuService.seletStu(memberVO));
+			List<String> authorityStrings = user.getAuthorities().stream().map(GrantedAuthority::getAuthority)
+					.collect(Collectors.toList());
+			
+			//인증 정보에 따른 회원 정보 조회
+			if(authorityStrings.contains("ROLE_PRO")){
+				model.addAttribute("memberVO", memberService.getMemInfoForBoard(memberVO));
+				professorMenuVO.setMenuCode(ConstVariable.FIVE_PROFESSOR_MENU_CODE);
+			}
+			
+			else if(authorityStrings.contains("ROLE_ADMIN")){
+				model.addAttribute("memberVO", memberService.getMemInfoForBoard(memberVO));
+				adminMenuVO.setMenuCode(ConstVariable.FOURTH_MENU_CODE);
+			}
+			
+			else {
+				model.addAttribute("memberVO", stuService.seletStu(memberVO));
+				System.out.println("학생정보 : " + stuService.seletStu(memberVO));
+			}
+			
 
 			System.out.println(boardNo);
 			boardService.boardDetail(boardNo);
