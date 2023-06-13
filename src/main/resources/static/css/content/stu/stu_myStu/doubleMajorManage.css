@@ -3,7 +3,11 @@
 @charset "UTF-8";
 
 .detail_info {
-    background: #ebe7e3;
+    background:#897c76;
+}
+
+.detail_infos{
+	background: #D3D3D3;
 }
 
 table.detail_info{
@@ -11,6 +15,16 @@ table.detail_info{
 	margin: 10px;
 	padding: 10px;
 }
+
+table.detail_infos{
+	width: 100%;
+	margin: 10px;
+	padding: 10px;
+}
+table.detail_infos td{
+	padding: 5px;
+}
+
 table.detail_info td{
 	padding: 5px;
 }
@@ -20,8 +34,19 @@ table.detail_info td:nth-child(odd){
 }
 
 table.detail_info td:nth-child(even){
-	background-color: white;
+	background-color:#ebe7e3;
+	font-weight: bold;
 }
+/* 홀수 번째 td 요소에 white 배경색 적용 */
+.detail_info tr td:nth-child(odd) {
+    color: white;
+    font-weight: bold;
+    text-align: center;
+}
+.detail_info tr td:nth-child(even) {
+    text-align: center;
+}
+
 
 textarea{
 	 width: 100%;

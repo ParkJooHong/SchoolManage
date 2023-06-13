@@ -1,5 +1,5 @@
 //비번 변경
-function updatePw() {
+function updatePwByCk() {
 	const mem_id = document.querySelector('#memId').value;
 	const now_pwd = document.querySelector('#nowPwd').value;
 	const change_pwd = document.querySelector('#changePwd').value;
