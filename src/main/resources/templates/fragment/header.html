@@ -27,7 +27,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 					<input type="hidden" id="memNo" th:value="${#authentication.name}">
 					<ul class="dropdown-menu">
 						<li>색 변경 공간.</li>
-						<li>비밀번호 변경
+						<li><a href="/member/changeMemPw">비밀번호 변경</a>
 							<hr>
 						</li>
 						<li><a href="/member/logout">로그아웃</a></li>

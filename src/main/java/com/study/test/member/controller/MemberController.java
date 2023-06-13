@@ -3,8 +3,12 @@ package com.study.test.member.controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,11 +17,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.study.test.admin.service.AdminService;
+import com.study.test.admin.vo.AdminSubMenuVO;
 import com.study.test.member.service.MemberService;
 import com.study.test.member.vo.MailVO;
 import com.study.test.member.vo.MemberMenuVO;
 import com.study.test.member.vo.MemberSubMenuVO;
 import com.study.test.member.vo.MemberVO;
+import com.study.test.professor.vo.ProfessorSubMenuVO;
+import com.study.test.util.ConstVariable;
 import com.study.test.util.MailService;
 
 import jakarta.annotation.Resource;
@@ -32,7 +40,8 @@ public class MemberController {
 	private PasswordEncoder encoder;
 	@Resource(name = "mailService")
 	private MailService mailService;
-	
+	@Resource(name = "adminService")
+	private AdminService adminService;
 	
 	
 	//로그인
@@ -92,9 +101,34 @@ public class MemberController {
 	}
 	
 	
+	//비밀번호 변경 페이지 이동
+	@GetMapping("/changeMemPw")
+	public String changeMemPw (Authentication authentication, Model model) {
+		String memLayout = "";
+		
+		memLayout = getCode(authentication, model);
+		
+		model.addAttribute("memLayOut", memLayout);
+		
+		return "content/member/change_mem_pw";
+	}
 	
+	//회원의 비밀번호 검증
+	@PostMapping("/updatePwAjax")
+	@ResponseBody
+	public boolean updatePwAjax(MemberVO memberVO) {
+		String beforPw = adminService.countMemPw(memberVO);
+		return encoder.matches(memberVO.getMemPw(),beforPw);
+	}
 	
-	
+	//비밀번호 변경
+	@PostMapping("/changePwAjax")
+	@ResponseBody
+	public int changePwAjax(MemberVO memberVO) {
+		String encodedPw = encoder.encode(memberVO.getMemPw());
+		memberVO.setMemPw(encodedPw);
+		return adminService.changePw(memberVO);
+	}
 	
 	
 	
@@ -243,6 +277,36 @@ public class MemberController {
 	}
 	
 	
+	//레이아웃 컨트롤
+   @RequestMapping("/getCode")
+   public String getCode(Authentication authentication, Model model) {
+	  String memLayout = "";
+      User userInfo = (User) authentication.getPrincipal();
+      AdminSubMenuVO adminSubMenuVO = new AdminSubMenuVO();
+      ProfessorSubMenuVO professorSubMenuVO = new ProfessorSubMenuVO();
+      MemberSubMenuVO memberSubMenuVO = new MemberSubMenuVO();
+
+      List<String> authorityStrings = userInfo.getAuthorities().stream().map(GrantedAuthority::getAuthority)
+            .collect(Collectors.toList());
+      
+      if(authorityStrings.contains("ROLE_PRO")){
+    	 memLayout = "professor";
+    	 professorSubMenuVO.setMenuCode(ConstVariable.DEFAULT_PROFESSOR_MENU_CODE);
+         model.addAttribute("professorSubMenuVO", professorSubMenuVO);
+      }
+      else if(authorityStrings.contains("ROLE_ADMIN")) {
+    	  memLayout = "admin";
+         adminSubMenuVO.setMenuCode(ConstVariable.FOURTH_MENU_CODE);
+         model.addAttribute("adminSubMenuVO", adminSubMenuVO);
+      }
+      else {
+    	 memLayout = "info";
+         memberSubMenuVO.setMenuCode(ConstVariable.FOURTH_STU_MENU_CODE);
+         model.addAttribute("memberSubMenuVO", memberSubMenuVO);
+      }
+      
+      return memLayout;
+   }
 	
 	
 	
