@@ -1,5 +1,7 @@
 package com.study.test.board.vo;
 
+import com.study.test.member.vo.MemImgVO;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,6 +22,7 @@ public class UniBoardVO extends SearchVO {
 	private String deptNo;
 	private String boardPw;
 	private BoardReplyVO boardReplyVO;
+	private MemImgVO memImgVO;
 	
 	private String cateName;
 	

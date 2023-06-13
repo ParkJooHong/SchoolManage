@@ -77,3 +77,16 @@ table.default_info td{
 	text-align: center;
 	padding: 20px;
 }
+
+.replyContentBoard{
+	background-color: #ebe7e3;
+}
+
+.regReply{
+	width: 100%;
+}
+
+.reg{
+	
+	text-align: center;
+}

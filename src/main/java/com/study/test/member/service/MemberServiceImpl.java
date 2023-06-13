@@ -24,6 +24,13 @@ public class MemberServiceImpl implements MemberService {
 		return sqlSession.selectOne("memberMapper.getMemInfo", memberVO);
 	}
 	
+	//회원 정보 조회(전체 게시판)
+	@Override
+	public MemberVO getMemInfoForBoard(MemberVO memberVO) {
+		return sqlSession.selectOne("memberMapper.getMemInfoForBoard", memberVO);
+	}
+
+	
 	//학생 메뉴
 	@Override
 	public List<MemberMenuVO> stuMenuList() {
@@ -73,6 +80,7 @@ public class MemberServiceImpl implements MemberService {
 	public int setPw(MemberVO memberVO) {
 		return sqlSession.update("memberMapper.setPw",memberVO);
 	}
+
 
 	
 	

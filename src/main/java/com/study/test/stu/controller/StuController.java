@@ -109,11 +109,7 @@ public class StuController {
 
 		memberSubMenuVO.setMenuCode(ConstVariable.ONE_STU_MENU_CODE);
 		memberSubMenuVO.setSubMenuCode(ConstVariable.DEFAULT_STU_SUB_MENU_CODE);
-		
-		
-		System.out.println(memberSubMenuVO);
-		
-		System.out.println("이까지 오나?");
+
 		
 		if (authentication != null && authentication.getPrincipal() != null) {
 		    User user = (User) authentication.getPrincipal();
@@ -132,10 +128,6 @@ public class StuController {
 		String memName = user.getUsername();
 		stuVO.setMemNo(user.getUsername()); // id임
 		memberVO.setMemNo(user.getUsername());
-		
-
-		
-		
 		
 
 		model.addAttribute("memberVO", stuService.seletStu(memberVO));
@@ -179,6 +171,28 @@ public class StuController {
 	public String updateMyInfo(MemberVO memberVO, StuVO stuVO, MemImgVO memImgVO, MultipartFile mainImg) {
 		stuService.updateStu(stuVO);
 		stuService.updateMem(memberVO);
+		
+		// UploadUtill 객체 호출해서(util패키지에 만들어놓음)MemImgVO 객체에 받음
+		MemImgVO attachedImgVO = UploadUtil.uploadFile(mainImg);
+		// memberVO에서 받아온 memNo memImgVO에 넣음
+		attachedImgVO.setMemNo(memberVO.getMemNo());
+		// 다음에 들어갈 img코드 호출해서 세팅
+		attachedImgVO.setImgCode(memberService.getNextImgCode());
+		// memberVO.memImage에 imgCode 세팅
+		memberVO.setMemImage(attachedImgVO.getImgCode());
+		// memberVO안에있는 memImgVO에 UploadUtill로 불러온 데이터 넣음(트랜잭션처리때문에)
+		memberVO.setMemImgVO(attachedImgVO);
+		
+		memImgVO.setAttachedFileName(memberVO.getMemImgVO().getAttachedFileName());
+		memImgVO.setOriginFileName(memberVO.getMemImgVO().getOriginFileName());
+		
+		System.out.println(memberVO.getMemImgVO().getAttachedFileName());
+		System.out.println(memberVO.getMemImgVO().getOriginFileName());
+		System.out.println(memImgVO.getMemNo());
+		
+		System.out.println("@@@@@@@@@@@@@@" + memberVO);
+		
+		stuService.updateStuImg(memImgVO);
 
 		return "redirect:/stuMenu/myInfo";
 
@@ -254,8 +268,10 @@ public class StuController {
 
 		User user = (User) authentication.getPrincipal();
 		String memName = user.getUsername();
+		// System.out.println(memName);
 		stuVO.setMemNo(user.getUsername()); // id임
 		memberVO.setMemNo(user.getUsername());
+
 		stuNo = stuService.seletStu(memberVO).getStuVO().getStuNo();
 
 		Map<String, Object> stuManage = new HashMap<>();
@@ -268,8 +284,10 @@ public class StuController {
 		
 		model.addAttribute("info", stuManage);
 		
+		scheduleService.selectMySchedule(memberVO.getMemNo());
 		
-		return "/content/stu/stu_calender/departmentSchedule";
+
+		return "/content/stu/stu_calender/mySchedule";
 	}
 
 	// -----------------------------------------------------------------------------------------------------------------------------
@@ -1088,7 +1106,7 @@ public class StuController {
 
 
 			
-	      return "redirect:/board/boardMain";
+	      return "redirect:/board/board";
 	   }
 
 	// ------ 게시판 {

@@ -18,18 +18,18 @@
 </head>
 
 <body>
-	<div class="container">
+	<div class="total_container">
 		<div class="row header_row">
 			<div class="col">
 				<th:block th:replace="~{fragment/header::headerFragment}"></th:block>
 			</div>
 		</div>
 		<div class="row full_layout">
-			<div class="col-3">
+			<div class="col-3 side_row">
 				<th:block
 					th:replace="~{fragment/professor_side::professorSideFragment}"></th:block>
 			</div>
-			<div class="col-9">
+			<div class="col-9 content_row">
 				<th:block layout:fragment="content"></th:block>
 			</div>
 		</div>

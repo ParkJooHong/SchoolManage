@@ -18,22 +18,24 @@
 </head>
 
 <body>
-<div class="container">
+<div class="total_container">
    <div class="header_row">
-   		<div class="col">
+   		<div class="col-12">
 	   		<th:block th:replace="~{fragment/header::headerFragment}"></th:block>
    		</div>
    </div>
    <div class="row full_layout">
-   		<div class="col-3 side">
+   		<div class="col-3 side side_row">
 	   		<th:block th:replace="~{fragment/info_side::infoSideFragment}"></th:block>
    		</div>
-   		<div class="col-9">
-   			<th:block layout:fragment="content"></th:block>
+   		<div class="col-9 content_row">
+   			<div class="col content_col">
+   				<th:block layout:fragment="content"></th:block>
+   			</div>
   		</div>
    </div> 
    <div class="row bottom_row">
-		<div class="col h-100">
+		<div class="col-12 h-100">
 			<th:block th:replace="~{fragment/bottom::bottomFragment}"></th:block>
 		</div>
 	</div> 

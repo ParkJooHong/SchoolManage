@@ -1,5 +1,7 @@
 package com.study.test.board.vo;
 
+import com.study.test.member.vo.MemImgVO;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -15,4 +17,5 @@ public class BoardReplyVO {
 	private String replyWriter;
 	private String isPrivate;
 	private String replyPw;
+	private MemImgVO memImgVO;
 }

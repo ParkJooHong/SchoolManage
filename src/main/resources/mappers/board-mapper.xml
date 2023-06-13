@@ -26,6 +26,7 @@
 		<result column="DEPT_NO" 			property="deptNo"/>
 		<result column="BOARD_PW" 			property="boardPw"/>
 		<result column="CATE_NAME" 			property="cateName"/>
+		<association property="memImgVO" resultMap="memberMapper.memImg"/>
 	</resultMap>
 	
 	<resultMap type="com.study.test.board.vo.BoardReplyVO" id="reply">
@@ -35,6 +36,7 @@
 		<result column="REPLY_WRITER" 			property="replyWriter"/>
 		<result column="IS_PRIVATE" 			property="isPrivate"/>
 		<result column="REPLY_PW" 				property="replyPw"/>
+		<association property="memImgVO" resultMap="memberMapper.memImg"/>
 	</resultMap> 
 	
 	<!-- 보드 게시판 카테고리 조회 -->
@@ -123,10 +125,17 @@
 				, IS_NOTICE
 			FROM UNI_BOARD, BOARD_CATEGORY
 			WHERE UNI_BOARD.CATE_NO = BOARD_CATEGORY.CATE_NO
-			AND UNI_BOARD.CATE_NO != 'CATE_002'
-			<if test='categoryList != null and !categoryList.equals("CATE_001")'>
-				AND UNI_BOARD.CATE_NO = '${categoryList}'
-			</if>
+			AND UNI_BOARD.CATE_NO != 'CATE_002'		
+			<if test='categoryList != null'>
+				<choose>
+			        <when test='categoryList.equals("CATE_001")'>
+			            AND (UNI_BOARD.CATE_NO = 'CATE_001' OR UNI_BOARD.CATE_NO = 'CATE_003' OR UNI_BOARD.CATE_NO = 'CATE_004' OR UNI_BOARD.CATE_NO = 'CATE_005')
+			        </when>
+			        <otherwise>
+			            AND UNI_BOARD.CATE_NO = '${categoryList}'
+			        </otherwise>
+			    </choose>
+			</if>				
 			<if test="month != null and month != 0">
 			AND TO_CHAR(REG_BOARD_DATE, 'YYYYMMDD' ) &gt;= TO_CHAR(ADD_MONTHS(SYSDATE, #{month}), 'YYYYMMDD') 
 			</if>
@@ -274,8 +283,10 @@
 				, REPLY_CNT
 				, IS_PRIVATE
 				, IS_NOTICE
-			FROM UNI_BOARD
+				, ATTACHED_FILE_NAME
+			FROM UNI_BOARD, MEM_IMG
 			WHERE BOARD_NO = #{boardNo}
+			AND MEM_NO = BOARD_WRITER
 	</select>
 	
 	
@@ -403,8 +414,10 @@
 			, REPLY_CONTENT
 			, REPLY_WRITER
 			, IS_PRIVATE
-		FROM BOARD_REPLY
+			, ATTACHED_FILE_NAME
+		FROM BOARD_REPLY, MEM_IMG
 		WHERE BOARD_NO =#{boardNo}
+		AND MEM_NO = REPLY_WRITER
 	</select>
 	
 	<!-- 게시글 업데이트 -->

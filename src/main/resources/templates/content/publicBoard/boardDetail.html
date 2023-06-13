@@ -12,11 +12,7 @@
 
 <input type="hidden" th:value="${memberVO.memNo}" class="stuNo">
 
-<th:block th:each="boardCategoryVO : ${boardCategoryVO}">
-	<div>		
-		<span th:text="${boardCategoryVO.cateName}"></span>
-	</div>
-</th:block>
+	<input type="button" value="뒤로가기" onclick="goBack();" class="btn btn-danger" style="margin-top: 30px;">
 
 	<input type="hidden" th:value="${menuCode}" class="menuCode" >
 	<input type="hidden" th:value="${subMenuCode}" class="subMenuCode" >
@@ -36,7 +32,7 @@
 						
 							<td rowspan="2">
 								<th:block th:if="${memberVO.memImgVO != null}">
-									<img th:src="${'/image/memImg/' + memberVO.memImgVO.attachedFileName}" height="90px;" width="80px;">
+									<img th:src="${'/image/memImg/' + uniBoardVO.memImgVO.attachedFileName}" height="90px;" width="80px;">
 								</th:block>
 							</td>
 							<td> [[${uni.boardWriter}]]</td>
@@ -110,38 +106,38 @@
 				<td>[[${member.memName}]]  / [[${member.memNo}]]</td>
 			</tr>	
 			 <tr class="comment-form reply"> 
-			 	<td>
+			 	<td class="reg">
 		    		<textarea id="comment-input" placeholder="댓글을 남겨보세요" class="replyContent"></textarea>
-		   			<a href="javascript:void(0);" th:onclick="insertReply(	[[${menuCode}]] , [[${subMenuCode}]]);">등록</a>		   		
+		   			<a href="javascript:void(0);" th:onclick="insertReply(	[[${menuCode}]] , [[${subMenuCode}]]);" class="btn btn-danger">등록</a>		   		
 		 	 	</td>
 		 	 </tr>
 		</table>	
 	</th:block>
 	<th:block th:if="${#lists.size(boardReplyVO) != 0}">
-		<table th:each="boardReply : ${boardReplyVO}">
+		<table th:each="boardReply : ${boardReplyVO}" border="2" style="margin: 35px;">
 			<tr >
 				<input type="hidden" th:value="${boardReply.replyNo}" class="replyNo" >
 				<input type="hidden" th:value="${menuCode}" class="menuCode" >
 				<input type="hidden" th:value="${subMenuCode}" class="subMenuCode" >
-				<td rowspan="2">🧖‍♀️</td>							
+				<td rowspan="2"><img th:src="${'/image/memImg/' + boardReply.memImgVO.attachedFileName}" height="112px;" width="100px;"></td>							
 				<td>[[${boardReply.replyWriter}]]</td>		
 				<td rowspan="2" th:if="${memberVO.memNo == boardReply.replyWriter}" class="upOrDe">
-					<input type="button" th:onclick="replyUpdate( [[${boardReply.replyContent}]] ,[[${menuCode}]] , [[${subMenuCode}]])" value="✅">  
-					<input type="button" th:onclick="replyDelete([[${boardReply.replyWriter}]] , [[${boardReply.replyNo}]] , [[${menuCode}]] , [[${subMenuCode}]])" value="❎">
+					<input type="button" th:onclick="replyUpdate( [[${boardReply.replyContent}]] ,[[${menuCode}]] , [[${subMenuCode}]])" value="수정✅"> 
+					<input type="button" th:onclick="replyDelete([[${boardReply.replyWriter}]] , [[${boardReply.replyNo}]] , [[${menuCode}]] , [[${subMenuCode}]])" value="삭제❎" >
 				</td>					
 			</tr>
-			<tr>
-				<td class="replyText">[[${boardReply.replyContent}]]</td>			
+			<tr class="replyContentBoard">
+				<td class="replyText" style="width: 100%;">[[${boardReply.replyContent}]]</td>			
 			</tr>
 		</table>
-		<table >
+		<table class="regReply" >
 			<tr class="replyTable" th:each="member : ${memberVO}">
 				<td>[[${member.memNo}]]</td>
 			</tr>	
 			 <tr class="comment-form reply"> 
-			 	<td>
+			 	<td  class="reg">
 		    		<textarea id="comment-input" placeholder="댓글을 남겨보세요" class="replyContent"></textarea>
-		   			<a href="javascript:void(0);" th:onclick="insertReply(	[[${menuCode}]] , [[${subMenuCode}]]);">등록</a>
+		   			<a href="javascript:void(0);" th:onclick="insertReply(	[[${menuCode}]] , [[${subMenuCode}]]);" class="btn btn-danger">댓글 등록</a>
 		   		
 		 	 	</td>
 		 	 </tr>

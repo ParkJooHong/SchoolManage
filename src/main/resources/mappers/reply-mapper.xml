@@ -10,7 +10,7 @@
 		<result column="REPLY_CONTENT" 			property="replyContent"/>
 		<result column="REPLY_WRITER" 			property="replyWriter"/>
 		<result column="IS_PRIVATE" 			property="isPrivate"/>
-
+		<association property="memImgVO" resultMap="memberMapper.memImg"/>
 	</resultMap>
 	
 	<!-- 댓글 조회 -->
@@ -20,8 +20,10 @@
 			, REPLY_CONTENT
 			, REPLY_WRITER
 			, IS_PRIVATE
-		FROM BOARD_REPLY
+			, ATTACHED_FILE_NAME
+		FROM BOARD_REPLY , MEM_IMG
 		WHERE BOARD_NO = #{boardNo}
+		AND MEM_NO = REPLY_WRITER
 	</select>
 	
 	<!-- 게시글 댓글 수 -->

@@ -4,7 +4,7 @@
    layout:decorate="~{fragment/__${memLayOut}___layout}">
 
 <th:block layout:fragment="content_css">
-   <link rel="stylesheet" href="/css/content/stu/stu_board/totalBoard.css">
+   <link rel="stylesheet" href="/css/content/board/totalBoard.css">
 </th:block>
 
 <th:block layout:fragment="content">
@@ -13,7 +13,7 @@
 
 <div style="text-align: center;"> 
 	<div style="text-align: center;"> 
-		<div class="container">
+		<div class="container h-100">
 			<div class="content" id="boardContent">
 			  <div class="row justify-content-center">
 				<div class="col-md-12">
@@ -189,9 +189,6 @@
 				</div>
 			  </div>
 			</div>
-		  </div>
-	</div>
-</div>
 	<div class="row">
 		<div class="col text-end"> 
 		<!-- bootstrap에서 이미 디자인한 것을 끌어온 것이다. -->
@@ -209,7 +206,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="staticBackdropLabel">게시글등록</h1>
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">게시글 작성</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
    
@@ -218,12 +215,20 @@
 							<input type="hidden" th:value="${menuCode}" name="menuCode"> 
 							<input type="hidden" th:value="${subMenuCode}" name="subMenuCode"> 
 							<div>						
-								<label for="memId" class="form-label">작성자 : </label> 							
-								  <th:block th:each="member : ${memberVO}">
-									   <input type="hidden" class="boardWriter" th:name="boardWriter" th:value="${member.stuVO.stuNo}"> 
-									   <input type="hidden" class="deptNo" th:value="${member.stuVO.deptNo}"> 
-									    	[[${member.memName}]] / [[${member.memNo}]]
-								   </th:block>
+							<label for="memId" class="form-label">작성자 : </label> 							
+								<th:block th:each="member : ${memberVO}">
+									<input type="hidden" class="boardWriter" th:name="boardWriter" th:value="${member.memNo}">
+									<div sec:authorize="hasRole('ROLE_ADMIN')">
+										<input type="hidden" class="deptNo" th:value="${member.empVO.deptNo}">
+									</div>
+									<div sec:authorize="hasRole('ROLE_PRO')">
+										<input type="hidden" class="deptNo" th:value="${member.empVO.deptNo}">
+									</div>
+									<div sec:authorize="hasRole('ROLE_STU')">
+										<input type="hidden" class="deptNo" th:value="${member.stuVO.deptNo}">
+									</div>
+									[[${member.memName}]] / [[${member.memNo}]]
+								</th:block>
 							</div>
  							<div class="col-9"> 
 								<label for="memId" class="form-label">카테고리</label> 
@@ -272,9 +277,10 @@
 			</div>
     </div>
   </div>
+</div>
+		  </div>
+	</div>
 </div>	
-<input type="hidden" th:value="${memberVO.deptVO.deptNo}" class="deptNo">
-
 
 </th:block>
 
