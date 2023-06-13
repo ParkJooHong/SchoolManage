@@ -11,49 +11,7 @@
 </th:block>	
 
 <th:block layout:fragment="content">
-	<div class="row">
-		<div class="col">
-			<div class="row mt-3 mb-3">
-				<div class="col-8">
-					<h3>비밀번호 변경</h3>
-				</div>
-			</div>
-			<div class="row mt-3 mb-3">
-				<div class="col-8">
-					<table class="table">
-						<colgroup>
-							<col width="20%">
-							<col width="*">
-						</colgroup>
-						<tr>
-							<td>현재 비밀번호</td>
-							<td>
-								<input type="hidden" id="memId" th:value="${#authentication.name}">
-								<input type="password" id="nowPwd" class="form-control">
-							</td>
-						</tr>
-						<tr>
-							<td>변경할 비밀번호</td>
-							<td>
-								<input type="password" id="changePwd" class="form-control">
-							</td>
-						</tr>
-						<tr>
-							<td>비밀번호 중복 체크</td>
-							<td>
-								<input type="password" id="checkPwd" class="form-control">
-							</td>
-						</tr>
-					</table>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col d-gird">
-					<input type="button" value="비밀번호 변경" onclick="updatePw();" class="btn btn-primary">
-				</div>
-			</div>
-		</div>
-	</div>
+	
 </th:block>
 
 <!-- 연결해야 할 외부 js 파일 -->
