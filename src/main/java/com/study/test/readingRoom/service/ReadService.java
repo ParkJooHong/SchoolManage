@@ -15,4 +15,6 @@ public interface ReadService {
 	void setBeforDateBySeatUsed(String dateNo);
 	
 	int verifyReservationRoom(ReservationVO reservationVO);
+	
+	int verifyLeaveRoom(String memNo);
 }

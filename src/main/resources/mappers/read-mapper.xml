@@ -19,6 +19,7 @@
 		<result column="END_TIME" 				property="endTime"/>
 		<result column="REG_DATE" 				property="regDate"/>
 		<result column="DATE_NO"				property="dateNo"/>	
+		<result column="IS_LEAVE"				property="isLeave"/>	
 	</resultMap>
 	
 	<select id="getSeatList" resultMap="read">
@@ -71,8 +72,14 @@
 		SELECT COUNT(RESER_NO)
 		FROM RESERVATION_ROOM
 		WHERE MEM_NO = #{memNo}
-		AND TO_NUMBER(END_TIME)  BETWEEN TO_NUMBER(#{startTime}) AND TO_NUMBER(#{endTime})
-		AND DATE_NO = #{dateNo}
+		AND IS_LEAVE = 'Y'
+	</select>
+	
+	<select id="verifyLeaveRoom" resultType="int">
+		SELECT COUNT(RESER_NO)
+		FROM RESERVATION_ROOM
+		WHERE MEM_NO = #{memNo}
+		AND IS_LEAVE = 'Y'
 	</select>
 	
 </mapper>

@@ -46,6 +46,11 @@ public class ReadServiceImpl implements ReadService{
 	public int verifyReservationRoom(ReservationVO reservationVO) {
 		return sqlSession.selectOne("readMapper.verifyReservationRoom",reservationVO);
 	}
+
+	@Override
+	public int verifyLeaveRoom(String memNo) {
+		return sqlSession.selectOne("readMapper.verifyLeaveRoom",memNo);
+	}
 	
 	
 	

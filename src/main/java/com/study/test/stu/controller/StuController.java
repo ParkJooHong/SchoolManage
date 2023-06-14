@@ -1653,7 +1653,6 @@ public class StuController {
 	@ResponseBody
 	public int reservateByVerifyAjax(ReservationVO reservationVO, Authentication authentication) {
 		reservationVO.setMemNo(authentication.getName());
-		reservationVO.setDateNo(readService.getDateNo(reservationVO.getSeatNo()));
 		
 		return readService.verifyReservationRoom(reservationVO);
 	}
@@ -1664,9 +1663,16 @@ public class StuController {
 	public int regRoomAjax(ReservationVO reservationVO, Authentication authentication) {
 		reservationVO.setMemNo(authentication.getName());
 		reservationVO.setDateNo(readService.getDateNo(reservationVO.getSeatNo()));
-		//abcd1234
+
 		return readService.reservationRoom(reservationVO);
 		
+	}
+	//퇴실처리 검증
+	@PostMapping("/leaveReadingRoomAjax")
+	@ResponseBody
+	public int leaveReadingRoomAjax(Authentication authentication) {
+		
+		return readService.verifyLeaveRoom(authentication.getName());		
 	}
 	
 	
