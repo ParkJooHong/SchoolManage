@@ -14,34 +14,49 @@ function doubleManage(){
 	const menuCode = document.querySelector('.menuCode').value;
 	const subMenuCode = document.querySelector('.subMenuCode').value;
 
-	
+	/*
 	alert(stuYear);
 	alert(stuStatus);
 	alert(currentDept);
 	alert(doubleMajorDept);
 	alert(doubleMajorColl);
 	alert(applyReason);
+	*/
 	
 	if(processStatus == null){
 		if(stuYear == 1){
-			swal("신청 실패!", "복수전공 신청은 2학년 이상의 재학생만 가능합니다.", "error");
+			swal.fire({
+								title: "복수전공 신청은 2학년 이상의 재학생만 가능합니다.",
+								icon: 'warning',
+								button: '확인',
+							});
 			return;
 		}
 		if(stuStatus != '재학'){
-			swal("신청 실패!", "현재 재학 상태가 아닙니다. \n복수전공 신청은 2학년 이상의 재학생만 가능합니다.", "error");
+			swal.fire({
+								title: "현재 재학 상태가 아닙니다. \n복수전공 신청은 2학년 이상의 재학생만 가능합니다.",
+								icon: 'warning',
+								button: '확인',
+							});
 			return;
 		}
 		if(currentDept == doubleMajorDept){
-			swal("신청 실패!", "복수전공을 희망하는 학과가 현재와 동일 합니다. \n 다시 입력해주세요.", "error");
+			swal.fire({
+								title: "복수전공을 희망하는 학과가 현재와 동일 합니다. \n 다시 입력해주세요.",
+								icon: 'warning',
+								button: '확인',
+							});
 			return;
 		}
 		if(applyReason == ''){
-			swal("실패", "신청 사유를 작성해주세요.", "error");
+			swal.fire({
+								title: "신청 사유를 작성해주세요.",
+								icon: 'warning',
+								button: '확인',
+							});
 			return;
 		}
-		else{
-			alert("복수전공 신청이 접수되었습니다.");		
-			
+		else{	
 				$.ajax({
 				url: '/stuMenu/doubleManageAjax', //요청경로
 				type: 'post',
@@ -50,7 +65,11 @@ function doubleManage(){
 				, 'stuSem' : stuSem, 'menuCode' : menuCode, 'subMenuCode' : subMenuCode}, //필요한 데이터
 				success: function(result) {
 					if(result){
-						swal("신청 완료!", "복수전공 신청이 완료되었습니다.", "success");
+						swal.fire({
+											title: "복수전공 신청이 완료되었습니다.",
+											icon: 'success',
+											button: '확인',
+										});
 						setTimeout(function() {
 							location.reload();
 							}, 500);
@@ -68,7 +87,11 @@ function doubleManage(){
 		}
 	}
 	else{
-		swal("신청 실패!", "이미 신청하신 내역이 있습니다. \n또한, 복수전공 신청과 전과신청은 함께할 수 없습니다.", "error");
+		swal.fire({
+								title: "이미 신청하신 내역이 있습니다. \n또한, 복수전공 신청과 전과신청은 함께할 수 없습니다.",
+								icon: 'warning',
+								button: '확인',
+							});
 	}
 }
 

@@ -99,20 +99,20 @@ function getStuInfoList() {
 			let str = '';
 			result.forEach(function(data, idx) {
 				str += '<tr>';
-				str += `<td>${data.memName}</td>`;
-				str += `<td><a href="javascript:void(0)" onclick="getStuInfoByModal(${data.memNo},1)">${data.memNo}</a></td>`;
-				str += `<td>${data.colleageVO.collName}</td>`;
-				str += `<td>${data.deptVO.deptName}</td>`;
-				str += `<td>${data.stuVO.stuStatus}</td>`;
-				str += `<td>${data.stuVO.probCnt}회</td>`;
+				str += `<td style="width:12%">${data.memName}</td>`;
+				str += `<td style="width:17%"><a href="javascript:void(0)" onclick="getStuInfoByModal(${data.memNo},1)">${data.memNo}</a></td>`;
+				str += `<td style="width:17%">${data.colleageVO.collName}</td>`;
+				str += `<td style="width:17%">${data.deptVO.deptName}</td>`;
+				str += `<td style="width:12%">${data.stuVO.stuStatus}</td>`;
+				str += `<td style="width:12%">${data.stuVO.probCnt}회</td>`;
 				if(data.stuVO.stuStatus == '제적'){
-					str += `<td class="d-grid gap-2"><input type="button" class="btn btn-primary" disabled value="제적완료"></td>`;
+					str += `<td style="width:13%" class="gap-2"><div class="d-grid"><input type="button" class="btn btn-primary stu_out_btn" disabled value="제적완료"></div></td>`;
 				}
 				else if (data.stuVO.probCnt >= 3) {
-					str += `<td class="d-grid gap-2"><input type="button" onclick="getStuInfoByModal(${data.memNo},2);" class="btn btn-primary" value="제적처리"></td>`;
+					str += `<td style="width:13%" class="gap-2"><div class="d-grid"><input type="button" onclick="getStuInfoByModal(${data.memNo},2);" class="btn btn-primary" value="제적처리"></div></td>`;
 				}
 				else {
-					str += `<td></td>`;
+					str += `<td style="width:13%"></td>`;
 				}
 			});
 

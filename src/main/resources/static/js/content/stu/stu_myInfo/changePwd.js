@@ -4,12 +4,18 @@
 function changePassword(memPw, memNo){
 	
 	currentPassword = document.querySelector('.currentPassword').value;
+	alert(currentPassword);
+	alert(memPw);
 	newPassword = document.querySelector('.newPassword').value;
 	confirmPassword = document.querySelector('.confirmPassword').value;
 	
 	
 	if(currentPassword != memPw){
-		swal("변경 실패!", "현재 비밀번호가 올바르지 않습니다. \n 다시 입력해주세요. ", "error");
+		swal.fire({
+								title: "현재 비밀번호가 올바르지 않습니다. \n 다시 입력해주세요.",
+								icon: 'error',
+								button: '확인',
+							});
 			currentPassword.textContent = '';
 					newPassword.textContent = '';
 					confirmPassword.textContent = '';
@@ -18,10 +24,18 @@ function changePassword(memPw, memNo){
 					currentPassword.insertAdjacentHTML('afterbegin', str);
 	}
 	else if(newPassword != confirmPassword){
-		swal("변경 실패!", "새로운 비밀번호가 올바르지 않습니다. \n 다시 입력해주세요. ", "error");
+		swal.fire({
+								title: "새로운 비밀번호가 올바르지 않습니다. \n 다시 입력해주세요.",
+								icon: 'error',
+								button: '확인',
+							});
 	}
 	else if(currentPassword == newPassword){
-		swal("변경 실패!", "현재 비밀번호와 새로운 비밀번호가 중복입니다. \n 다시 입력해주세요.", "error");
+		swal.fire({
+								title: "현재 비밀번호와 새로운 비밀번호가 중복입니다. \n 다시 입력해주세요.",
+								icon: 'error',
+								button: '확인',
+							});
 	}
 	else{
 		
@@ -32,9 +46,11 @@ function changePassword(memPw, memNo){
 			data: {'newPassword' : newPassword, 'memNo' : memNo }, //필요한 데이터
 			success: function(result) {
 				if(result){
-					swal("변경 성공!", "비밀번호가 변경되었습니다.", "success");
-					
-					
+					swal.fire({
+								title: "비밀번호가 변경되었습니다.",
+								icon: 'success',
+								button: '확인',
+							});				
 				}
 				else{
 					alert('일시적 오류가 발생했습니다.');

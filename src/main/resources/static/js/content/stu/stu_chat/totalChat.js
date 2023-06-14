@@ -8,11 +8,19 @@ function setConnected(connected) {
     $("#disconnect").prop("disabled", !connected);
     if (connected) {
         $("#conversation").show();
-        swal("채팅방 입장 완료!", "학우들과 정보를 나눠보세요.", "success");
+        swal.fire({
+				title: "채팅방 입장 완료!",
+				icon: 'success',
+				button: '확인',
+			});
     }
     else {
         $("#conversation").hide();
-         swal("채팅방 퇴장 완료!", "다음에 또 만나요~", "success");
+        swal.fire({
+				title: "채팅방 퇴장 완료!",
+				icon: 'success',
+				button: '확인',
+			});
     }
     $("#greetings").html("");
 }

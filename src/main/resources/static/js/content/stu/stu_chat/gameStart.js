@@ -214,8 +214,13 @@ document.addEventListener("keydown", e =>{
 })
 
 restartButton.addEventListener("click",() => {
+	
+	swal.fire({
+				title: `게임을 다시시작합니다.\n 획득한 점수는 ${score} 입니다.`,
+				icon: 'success',
+				button: '확인',
+			});
 
-	swal("다시시작!", `게임을 다시시작합니다.\n 획득한 점수는 ${score} 입니다.`, "success");
 	
 	scoreDisplay.innerText = 0;
 	score =0;

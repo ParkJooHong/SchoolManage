@@ -38,11 +38,8 @@
 	
 </div>
 
-<th:block th:each="boardCategoryVO : ${boardCategoryVO}">
-	<div>		
-		<span th:text="${boardCategoryVO.cateName}"></span>
-	</div>
-</th:block>
+<input type="button" value="뒤로가기" onclick="goBack();" class="btn btn-danger" style="margin-top: 30px;">
+
 
 	<input type="hidden" th:value="${menuCode}" class="menuCode" >
 	<input type="hidden" th:value="${subMenuCode}" class="subMenuCode" >

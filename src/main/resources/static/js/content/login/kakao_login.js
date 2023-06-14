@@ -29,6 +29,8 @@ function kakaoLogin(){
 				      const accountEmail = res.kakao_account['email'];
 				      const gender = res.kakao_account['gender'];
 				      
+				      alert(profileNickname);
+				      
 				      $.ajax({
 							url: '/kakao/kakaoLoginAjax', //요청경로
 							type: 'post',
@@ -38,7 +40,7 @@ function kakaoLogin(){
 							
 								let memNo = 0101;
 								alert(result['profileNickname']);
-								location.href=`/stuMenu/mainPage?menuCode=${result['menuCode']}&profileNickname=${result['profileNickname']}&memNo=${memNo}`;
+								location.href=`/stuMenu/main?menuCode=${result['menuCode']}&profileNickname=${result['profileNickname']}&memNo=${memNo}`;
 								
 								
 							},

@@ -31,7 +31,7 @@ function leave(memNo){
 	// 마지막 .ingStatus 요소의 value 값을 추출합니다.
 	let ingStatus = lastIngStatusInput.value;
 	
-	alert()
+
 	
 	
 	let shouldExecute = true;
@@ -46,7 +46,11 @@ function leave(memNo){
 	
 	if (shouldExecute) {
 	 	if(applyReason.length == 0){
-		swal("실패", "휴학 사유를 입력해주세요.", "error");
+		swal.fire({
+								title: "휴학 사유를 입력해주세요.",
+								icon: 'warning',
+								button: '확인',
+							});
 		}
 		else{
 			if(ingStatus == 0 && stuStatus == '재학'){	
@@ -56,7 +60,12 @@ function leave(memNo){
 					contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 					data: {'memNo' : memNo, 'stuStatus' : stuStatus , 'applyReason' : applyReason, 'ingStatus' : ingStatus, 'menuCode' : menuCode, 'subMenuCode' : subMenuCode}, //필요한 데이터
 					success: function(result) {
-							swal("신청 완료!", "휴학 신청이 완료되었습니다.", "success");
+						swal.fire({
+											title: "휴학 신청이 완료되었습니다.",
+											icon: 'success',
+											button: '확인',
+										});
+							
 							setTimeout(function() {
 							location.reload();
 							}, 500);
@@ -76,7 +85,11 @@ function leave(memNo){
 					data: {'memNo' : memNo, 'stuStatus' : stuStatus , 'applyReason' : applyReason, 'ingStatus' : ingStatus}, //필요한 데이터
 					success: function(result) {
 		
-							swal("신청 완료!", "휴학 신청이 완료되었습니다.", "success");
+							swal.fire({
+											title: "휴학 신청이 완료되었습니다.",
+											icon: 'success',
+											button: '확인',
+										});
 							setTimeout(function() {
 							location.reload();
 							}, 500);
@@ -89,22 +102,42 @@ function leave(memNo){
 				});
 			}
 			else if(ingStatus == '승인대기' && stuStatus == '휴학'){
-				swal("실패", "이미 휴학중인 상태입니다.", "error");
+				swal.fire({
+								title: "이미 휴학 중인 상태입니다.",
+								icon: 'warning',
+								button: '확인',
+							});
 			}
 			
 			if(ingStatus == '승인완료' && stuStatus == '휴학'){
-				swal("실패", "이미 휴학중인 상태입니다.", "error");
+				swal.fire({
+								title: "이미 휴학 중인 상태입니다.",
+								icon: 'warning',
+								button: '확인',
+							});
 			}
 			else if(ingStatus == '승인대기' && stuStatus == '재학'){
-				swal("실패", "이미 처리중인 신청이 있습니다.", "error");
+				swal.fire({
+								title: "이미 처리 중인 상태입니다.",
+								icon: 'warning',
+								button: '확인',
+							});
 			}
 			else{
-				swal("실패", "제적 상태입니다. 학과에 문의하세요.", "error");
+				swal.fire({
+								title: "제적 상태입니다. 학과에 문의하세요.",
+								icon: 'warning',
+								button: '확인',
+							});
 			}
 		}
 	} 
 	else {
-	  swal("실패", "제적 상태입니다. 학과에 문의하세요.", "error");
+	  swal.fire({
+								title: "제적 상태입니다. 학과에 문의하세요.",
+								icon: 'warning',
+								button: '확인',
+							});
 	}
 	
 	//alert(stuStatus);

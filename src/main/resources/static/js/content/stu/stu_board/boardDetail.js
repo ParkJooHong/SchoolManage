@@ -1,4 +1,9 @@
 
+// 뒤로가기
+function goBack(){
+	window.history.go(-1);
+}
+
 //글 상세보기, 이전글
 function prev(boardNo, readCnt, menuCode, subMenuCode){
    var number = parseInt(boardNo.substr(9), 10); // 문자열에서 숫자 부분 추출
@@ -35,7 +40,11 @@ function insertReply(menuCode, subMenuCode){
 			data: {'menuCode' : menuCode, 'subMenuCode' : subMenuCode , 'replyContent' : replyContent, 'boardNo' : boardNo, 'stuNo' : stuNo}, //필요한 데이터
 			success: function(result) {
 				if(result){
-					swal("등록 성공!", "댓글이 등록되었습니다.", "success");
+					swal.fire({
+								title: "댓글이 등록되었습니다.",
+								icon: 'success',
+								button: '확인',
+							});
 					setTimeout(function() {
 						location.reload();
 						}, 500);
@@ -93,7 +102,11 @@ function updateBoardGo(menuCode, subMenuCode ,boardNo ){
 			data: {'newBoardTitle' : newBoardTitle, 'menuCode' : menuCode, 'subMenuCode' : subMenuCode, 'newBoardContent' : newBoardContent , 'boardNo' : boardNo }, //필요한 데이터
 			success: function(result) {
 				if(result){
-					swal("수정 성공!", "게시글이 수정되었습니다.", "success");
+					swal.fire({
+								title: "게시글이 수정되었습니다.",
+								icon: 'success',
+								button: '확인',
+							});
 					setTimeout(function() {
 						location.reload();
 						}, 500);
@@ -122,7 +135,11 @@ function deleteBoard(boardNo, menuCode, subMenuCode ){
 			data: {'boardNo' : boardNo, 'menuCode' : menuCode, 'subMenuCode' : subMenuCode }, //필요한 데이터
 			success: function(result) {
 				if(result){
-					swal("삭제 성공!", "게시글이 삭제되었습니다.", "success");
+					swal.fire({
+								title: "게시글이 삭제되었습니다.",
+								icon: 'success',
+								button: '확인',
+							});
 					 setTimeout(function() {
 						location.reload();
 						}, 500);
@@ -174,7 +191,11 @@ function updateReplyGo(replyNo, menuCode, subMenuCode){
 			data: {'replyContent' : replyContent, 'menuCode' : menuCode, 'subMenuCode' : subMenuCode, 'replyNo' : replyNo }, //필요한 데이터
 			success: function(result) {
 				if(result){
-					swal("수정 성공!", "댓글이 수정되었습니다.", "success");
+					swal.fire({
+								title: "댓글이 수정되었습니다.",
+								icon: 'success',
+								button: '확인',
+							});
 					setTimeout(function() {
 						location.reload();
 						}, 500);
@@ -206,7 +227,11 @@ function replyDelete(replyWriter, replyNo, menuCode, subMenuCode){
 			data: {'replyWriter' : replyWriter, 'menuCode' : menuCode, 'subMenuCode' : subMenuCode, 'replyNo' : replyNo, 'boardNo' : boardNo }, //필요한 데이터
 			success: function(result) {
 				if(result){
-					swal("삭제 성공!", "댓글이 삭제되었습니다.", "success");
+					swal.fire({
+								title: "댓글이 삭제되었습니다.",
+								icon: 'success',
+								button: '확인',
+							});
 					setTimeout(function() {
 						location.reload();
 						}, 500);

@@ -50,29 +50,21 @@
 <div  style="font-size: 20px; font-weight: bold;" > 개인정보 변경</div>
 <form th:action="@{/stuMenu/updateMynfo}" method="post" enctype="multipart/form-data">
 <table class="detail_info" th:each="member : ${memberVO}">
-	<tr style="justify-content: space-between;">
-		<td>융합연계(복)</td>
-		<td th:each="processStatus : ${deptManageVO}"><input type="text" th:value="${processStatus.deptVO.deptName}" readonly style="background-color: #D3D3D3;"></td>
-		<td rowspan="3" style="text-align: right; ">
-			<img th:src="${'/image/memImg/' + member.memImgVO.attachedFileName}" height="90px;" width="80px;">
+		<tr style="text-align: center;">
+			<td>
+				<img th:src="${'/image/memImg/' + member.memImgVO.attachedFileName}" height="90px;">	    
+			</td>
 			
-			<input type="file" class="form-control" name="mainImg" required>
-		       
-		    
-		</td>
-		<td></td>
-		<!-- <td><img src="/image/khLogo.png" style="width: 140px;"></td> -->
-	</tr>
-	<tr>
-		<td>융합연계(부)</td>
-		<td ><input type="text" readonly  style="background-color: #D3D3D3;"></td>
-
-	</tr>
-	<tr>
-		<td>교양학사</td>
-		<td><input type="text" readonly style="background-color: #D3D3D3;"></td>
-
-	</tr>
+		</tr>
+		<tr>
+			<td>
+				<input type="file" class="form-control" name="mainImg" required style="width: 250px;">
+			</td>
+		</tr>
+	</table>
+<table class="detail_info" th:each="member : ${memberVO}">
+	
+	
 	<tr>
 		<td>개명 후 성명</td>
 		<td><input type="text"></td>
@@ -94,25 +86,10 @@
 		<td>휴대폰</td>
 		<td><input type="text" th:value="${memberVO.memTell}" name="memTell" ></td>
 		<td>ex) 010-1234-5678</td>
-	</tr>
+	</tr>	
 </table>
 
-
-
-	<table class="detail_info" th:each="member : ${memberVO}">
-		<tr><td>
-			<th:block>
-			<input type="hidden" name="menuCode" th:value="${memberSubMenuVO.menuCode}">
-			</th:block>
-			<input type="hidden" name="stuNo" th:value="${member.stuVO.stuNo}">
-			<input type="hidden" name="deptNo" th:value="${member.stuVO.deptNo}">
-			 <input type="hidden" name="collNo" th:value="${member.stuVO.collNo}">
-			<input type="hidden" name="doubleNo" th:value="${member.stuVO.doubleNo}">
-			<input type="hidden" name="stuYear" th:value="${member.stuVO.stuYear}">
-			<input type="hidden" name="stuSem" th:value="${member.stuVO.stuSem}">
-			<input type="hidden" name="stuStatus" th:value="${member.stuVO.stuStatus}">
-			<input type="hidden" name="memNo" th:value="${member.stuVO.memNo}">
-		</td></tr>
+	<table class="detail_info" th:each="member : ${memberVO}">	
 		<tr>
 			<td>보호자명</td>
 			<td><input type="text" th:value="${member.stuVO.parentName}" name="parentName"></td>
@@ -141,6 +118,19 @@
 			<td><input type="text" th:value="${member.stuVO.stuBankAccount}" name="stuBankAccount"></td>
 			<td>(반드시 본인 계좌번호 기재)</td>
 		</tr>
+		<tr><td>
+			<th:block>
+			<input type="hidden" name="menuCode" th:value="${memberSubMenuVO.menuCode}">
+			</th:block>
+			<input type="hidden" name="stuNo" th:value="${member.stuVO.stuNo}">
+			<input type="hidden" name="deptNo" th:value="${member.stuVO.deptNo}">
+			 <input type="hidden" name="collNo" th:value="${member.stuVO.collNo}">
+			<input type="hidden" name="doubleNo" th:value="${member.stuVO.doubleNo}">
+			<input type="hidden" name="stuYear" th:value="${member.stuVO.stuYear}">
+			<input type="hidden" name="stuSem" th:value="${member.stuVO.stuSem}">
+			<input type="hidden" name="stuStatus" th:value="${member.stuVO.stuStatus}">
+			<input type="hidden" name="memNo" th:value="${member.stuVO.memNo}">
+		</td></tr>
 	</table>
 		<div class="save" style="text-align: center;">
 		<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard2-plus" viewBox="0 0 16 16">

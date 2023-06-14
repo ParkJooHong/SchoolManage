@@ -566,7 +566,7 @@ public class StuController {
 		//model.addAttribute("subMenuCode", subMenuCode);
 		
 		System.out.println(" 복수 전공 신청 조회 : " + stuService.getStatusDoubleInfo(memberVO.getMemNo()));
-		model.addAttribute("deptManageVO" , stuService.getStatusDoubleInfo(memberVO.getMemNo()));
+		model.addAttribute("doubleDeptVO" , stuService.getStatusDoubleInfo(memberVO.getMemNo()));
 
 		return "/content/stu/stu_myStu/moveManage";
 	}
@@ -1324,7 +1324,7 @@ public class StuController {
 
 		uniBoardVO.setDeptNo(stuService.seletStu(memberVO).getDeptVO().getDeptNo());
 
-		model.addAttribute("uniBoardList", boardService.getTotalDeptBoardList(uniBoardVO));
+		
 
 		//위에꺼 다필요없음
 
@@ -1378,7 +1378,10 @@ public class StuController {
 			uniBoardVO.setIsPrivate(isPrivate);
 		}
 
-		uniBoardVO.setIsNotice(isNotice);
+		if(isNotice == null) {
+			uniBoardVO.setIsNotice("N");
+		}
+		
 
 		System.out.println(uniBoardVO);
 
