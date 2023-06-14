@@ -40,6 +40,8 @@ import com.study.test.board.vo.BoardListSearchVO;
 import com.study.test.board.vo.BoardReplyVO;
 import com.study.test.board.vo.SearchVO;
 import com.study.test.board.vo.UniBoardVO;
+import com.study.test.donation.DonationBoardVO;
+import com.study.test.donation.DonationService;
 import com.study.test.member.service.MemberService;
 import com.study.test.member.vo.MemImgVO;
 import com.study.test.member.vo.MemberMenuVO;
@@ -94,6 +96,11 @@ public class StuController {
 	
 	@Resource(name ="adminService")
 	private AdminService adminService;
+
+	
+	@Resource(name = "donationService")
+	private DonationService donationService;
+
 	
 	@Autowired
 	private PasswordEncoder encoder;
@@ -1548,17 +1555,19 @@ public class StuController {
 
 	}
 
-	// 중고 나눔
+// 중고 나눔
 	@GetMapping("/donation")
-	private String donation(Authentication authentication, String boardNo, Model model, UniBoardVO uniBoardVO,
+	public String donation(Authentication authentication, String boardNo, Model model, UniBoardVO uniBoardVO,
 			MemberVO memberVO, StuVO stuVO, MemberMenuVO memberMenuVO, MemberSubMenuVO memberSubMenuVO) {
-
 		User user = (User) authentication.getPrincipal();
 		String memName = user.getUsername();
 		// System.out.println(memName);
 		stuVO.setMemNo(user.getUsername()); // id임
 		memberVO.setMemNo(user.getUsername());
 		model.addAttribute("memberVO", stuService.seletStu(memberVO));
+
+		List<DonationBoardVO> donationDataList = donationService.donationSearch(); // 데이터베이스로부터 데이터를 가져오는 메서드 호출
+		model.addAttribute("donationDataList", donationDataList); // 모델에 데이터 추가
 
 		return "/content/stu/stu_board/donation";
 	}

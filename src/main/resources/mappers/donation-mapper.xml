@@ -3,41 +3,83 @@
 
 <mapper namespace="donationMapper">
 	<resultMap type="com.study.test.donation.DonationBoardVO" id="donation">
-		<id column="DONATION_CODE" 			property="donationCode"/>
+		<id column="DONATION_CODE" 			    property="donationCode"/>
 		<result column="DONATION_NAME" 		property="donationName"/>
 		<result column="DONATION_PRICE" 	property="donationPrice"/>
-		<result column="DONATION_INTRO" 	property="donationIntro"/>
-        <result column="IMAGE_DATA"         property="imageData"/>
+		<result column="DONATION_CONTENT" 	property="donationContent"/>
+        <result column="DONATION_IMAGE"     property="donationImage"/>
+        <association property="donationBoardImageVO" resultMap="donationImg"/>
+        
+        </resultMap>
+
+    <resultMap type="com.study.test.donation.DonationBoardImageVO" id="donationImg">
+    <id column="IMG_CODE" property="imgCode"/>
+    <result column="ORIGIN_FILE_NAME" property="originFileName"/>
+    <result column="ATTACHED_FILE_NAME" property="attachedFileName"/>
+    <result column="IS_MAIN" property="isMain"/>
+    <result column="DONATION_CODE" property="donationCode"/>
     </resultMap>
 
-
-		<!--중고 물품 등록  -->
+<!-- 중고 물품 등록 -->
 	<insert id="regDonationItem">
-    INSERT INTO DONATION_ITEM(
+  	<selectKey resultType="String" keyProperty="donationCode" order="BEFORE">
+		SELECT 'DONATION' || TO_CHAR(LPAD(NVL(MAX(TO_NUMBER(SUBSTR(DONATION_CODE, 10))),0)+1,3,'0'))
+ 		FROM DONATION_ITEM	
+	</selectKey>
+    INSERT INTO DONATION_ITEM (
         DONATION_CODE,
         DONATION_NAME,
         DONATION_PRICE,
-        DONATION_INTRO,
-        IMAGE_DATA
+        DONATION_CONTENT,
+        DONATION_IMAGE
     ) VALUES (
         #{donationCode},
         #{donationName},
         #{donationPrice},
-        #{donationIntro},
-        #{imageData, jdbcType=BLOB}
+        #{donationContent},
+        #{donationImage}
     )
 </insert>
 
+   <!-- 중고 물품 이미지 파일 등록 -->
+    <insert id="regDonationImg">
+        INSERT INTO DONATION_IMG(
+            IMG_CODE,
+            ORIGIN_FILE_NAME,
+            ATTACHED_FILE_NAME,
+            IS_MAIN,
+            DONATION_CODE
+        ) VALUES(
+            #{donationBoardImageVO.imgCode},
+            #{donationBoardImageVO.originFileName},
+            #{donationBoardImageVO.attachedFileName},
+            #{donationBoardImageVO.isMain},
+            #{donationCode}
+        )
+    </insert>
 
-<!-- 중고 물품 상품 조회하는 MY-BATIS 쿼리 -->
 
+    <select id="getNextDonationImgCode" resultType="String">
+       SELECT  'IMG_' || LPAD(NVL(MAX(TO_NUMBER(SUBSTR(IMG_CODE, 5))),0) + 1, 3, '0')  
+		FROM DONATION_IMG
+    </select>
 
-     <select id="selectDonationData" resultMap="donation">
-        SELECT DONATION_CODE, 
+   <!-- Donation.html 상에서 중고 상품 목록 조회-->
+     <select id="donationData" resultMap="donation">
+        SELECT DITEM.DONATION_CODE,
         DONATION_NAME,
         DONATION_PRICE,
-        DONATION_INTRO, 
-        IMAGE_DATA
+        DONATION_IMAGE,
+        ATTACHED_FILE_NAME
+        FROM DONATION_ITEM DITEM, DONATION_IMG DIMG
+        WHERE DITEM.DONATION_CODE = DIMG.DONATION_CODE
+    </select>
+
+   <!--Donation.HTML 상에서 중고 상품 클릭했을때 상세보기로 -->
+    <select id="donationDetail" resultMap="donation">
+        SELECT DONATION_NAME,
+        DONATION_PRICE,
+        DONATION_CONTENT
         FROM DONATION_ITEM
     </select>
 

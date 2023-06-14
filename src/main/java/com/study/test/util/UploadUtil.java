@@ -13,6 +13,7 @@ import javax.sound.midi.Soundbank;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.study.test.donation.DonationBoardImageVO;
 import com.study.test.member.vo.MemImgVO;
 import com.study.test.professor.vo.LecturePdfVO;
 import com.study.test.professor.vo.LectureVO;
@@ -22,6 +23,34 @@ import jakarta.servlet.http.HttpServletResponse;
 
 public class UploadUtil {
 	
+
+	
+	// 중고 아이템 등록 메소드 
+	public static DonationBoardImageVO uploadDonationFile(MultipartFile donationimg) {
+		DonationBoardImageVO donationimgVO = null;
+		if (donationimg != null && !donationimg.isEmpty()) {
+			donationimgVO = new DonationBoardImageVO();
+
+			String originFileName = donationimg.getOriginalFilename();
+			String uuid = UUID.randomUUID().toString();
+			String extension = originFileName.substring(originFileName.lastIndexOf("."));
+			String attachedFileName = uuid + extension;
+
+			try {
+				File file = new File(ConstVariable.DONATION_UPLOAD_PATH + attachedFileName);
+				donationimg.transferTo(file);
+				donationimgVO.setOriginFileName(originFileName);
+				donationimgVO.setAttachedFileName(attachedFileName);
+				donationimgVO.setIsMain("Y");
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return donationimgVO;
+	}
+
+
 	// 단일 파일 업로드 메소드
 	public static MemImgVO uploadFile(MultipartFile img) {
 		MemImgVO imgVO = null;
