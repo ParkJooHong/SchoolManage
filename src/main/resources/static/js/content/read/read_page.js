@@ -199,90 +199,150 @@ function reserveReadingRoom() {
 	const start_time = document.querySelector('#startTime').value;
 
 	const end_time = parseInt(start_time) + 4;
-	const set_time = parseInt(start_time) + 1;
-	//예약 검증
-	//ajax start
-	$.ajax({
-		url: '/stuMenu/reservateByVerifyAjax', //요청경로
-		type: 'post',
-		async: true,
-		//contentType : 'application/json; charset=UTF-8',
-		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-		data: { 'seatNo': seat_no, 'startTime': set_time, 'endTime': end_time }, //필요한 데이터
-		success: function(result) {
-			if (result == 1) {
-				swal.fire({
-					title: "해당 시간에 이미 예약을 했습니다.",
-					icon: 'error',
-					button: '확인',
-				})
-				return
-			}
-			else{
-				swal.fire({
-					title: "열람실 예약",
-					text: "해당 내용으로 예약하시겠습니까?",
-					icon: "question",
-					showCancelButton: true,
-					confirmButtonText: "확인",
-					cancelButtonText: "취소"
-				}).then((r) => {
-					if (r.isConfirmed) {
-						//ajax start
-						$.ajax({
-							url: '/stuMenu/regRoomAjax', //요청경로
-							type: 'post',
-							async: true,
-							//contentType : 'application/json; charset=UTF-8',
-							contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-							data: { 'seatNo': seat_no, 'startTime': start_time, 'endTime': end_time }, //필요한 데이터
-							success: function(result) {
-								if (result == 1) {
-									swal.fire({
-										title: "예약이 완료되었습니다.",
-										icon: 'success',
-										button: '확인',
-									}).then((r)=>{
-										location.href='/stuMenu/read';
-									})
+	const today = new Date();
+	const day_no = parseInt(today.getDay());
+	const hours = ('0' + today.getHours()).slice(-2);
+	const hour = parseInt(hours);
+	const room_day = parseInt(document.querySelector('#roomDay').value);
+	console.log(hour);
+
+	if (day_no == room_day && hour >= start_time) {
+		swal.fire({
+			title: "예약 할 수 있는 시간이 아닙니다.",
+			icon: 'error',
+			button: '확인',
+		})
+		return
+	}
+	else {
+		//예약 검증
+		//ajax start
+		$.ajax({
+			url: '/stuMenu/reservateByVerifyAjax', //요청경로
+			type: 'post',
+			async: true,
+			//contentType : 'application/json; charset=UTF-8',
+			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+			data: {}, //필요한 데이터
+			success: function(result) {
+				if (result == 1) {
+					swal.fire({
+						title: "퇴실처리를 하지않아 예약이 불가능합니다.",
+						icon: 'error',
+						button: '확인',
+					})
+					return
+				}
+				else {
+					swal.fire({
+						title: "열람실 예약",
+						text: "해당 내용으로 예약하시겠습니까?",
+						icon: "question",
+						showCancelButton: true,
+						confirmButtonText: "확인",
+						cancelButtonText: "취소"
+					}).then((r) => {
+						if (r.isConfirmed) {
+							//ajax start
+							$.ajax({
+								url: '/stuMenu/regRoomAjax', //요청경로
+								type: 'post',
+								async: true,
+								//contentType : 'application/json; charset=UTF-8',
+								contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+								data: { 'seatNo': seat_no, 'startTime': start_time, 'endTime': end_time }, //필요한 데이터
+								success: function(result) {
+									if (result == 1) {
+										swal.fire({
+											title: "예약이 완료되었습니다.",
+											icon: 'success',
+											button: '확인',
+										}).then((r) => {
+											location.href = '/stuMenu/read';
+										})
+									}
+								},
+								error: function() {
+									alert('실패');
 								}
-							},
-							error: function() {
-								alert('실패');
-							}
-						});
-						//ajax end
-			
-					}
-					else if (r.isDismissed) {
-						swal.fire({
-							title: "예약이 취소되었습니다.",
-							icon: 'success',
-							button: '확인',
-						});
-					}
-			
-				})
+							});
+							//ajax end
 
+						}
+						else if (r.isDismissed) {
+							swal.fire({
+								title: "예약이 취소되었습니다.",
+								icon: 'success',
+								button: '확인',
+							});
+						}
+
+					})
+
+				}
+			},
+			error: function() {
+				alert('실패');
 			}
-		},
-		error: function() {
-			alert('실패');
-		}
-	});
-	//ajax end
+		});
+		//ajax end
 
+
+
+	}
 
 
 }
 
+//퇴실 처리
+function leaveReadingRoom() {
+	const today = new Date();
+	const day_no = parseInt(today.getDay());
+	const room_day = parseInt(document.querySelector('#roomDay').value);
 
-
+	if (day_no != room_day) {
+		swal.fire({
+			title: "해당 날짜에 입실한 이력이 없습니다.",
+			icon: 'error',
+			button: '확인',
+		});
+	}
+	//데이터 검증
+	else {
+		//ajax start
+		$.ajax({
+			url: '/stuMenu/leaveReadingRoomAjax', //요청경로
+			type: 'post',
+			async: true,
+			//contentType : 'application/json; charset=UTF-8',
+			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+			data: {}, //필요한 데이터
+			success: function(result) {
+				if (result != 1) {
+					swal.fire({
+						title: "입실한 내역이 없습니다.",
+						icon: 'error',
+						button: '확인',
+					});
+					return
+				}
+				else{
+					
+				}
+			},
+			error: function() {
+				alert('실패');
+			}
+		});
+		//ajax end
+	}
+}
 
 
 
 //전날 데이터 지우기
 function deleteByBeforData(date_no) {
+
 	//ajax start
 	$.ajax({
 		url: '/stuMenu/deleteByBeforDataAjax', //요청경로
