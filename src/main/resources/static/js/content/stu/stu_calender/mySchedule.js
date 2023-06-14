@@ -19,14 +19,16 @@ document.addEventListener('DOMContentLoaded', function () {
       itemSelector: '.fc-event',
       eventData: function(eventEl) {
         return {
-          title: eventEl.innerText
+          title: eventEl.innerText,
+          start: eventEl.innerText,
+          end: eventEl.innerText
         };
       }
     });
 
   // FullCalendar 객체 초기화
   var calendar = new Calendar(calendarEl, {
-	
+		
     headerToolbar: {
       left: 'prev,next today',
       center: 'title',
@@ -52,8 +54,10 @@ document.addEventListener('DOMContentLoaded', function () {
 	  
     editable: true,
     droppable: true,
+    selectable: true, // 달력 일자 드래그 설정가능
     events: all_events,
-    drop: function (info) {
+    
+    drop: function (info) {	
       if (checkbox.checked) {
         info.draggedEl.parentNode.removeChild(info.draggedEl);
       }
@@ -76,7 +80,20 @@ document.addEventListener('DOMContentLoaded', function () {
           allDay: info.allDay
         });
       }
-    }
+    },
+    
+    select: function(info) { // 캘린더에서 드래그로 이벤트를 생성할 수 있다.
+          var title = prompt('추가할 일정을 입력하세요.:');
+          if (title) {
+            calendar.addEvent({
+              title: title,
+              start: info.start,
+              end : info.end,
+              allDay: info.allDay
+            })
+          }
+          calendar.unselect()
+        }
     
   });
 
@@ -164,6 +181,8 @@ function loadingEvents(memNo) {
         for (i = 0; i < return_value.length; i++) { // 수정된 부분: result.length 대신에 return_value.length 사용
           events.push({
             title: return_value[i]['title'],
+            start: return_value[i]['startTime'],
+            end: return_value[i]['endTime'],
             date: return_value[i]['startTime'],
             allDay : true
           });

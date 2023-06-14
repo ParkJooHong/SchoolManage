@@ -15,14 +15,16 @@ document.addEventListener('DOMContentLoaded', function () {
       itemSelector: '.fc-event',
       eventData: function(eventEl) {
         return {
-          title: eventEl.innerText
+          title: eventEl.innerText,
+          start: eventEl.innerText,
+          end: eventEl.innerText
         };
       }
     });
 
   // FullCalendar 객체 초기화
   var calendar = new Calendar(calendarEl, {
-	
+		
     headerToolbar: {
       left: 'prev,next today',
       center: 'title',
@@ -48,8 +50,10 @@ document.addEventListener('DOMContentLoaded', function () {
 	  
     editable: true,
     droppable: true,
+    selectable: true, // 달력 일자 드래그 설정가능
     events: all_events,
-    drop: function (info) {
+    
+    drop: function (info) {	
       if (checkbox.checked) {
         info.draggedEl.parentNode.removeChild(info.draggedEl);
       }
@@ -72,7 +76,20 @@ document.addEventListener('DOMContentLoaded', function () {
           allDay: info.allDay
         });
       }
-    }
+    },
+    
+    select: function(info) { // 캘린더에서 드래그로 이벤트를 생성할 수 있다.
+          var title = prompt('추가할 일정을 입력하세요.:');
+          if (title) {
+            calendar.addEvent({
+              title: title,
+              start: info.start,
+              end : info.end,
+              allDay: info.allDay
+            })
+          }
+          calendar.unselect()
+        }
     
   });
 
@@ -106,7 +123,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 function deleteEvent(eventId) {
-  swal("삭제 대기 중", "일정 저장 클릭시 삭제 된 데이터가\n 영구적으로 삭제됩니다.", "info");
+	swal.fire({
+				title: "일정 저장 클릭시 데이터가\n 영구적으로 삭제됩니다.",
+				icon: 'info',
+				button: '확인',
+			});
 }
  
 function allSave(calendar){
@@ -156,6 +177,8 @@ function loadingEvents(memNo) {
         for (i = 0; i < return_value.length; i++) { // 수정된 부분: result.length 대신에 return_value.length 사용
           events.push({
             title: return_value[i]['title'],
+            start: return_value[i]['startTime'],
+            end: return_value[i]['endTime'],
             date: return_value[i]['startTime'],
             allDay : true
           });
@@ -180,7 +203,11 @@ const memNo = document.querySelector('.memNo').value;
     contentType: 'application/json; charset=UTF-8',
     data: jsondata,
     success: function(result) {
-      swal("저장 완료!", "일정이 등록되었습니다.", "success");
+	swal.fire({
+				title: "일정이 등록되었습니다.",
+				icon: 'success',
+				button: '확인',
+			});
       setTimeout(function() {
         location.reload();
       }, 1000);
@@ -232,7 +259,11 @@ const memNo = document.querySelector('.memNo').value;
     contentType: 'application/json; charset=UTF-8',
     data: jsondata,
     success: function(result) {
-      swal("삭제 완료!", "일정이 모두 삭제되었습니다.", "success");
+		swal.fire({
+				title: "일정이 모두 삭제되었습니다.",
+				icon: 'success',
+				button: '확인',
+			});
       setTimeout(function() {
         location.reload();
       }, 1000);
@@ -242,7 +273,6 @@ const memNo = document.querySelector('.memNo').value;
     }
   });
 }
-
 
 
 

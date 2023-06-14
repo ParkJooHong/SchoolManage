@@ -48,6 +48,7 @@ public class ScheduleController {
 		//일정 초기화(삭제)
 		scheduleService.deleteSchedule(mem);
 		
+		
 		Map<String, Object> myScheduleList = new HashMap<>();
 			
 		try {
@@ -63,12 +64,14 @@ public class ScheduleController {
                 String viewTitle = (String) event.get("viewTitle");
                 String memNo = (String)event.get("memNo");
                 
+                System.out.println(end);
+                
                 //데이터 시간 날짜형으로 포맷
                 LocalDateTime dateTime = LocalDateTime.parse(start, DateTimeFormatter.ISO_DATE_TIME);
                 String startTime = dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
                 
                 LocalDateTime dateTime2 = LocalDateTime.parse(end, DateTimeFormatter.ISO_DATE_TIME);
-                String endTime = dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                String endTime = dateTime2.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
                 System.out.println("Title: " + title);
                 System.out.println("All Day: " + allDay);
