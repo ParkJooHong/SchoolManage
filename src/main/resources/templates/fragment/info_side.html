@@ -3,40 +3,32 @@
 
 <th:block th:fragment="infoSideFragment">
 <link rel="stylesheet" href="/css/fragment/info_side.css">
-<div class="row info_side_row">
-<div class="div-container">
-	<div class="div-left mt-3">
-		<table>
-			<th:block th:each="menu : ${menuList}">
-				<tr class="submenuTr" th:classappend="${menu.menuCode} == ${memberSubMenuVO.menuCode} ? 'active' : ''">
-					<td class="list-group-item submenuTd" th:onclick="mainMenu([[${menu.menuCode}]],[[${menu.menuUrl}]]);">[[${menu.menuName}]]</td>
-				</tr>
-			</th:block>
-		</table>
-	</div>
-	<div class="div-center pt-3">
-		<table>
-		<th:block th:each="menu : ${menuList}">
-			<th:block th:each="subMenu : ${subMenuList}">					
-					<th:block th:if="${menu.menuCode == subMenu.menuCode}">
-						<tr>
-							<td class="list-group-item submenuTd"
-								th:onclick="subMenu([[${subMenu.subMenuCode}]],[[${subMenu.subMenuUrl}]],[[${menu.menuCode}]]);">
-								[[${subMenu.subMenuName}]]</td>
-						</tr>
+	<div class="row main_div w-100">
+		<div class="col-12 menu_image_wrap py-3">
+			<img alt="menu" src="/image/icon/menu.png" width="60%">
+		</div>
+		<div class="row menu_wrap">
+			<div class="col-md-6 menu_name_div">
+				<ul class="menu_ul">
+					<th:block th:each="menu : ${menuList}">
+						<li class="main_menu_li" th:classappend="${menu.menuCode} == ${memberSubMenuVO.menuCode} ? 'active' : ''">
+							<a href="javascript:void(0)" th:onclick="mainMenu([[${menu.menuCode}]],[[${menu.menuUrl}]]);">[[${menu.menuName}]]</a>
+						</li>
 					</th:block>
-			</th:block>			
-		</th:block>			
-		</table>	
-	</div>	
-	
-</div>
-
-
-		
-
+				</ul>
+			</div>
+			<div class="col-md-6 px-0 subMenu_div">
+				<ul class="subMenu_ul h-100">
+					<th:block th:each="subMenu : ${subMenuList}">
+						<li><a href="javascript:void(0)"
+								th:onclick="subMenu([[${subMenu.subMenuCode}]],[[${subMenu.subMenuUrl}]],[[${subMenu.menuCode}]]);">
+									[[${subMenu.subMenuName}]]</a></li>
+					</th:block>
+				</ul>
+			</div>	
+		</div>
+	</div>
 		<!-- Ajax때매 j쿼리 문법 넣어줌 -->
-</div>
 <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript" src="/js/fragment/info_side.js"></script>
 </th:block>

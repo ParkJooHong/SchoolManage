@@ -100,9 +100,10 @@ public class MessageController {
 		List<Map<String, Object>> msgList = messageService.getMsgList(userInfo.getUsername());
 
 		for (int i = 0; i < msgList.size(); i++) {
-			System.out.println("Value: " + msgList.get(i).get("READ_CHK"));
-			if(msgList.get(i).get("READ_CHK").toString().equals("1")) {
-				readChk = true;
+			if(msgList.get(i).get("SEND_MEM_NO").equals(userInfo.getUsername())) {
+				if(msgList.get(i).get("READ_CHK").toString().equals("1")) {
+					readChk = true;
+				}
 			}
 		}
 		

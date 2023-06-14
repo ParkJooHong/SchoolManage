@@ -1,6 +1,7 @@
 
 //맵이용
 lecScheduleAjax();
+
 function lecScheduleAjax() {
 	$.ajax({
 		url: '/professor/lectureScheduleAjax',
@@ -16,18 +17,9 @@ function lecScheduleAjax() {
 				lecTimeList[index]['LEC_DAY'] = parseInt(lecTime['LEC_DAY']);
 				lecTimeList[index]['LEC_NAME'] = lecTime['LEC_NAME'];
 			});
-			console.log(lecTimeList);
 
 			let str = '';
 
-			str += `<tr>`
-			str += `	<td></td>`
-			str += `	<td>월</td>`
-			str += `	<td>화</td>`
-			str += `	<td>수</td>`
-			str += `	<td>목</td>`
-			str += `	<td>금</td>`
-			str += `</tr>`
 
 			for (let t = 1; t < 10; t++) {
 				str += `<tr style="height: 40px;">`;
@@ -38,7 +30,7 @@ function lecScheduleAjax() {
 				for (let num = 1; num < 6; num++) {
 					str += `<td class="tdTag"> `;
 					for (let i = 0; i < lecTimeList.length; i++) {
-						if (lecTimeList[i]['LEC_DAY'] == num && lecTimeList[i]['START_TIME'] <= t + 8 && lecTimeList[i]['FINISH_TIME'] >= t + 8) {
+						if (lecTimeList[i]['LEC_DAY'] == num && lecTimeList[i]['START_TIME'] <= t + 8 && lecTimeList[i]['FINISH_TIME'] > t + 8) {
 							str += `<span id="${'span' + i + num}">${lecTimeList[i]['LEC_NAME']}</span>`;
 						}
 					}
@@ -46,9 +38,10 @@ function lecScheduleAjax() {
 				}
 				str += `</tr>`;
 			}
-			const tbody_tag = document.querySelector('tbody');
 			
-			tbody_tag.insertAdjacentHTML('afterend', str);
+			const tbody_tag = document.querySelector('.schedule_tbody');
+			
+			tbody_tag.insertAdjacentHTML('afterbegin', str);
 
 		},
 		error: function() {
@@ -58,34 +51,27 @@ function lecScheduleAjax() {
 }
 
 
-//시간표 pdf로 새창 띄우기
+//시간표 캡쳐 저장 새창 띄우기
 
 function pdfPrint() {
-	const body_tag = document.querySelector('.lec_schedule');
-	// 현재 document.body의 html을 A4 크기에 맞춰 PDF로 변환
-	html2canvas(document.querySelector('.lec_schedule'), {
-		onrendered: function(body_tag) {
-
-			// 캔버스를 이미지로 변환
-			var imgData = body_tag.toDataURL('image/png');
-
-			var doc = new jsPDF('l', 'mm', 'a4');
-			var position = 0;
-
-			var imgWidth = doc.internal.pageSize.getWidth();
-			var imgHeight = doc.internal.pageSize.getHeight();
-
-			// 첫 페이지 출력
-			doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-
-			// 파일 저장
-			doc.save('강의시간표.pdf');
-
-
-			//이미지로 표현
-			//document.write('<img src="'+imgData+'" />');
-		}
-
+	// 캡쳐 라이브러리를 통해서 canvas 오브젝트를 받고 이미지 파일로 리턴한다.
+	html2canvas(document.querySelector(".lec_schedule")).then(canvas => {
+		saveAs(canvas.toDataURL('image/png'), `시간표.png`);
 	});
-
 }
+
+
+function saveAs(uri, filename) {
+	// 캡쳐된 파일을 이미지 파일로 내보낸다.
+	var link = document.createElement('a');
+	if (typeof link.download === 'string') {
+		link.href = uri;
+		link.download = filename;
+		document.body.appendChild(link);
+		link.click();
+		document.body.removeChild(link);
+	} else {
+		window.open(uri);
+	}
+}
+

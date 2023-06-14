@@ -8,33 +8,42 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 	<link rel="stylesheet" type="text/css" href="/css/content/chatbot/chatbot.css">
 </head>
 <body>
-    <th:block th:fragment="headerFragment">
-
-        <div class="col" style="background-color: white; display: flex; justify-content: space-between; height: 45px; align-items: center; width: 90%;">
-            <span style="text-align: left; font-size:25px;">
-                <a th:href="@{/mainPage}"><img src="/image/khLogo3.png" style="width: 250px;"> 학사행정웹서비스</a>
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#weatherModal">
-                    날씨정보
-                </button>
-
-				<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#chatModal">
-                    학생챗봇도우미
-                </button>
-            </span> 
-            <span> 
-            	<span id="timer">🕦60:0</span> <input type="button" value="연장" class="btn btn-primary" onclick="resetTimer();"> 
-					<button class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">[[${#authentication.name}]]</button>
-					<input type="hidden" id="memNo" th:value="${#authentication.name}">
-					<ul class="dropdown-menu">
-						<li>색 변경 공간.</li>
-						<li><a data-bs-toggle="modal" data-bs-target="#passwordChangeModal">비밀번호 변경</a>
-							<hr>
-						</li>
-						<li><a href="/member/logout">로그아웃</a></li>
-					</ul>
-				</span> 
-				<span class="msg_btn_wrap"></span>
-
+	<th:block th:fragment="headerFragment">
+		<div class="row h-100 header_wrap align-items-center">
+				<div class="col-7">
+					<img src="/image/khLogo3.png" width="190px" style="margin-left: 10px">
+					<span>학사행정웹서비스</span>
+					<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#weatherModal">
+						날씨정보
+					</button>
+					
+					<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#chatModal">
+						학생챗봇도우미
+					</button>
+				</div>
+				<div class="col-5 header_member">
+					<div class="row me-3">
+						<div class="col">
+							<span id="timer">🕦60:0</span>
+							<span>
+								<input type="button" value="연장" class="btn btn-primary" onclick="resetTimer();"> 
+							</span>
+							<span>
+								<input type="hidden" id="memNo" th:value="${#authentication.name}">
+							</span>
+							<button class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">[[${#authentication.name}]]</button>
+							<ul class="dropdown-menu">
+								<li>색 변경 공간.</li>
+								<li><a data-bs-toggle="modal" data-bs-target="#passwordChangeModal">비밀번호 변경</a>
+								<hr>
+								</li>
+								<li><a href="/member/logout">로그아웃</a></li>
+							</ul>
+							<span class="msg_btn_wrap"></span>
+						</div>
+					</div>
+				</div>
+		</div>
 
 
 
@@ -149,7 +158,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 				  </div>
 				</div>
 			  </div>
-        </div>
+
 	
 
 		<!-- Chatgpt Modal 쳇지피티 모달 -->

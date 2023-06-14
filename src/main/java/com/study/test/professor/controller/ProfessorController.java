@@ -149,14 +149,14 @@ public class ProfessorController {
 	//강의 시간 중복 체크
 	@ResponseBody
 	@PostMapping("/lectureTimeCheckAjax")
-	public boolean lectureTimeCheckAjax(@RequestBody List<LectureTimeVO> lectureTimeVO_list, HttpSession session) {
-		MemberVO member = (MemberVO) session.getAttribute("memberVO");
-		
+	public boolean lectureTimeCheckAjax(@RequestBody List<LectureTimeVO> lectureTimeVO_list, Authentication authentication) {
+		User user = (User)authentication.getPrincipal();
+				
 		boolean timeCheck = true;
 		
 		for(LectureTimeVO lectureTimeVO : lectureTimeVO_list) {
 			//교수가 다를시 중복이 안되어야 하기때문에 교수코드 저장
-			lectureTimeVO.setEmpNo(member.getMemNo());
+			lectureTimeVO.setEmpNo(user.getUsername());
 			if(professorService.lectureTimeCheck(lectureTimeVO) != null) {
 				timeCheck = false;
 			}
@@ -168,8 +168,8 @@ public class ProfessorController {
 	
 	//강의 등록
 	@PostMapping("/regLecture")
-	public String regLecture(LectureVO lectureVO, LectureTimeVO lectureTimeVO, MultipartFile pdfFile, HttpSession session) {
-		MemberVO member = (MemberVO) session.getAttribute("memberVO");
+	public String regLecture(LectureVO lectureVO, LectureTimeVO lectureTimeVO, MultipartFile pdfFile, Authentication authentication) {
+		User user = (User)authentication.getPrincipal();
 		//UploadUtill 객체 호출해서(util패키지에 만들어놓음)LecturePdfVO객체에 받음
 		LecturePdfVO attachedPdfVO = UploadUtil.uploadPdfFile(pdfFile);
 	
@@ -194,7 +194,7 @@ public class ProfessorController {
 			lectureTimeList.add(lectureTime);
 		}
 		
-		lectureVO.setEmpNo(member.getMemNo());
+		lectureVO.setEmpNo(user.getUsername());
 		
 		lectureVO.setLectureTimeList(lectureTimeList);
 		

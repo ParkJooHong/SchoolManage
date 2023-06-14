@@ -2,3 +2,15 @@
 .schedule_table td{
 	width: 500px;
 }
+
+.schedule_table{
+	border: 1px solid silver;
+}
+
+.schedule_table td {
+  border-left: 1px solid silver;
+}
+
+.schedule_table td {
+  border-right: 1px solid silver;
+}

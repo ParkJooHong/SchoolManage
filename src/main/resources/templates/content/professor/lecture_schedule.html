@@ -13,13 +13,13 @@
 <div class="row lec_schedule">
 		<div class="col">
 			<div class="row mb-5 mt-5">
-				<div class="col-12">
+				<div class="col-12 page_title">
 					<h3>강의 시간표</h3>
 				</div>
 			</div>
 			<div class="row mb-5 text-end">
 				<div class="col-12">
-					<button class="btn btn-primary" onclick="pdfPrint()">강의시간표 pdf로 보기</button>
+					<button class="btn btn-primary" onclick="pdfPrint()">강의시간표 다운로드</button>
 				</div>
 			</div>
 			<div class="row mb-5">
@@ -33,7 +33,19 @@
 							<col width="18%">
 							<col width="18%">
 						</colgroup>
-						<tbody>
+						<thead>
+							<tr>
+								<td></td>
+								<td>월</td>
+								<td>화</td>
+								<td>수</td>
+								<td>목</td>
+								<td>금</td>
+							</tr>
+						</thead>
+						<tbody class="schedule_tbody">
+							<tr>
+							</tr>
 						</tbody>
 					</table>
 				</div>
@@ -47,6 +59,7 @@
 <th:block layout:fragment="content_js">
 	<script type="text/javascript" src="/lib/jspdf.min.js"></script>
 	<script type="text/javascript" src="/lib/html2canvas.js"></script>
-  	 <script type="text/javascript" src="/js/content/professor/lecture_schedule.js"></script>
+	<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+  	<script type="text/javascript" src="/js/content/professor/lecture_schedule.js"></script>
 </th:block>
 </html>
