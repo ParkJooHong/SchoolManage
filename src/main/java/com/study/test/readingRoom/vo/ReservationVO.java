@@ -13,6 +13,6 @@ public class ReservationVO {
 	private String seatNo;
 	private String startTime;
 	private String endTime;
-	private String reserDate;
 	private String regDate;
+	private String dateNo;
 }

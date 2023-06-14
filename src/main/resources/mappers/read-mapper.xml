@@ -7,6 +7,8 @@
 	<resultMap type="com.study.test.readingRoom.vo.ReadVO" id="read">
 		<result column="SEAT_NO" 		property="seatNo"/>
 		<result column="SEAT_NAME" 		property="seatName"/>
+		<result column="DATE_NO"		property="dateNo"/>
+		<result column="IS_RESERVE" 	property="isReserve"/>
 	</resultMap>
 	
 	<resultMap type="com.study.test.readingRoom.vo.ReservationVO" id="reserv">
@@ -15,20 +17,63 @@
 		<result column="SEAT_NO" 				property="seatNo"/>
 		<result column="START_TIME" 			property="startTime"/>
 		<result column="END_TIME" 				property="endTime"/>
-		<result column="RESER_DATE" 			property="reserDate"/>
-		<result column="REG_DATE" 				property="regDate"/>	
+		<result column="REG_DATE" 				property="regDate"/>
+		<result column="DATE_NO"				property="dateNo"/>	
 	</resultMap>
 	
 	<select id="getSeatList" resultMap="read">
 		SELECT SEAT_NO
 			, SEAT_NAME
+			, DATE_NO
+			, IS_RESERVE
 		FROM UNI_READING_ROOM
+		WHERE DATE_NO = #{dateNo}
 	</select>
 	
+	<select id="getDateNo" resultType="String">
+		SELECT DATE_NO
+		FROM UNI_READING_ROOM
+		WHERE SEAT_NO = #{seatNo}
+	</select>
 	
+	<insert id="reservationRoom">
+		INSERT INTO RESERVATION_ROOM (
+			RESER_NO
+			, MEM_NO
+			, SEAT_NO
+			, START_TIME
+			, END_TIME
+			, DATE_NO
+		) VALUES (
+			(SELECT 'RESER_'||LPAD(NVL(MAX(TO_NUMBER(SUBSTR(RESER_NO, 8))), 0) +1 , 3, '0')
+            FROM RESERVATION_ROOM)
+            , #{memNo}
+            , #{seatNo}
+            , #{startTime}
+            , #{endTime}
+            , #{dateNo}
+		)
+	</insert>
 	
+	<update id="seatUpdate">
+		UPDATE UNI_READING_ROOM
+		SET IS_RESERVE = 'X'
+		WHERE SEAT_NO = #{seatNo}
+	</update>
 	
+	<update id="setBeforDateBySeatUsed">
+		UPDATE UNI_READING_ROOM
+		SET IS_RESERVE = 'O'
+		WHERE DATE_NO = #{dateNo}
+	</update>
 	
+	<select id="verifyReservationRoom" resultType="int">
+		SELECT COUNT(RESER_NO)
+		FROM RESERVATION_ROOM
+		WHERE MEM_NO = #{memNo}
+		AND TO_NUMBER(END_TIME)  BETWEEN TO_NUMBER(#{startTime}) AND TO_NUMBER(#{endTime})
+		AND DATE_NO = #{dateNo}
+	</select>
 	
 </mapper>
 

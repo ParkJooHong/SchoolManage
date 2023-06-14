@@ -7,9 +7,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class ReadVO {
-	private String seatNo;
-	private String seatName;
+public class ReservateDateVO {
 	private String dateNo;
-	private String isReserve;
+	private String dateName;
 }
