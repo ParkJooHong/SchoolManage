@@ -105,7 +105,7 @@
 			<if test='searchValue != null and !searchValue.equals("")'>
 	       		  AND UPPER(${searchKeyword}) LIKE '%' || UPPER(#{searchValue}) || '%'
 	        </if>
-			ORDER BY REG_BOARD_DATE DESC
+			ORDER BY ${orderBy} DESC
 			OFFSET #{offsetCnt} ROWS FETCH FIRST #{displayCnt} ROWS ONLY
 		</select>
 		
@@ -249,7 +249,9 @@
           , CATE_NO
           , REPLY_CNT
           , IS_PRIVATE 
-          , IS_NOTICE
+          <if test="isNotice != null">
+	          , IS_NOTICE
+          </if>
           <if test="deptNo != null">
 	          , DEPT_NO
           </if>
@@ -264,7 +266,9 @@
 	         , #{cateNo}
 	         , 0
 	         , #{isPrivate}
-	         , #{isNotice}
+	          <if test="isNotice != null">
+	         	, #{isNotice}
+	         </if>
 	         <if test="deptNo !=null">
 	         	, #{deptNo}
 	         </if>

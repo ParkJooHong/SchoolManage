@@ -8,17 +8,20 @@ function moveManage(){
 	const applyReason = document.querySelector('.applyReason').value;
 	const processStatus = document.querySelector('.processStatus');
 
+//alert(processStatus);
 	
 	if(processStatus == null){
 		if(toDept == fromDept){
 		alert("변경하려는 학과가 현재와 동일 합니다. \n 다시 입력해주세요.");
 		}
 		if(applyReason == ''){
-			swal("실패", "전과 사유를 작성해주세요.", "error");
+			swal.fire({
+								title: "전과 사유를 작성해주세요.",
+								icon: 'warning',
+								button: '확인',
+							});
 		}
-		else{
-			alert("전과 신청이 접수되었습니다.");		
-			
+		else{		
 				$.ajax({
 				url: '/stuMenu/moveManageAjax', //요청경로
 				type: 'post',
@@ -26,7 +29,11 @@ function moveManage(){
 				data: {'toDept' : toDept, 'toColl' : toColl , 'applyReason' : applyReason, 'fromDept' : fromDept }, //필요한 데이터
 				success: function(result) {
 					if(result){
-						swal("신청 완료!", "전과 신청이 완료되었습니다.", "success");
+						swal.fire({
+											title: "전과 신청이 접수되었습니다.",
+											icon: 'success',
+											button: '확인',
+										});	
 						setTimeout(function() {
 							location.reload();
 							}, 500);
@@ -44,7 +51,11 @@ function moveManage(){
 		}
 	}
 	else{
-		swal("신청 실패!", "이미 신청하신 내역이 있습니다. \n또한, 복수전공 신청과 전과신청은 함께할 수 없습니다.", "error");
+		swal.fire({
+								title: "이미 신청하신 내역이 있습니다. \n또한, 복수전공 신청과 전과신청은 함께할 수 없습니다.",
+								icon: 'warning',
+								button: '확인',
+							});
 	}
 	
 	

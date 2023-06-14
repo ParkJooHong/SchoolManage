@@ -70,10 +70,18 @@ function success(menuCode, subMenuCode){
 
 	if(boardTitle == '')
 	{
-		swal("실패", "게시글 제목을 입력해주세요.", "error");
+		swal.fire({
+								title: "게시글 제목을 입력해주세요.",
+								icon: 'error',
+								button: '확인',
+							});
 	}
 	if(boardContent == ''){
-		swal("실패", "게시글 내용을 입력해주세요.", "error");
+		swal.fire({
+								title: "게시글 내용을 입력해주세요.",
+								icon: 'error',
+								button: '확인',
+							});
 	}
 	
 	$.ajax({
@@ -83,7 +91,11 @@ function success(menuCode, subMenuCode){
 			data: { 'menuCode' : menuCode, 'subMenuCode' : subMenuCode,  'boardTitle' : boardTitle, 'boardContent' : boardContent, 'isPrivate' : isPrivate, 'isNotice' : isNotice, 'boardWriter' : boardWriter, 'cateNo' : cateNo, 'inputPwd' : inputPwd}, //필요한 데이터
 			success: function(result) {
 				if(result){
-					swal("등록 성공!", "게시글이 등록되었습니다.", "success");
+					swal.fire({
+								title: "게시글이 등록되었습니다.",
+								icon: 'success',
+								button: '확인',
+							});
 					setTimeout(function() {
 						location.reload();
 						}, 500);
@@ -130,7 +142,11 @@ function checkPwd(isPrivate ,boardNo, menuCode, subMenuCode, readCnt){
 			}); 
 		}
 		else{
-			swal("실패", "비밀번호를 확인해주세요.", "error");
+			swal.fire({
+								title: "비밀번호를 확인해주세요.",
+								icon: 'error',
+								button: '확인',
+							});
 		}
 		
 	  console.log("입력 받은 데이터:", data);

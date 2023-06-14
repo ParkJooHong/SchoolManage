@@ -151,12 +151,12 @@
 								</a>
 							</td>
 							<td th:if="${uniBoard.isPrivate =='N'} and ${uniBoard.replyCnt != 0}">
-								<a th:href="@{/stuMenu/boardDetail(menuCode=${menuCode}, subMenuCode=${subMenuCode}, boardNo=${uniBoard.boardNo}, readCnt=${uniBoard.readCnt} )}" class="title">
+								<a th:href="@{/board/boardDetail(menuCode=${menuCode}, subMenuCode=${subMenuCode}, boardNo=${uniBoard.boardNo}, readCnt=${uniBoard.readCnt} )}" class="title">
 									[[${uniBoard.boardTitle}]]  <span class="replyColor">([[${uniBoard.replyCnt}]])</span>
 								</a>
 							</td>
 							<td th:if="${uniBoard.isPrivate =='N'} and ${uniBoard.replyCnt == 0}">
-								<a th:href="@{/stuMenu/boardDetail(menuCode=${menuCode}, subMenuCode=${subMenuCode}, boardNo=${uniBoard.boardNo}, readCnt=${uniBoard.readCnt} )}" class="title">
+								<a th:href="@{/board/boardDetail(menuCode=${menuCode}, subMenuCode=${subMenuCode}, boardNo=${uniBoard.boardNo}, readCnt=${uniBoard.readCnt} )}" class="title">
 									[[${uniBoard.boardTitle}]] 
 								</a>
 							</td>

@@ -30,7 +30,11 @@ function apllication(lecNo, maxMem, nowMem, semNo,stuNo, menuCode, subMenuCode){
 		success: function(result) {
 
 			if(result['menuCode'] == 'MENU_003'){
-				swal("수강신청 완료!", "신청이 완료되었습니다.", "success");
+				swal.fire({
+											title: "신청이 완료되었습니다.",
+											icon: 'success',
+											button: '확인',
+										});
 						setTimeout(function() {
 						location.reload();
 						}, 1000);
@@ -38,7 +42,11 @@ function apllication(lecNo, maxMem, nowMem, semNo,stuNo, menuCode, subMenuCode){
 				toastr.info(`시간표에 추가되었습니다`, `신청완료`, {timeOut: 1000});	
 			}
 			else{
-				swal("실패", "이미 신청하셨습니다.", "error");
+				swal.fire({
+								title: "이미 신청하셨습니다.",
+								icon: 'warning',
+								button: '확인',
+							});
 			}
 			
 		},
@@ -60,7 +68,11 @@ function cancel(lecNo, maxMem, nowMem, semNo,stuNo, menuCode, subMenuCode){
 		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 		data: {'lecNo' :lecNo , 'maxMem' : maxMem, 'nowMem' : nowMem, 'semNo' : semNo, 'stuNo' : stuNo,  'menuCode' : menuCode, 'subMenuCode' : subMenuCode  }, //필요한 데이터
 		success: function(result) {
-			swal("수강취소 완료!", "취소가 완료되었습니다.", "success");
+			swal.fire({
+								title: "취소가 완료되었습니다.",
+								icon: 'success',
+								button: '확인',
+							});
 						setTimeout(function() {
 						location.reload();
 						}, 1000);

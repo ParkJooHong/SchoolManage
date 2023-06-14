@@ -4,7 +4,7 @@
    layout:decorate="~{fragment/info_layout}">
 
 <th:block layout:fragment="content_css">
-   <link rel="stylesheet" href="/css/content/stu/stu_board/myBoard.css">
+   <link rel="stylesheet" href="/css/content/board/totalBoard.css">
 </th:block>
 
 <th:block layout:fragment="content">
@@ -68,7 +68,6 @@
 							  	<input type="hidden" th:value="${menuCode}" name="menuCode"> 
 								<input type="hidden" th:value="${subMenuCode}" name="subMenuCode"> 
 							  	<select class="form-control"  name="searchKeyword">
-									<option >전체</option>
 									<option  value="BOARD_TITLE">제목</option>
 									<option  value="BOARD_CONTENT" >내용</option>
 									<option  value="BOARD_WRITER" >작성자</option>
@@ -123,12 +122,12 @@
 								</a>
 							</td>
 							<td th:if="${uniBoard.isPrivate =='N'} and ${uniBoard.replyCnt != 0}">
-								<a th:href="@{/stuMenu/boardDetail(menuCode=${menuCode}, subMenuCode=${subMenuCode}, boardNo=${uniBoard.boardNo}, readCnt=${uniBoard.readCnt} )}" class="title">
+								<a th:href="@{/board/boardDetail(menuCode=${menuCode}, subMenuCode=${subMenuCode}, boardNo=${uniBoard.boardNo}, readCnt=${uniBoard.readCnt} )}" class="title">
 									[[${uniBoard.boardTitle}]]  <span class="replyColor">([[${uniBoard.replyCnt}]])</span>
 								</a>
 							</td>
 							<td th:if="${uniBoard.isPrivate =='N'} and ${uniBoard.replyCnt == 0}">
-								<a th:href="@{/stuMenu/boardDetail(menuCode=${menuCode}, subMenuCode=${subMenuCode}, boardNo=${uniBoard.boardNo}, readCnt=${uniBoard.readCnt} )}" class="title">
+								<a th:href="@{/board/boardDetail(menuCode=${menuCode}, subMenuCode=${subMenuCode}, boardNo=${uniBoard.boardNo}, readCnt=${uniBoard.readCnt} )}" class="title">
 									[[${uniBoard.boardTitle}]] 
 								</a>
 							</td>
@@ -185,23 +184,35 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="staticBackdropLabel">게시글등록</h1>
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">게시글 작성</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
    
-	      <div class="modal-body">
+	      <div class="modal-body boardWriters">
 						<form class="row g-3" th:action="@{/stuMenu/boardWrite}" method="post"> <!-- 라벨(label) 안써도됨.  -->
 							<input type="hidden" th:value="${menuCode}" name="menuCode"> 
 							<input type="hidden" th:value="${subMenuCode}" name="subMenuCode"> 
 							<div>						
-								<label for="memId" class="form-label">작성자 : </label> 							
-								  <th:block th:each="member : ${memberVO}">
-									   <input type="hidden" class="boardWriter" th:name="boardWriter" th:value="${member.stuVO.stuNo}"> 
-									    	[[${member.memName}]] / [[${member.memNo}]]
-
-								   </th:block>
+							<label for="memId" class="form-label"></label> 							
+								<th:block th:each="member : ${memberVO}">
+									<input type="hidden" class="boardWriter" th:name="boardWriter" th:value="${member.stuVO.stuNo}">
+									<div sec:authorize="hasRole('ROLE_ADMIN')">
+										<input type="hidden" class="deptNo" th:value="${member.empVO.deptNo}">
+									</div>
+									<div sec:authorize="hasRole('ROLE_PRO')">
+										<input type="hidden" class="deptNo" th:value="${member.empVO.deptNo}">
+									</div>
+									<div sec:authorize="hasRole('ROLE_STU')">
+										<input type="hidden" class="deptNo" th:value="${member.stuVO.deptNo}">
+									</div>
+									작성자 : [[${member.memName}]] / [[${member.memNo}]]
+								</th:block>
 							</div>
- 							<div class="col-9"> 
+							<div class="col-5">
+								<label for="boardTitle" class="form-label">제목</label> 
+								<input type="text" class="form-text boardTitle" id="boardTitle" name="boardTitle" placeholder="제목을 입력하세요.">
+							</div>	
+ 							<div class="col-5"> 
 								<label for="memId" class="form-label">카테고리</label> 
 								<select th:name="cateNo" class="cateNo">
 									<th:block th:each="boardCategory : ${boardCategoryVO}">
@@ -209,23 +220,18 @@
 									</th:block>
 								</select>
 							</div>						
-							<!-- <div class="my-invalid"> ID가 잘못됬어요.</div> -->
-							
-							<div class="col-12">
-								<label for="boardTitle" class="form-label">게시글 제목</label> 
-								<input type="text" class="form-text boardTitle" id="boardTitle" name="boardTitle" placeholder="제목을 입력하세요.">
-							</div>							
+							<!-- <div class="my-invalid"> ID가 잘못됬어요.</div> -->												
 							<br>
 							<div class="col-12">
 								<label for="boardContent" class="form-label">게시글 내용</label> 
-								<textarea class="form-control boardContent" rows="10" cols="50" name="boardContent"></textarea>
+								<textarea class="form-control boardContent" rows="10" cols="25" name="boardContent"></textarea>
 							</div>
-							<div class="col-12">
+							<!-- <div class="col-12">
 								<label for="boardTitle" class="form-label">첨부 파일 </label> 
 								<input type="radio" > 예 
-							</div>
+							</div> -->
 							<div class="col-12">
-								<div class="col-3" >
+								<div class="col-6" >
 									<label for="boardTitle" class="form-label">비밀글 여부 : </label> 
 									<input type="radio" class="isPrivate" name="isPrivate" value="Y" onclick="private();"> 예 
 									<input type="radio" class="isPrivate" name="isPrivate" value="N" checked onclick="noPrivate();"> 아니오
@@ -233,21 +239,22 @@
 								<div class="pwd">
 									<span class="inputPwd"></span>
 								</div>
-								<div class="col-3">
+								<!-- <div class="col-3">
 									<label for="boardTitle" class="form-label">공지사항 여부 : </label> 
 									<input type="radio" class="isNotice" name="isNotice" value="Y" > 예 
 									<input type="radio" class="isNotice" name="isNotice" value="N" checked> 아니오
-								</div>
+								</div> -->
 							</div>					
 							<br>
-							<div class="col-6 d-grid">
-								<input type="button" value="게시글 등록" class="btn btn-primary" th:onclick="success([[${menuCode}]], [[${subMenuCode}]]);">
+							<div class="col-12 d-grid">
+							
+								<input type="button" value="게시글 등록" class="btn btn-primary" th:onclick="success();">
 						</div>
 						</form>					
 			</div>
     </div>
   </div>
-</div>	
+</div>
 <input type="hidden" th:value="${memberVO.deptVO.deptNo}" class="deptNo">
 
 

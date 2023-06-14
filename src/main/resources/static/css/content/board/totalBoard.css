@@ -39,7 +39,7 @@ input[type="text"]{
 }
 
 .modal-dialog{
-	max-width: 1000px;
+	max-width: 500px;
 }
 
 .title{
@@ -63,5 +63,10 @@ input[type="text"]{
 .boardWriteGo{
 	width: 100px;
 	height: 50px;
+	
+}
+
+.boardWriters{
+	text-align: left;
 	
 }

@@ -33,7 +33,11 @@ function insertReply(menuCode, subMenuCode){
 	const stuNo = document.querySelector('.stuNo').value;
 
 	if(replyContent.length ==0){
-		swal("댓글 등록 실패", "공백은 입력할 수 없습니다.", "error");
+		swal.fire({
+								title: "공백은 입력할 수 없습니다.",
+								icon: 'error',
+								button: '확인',
+							});
 	}
 	else{
 		$.ajax({
@@ -43,7 +47,11 @@ function insertReply(menuCode, subMenuCode){
 			data: {'menuCode' : menuCode, 'subMenuCode' : subMenuCode , 'replyContent' : replyContent, 'boardNo' : boardNo, 'stuNo' : stuNo}, //필요한 데이터
 			success: function(result) {
 				if(result){
-					swal("등록 성공!", "댓글이 등록되었습니다.", "success");
+					swal.fire({
+											title: "댓글이 등록되었습니다.",
+											icon: 'success',
+											button: '확인',
+										});
 					setTimeout(function() {
 						location.reload();
 						}, 500);
@@ -103,7 +111,11 @@ function updateBoardGo(menuCode, subMenuCode ,boardNo ){
 			data: {'newBoardTitle' : newBoardTitle, 'menuCode' : menuCode, 'subMenuCode' : subMenuCode, 'newBoardContent' : newBoardContent , 'boardNo' : boardNo }, //필요한 데이터
 			success: function(result) {
 				if(result){
-					swal("수정 성공!", "게시글이 수정되었습니다.", "success");
+					swal.fire({
+											title: "게시글이 수정되었습니다.",
+											icon: 'success',
+											button: '확인',
+										});
 					setTimeout(function() {
 						location.reload();
 						}, 500);
@@ -132,7 +144,11 @@ function deleteBoard(boardNo, menuCode, subMenuCode ){
 			data: {'boardNo' : boardNo, 'menuCode' : menuCode, 'subMenuCode' : subMenuCode }, //필요한 데이터
 			success: function(result) {
 				if(result){
-					swal("삭제 성공!", "게시글이 삭제되었습니다.", "success");
+					swal.fire({
+											title: "게시글이 삭제되었습니다.",
+											icon: 'success',
+											button: '확인',
+										});
 					 setTimeout(function() {
 						location.reload();
 						}, 500);
@@ -144,7 +160,11 @@ function deleteBoard(boardNo, menuCode, subMenuCode ){
 				}
 			},
 			error: function() {
-				swal("삭제 실패", "댓글이 있어서 삭제할 수 없습니다.\n 삭제를 하기 위해서는 댓글을 모두 지워주세요.", "error");
+				swal.fire({
+											title: "댓글이 있어서 삭제할 수 없습니다.\n 삭제를 하기 위해서는 댓글을 모두 지워주세요.",
+											icon: 'error',
+											button: '확인',
+										});
 				
 			}
 		});
@@ -185,7 +205,11 @@ function updateReplyGo(replyNo, menuCode, subMenuCode){
 			data: {'replyContent' : replyContent, 'menuCode' : menuCode, 'subMenuCode' : subMenuCode, 'replyNo' : replyNo }, //필요한 데이터
 			success: function(result) {
 				if(result){
-					swal("수정 성공!", "댓글이 수정되었습니다.", "success");
+					swal.fire({
+											title: "댓글이 수정되었습니다.",
+											icon: 'success',
+											button: '확인',
+										});
 					setTimeout(function() {
 						location.reload();
 						}, 500);
@@ -217,7 +241,11 @@ function replyDelete(replyWriter, replyNo, menuCode, subMenuCode){
 			data: {'replyWriter' : replyWriter, 'menuCode' : menuCode, 'subMenuCode' : subMenuCode, 'replyNo' : replyNo, 'boardNo' : boardNo }, //필요한 데이터
 			success: function(result) {
 				if(result){
-					swal("삭제 성공!", "댓글이 삭제되었습니다.", "success");
+					swal.fire({
+											title: "댓글이 삭제되었습니다.",
+											icon: 'success',
+											button: '확인',
+										});
 					setTimeout(function() {
 						location.reload();
 						}, 500);

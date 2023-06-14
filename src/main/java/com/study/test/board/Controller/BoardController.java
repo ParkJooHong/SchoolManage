@@ -291,7 +291,7 @@ public class BoardController {
 		}
 	
 		//학과 게시판
-	@GetMapping("/deptBoard")
+	@RequestMapping("/deptBoard")
 	private String deptBoard(MemberSubMenuVO memberSubMenuVO, Model model, Authentication authentication, MemberVO memberVO, StuVO stuVO, UniBoardVO uniBoardVO
 			,String cateNo, BoardCategoryVO boardCategoryVO, String deptNo) {
 

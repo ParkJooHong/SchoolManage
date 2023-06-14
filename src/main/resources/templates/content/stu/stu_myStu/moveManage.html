@@ -25,11 +25,11 @@
 	</table>
 </div>
 <div style="text-align: center;">
-<th:block th:each="processStatus : ${deptManageVO}">
+<th:block th:each="processStatus : ${doubleDeptVO}">
 	<tr >
-		<td><input type="hidden" th:value="${processStatus.processStatus}" class="processStatus"></td>
-		<td><input type="hidden" th:value="${processStatus.colleageVO.collName}" class="doubleCollName"></td>
-		<td><input type="hidden" th:value="${processStatus.deptVO.deptName}" class="doubleDeptName"></td>
+		<td><input type=text th:value="${processStatus.processStatus}" class="processStatus"></td>
+		<td><input type="text" th:value="${processStatus.colleageVO.collName}" class="doubleCollName"></td>
+		<td><input type="text" th:value="${processStatus.deptVO.deptName}" class="doubleDeptName"></td>
 	</tr>
 </th:block>
 
