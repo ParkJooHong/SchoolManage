@@ -110,7 +110,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 function deleteEvent(eventId) {
-  swal("삭제 대기 중", "일정 저장 클릭시 삭제 된 데이터가\n 영구적으로 삭제됩니다.", "info");
+	swal.fire({
+				title: "일정 저장 클릭시 데이터가\n 영구적으로 삭제됩니다.",
+				icon: 'info',
+				button: '확인',
+			});
 }
  
 function allSave(calendar){
@@ -184,7 +188,11 @@ const memNo = document.querySelector('.memNo').value;
     contentType: 'application/json; charset=UTF-8',
     data: jsondata,
     success: function(result) {
-      swal("저장 완료!", "일정이 등록되었습니다.", "success");
+	swal.fire({
+				title: "일정이 등록되었습니다.",
+				icon: 'success',
+				button: '확인',
+			});
       setTimeout(function() {
         location.reload();
       }, 1000);
@@ -236,7 +244,11 @@ const memNo = document.querySelector('.memNo').value;
     contentType: 'application/json; charset=UTF-8',
     data: jsondata,
     success: function(result) {
-      swal("삭제 완료!", "일정이 모두 삭제되었습니다.", "success");
+		swal.fire({
+				title: "일정이 모두 삭제되었습니다.",
+				icon: 'success',
+				button: '확인',
+			});
       setTimeout(function() {
         location.reload();
       }, 1000);

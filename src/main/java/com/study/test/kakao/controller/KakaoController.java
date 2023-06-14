@@ -24,8 +24,8 @@ public class KakaoController {
 	private KakaoService kakaoService;
 	
 	//카카오톡
-		@PostMapping("/kakaoLoginAjax")
 		@ResponseBody
+		@PostMapping("/kakaoLoginAjax")
 		public Map<String, Object> kakaoLoginAjax(KakaoVO kakaoVO, String profileNickname, String accountEmail, String gender) {		
 			System.out.println(profileNickname);
 			System.out.println(accountEmail);

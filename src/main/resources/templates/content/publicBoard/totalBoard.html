@@ -9,18 +9,18 @@
 
 <th:block layout:fragment="content">
 
-<br>
-
 <div style="text-align: center;"> 
 	<div style="text-align: center;"> 
 		<div class="container h-100">
 			<div class="content" id="boardContent">
 			  <div class="row justify-content-center">
-				<div class="col-md-12">
+				<div class="col-md-12" >
 				  <table class="table table-custom">
-					<tr>
-					  <td>
-						<h4 style="text-align: center;">전체 게시판</h4>
+					<tr >
+					  <td >
+					  	<div class="page_title" >
+							<h4 >전체 게시판</h4>
+					  	</div>
 					  </td>
 					</tr>
 				  </table>
@@ -95,7 +95,7 @@
 					    <input type="button" class="btn btn-secondary" id="orderReply" value="댓글순" onclick="getOrderListDesc('REPLY_CNT');">  	
 					  </div>
 					  <div class="categoryList" style="text-align: right; flex: 1;">
-					 	 <input type="button" class="btn btn-danger" id="orderDate" value="전체" onclick="cateList('CATE_001');">
+					 	 <input type="button" class="btn btn-secondary" id="orderDate" value="전체" onclick="cateList('CATE_001');">
 					    <input type="button" class="btn btn-danger" id="orderDate" value="질문" onclick="cateList('CATE_003');">
 					    <input type="button" class="btn btn-danger" id="orderRead" value="잡담" onclick="cateList('CATE_004');">
 					    <input type="button" class="btn btn-danger" id="orderReply" value="정보" onclick="cateList('CATE_005');">

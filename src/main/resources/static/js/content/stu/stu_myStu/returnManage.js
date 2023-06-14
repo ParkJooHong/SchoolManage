@@ -166,7 +166,7 @@ function returnManage(memNo){
 			}
 			else{
 				swal.fire({
-								title: "이미 처리중인 상태입니다",
+								title: "제적 중인 상태입니다",
 								icon: 'warning',
 								button: '확인',
 							});
