@@ -3,3 +3,10 @@
 #external-events{
 	display: none;
 }
+
+.fc-event{
+	margin-top: 5px;
+	cursor: move;
+	text-align: center;
+}
+
