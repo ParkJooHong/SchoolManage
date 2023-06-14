@@ -10,11 +10,13 @@ import java.util.stream.Collectors;
 import javax.swing.plaf.synth.SynthScrollPaneUI;
 
 import org.codehaus.groovy.util.ListHashMap;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,6 +30,7 @@ import org.springframework.web.util.HtmlUtils;
 
 import com.study.test.stuChat.vo.Greeting;
 import com.study.test.stuChat.vo.HelloMessage;
+import com.study.test.admin.service.AdminService;
 import com.study.test.admin.vo.AdminSubMenuVO;
 import com.study.test.admin.vo.EmpVO;
 import com.study.test.board.service.BoardReplyService;
@@ -88,6 +91,12 @@ public class StuController {
 	
 	@Resource(name = "readService")
 	private ReadService readService;   
+	
+	@Resource(name ="adminService")
+	private AdminService adminService;
+	
+	@Autowired
+	private PasswordEncoder encoder;
 	
 	
 	   //학사톡
@@ -352,18 +361,30 @@ public class StuController {
 		return "/content/stu/stu_myInfo/changePwd";
 	}
 
+	// 비밀번호 씨큐리티 체크
+	@ResponseBody
+	@PostMapping("securityChangePwdAjax")
+	public boolean securityChangePwdAjax(MemberVO memberVO) {
+		String beforPw = adminService.countMemPw(memberVO);
+		
+		System.out.println(beforPw);
+		return encoder.matches(memberVO.getMemPw(),beforPw);
+	}
+	
 	// 비밀번호 수정 Ajax
 	@ResponseBody
 	@PostMapping("/changePwdAjax")
 	public String changePwdAjax(String newPassword, String memNo, MemberVO memberVO) {
 
-		memberVO.setMemPw(newPassword);
-		memberVO.setMemNo(memNo);
-		System.out.println(newPassword);
-		System.out.println(memberVO);
+		//memberVO.setMemPw(newPassword);
+		//memberVO.setMemNo(memNo);
+		//System.out.println(newPassword);
+		//System.out.println(memberVO);
+		
+		String encodedPw = encoder.encode(memberVO.getMemPw());
+		memberVO.setMemPw(encodedPw);
 
 		stuService.updateStuPwd(memberVO);
-		System.out.println(memberVO);
 		return newPassword;
 	}
 
