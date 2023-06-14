@@ -120,7 +120,7 @@ public class BoardController {
 		String firstDate = DateUtil.getFirstDateOfMonth();
 
 		if (uniBoardVO.getOrderBy() == null) {
-			uniBoardVO.setOrderBy("REG_BOARD_DATE");
+			uniBoardVO.setOrderBy("REG_BOARD_DATE_ORDER");
 		}
 		if (uniBoardVO.getSearchKeyword() == null) {
 			uniBoardVO.setSearchKeyword("BOARD_WRITER");
@@ -314,7 +314,7 @@ public class BoardController {
 				String firstDate = DateUtil.getFirstDateOfMonth();
 
 				if (uniBoardVO.getOrderBy() == null) {
-					uniBoardVO.setOrderBy("REG_BOARD_DATE");
+					uniBoardVO.setOrderBy("REG_BOARD_DATE_ORDER");
 				}
 				if (uniBoardVO.getSearchKeyword() == null) {
 					uniBoardVO.setSearchKeyword("BOARD_WRITER");
@@ -330,6 +330,7 @@ public class BoardController {
 				System.out.println(uniBoardVO.getOrderBy());
 				
 				// Month랑 toDate, FromDate 함꼐 실행 불가
+				/*
 				if(uniBoardVO.getMonth() == 0) {
 					uniBoardVO.setFromDate(null);
 					uniBoardVO.setToDate(null);
@@ -353,6 +354,7 @@ public class BoardController {
 				if(uniBoardVO.getToDate() != null || uniBoardVO.getFromDate() != null) {
 					uniBoardVO.setMonth(0);
 				}
+				*/
 				
 				//카테고리 정렬
 				uniBoardVO.setCategoryList("CATE_002");

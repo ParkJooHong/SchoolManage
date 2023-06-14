@@ -146,7 +146,7 @@
 			<if test='searchValue != null and !searchValue.equals("")'>
 	       		  AND UPPER(${searchKeyword}) LIKE '%' || UPPER(#{searchValue}) || '%'
 	        </if>
-			ORDER BY ${orderBy} DESC
+	        ORDER BY ${orderBy} DESC
 			 OFFSET #{offsetCnt} ROWS FETCH FIRST #{displayCnt} ROWS ONLY
 		</select>
 		

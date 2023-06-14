@@ -67,7 +67,6 @@
 								 -->
 							</div>
 						</td>
-						<td></td>
 						<td>	
 						  <form th:action="@{/board/board}" method="post" class="text-end">
 							  <div class="btn-group">
@@ -91,7 +90,7 @@
 				  </table>
 				  <div style="display: flex;">
 					  <div class="order" style="text-align: left; flex: 1;">
-					    <input type="button" class="btn btn-secondary" id="orderDate" value="날짜순" onclick="getOrderListDesc('REG_BOARD_DATE');">
+					    <input type="button" class="btn btn-secondary" id="orderDate" value="최근순" onclick="getOrderListDesc('REG_BOARD_DATE_ORDER');">
 					    <input type="button" class="btn btn-secondary" id="orderRead" value="조회순" onclick="getOrderListDesc('READ_CNT');">
 					    <input type="button" class="btn btn-secondary" id="orderReply" value="댓글순" onclick="getOrderListDesc('REPLY_CNT');">  	
 					  </div>
