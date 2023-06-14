@@ -366,7 +366,7 @@ public class StuController {
 	@PostMapping("securityChangePwdAjax")
 	public boolean securityChangePwdAjax(MemberVO memberVO) {
 		String beforPw = adminService.countMemPw(memberVO);
-		
+		System.out.println(memberVO.getMemPw());
 		System.out.println(beforPw);
 		return encoder.matches(memberVO.getMemPw(),beforPw);
 	}
@@ -374,18 +374,30 @@ public class StuController {
 	// 비밀번호 수정 Ajax
 	@ResponseBody
 	@PostMapping("/changePwdAjax")
-	public String changePwdAjax(String newPassword, String memNo, MemberVO memberVO) {
+	public boolean changePwdAjax(String newPassword, String memNo, MemberVO memberVO, String confirmPassword) {
 
 		//memberVO.setMemPw(newPassword);
 		//memberVO.setMemNo(memNo);
 		//System.out.println(newPassword);
 		//System.out.println(memberVO);
 		
-		String encodedPw = encoder.encode(memberVO.getMemPw());
-		memberVO.setMemPw(encodedPw);
+		System.out.println(confirmPassword);
+		System.out.println(memberVO.getMemPw());
+		
+		if(confirmPassword.equals(memberVO.getMemPw())) {
+			String encodedPw = encoder.encode(memberVO.getMemPw());
+			memberVO.setMemPw(encodedPw);
 
-		stuService.updateStuPwd(memberVO);
-		return newPassword;
+			stuService.updateStuPwd(memberVO);
+			return true;
+		}
+		else {
+			return false;
+		}
+		
+		
+		
+		//return newPassword;
 	}
 
 	// ----- 내 정보 관리 끝 }

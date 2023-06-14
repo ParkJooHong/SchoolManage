@@ -142,6 +142,7 @@ public class BoardController {
 		System.out.println(uniBoardVO.getOrderBy());
 		
 		// Month랑 toDate, FromDate 함꼐 실행 불가
+		/*
 		if(uniBoardVO.getMonth() == 0) {
 			uniBoardVO.setFromDate(null);
 			uniBoardVO.setToDate(null);
@@ -165,6 +166,7 @@ public class BoardController {
 		if(uniBoardVO.getToDate() != null || uniBoardVO.getFromDate() != null) {
 			uniBoardVO.setMonth(0);
 		}
+		*/
 		
 		System.out.println(uniBoardVO.getFromDate());
 		model.addAttribute("uniBoardFromDate", uniBoardVO.getFromDate());
