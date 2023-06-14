@@ -1643,7 +1643,7 @@ public class StuController {
 	public int regRoomAjax(ReservationVO reservationVO, Authentication authentication) {
 		reservationVO.setMemNo(authentication.getName());
 		reservationVO.setDateNo(readService.getDateNo(reservationVO.getSeatNo()));
-		
+		//abcd1234
 		return readService.reservationRoom(reservationVO);
 		
 	}
