@@ -52,5 +52,10 @@
 
 .myLecture{
 	margin: 10px;
+}
 
+.fc-event{
+	margin-top: 5px;
+	cursor: move;
+	text-align: center;
 }

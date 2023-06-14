@@ -15,4 +15,5 @@ public class ReservationVO {
 	private String endTime;
 	private String regDate;
 	private String dateNo;
+	private String isLeave;
 }

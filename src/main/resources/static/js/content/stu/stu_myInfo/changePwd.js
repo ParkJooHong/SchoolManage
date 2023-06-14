@@ -9,7 +9,57 @@ function changePassword(memPw, memNo){
 	newPassword = document.querySelector('.newPassword').value;
 	confirmPassword = document.querySelector('.confirmPassword').value;
 	
+	$.ajax({
+			url: '/stuMenu/securityChangePwdAjax', //요청경로
+			type: 'post',
+			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+			data: {'memPw' : memPw, 'memNo' : memNo }, //필요한 데이터
+			success: function(result) {
+				
+				if (result == false) {
+					swal.fire({
+						title: "현재 비밀번호가 일치하지 않습니다.",
+						icon: 'warning',
+						button: '확인',
+					});
+					return
+				}
+		
+				else{
+					$.ajax({
+						url: '/stuMenu/changePwdAjax', //요청경로
+						type: 'post',
+						contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+						data: {'memPw' : newPassword, 'memNo' : memNo }, //필요한 데이터
+						success: function(result) {
+							if(result){
+								swal.fire({
+											title: "비밀번호가 변경되었습니다.",
+											icon: 'success',
+											button: '확인',
+										});				
+							}
+							else{
+								alert('일시적 오류가 발생했습니다.');
+							}
+						},
+						error: function() {
+							alert('실패');
+							
+						}
+					});
+				}
+			},
+			error: function() {
+				alert('실패');
+				
+			}
+	});
+}
+		
 	
+	
+	/*
 	if(currentPassword != memPw){
 		swal.fire({
 								title: "현재 비밀번호가 올바르지 않습니다. \n 다시 입력해주세요.",
@@ -61,11 +111,11 @@ function changePassword(memPw, memNo){
 				
 			}
 		});
-			
 	}
+			*/
 	
 	
-}
+
 
 
 
