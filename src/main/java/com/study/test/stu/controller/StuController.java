@@ -45,6 +45,7 @@ import com.study.test.member.vo.MemberVO;
 import com.study.test.professor.vo.LectureVO;
 import com.study.test.readingRoom.service.ReadService;
 import com.study.test.readingRoom.vo.ReadVO;
+import com.study.test.readingRoom.vo.ReservationVO;
 import com.study.test.school.colleage.ColleageVO;
 import com.study.test.school.dept.DeptManageVO;
 import com.study.test.school.dept.DeptVO;
@@ -1602,9 +1603,7 @@ public class StuController {
 	
 	//첫페이지
 	@GetMapping("/read")
-	public String readPage(Model model, MemberMenuVO memberMenuVO , MemberSubMenuVO memberSubMenuVO) {
-		System.out.println("@@@@@@@@ 데이터: " + memberSubMenuVO);
-		
+	public String readPage(Model model, MemberMenuVO memberMenuVO , MemberSubMenuVO memberSubMenuVO) {		
 		memberSubMenuVO.setMenuCode(ConstVariable.SEVEN_STU_MENU_CODE);
 		return "content/read/read_page";
 	}
@@ -1613,10 +1612,36 @@ public class StuController {
 	//시작하자마자 정보 가져오기
 	@PostMapping("/getSeatDataAjax")
 	@ResponseBody
-	public List<ReadVO> getSeatDataAjax() {
+	public List<ReadVO> getSeatDataAjax(String dateNo) {		
+		return readService.getSeatList(dateNo);
 		
-		return readService.getSeatList();
 		
+	}
+	//전날 데이터 지우기
+	@PostMapping("/deleteByBeforDataAjax")
+	@ResponseBody
+	public void deleteByBeforDataAjax(String dateNo) {
+		readService.setBeforDateBySeatUsed(dateNo);
+	}
+	
+	//예약 검증
+	@PostMapping("/reservateByVerifyAjax")
+	@ResponseBody
+	public int reservateByVerifyAjax(ReservationVO reservationVO, Authentication authentication) {
+		reservationVO.setMemNo(authentication.getName());
+		reservationVO.setDateNo(readService.getDateNo(reservationVO.getSeatNo()));
+		
+		return readService.verifyReservationRoom(reservationVO);
+	}
+	
+	//열람실 예약
+	@PostMapping("/regRoomAjax")
+	@ResponseBody
+	public int regRoomAjax(ReservationVO reservationVO, Authentication authentication) {
+		reservationVO.setMemNo(authentication.getName());
+		reservationVO.setDateNo(readService.getDateNo(reservationVO.getSeatNo()));
+		
+		return readService.reservationRoom(reservationVO);
 		
 	}
 	

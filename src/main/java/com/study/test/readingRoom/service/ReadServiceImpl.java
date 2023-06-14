@@ -8,6 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.study.test.readingRoom.vo.ReadVO;
+import com.study.test.readingRoom.vo.ReservationVO;
+
+import jakarta.persistence.RollbackException;
+import jakarta.transaction.Transactional;
 
 @Service("readService")
 public class ReadServiceImpl implements ReadService{
@@ -15,8 +19,32 @@ public class ReadServiceImpl implements ReadService{
 	private SqlSessionTemplate sqlSession;
 
 	@Override
-	public List<ReadVO> getSeatList() {
-		return sqlSession.selectList("readMapper.getSeatList");
+	public List<ReadVO> getSeatList(String dateNo) {
+		return sqlSession.selectList("readMapper.getSeatList", dateNo);
+	}
+
+	@Override
+	public String getDateNo(String seatNo) {
+		return sqlSession.selectOne("readMapper.getDateNo", seatNo);
+	}
+
+	@Override
+	@Transactional(rollbackOn = RollbackException.class)
+	public int reservationRoom(ReservationVO reservationVO) {
+		sqlSession.insert("readMapper.reservationRoom", reservationVO);
+		return sqlSession.update("readMapper.seatUpdate", reservationVO.getSeatNo());
+	}
+
+	@Override
+	public void setBeforDateBySeatUsed(String dateNo) {
+		sqlSession.update("readMapper.setBeforDateBySeatUsed",dateNo);
+		
+	}
+	
+	
+	@Override
+	public int verifyReservationRoom(ReservationVO reservationVO) {
+		return sqlSession.selectOne("readMapper.verifyReservationRoom",reservationVO);
 	}
 	
 	

@@ -13,14 +13,27 @@
 <th:block layout:fragment="content">
 	<div class="row">
 		<div class="col">
-			<div class="row">
-				<div class="col">
+			<div class="row mb-3">
+				<div class="col page_title">
 					<h3>열람실</h3>
+				</div>
+			</div>
+			<div class="row mb-3">
+				<div class="col-1">
+					<select class="form-select" id="roomDay" onchange="changeDay(this);">
+						<option value="1">월</option>
+						<option value="2">화</option>
+						<option value="3">수</option>
+						<option value="4">목</option>
+						<option value="5">금</option>
+						<option value="6">토</option>
+						<option value="7">일</option>
+					</select>
 				</div>
 			</div>
 			<div class="row">
 				<div class="col">
-					<table class="table">
+					<table class="table text-center">
 						<tr id="aLine">
 						
 						</tr>
@@ -38,6 +51,65 @@
 			</div>
 		</div>
 	</div>
+	
+	<!-- 열람 예약 모달 -->
+	<div class="modal fade" id="readModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h1 class="modal-title fs-5" id="exampleModalLabel">열람실 예약</h1>
+	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	      </div>
+	      <div class="modal-body">
+	        <div class="row">
+	        	<div class="col">
+	        		<div class="row mb-2">
+	        			<div class="col-4">
+	        				좌석 번호 :
+	        			</div>
+	        			<div class="col-6">
+	        				<input type="hidden" id="seatNo">
+	        				<input type="text" readonly id="seatName" class="form-control">
+	        			</div>
+	        		</div>
+	        		<div class="row mb-2">
+	        			<div class="col-4">
+	        				예약 시간 :
+	        			</div>
+	        			<div class="col-6">
+	        				<select id="startTime" class="form-select">
+	        					<option value="09">09시</option>
+	        					<option value="10">10시</option>
+	        					<option value="11">11시</option>
+	        					<option value="12">12시</option>
+	        					<option value="13">13시</option>
+	        					<option value="14">14시</option>
+	        					<option value="15">15시</option>
+	        					<option value="16">16시</option>
+	        					<option value="17">17시</option>
+	        					<option value="18">18시</option>
+	        					<option value="19">19시</option>
+	        					<option value="20">20시</option>
+	        				</select>
+	        			</div>
+	        		</div>
+	        		<div class="row mb-3">
+	        			<div class="col">
+	        				※ 기본 사용 시간은 4시간 입니다.
+	        			</div>
+	        		</div>
+	        		<div class="row mb-3">
+	        			<div class="col d-grid">
+	        				<input type="button" value="예약하기" onclick="reserveReadingRoom();" class="btn btn-primary">
+	        			</div>
+	        		</div>
+	        	</div>
+	        </div>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	
 </th:block>
 
 
