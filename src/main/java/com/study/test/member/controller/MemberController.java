@@ -29,6 +29,8 @@ import com.study.test.util.ConstVariable;
 import com.study.test.util.MailService;
 
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/member")
@@ -48,14 +50,12 @@ public class MemberController {
 	@ResponseBody
 	@PostMapping("/getMemberInfo")
 	public MemberVO getMemberInfo(MemberVO memberVO) {
-		
-		
 		return memberService.login(memberVO);
 	}
 	
 	//아이디 찾기
 	@ResponseBody
-	@PostMapping("/findId")
+	@PostMapping("/findIdAjax")
 	public String getMemNo(MemberVO memberVO) {
 		System.out.println(memberVO);
 		return memberService.getMemNo(memberVO);
@@ -117,10 +117,22 @@ public class MemberController {
 		return adminService.changePw(memberVO);
 	}
 	
-	
-	
-	
-	
+	//문자인증
+	@PostMapping("/phoneAuthAjax")
+	@ResponseBody
+	public Boolean phoneAuth(String memTell) {
+
+	    try { // 이미 가입된 전화번호가 있으면
+	        if(memberService.getMemTell(memTell) > 0) {
+	    	    String code = memberService.sendRandomMessage(memTell);
+	            return true; 
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    
+	    return false;
+	}
 	
 	//-------------------Menu ============================================================================================================================
 	//내 정보 관리

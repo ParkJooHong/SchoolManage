@@ -2,6 +2,7 @@ package com.study.test.member.service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.study.test.member.vo.MemberMenuVO;
 import com.study.test.member.vo.MemberSubMenuVO;
 import com.study.test.member.vo.MemberVO;
+import com.study.test.util.Naver_Sens_V2;
 
 @Service("memberService")
 public class MemberServiceImpl implements MemberService {
@@ -79,6 +81,31 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int setPw(MemberVO memberVO) {
 		return sqlSession.update("memberMapper.setPw",memberVO);
+	}
+
+	
+	//문자 인증 난수 생성
+	@Override
+	public String sendRandomMessage(String memTell) {
+	    Naver_Sens_V2 message = new Naver_Sens_V2();
+	    Random rand = new Random();
+	    String numStr = "";
+	    for (int i = 0; i < 6; i++) {
+	        String ran = Integer.toString(rand.nextInt(10));
+	        numStr += ran;
+	    }
+	    System.out.println("회원가입 문자 인증 => " + numStr);
+
+	    message.send_msg(memTell, numStr);
+
+	    return numStr;
+	}
+
+	//문자 인증을 위한 전화번호 조회
+	@Override
+	public int getMemTell(String memTell) {
+		int tell = sqlSession.selectOne("memberMapper.getMemTell", memTell);
+		return tell;
 	}
 
 

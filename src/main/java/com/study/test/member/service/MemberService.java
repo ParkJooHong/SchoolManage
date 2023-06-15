@@ -38,4 +38,10 @@ public interface MemberService {
 	
 	//비번 업데이트
 	int setPw(MemberVO memberVO);
+	
+	//문자 인증 난수 생성
+	String sendRandomMessage(String memTell);
+	
+	//문자 인증을 위한 전화번호 조회
+	int getMemTell(String memTell);
 }

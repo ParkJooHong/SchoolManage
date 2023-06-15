@@ -66,12 +66,15 @@ function findId() {
 	let memEmail = document.querySelector('#findIdForm #memEmail').value;
 	//ajax start
 	$.ajax({
-		url: '/member/findId', //요청경로
+		url: '/member/findIdAjax', //요청경로
 		type: 'post',
 		async: false, //동기 방식으로 실행, 작성하지 않으면 기본 true값을 가짐
 		//data: loginData, //필요한 데이터
 		data: { 'memName': memName, 'memEmail': memEmail }, //필요한 데이터
 		success: function(result) {
+			
+			console.log(result);	
+		
 			if (result == null || result == '') {
 				swal.fire({
 					title: "아이디 찾기 실패",
@@ -88,7 +91,7 @@ function findId() {
 					const error_div = document.querySelector('#error_find_id_div');
 
 					let str = '';
-					str += `<div style="color: red; font-size: 0.9rem; text-align: left;">`
+					str += `<div style="color: red; font-size: 0.9rem; text-align: left; margin-top:10px">`
 					str += `이름 또는 이메일을 확인하세요.`
 					str += `</div>`
 
@@ -122,7 +125,6 @@ function findPw(){
 		url: '/member/findPwAjax', //요청경로
 		type: 'post',
 		async: true,
-		contentType: 'application/json; charset=UTF-8',
 		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 		data: { 'memNo': mem_no, 'memEmail': mem_email }, //필요한 데이터
 		success: function(result) {
@@ -150,9 +152,71 @@ function findPw(){
 		}
 	});
 		//ajax end
-
 }
 
+//문자 인증번호 발송
+//1. 등록된 휴대전화가 있는지 검증
+function tellAutho(){
+	const memTell = document.querySelector('#findPwForm #memTell').value;
+	
+	if(memTell == null || memTell == ''){
+		swal.fire({
+			title: "실패",
+			text: "전화번호를 입력해주세요",
+			icon: 'error',
+			button: '확인',
+		});
+	}
+	else{
+		//ajax start
+		$.ajax({
+			url: '/member/phoneAuthAjax', //요청경로
+			type: 'post',
+			async: false, //동기 방식으로 실행, 작성하지 않으면 기본 true값을 가짐
+			data: {'memTell':memTell},			//JSON.stringify(classInfo), //필요한 데이터
+			contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+			success: function(result) {
+				if(result){
+					swal.fire({
+						title: "문자 전송 완료",
+						text: "등록된 휴대폰 번호가 없습니다",
+						icon: 'error',
+						button: '확인',
+					});
+				}
+				else{
+					swal.fire({
+						title: "등록된 번호없음",
+						text: "등록된 휴대폰 번호가 없습니다",
+						icon: 'error',
+						button: '확인',
+					});
+				}
+			},
+			error: function() {
+				alert('실패');
+			}
+		});
+		//ajax end 
+	}
+}
+
+//2. 문자 발송
+function send_sms() {
+	//ajax start
+	$.ajax({
+		url: '/member/phoneAuthOkAjax', //요청경로
+		type: 'post',
+		async: false, //동기 방식으로 실행, 작성하지 않으면 기본 true값을 가짐
+		success: function(result) {
+			
+		},
+		error: function() {
+			alert('실패');
+		}
+	});
+	//ajax end 
+}
 
 
 

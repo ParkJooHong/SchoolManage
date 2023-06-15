@@ -28,7 +28,10 @@ public class SecurityConfig {
 		security.csrf().disable()
 				.authorizeHttpRequests()
 				.requestMatchers("/"
-								, "/member/findPwAjax").permitAll()
+								, "/member/findIdAjax"
+								, "/member/findPwAjax"
+								, "/member/phoneAuthAjax"
+								, "/member/phoneAuthOkAjax").permitAll()
 				.requestMatchers("admin/**").hasRole("ADMIN")
 				.anyRequest().authenticated()
 			.and()

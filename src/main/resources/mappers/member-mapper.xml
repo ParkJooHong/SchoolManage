@@ -37,7 +37,10 @@
 	
 	<!-- 회원 정보 조회 -->
 	<select id="getMemInfo" resultMap="member">
-		SELECT UM.MEM_NO, MEM_NAME, MI.ATTACHED_FILE_NAME
+		SELECT UM.MEM_NO
+			, MEM_NAME
+			, MI.ATTACHED_FILE_NAME
+			, MEM_TELL
 		FROM UNI_MEMBER UM
 		LEFT JOIN MEM_IMG MI ON UM.MEM_NO = MI.MEM_NO
 		WHERE UM.MEM_NO = #{memNo}
@@ -149,6 +152,13 @@
 		SET MEM_PW = #{memPw}
 		WHERE MEM_NO = #{memNo}
 	</update>
+	
+	<!-- 문자 인증을 위한 전화번호 조회 -->
+	<select id="getMemTell" resultType="Integer">
+		SELECT COUNT(MEM_TELL)
+		FROM UNI_MEMBER
+		WHERE MEM_TELL = #{memTell}
+	</select>
 	
 </mapper>
 
