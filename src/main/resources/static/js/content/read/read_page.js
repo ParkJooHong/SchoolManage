@@ -15,7 +15,12 @@ function init() {
 	const b_line = document.querySelector('#bLine');
 	const c_line = document.querySelector('#cLine');
 	const d_line = document.querySelector('#dLine');
-
+	
+	a_line.replaceChildren();
+	b_line.replaceChildren();
+	c_line.replaceChildren();
+	d_line.replaceChildren();
+	
 	$('#roomDay').val(day_no).prop("selected", true);
 
 	let a_str = '';
