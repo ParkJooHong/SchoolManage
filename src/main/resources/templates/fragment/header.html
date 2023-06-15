@@ -69,12 +69,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 											<div class="col-3 d-grid">
 												<input type="button" value="메일인증" onclick="sendCatiMail();" class="btn btn-primary">
 											</div>
-										</div>
-										<div class="row">
-											<div class="col-12" id="valiedEmail">
-												
-											</div>
-										</div>								
+										</div>							
 									</td>
 								</tr>
 								<tr>
@@ -119,12 +114,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 								<tr>
 									<td>이름</td>
 									<td class="d-grid">
-										<input type="text" name="memName" id="changeName" required>
-										<div class="row">
-											<div class="col-12" id="valiedName">
-												
-											</div>
-										</div>
+										<input type="text" name="memName" id="changeName">
 									</td>
 								</tr>
 								<tr>
@@ -138,23 +128,13 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 												<input type="button" class="btn btn-primary addr_search_btn" onclick="searchAddr();" value="검색">
 											</div>
 										</div>
-										<div class="row">
-											<div class="col-12" id="valiedAddr">
-												
-											</div>
-										</div>
 										
 									</td>
 								</tr>
 								<tr>
 									<td>상세주소</td>
 									<td class="d-grid">
-										<input type="text" name="memAddrDetail"  id="changeAddrDetail" required placeholder="상세주소 입력은 필수입니다.">
-										<div class="row">
-											<div class="col-12" id="valiedDetail">
-												
-											</div>
-										</div>								
+										<input type="text" name="memAddrDetail"  id="changeAddrDetail" required placeholder="상세주소 입력은 필수입니다.">							
 									</td>
 								</tr>
 							</table>	
@@ -162,7 +142,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 					</div>
 					<div class="row">
 						<div class="col d-grid">
-							<input type="button" onclick="insertMember();" disabled id="changeBtn" class="btn btn-primary" value="정보변경">
+							<input type="button" onclick="changeMemberInfo();" id="changeBtn" class="btn btn-primary" value="정보변경">
 						</div>
 					</div>
 				</div>
