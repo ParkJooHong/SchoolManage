@@ -68,7 +68,16 @@ input[type="text"]{
 	width: 120px;
 	border-radius: 4px;
 }
+select{
+	width: 100%;
+} 
+.doubleMajorColl{
+	text-align: center;
+}
 
+.doubleMajorDept{
+	text-align: center;
+}
 .a1{
 	font-size: 20px;
 	font-weight: bold;

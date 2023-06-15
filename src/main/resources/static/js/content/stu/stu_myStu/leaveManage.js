@@ -33,11 +33,17 @@ function leave(memNo){
 	
 
 	
-	
 	let shouldExecute = true;
 	
-	
-
+	if(stuStatus == '제적'){
+		swal.fire({
+			title: "제적 상태입니다. 학과에 문의하세요.",
+			icon: 'warning',
+			button: '확인',
+		});
+						return;
+	}
+				
 	ingStatusInputs.forEach(input => {
 	  if (input.value === '승인대기') {
 	    shouldExecute = false;
@@ -109,7 +115,7 @@ function leave(memNo){
 							});
 			}
 			
-			if(ingStatus == '승인완료' && stuStatus == '휴학'){
+			else if(ingStatus == '승인완료' && stuStatus == '휴학'){
 				swal.fire({
 								title: "이미 휴학 중인 상태입니다.",
 								icon: 'warning',
@@ -122,23 +128,18 @@ function leave(memNo){
 								icon: 'warning',
 								button: '확인',
 							});
-			}
-			else{
-				swal.fire({
-								title: "제적 상태입니다. 학과에 문의하세요.",
-								icon: 'warning',
-								button: '확인',
-							});
-			}
+			}		
 		}
 	} 
 	else {
-	  swal.fire({
-								title: "제적 상태입니다. 학과에 문의하세요.",
+	  // 실행하지 않을 경우에 대한 코드 작성
+		swal.fire({
+								title: "이미 처리중인 상태입니다.",
 								icon: 'warning',
 								button: '확인',
 							});
 	}
+	
 	
 	//alert(stuStatus);
 	//alert(ingStatus);

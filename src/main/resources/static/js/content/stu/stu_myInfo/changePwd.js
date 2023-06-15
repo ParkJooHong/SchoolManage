@@ -16,8 +16,9 @@ function changePassword(memPw, memNo){
 			success: function(result) {
 				if (result == false) {
 					swal.fire({
-						title: "현재 비밀번호가 일치하지 않습니다.",
-						icon: 'warning',
+						title: "실패!",
+						text : "현재 비밀번호가 일치하지 않습니다.",
+						icon: 'error',
 						button: '확인',
 					});
 					return
@@ -32,15 +33,17 @@ function changePassword(memPw, memNo){
 						success: function(result) {
 							if (result == true) {
 							swal.fire({
-									title: "비밀번호가 변경되었습니다.",
+									title: "성공!",
+									text : "비밀번호가 변경되었습니다.",
 									icon: 'success',
 									button: '확인',
 								});	
 							}
 							else{
 								swal.fire({
-									title: "새로운 비밀번호가 일치하지 않습니다.",
-									icon: 'error',
+									title: "정보",
+									text : "새로운 비밀번호가 일치하지 않습니다.",
+									icon: 'info',
 									button: '확인',
 								});	
 							}							

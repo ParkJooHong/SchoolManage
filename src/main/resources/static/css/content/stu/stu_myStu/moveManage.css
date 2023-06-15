@@ -6,6 +6,40 @@
     background:#897c76;
 }
 
+.detail_infos{
+	background: #D3D3D3;
+}
+
+table.detail_info{
+	width: 100%;
+	margin: 10px;
+	padding: 10px;
+}
+
+table.detail_infos{
+	width: 100%;
+	margin: 10px;
+	padding: 10px;
+}
+table.detail_infos td{
+	padding: 5px;
+}
+
+.a1{
+	font-size: 20px;
+	font-weight: bold;
+	text-align: center;
+}
+.a2{
+	font-weight: bold;
+	text-align: center;
+}
+.b1{
+	color: blue;
+	font-weight: bold;
+}
+
+
 table.detail_info{
 	width: 100%;
 	margin: 10px;
@@ -59,3 +93,11 @@ input[type="text"]{
 select{
 	width: 100%;
 } 
+
+.colleage{
+	text-align: center;
+}
+
+.dept{
+	text-align: center;
+}

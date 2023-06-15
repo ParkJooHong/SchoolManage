@@ -30,6 +30,16 @@ function returnManage(memNo){
 	
 	//alert(stuStatus);
 	//alert(ingStatus);
+	
+	if(stuStatus == '제적'){
+		swal.fire({
+			title: "제적 상태입니다. 학과에 문의하세요.",
+			icon: 'warning',
+			button: '확인',
+		});
+						return;
+	}
+	
 	if(ingStatus == '승인완료' && stuStatus == '재학'){
 				swal.fire({
 								title: "이미 재학중인 상태입니다",
