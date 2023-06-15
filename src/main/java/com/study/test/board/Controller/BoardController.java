@@ -81,6 +81,14 @@ public class BoardController {
 	private String totalBoard(Authentication authentication, AdminMenuVO adminMenuVO, AdminSubMenuVO adminSubMenuVO, ProfessorMenuVO professorMenuVO , Model model, MemberVO memberVO, StuVO stuVO, String toDate,
 			String fromDate, UniBoardVO uniBoardVO, BoardCategoryVO boardCategoryVO, String cateNo, MemberSubMenuVO memberSubMenuVO) {
 
+		System.out.println(uniBoardVO.getNowPage());
+
+		
+		/*
+		 * if(uniBoardVO.getOrderBy() == null) {
+		 * uniBoardVO.setOrderBy("REG_BOARD_DATE_ORDER"); }
+		 */
+		
 		System.out.println(uniBoardVO.getOrderBy());
 		
 		memberSubMenuVO.setMenuCode(ConstVariable.ONE_STU_MENU_CODE);
@@ -113,6 +121,12 @@ public class BoardController {
 			System.out.println("학생정보 : " + stuService.seletStu(memberVO));
 		}
 		
+		
+		// 보드 페이지 세팅
+		if(uniBoardVO.getNowPage() == 1) {
+			
+		}
+		
 		// 오늘 날짜
 		String nowDate = DateUtil.getNowDateToString();
 
@@ -123,7 +137,7 @@ public class BoardController {
 			uniBoardVO.setOrderBy("REG_BOARD_DATE_ORDER");
 		}
 		if (uniBoardVO.getSearchKeyword() == null) {
-			uniBoardVO.setSearchKeyword("BOARD_WRITER");
+			uniBoardVO.setSearchKeyword("BOARD_TITLE");
 		}
 		if (uniBoardVO.getSearchValue() == null) {
 			uniBoardVO.setSearchValue("");
@@ -187,10 +201,8 @@ public class BoardController {
 	
 
 		model.addAttribute("boardCategoryVO", boardService.getBoardCategoryList());
-		System.out.println("보드 카테고리 정보 : " + boardService.getBoardCategoryList());
+		System.out.println("@@@@" + uniBoardVO);
 		model.addAttribute("uniBoardList", boardService.getTotalBoardList(uniBoardVO));
-		
-		
 				
 		return "/content/publicBoard/totalBoard";
 	}

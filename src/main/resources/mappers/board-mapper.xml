@@ -196,7 +196,7 @@
 				AND TO_CHAR(REG_BOARD_DATE, 'YYYY-MM-DD') &gt;= #{fromDate}
 				AND TO_CHAR(REG_BOARD_DATE, 'YYYY-MM-DD') &lt;= #{toDate}
 			</if>
-			<if test='searchValue != null and searchValue.equals("")'>
+			<if test='!searchValue.equals("")'>
 	        AND UPPER(${searchKeyword}) LIKE '%' || UPPER(#{searchValue}) || '%'
 	        </if>
 	        

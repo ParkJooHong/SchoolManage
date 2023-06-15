@@ -8,6 +8,7 @@ function getOrderListDesc(REG_BOARD_DATE){
 	
 	const orderBy = document.querySelector('#orderBy');
 	orderBy.querySelector('input').value = REG_BOARD_DATE;
+	
 	orderBy.submit();
 }
 
@@ -15,6 +16,8 @@ function getOrderListDesc(REG_BOARD_DATE){
 function getOrderListDesc(READ_CNT){
 	const orderBy = document.querySelector('#orderBy');
 	orderBy.querySelector('input').value = READ_CNT;
+	
+	
 	orderBy.submit();
 }
 
@@ -254,3 +257,56 @@ function plus(){
 	button.insertAdjacentHTML('afterbegin', str);
 	table.insertAdjacentHTML('afterbegin', str2);
 }
+
+//페이징 처리
+function getBoardList(pageNum){
+	const test_form = document.querySelector('#test_form');
+	test_form.querySelector('input[name="nowPage"]').value = pageNum;
+	
+	const order_label = document.querySelector('.order').querySelector('input[class*="btn-primary"]').dataset.orderBy;
+	test_form.querySelector('input[name="orderBy"]').value = order_label;
+	
+	const categoryList_label = document.querySelector('.categoryList').querySelector('input[class*="btn-primary"]').dataset.categoryList;
+	test_form.querySelector('input[name="categoryList"]').value = categoryList_label;
+	
+	
+	const searchKeyword_label = document.querySelector('.searchKeyword').value;
+	test_form.querySelector('input[name="searchKeyword"]').value = searchKeyword_label;
+	
+	const searchValue_label = document.querySelector('.searchValue').value;
+	test_form.querySelector('input[name="searchValue"]').value = searchValue_label;
+	
+
+	test_form.submit();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
