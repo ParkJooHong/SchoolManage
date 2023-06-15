@@ -36,20 +36,29 @@ public class ReadServiceImpl implements ReadService{
 	}
 
 	@Override
-	public void setBeforDateBySeatUsed(String dateNo) {
+	@Transactional(rollbackOn = RollbackException.class)
+	public int setBeforDateBySeatUsed(String dateNo) {
 		sqlSession.update("readMapper.setBeforDateBySeatUsed",dateNo);
+		return sqlSession.update("readMapper.setBeforDateByReservationRoom",dateNo);
 		
-	}
-	
-	
-	@Override
-	public int verifyReservationRoom(ReservationVO reservationVO) {
-		return sqlSession.selectOne("readMapper.verifyReservationRoom",reservationVO);
 	}
 
 	@Override
 	public int verifyLeaveRoom(String memNo) {
 		return sqlSession.selectOne("readMapper.verifyLeaveRoom",memNo);
+	}
+
+	@Override
+	@Transactional (rollbackOn = RollbackException.class)
+	public int setReservationRoomByMember(ReservationVO reservationVO) {
+		sqlSession.update("readMapper.setReservationRoomByMember",reservationVO);
+		return sqlSession.update("readMapper.setReadingRoomReserve", reservationVO);
+		
+	}
+
+	@Override
+	public String getMemSeatNo(ReservationVO reservationVO) {
+		return sqlSession.selectOne("readMapper.getMemSeatNo",reservationVO);
 	}
 	
 	

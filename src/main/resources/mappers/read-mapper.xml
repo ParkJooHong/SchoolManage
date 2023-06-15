@@ -68,19 +68,38 @@
 		WHERE DATE_NO = #{dateNo}
 	</update>
 	
-	<select id="verifyReservationRoom" resultType="int">
-		SELECT COUNT(RESER_NO)
-		FROM RESERVATION_ROOM
-		WHERE MEM_NO = #{memNo}
-		AND IS_LEAVE = 'Y'
-	</select>
+	<update id="setBeforDateByReservationRoom">
+		UPDATE RESERVATION_ROOM
+		SET IS_LEAVE = 'Y'
+		WHERE DATE_NO = #{dateNo}
+	</update>
 	
 	<select id="verifyLeaveRoom" resultType="int">
 		SELECT COUNT(RESER_NO)
 		FROM RESERVATION_ROOM
 		WHERE MEM_NO = #{memNo}
-		AND IS_LEAVE = 'Y'
+		AND IS_LEAVE = 'N'
 	</select>
+	
+	<select id="getMemSeatNo" resultType="String">
+		SELECT SEAT_NO
+		FROM RESERVATION_ROOM
+		WHERE MEM_NO = #{memNo}
+		AND TO_CHAR(REG_DATE, 'YYYY-MM-DD') = #{regDate}
+		AND IS_LEAVE = 'N'
+	</select>
+	
+	<update id="setReadingRoomReserve">
+		UPDATE UNI_READING_ROOM
+		SET IS_RESERVE = 'O'
+		WHERE SEAT_NO = #{seatNo}
+	</update>
+	
+	<update id="setReservationRoomByMember">
+		UPDATE RESERVATION_ROOM
+		SET IS_LEAVE = 'Y'
+		WHERE MEM_NO = #{memNo}
+	</update>
 	
 </mapper>
 
