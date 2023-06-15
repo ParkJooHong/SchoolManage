@@ -310,6 +310,8 @@ public class BoardController {
 	private String deptBoard(MemberSubMenuVO memberSubMenuVO, Model model, Authentication authentication, MemberVO memberVO, StuVO stuVO, UniBoardVO uniBoardVO
 			,String cateNo, BoardCategoryVO boardCategoryVO, String deptNo) {
 
+		
+		
 		String memLayout = getCode(authentication, model);
 		model.addAttribute("memLayOut", memLayout);
 		
@@ -317,8 +319,11 @@ public class BoardController {
 		String memName = user.getUsername();
 		stuVO.setMemNo(user.getUsername()); // id임
 		memberVO.setMemNo(user.getUsername());
+		
+		
 		model.addAttribute("memberVO", stuService.seletStu(memberVO));
 		System.out.println("학생정보 : " + stuService.seletStu(memberVO));
+		
 
 		// 오늘 날짜
 				String nowDate = DateUtil.getNowDateToString();
@@ -341,34 +346,7 @@ public class BoardController {
 				}
 				
 				System.out.println(uniBoardVO.getOrderBy());
-				
-				// Month랑 toDate, FromDate 함꼐 실행 불가
-				/*
-				if(uniBoardVO.getMonth() == 0) {
-					uniBoardVO.setFromDate(null);
-					uniBoardVO.setToDate(null);
-				} else if(uniBoardVO.getMonth() == -1) {
-					uniBoardVO.setFromDate(null);
-					uniBoardVO.setToDate(null);
-				}else if(uniBoardVO.getMonth() == -3) {
-					uniBoardVO.setFromDate(null);
-					uniBoardVO.setToDate(null);
-				}
-				else {
-					if (uniBoardVO.getFromDate() == null) {
-						uniBoardVO.setFromDate(firstDate);
-					}
 
-					if (uniBoardVO.getToDate() == null) {
-						uniBoardVO.setToDate(nowDate);
-					}
-				}
-				
-				if(uniBoardVO.getToDate() != null || uniBoardVO.getFromDate() != null) {
-					uniBoardVO.setMonth(0);
-				}
-				*/
-				
 				//카테고리 정렬
 				uniBoardVO.setCategoryList("CATE_002");
 				
@@ -379,13 +357,8 @@ public class BoardController {
 
 				
 				
+				
 				cateNo = boardCategoryVO.getCateNo();
-
-				int totalDateCnt = boardService.totalBoardPage(uniBoardVO);
-				uniBoardVO.setTotalDataCnt(totalDateCnt);
-
-				// 페이징 정보 세팅
-				uniBoardVO.setPageInfo();
 
 				System.out.println("페이징 정보 : " + uniBoardVO);
 

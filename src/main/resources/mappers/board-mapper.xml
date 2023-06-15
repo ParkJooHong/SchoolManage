@@ -106,7 +106,6 @@
 	       		  AND UPPER(${searchKeyword}) LIKE '%' || UPPER(#{searchValue}) || '%'
 	        </if>
 			ORDER BY ${orderBy} DESC
-			OFFSET #{offsetCnt} ROWS FETCH FIRST #{displayCnt} ROWS ONLY
 		</select>
 		
 	<!-- 전체 게시판 조회-->
@@ -181,7 +180,35 @@
 			<if test="fromDate != null" >
 				AND TO_CHAR(REG_BOARD_DATE, 'YYYY-MM-DD') &gt;= #{fromDate}
 				AND TO_CHAR(REG_BOARD_DATE, 'YYYY-MM-DD') &lt;= #{toDate}
-			</if>        
+			</if>    
+		</select>
+		
+		
+		<!-- 학과 게시판 개수 조회 -->
+		<select id="deptBoardCount" resultType="int">
+			SELECT COUNT(BOARD_NO)
+			FROM UNI_BOARD
+			WHERE DEPT_NO = #{deptNo}
+			<if test="month != null and month != 0">
+			AND TO_CHAR(REG_BOARD_DATE, 'YYYYMMDD' ) &gt;= TO_CHAR(ADD_MONTHS(SYSDATE, #{month}), 'YYYYMMDD') 
+			</if>
+			<if test="fromDate != null" >
+				AND TO_CHAR(REG_BOARD_DATE, 'YYYY-MM-DD') &gt;= #{fromDate}
+				AND TO_CHAR(REG_BOARD_DATE, 'YYYY-MM-DD') &lt;= #{toDate}
+			</if>
+			<if test='!searchValue.equals("")'>
+	        	AND UPPER(${searchKeyword}) LIKE '%' || UPPER(#{searchValue}) || '%'
+	        </if>
+	        <if test='categoryList != null'>
+				<choose>
+			        <when test='categoryList.equals("CATE_001")'>
+			            AND (UNI_BOARD.CATE_NO = 'CATE_001' OR UNI_BOARD.CATE_NO = 'CATE_003' OR UNI_BOARD.CATE_NO = 'CATE_004' OR UNI_BOARD.CATE_NO = 'CATE_005')
+			        </when>
+			        <otherwise>
+			            AND UNI_BOARD.CATE_NO = '${categoryList}'
+			        </otherwise>
+			    </choose>
+			</if>			
 		</select>
 		
 		<!-- 보드 게시판 페이징 조회 -->
@@ -197,8 +224,18 @@
 				AND TO_CHAR(REG_BOARD_DATE, 'YYYY-MM-DD') &lt;= #{toDate}
 			</if>
 			<if test='!searchValue.equals("")'>
-	        AND UPPER(${searchKeyword}) LIKE '%' || UPPER(#{searchValue}) || '%'
+	        	AND UPPER(${searchKeyword}) LIKE '%' || UPPER(#{searchValue}) || '%'
 	        </if>
+	        <if test='categoryList != null'>
+				<choose>
+			        <when test='categoryList.equals("CATE_001")'>
+			            AND (UNI_BOARD.CATE_NO = 'CATE_001' OR UNI_BOARD.CATE_NO = 'CATE_003' OR UNI_BOARD.CATE_NO = 'CATE_004' OR UNI_BOARD.CATE_NO = 'CATE_005')
+			        </when>
+			        <otherwise>
+			            AND UNI_BOARD.CATE_NO = '${categoryList}'
+			        </otherwise>
+			    </choose>
+			</if>	
 	        
 	        
 		</select>

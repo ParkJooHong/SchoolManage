@@ -29,7 +29,7 @@
 
 				  </form>
 				  <form th:action="@{/board/board}" method="post" id="orderBy">
-					  <input type="hidden" value="" name="orderBy">
+					   <input type="hidden" value="" name="orderBy">
 
 				  </form>
 				  <form th:action="@{/board/board}" method="post" id="categoryList">
@@ -89,9 +89,12 @@
 				   -->
 				  <div style="display: flex;">
 					  <div class="order" style="text-align: left; flex: 1;">
-					    <input type="button" th:classappend="${uniBoardVO.orderBy == 'REG_BOARD_DATE_ORDER' ? 'btn-primary' : 'btn-secondary'}" class="btn" id="orderDate" value="최근순" onclick="getOrderListDesc('REG_BOARD_DATE_ORDER');" th:data-order-by="REG_BOARD_DATE_ORDER">
-					    <input type="button" th:classappend="${uniBoardVO.orderBy == 'READ_CNT' ? 'btn-primary' : 'btn-secondary'}" class="btn" id="orderRead" value="조회순" onclick="getOrderListDesc('READ_CNT');" th:data-order-by="READ_CNT">
-					    <input type="button" th:classappend="${uniBoardVO.orderBy == 'REPLY_CNT' ? 'btn-primary' : 'btn-secondary'}" class="btn" id="orderReply" value="댓글순" onclick="getOrderListDesc('REPLY_CNT');" th:data-order-by="REPLY_CNT">  	
+					   <!--  <input type="button" th:classappend="${uniBoardVO.orderBy == 'REG_BOARD_DATE_ORDER' ? 'btn-primary' : 'btn-secondary'}" class="btn" id="orderDate" value="최근순" onclick="getOrderListDesc('REG_BOARD_DATE_ORDER');" th:data-order-by="REG_BOARD_DATE_ORDER"> -->
+					    <!-- <input type="button" th:classappend="${uniBoardVO.orderBy == 'READ_CNT' ? 'btn-primary' : 'btn-secondary'}" class="btn" id="orderRead" value="조회순" onclick="getOrderListDesc('READ_CNT');" th:data-order-by="READ_CNT"> -->
+					    <!-- <input type="button" th:classappend="${uniBoardVO.orderBy == 'REPLY_CNT' ? 'btn-primary' : 'btn-secondary'}" class="btn" id="orderReply" value="댓글순" onclick="getOrderListDesc('REPLY_CNT');" th:data-order-by="REPLY_CNT">  	 -->
+					     <input type="button" th:classappend="${uniBoardVO.orderBy == 'REG_BOARD_DATE_ORDER' ? 'btn-primary' : 'btn-secondary'}" class="btn" id="orderDate" value="최근순" onclick="getOrderList('REG_BOARD_DATE_ORDER');" th:data-order-by="REG_BOARD_DATE_ORDER">
+					    <input type="button" th:classappend="${uniBoardVO.orderBy == 'READ_CNT' ? 'btn-primary' : 'btn-secondary'}" class="btn" id="orderRead" value="조회순" onclick="getOrderList('READ_CNT');" th:data-order-by="READ_CNT">
+					    <input type="button" th:classappend="${uniBoardVO.orderBy == 'REPLY_CNT' ? 'btn-primary' : 'btn-secondary'}" class="btn" id="orderReply" value="댓글순" onclick="getOrderList('REPLY_CNT');" th:data-order-by="REPLY_CNT">  	
 					  </div>
 					  <div style="text-align: center; flex: 1;" >
 					  	<form th:action="@{/board/board}" method="post" class="text-end">
@@ -103,16 +106,21 @@
 									<!-- 셀렉트 박스 옵션 추가 -->
 							  </select>
 							  	<input type="text" class="form-control searchValue" placeholder="검색할 키워드를 입력하세요" name="searchValue" style="width: 200px;" th:value="${uniBoardVO.searchValue}"/>
-							  	<input type="submit" value="검색" class="btn btn-primary mx-2">
+							  	<!-- <input type="submit" value="검색" class="btn btn-primary mx-2"> -->
+							  	<input type="button" value="검색" class="btn btn-danger mx-2" onclick="searchOrder();">
 							  </div>
 						  </form>
 					  
 					  </div>
 					  <div class="categoryList" style="text-align: right; flex: 1;">
-					 	 <input type="button" th:classappend="${uniBoardVO.categoryList == 'CATE_001' ? 'btn-primary' : 'btn-secondary'}"  class="btn" id="orderDate" value="전체" onclick="cateList('CATE_001');" th:data-category-list="CATE_001">
-					    <input type="button" th:classappend="${uniBoardVO.categoryList == 'CATE_003' ? 'btn-primary' : 'btn-secondary'}"  class="btn" id="orderDate" value="질문" onclick="cateList('CATE_003');" th:data-category-list="CATE_003">
-					    <input type="button" th:classappend="${uniBoardVO.categoryList == 'CATE_004' ? 'btn-primary' : 'btn-secondary'}"  class="btn" id="orderRead" value="잡담" onclick="cateList('CATE_004');" th:data-category-list="CATE_004">
-					    <input type="button" th:classappend="${uniBoardVO.categoryList == 'CATE_005' ? 'btn-primary' : 'btn-secondary'}"  class="btn" id="orderReply" value="정보" onclick="cateList('CATE_005');" th:data-category-list="CATE_005">
+					 	<!--  <input type="button" th:classappend="${uniBoardVO.categoryList == 'CATE_001' ? 'btn-primary' : 'btn-secondary'}"  class="btn" id="orderDate" value="전체" onclick="cateList('CATE_001');" th:data-category-list="CATE_001"> -->
+					    <!-- <input type="button" th:classappend="${uniBoardVO.categoryList == 'CATE_003' ? 'btn-primary' : 'btn-secondary'}"  class="btn" id="orderDate" value="질문" onclick="cateList('CATE_003');" th:data-category-list="CATE_003"> -->
+					    <!-- <input type="button" th:classappend="${uniBoardVO.categoryList == 'CATE_004' ? 'btn-primary' : 'btn-secondary'}"  class="btn" id="orderRead" value="잡담" onclick="cateList('CATE_004');" th:data-category-list="CATE_004"> -->
+					    <!-- <input type="button" th:classappend="${uniBoardVO.categoryList == 'CATE_005' ? 'btn-primary' : 'btn-secondary'}"  class="btn" id="orderReply" value="정보" onclick="cateList('CATE_005');" th:data-category-list="CATE_005"> -->
+					  	 <input type="button" th:classappend="${uniBoardVO.categoryList == 'CATE_001' ? 'btn-primary' : 'btn-secondary'}"  class="btn" id="orderDate" value="전체" onclick="cateOrderList('CATE_001');" th:data-category-list="CATE_001">
+					  	<input type="button" th:classappend="${uniBoardVO.categoryList == 'CATE_003' ? 'btn-primary' : 'btn-secondary'}"  class="btn" id="orderDate" value="질문" onclick="cateOrderList('CATE_003');" th:data-category-list="CATE_003">
+					  	<input type="button" th:classappend="${uniBoardVO.categoryList == 'CATE_004' ? 'btn-primary' : 'btn-secondary'}"  class="btn" id="orderRead" value="잡담" onclick="cateOrderList('CATE_004');" th:data-category-list="CATE_004">
+					  	<input type="button" th:classappend="${uniBoardVO.categoryList == 'CATE_005' ? 'btn-primary' : 'btn-secondary'}"  class="btn" id="orderReply" value="정보" onclick="cateOrderList('CATE_005');" th:data-category-list="CATE_005">
 					  </div>					  
 					</div>					
 				  <br>
@@ -185,9 +193,9 @@
 							        <span aria-hidden="true">&laquo;</span>
 							      </a>
 							    </li>
-							    <li class="page-item" th:each="pageNum : ${#numbers.sequence(uniBoardVO.beginPage,uniBoardVO.endPage)}">
+							    <li class="page-item" th:each="pageNum : ${#numbers.sequence(uniBoardVO.beginPage,uniBoardVO.endPage)}" id="pageNum">
 							    	<!-- <a th:classappend="${uniBoardVO.nowPage == pageNum ? 'active' : ' '}" class="page-link" th:href="@{/board/board(nowPage=${pageNum} )}">[[${pageNum}]]</a> -->
-							    	<a th:classappend="${uniBoardVO.nowPage == pageNum ? 'active' : ' '}" class="page-link" href="javascript:void(0);" th:onclick="getBoardList([[${pageNum}]]);">[[${pageNum}]]</a>
+							    	<a th:classappend="${uniBoardVO.nowPage == pageNum ? 'active' : ' '}" class="page-link" href="javascript:void(0);" th:onclick="getBoardList([[${pageNum}]]);"  th:data-page-num="${pageNum}">[[${pageNum}]]</a>
 							    </li>
 							    <li class="page-item" th:classappend="${uniBoardVO.next ? ' ' : 'disabled'}">
 							    	<a class="page-link" th:href="@{/board/board(nowPage=${uniBoardVO.endPage + 1})}" aria-label="Next"><span aria-hidden="true">&raquo;</span>
@@ -302,8 +310,36 @@
 	<input type="hidden" name="categoryList" value="">
 	<input type="hidden" name="searchKeyword" value="">
 	<input type="hidden" name="searchValue" value="">
-	
 </form>
+
+<!-- 최신, 댓글, 조회 순 정렬 -->
+<form th:action="@{/board/board}" method="post" id="test_orderBy">
+	<input type="hidden" name="nowPage" value="">
+	<input type="hidden" name="orderBy" value="">
+	<input type="hidden" name="categoryList" value="">
+	<input type="hidden" name="searchKeyword" value="">
+	<input type="hidden" name="searchValue" value="">
+</form>
+
+<!-- 분류 별 정렬 -->
+<form th:action="@{/board/board}" method="post" id="cateListOrder">
+	<input type="hidden" name="nowPage" value="">
+	<input type="hidden" name="orderBy" value="">
+	<input type="hidden" name="categoryList" value="">
+	<input type="hidden" name="searchKeyword" value="">
+	<input type="hidden" name="searchValue" value="">
+</form>
+
+<!-- 서치 키워드 정렬 -->
+<form th:action="@{/board/board}" method="post" id="searchKeyword">
+	<input type="hidden" name="nowPage" value="">
+	<input type="hidden" name="orderBy" value="">
+	<input type="hidden" name="categoryList" value="">
+	<input type="hidden" name="searchKeyword" value="">
+	<input type="hidden" name="searchValue" value="">
+</form>
+
+
 </th:block>
 
 
