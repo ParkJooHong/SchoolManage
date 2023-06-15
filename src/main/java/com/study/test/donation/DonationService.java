@@ -15,6 +15,6 @@ public interface DonationService {
 
 
     // 중고 상품 상세보기 조회하는 쿼리문
-    DonationBoardVO detailDonation();
+    DonationBoardVO detailDonation(String donationCode);
 
 }

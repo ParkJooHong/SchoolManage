@@ -77,10 +77,14 @@
 
    <!--Donation.HTML 상에서 중고 상품 클릭했을때 상세보기로 -->
     <select id="donationDetail" resultMap="donation">
-        SELECT DONATION_NAME,
+        SELECT DITEM.DONATION_CODE,
+        DONATION_NAME,
         DONATION_PRICE,
-        DONATION_CONTENT
-        FROM DONATION_ITEM
+        DONATION_CONTENT,
+        ATTACHED_FILE_NAME
+        FROM DONATION_ITEM DITEM, DONATION_IMG DIMG
+        WHERE DITEM.DONATION_CODE = DIMG.DONATION_CODE
+        AND DONATION_CODE = #{donationCode}
     </select>
 
 </mapper>

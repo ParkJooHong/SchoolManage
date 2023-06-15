@@ -23,7 +23,7 @@ public class DonationController {
      //중고물품 등록
 	@PostMapping("/regDonation")
 	public String donationInsert(DonationBoardVO donationBoardVO ,
-	     MultipartFile mainImg, Model model) {
+	     MultipartFile mainImg) {
 		
 
 		// UploadUtill 객체 호출해서(util패키지에 만들어놓음)

@@ -1558,7 +1558,11 @@ public class StuController {
 // 중고 나눔
 	@GetMapping("/donation")
 	public String donation(Authentication authentication, String boardNo, Model model, UniBoardVO uniBoardVO,
-			MemberVO memberVO, StuVO stuVO, MemberMenuVO memberMenuVO, MemberSubMenuVO memberSubMenuVO) {
+			MemberVO memberVO,String donationCode, StuVO stuVO, MemberMenuVO memberMenuVO, MemberSubMenuVO memberSubMenuVO) {
+		
+		System.out.println(donationCode);
+
+
 		User user = (User) authentication.getPrincipal();
 		String memName = user.getUsername();
 		// System.out.println(memName);
@@ -1569,9 +1573,12 @@ public class StuController {
 		List<DonationBoardVO> donationDataList = donationService.donationSearch(); // 데이터베이스로부터 데이터를 가져오는 메서드 호출
 		model.addAttribute("donationDataList", donationDataList); // 모델에 데이터 추가
 
+				
+
 		return "/content/stu/stu_board/donation";
 	}
-
+	
+	
 	// 게시판 끝 }
 
 	// ----------- 캘린더 {
