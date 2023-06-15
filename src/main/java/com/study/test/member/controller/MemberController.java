@@ -138,13 +138,12 @@ public class MemberController {
 		
 		@PostMapping("/phoneAuthOkAjax")
 		@ResponseBody
-		public Boolean phoneAuthOk(HttpSession session, HttpServletRequest request) {
+		public Boolean phoneAuthOk(HttpSession session, HttpServletRequest request, String inputNum) {
 		    String rand = (String) session.getAttribute("rand");
-		    String code = (String) request.getParameter("code");
 
-		    System.out.println(rand + " : " + code);
+		    System.out.println(rand + " : " + inputNum);
 
-		    if (rand.equals(code)) {
+		    if (rand.equals(inputNum)) {
 		        session.removeAttribute("rand");
 		        return false;
 		    } 
