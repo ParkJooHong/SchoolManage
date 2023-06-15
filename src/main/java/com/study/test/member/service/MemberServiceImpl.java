@@ -107,6 +107,11 @@ public class MemberServiceImpl implements MemberService {
 		int tell = sqlSession.selectOne("memberMapper.getMemTell", memTell);
 		return tell;
 	}
+	//메일 인증을 위한 전체 메일 카운트
+	@Override
+	public int getCntMemEmail(String changeMail) {
+		return sqlSession.selectOne("memberMapper.getCntMemEmail", changeMail);
+	}
 
 
 	

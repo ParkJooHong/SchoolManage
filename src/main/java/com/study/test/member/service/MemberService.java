@@ -44,4 +44,7 @@ public interface MemberService {
 	
 	//문자 인증을 위한 전화번호 조회
 	int getMemTell(String memTell);
+	
+	//메일 인증을 위한 전체 메일 카운트
+	int getCntMemEmail(String changeMail);
 }

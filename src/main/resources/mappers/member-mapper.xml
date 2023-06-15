@@ -160,6 +160,14 @@
 		WHERE MEM_TELL = #{memTell}
 	</select>
 	
+	
+	<!-- 메일 인증을 위한 전체 메일 카운트 -->
+	<select id="getCntMemEmail" resultType="int">
+		SELECT COUNT(MEM_EMAIL)
+		FROM UNI_MEMBER
+		WHERE MEM_EMAIL = #{changeMail}
+	</select>
+	
 </mapper>
 
 
