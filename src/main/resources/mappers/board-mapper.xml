@@ -181,9 +181,7 @@
 			<if test="fromDate != null" >
 				AND TO_CHAR(REG_BOARD_DATE, 'YYYY-MM-DD') &gt;= #{fromDate}
 				AND TO_CHAR(REG_BOARD_DATE, 'YYYY-MM-DD') &lt;= #{toDate}
-			</if>
-
-	        
+			</if>        
 		</select>
 		
 		<!-- 보드 게시판 페이징 조회 -->
@@ -201,9 +199,7 @@
 			<if test='searchValue != null and searchValue.equals("")'>
 	        AND UPPER(${searchKeyword}) LIKE '%' || UPPER(#{searchValue}) || '%'
 	        </if>
-	        <if test='categoryList != null and !categoryList.equals("")'>
-				AND UNI_BOARD.CATE_NO = '${categoryList}'
-			</if>
+	        
 	        
 		</select>
 		

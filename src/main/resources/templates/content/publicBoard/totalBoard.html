@@ -26,21 +26,21 @@
 				  </table>
 				  <form th:action="@{/board/board}" method="post" id="month-form">
 				  	<input type="hidden" value="" name="month">
-				  	<input type="hidden" th:value="${menuCode}" name="menuCode"> 
-					<input type="hidden" th:value="${subMenuCode}" name="subMenuCode"> 
+
 				  </form>
 				  <form th:action="@{/board/board}" method="post" id="orderBy">
 				  	<input type="hidden" value="" name="orderBy">
-				  	<input type="hidden" th:value="${menuCode}" name="menuCode"> 
-					<input type="hidden" th:value="${subMenuCode}" name="subMenuCode"> 
+
 				  </form>
 				  <form th:action="@{/board/board}" method="post" id="categoryList">
 				  	<input type="hidden" value="" name="categoryList">
 				  </form>
+				  <!--
 				  <table class="table">
 					<tbody>
 					  <tr>
 					  	<td>
+					  		
 							<div class="row mb-3">
 								<div class="col-12 mb-3 text-start">
 									<div class="row-3">
@@ -51,7 +51,7 @@
 			
 									<div class="row-9 text-end"></div>
 								</div>
-								<!-- 
+								 
 								<div class="col-6 text-end">
 									<form th:action="@{/board/board}" method="post" id="month-form">
 								
@@ -64,7 +64,7 @@
 									 </form>
 									
 								</div>
-								 -->
+								
 							</div>
 						</td>
 						<td>	
@@ -76,23 +76,38 @@
 									<option  value="BOARD_TITLE">제목</option>
 									<option  value="BOARD_CONTENT" >내용</option>
 									<option  value="BOARD_WRITER" >작성자</option>
-									<!-- 셀렉트 박스 옵션 추가 -->
+									
 							  </select>
 							  	<input type="text" class="form-control" placeholder="검색할 키워드를 입력하세요" name="searchValue" style="width: 200px;"/>
 							  	<input type="submit" value="검색" class="btn btn-primary mx-2">
-								
-								<!-- <button class="btn btn-danger" th:onclick="|location.href='@{/board/boardWrite}'|" >글쓰기</button> -->
 							  </div>
 						  </form>
 						</td>
 					  </tr>
 					</tbody>
 				  </table>
+				   -->
 				  <div style="display: flex;">
 					  <div class="order" style="text-align: left; flex: 1;">
 					    <input type="button" class="btn btn-secondary" id="orderDate" value="최근순" onclick="getOrderListDesc('REG_BOARD_DATE_ORDER');">
 					    <input type="button" class="btn btn-secondary" id="orderRead" value="조회순" onclick="getOrderListDesc('READ_CNT');">
 					    <input type="button" class="btn btn-secondary" id="orderReply" value="댓글순" onclick="getOrderListDesc('REPLY_CNT');">  	
+					  </div>
+					  <div style="text-align: center; flex: 1;" >
+					  	<form th:action="@{/board/board}" method="post" class="text-end">
+							  <div class="btn-group">
+
+							  	<select class="form-control"  name="searchKeyword">
+									<option  value="BOARD_TITLE">제목</option>
+									<option  value="BOARD_CONTENT" >내용</option>
+									<option  value="BOARD_WRITER" >작성자</option>
+									<!-- 셀렉트 박스 옵션 추가 -->
+							  </select>
+							  	<input type="text" class="form-control" placeholder="검색할 키워드를 입력하세요" name="searchValue" style="width: 200px;"/>
+							  	<input type="submit" value="검색" class="btn btn-primary mx-2">
+							  </div>
+						  </form>
+					  
 					  </div>
 					  <div class="categoryList" style="text-align: right; flex: 1;">
 					 	 <input type="button" class="btn btn-secondary" id="orderDate" value="전체" onclick="cateList('CATE_001');">
@@ -136,22 +151,22 @@
 							<td>[[${uniBoard.cateName}]]</td>
 							<td>[[${uniBoard.boardWriter}]]</td>
 							<td th:if="${uniBoard.isPrivate !='N'} and ${uniBoard.replyCnt != 0}">
-								<a href="#" th:onclick="checkPwd( [[${uniBoard.isPrivate}]] , [[${uniBoard.boardNo}]], [[${menuCode}]], [[${subMenuCode}]], [[${uniBoard.readCnt}]]);" class="title"> 
+								<a href="#" th:onclick="checkPwd( [[${uniBoard.isPrivate}]] , [[${uniBoard.boardNo}]], [[${uniBoard.readCnt}]]);" class="title"> 
 									🔒 [[${uniBoard.boardTitle}]]  <span class="replyColor">([[${uniBoard.replyCnt}]])</span>
 								</a>
 							</td>
 							<td th:if="${uniBoard.isPrivate !='N'} and ${uniBoard.replyCnt == 0}">
-								<a href="#" th:onclick="checkPwd( [[${uniBoard.isPrivate}]] , [[${uniBoard.boardNo}]], [[${menuCode}]], [[${subMenuCode}]], [[${uniBoard.readCnt}]]);" class="title"> 
+								<a href="#" th:onclick="checkPwd( [[${uniBoard.isPrivate}]] , [[${uniBoard.boardNo}]], [[${uniBoard.readCnt}]]);" class="title"> 
 									🔒 [[${uniBoard.boardTitle}]]
 								</a>
 							</td>
 							<td th:if="${uniBoard.isPrivate =='N'} and ${uniBoard.replyCnt != 0}">
-								<a th:href="@{/board/boardDetail(menuCode=${menuCode}, subMenuCode=${subMenuCode}, boardNo=${uniBoard.boardNo}, readCnt=${uniBoard.readCnt} )}" class="title">
+								<a th:href="@{/board/boardDetail( boardNo=${uniBoard.boardNo}, readCnt=${uniBoard.readCnt} )}" class="title">
 									[[${uniBoard.boardTitle}]]  <span class="replyColor">([[${uniBoard.replyCnt}]])</span>
 								</a>
 							</td>
 							<td th:if="${uniBoard.isPrivate =='N'} and ${uniBoard.replyCnt == 0}">
-								<a th:href="@{/board/boardDetail(menuCode=${menuCode}, subMenuCode=${subMenuCode}, boardNo=${uniBoard.boardNo}, readCnt=${uniBoard.readCnt} )}" class="title">
+								<a th:href="@{/board/boardDetail( boardNo=${uniBoard.boardNo}, readCnt=${uniBoard.readCnt} )}" class="title">
 									[[${uniBoard.boardTitle}]] 
 								</a>
 							</td>
@@ -167,15 +182,15 @@
 							 <nav aria-label="Page navigation example">
 							  <ul class="pagination justify-content-center">
 							    <li class="page-item" th:classappend="${uniBoardVO.prev ? ' ' : 'disabled'}">
-							      <a class="page-link"  th:href="@{/board/board(nowPage=${uniBoardVO.beginPage -1},  menuCode=${menuCode}, subMenuCode=${subMenuCode})}" aria-label="Previous">
+							      <a class="page-link"  th:href="@{/board/board(nowPage=${uniBoardVO.beginPage -1} )}" aria-label="Previous">
 							        <span aria-hidden="true">&laquo;</span>
 							      </a>
 							    </li>
 							    <li class="page-item" th:each="pageNum : ${#numbers.sequence(uniBoardVO.beginPage,uniBoardVO.endPage)}">
-							    	<a th:classappend="${uniBoardVO.nowPage == pageNum ? 'active' : ' '}" class="page-link" th:href="@{/board/board(nowPage=${pageNum} , menuCode=${menuCode}, subMenuCode=${subMenuCode})}">[[${pageNum}]]</a>
+							    	<a th:classappend="${uniBoardVO.nowPage == pageNum ? 'active' : ' '}" class="page-link" th:href="@{/board/board(nowPage=${pageNum} )}">[[${pageNum}]]</a>
 							    </li>
 							    <li class="page-item" th:classappend="${uniBoardVO.next ? ' ' : 'disabled'}">
-							    	<a class="page-link" th:href="@{/board/board(nowPage=${uniBoardVO.endPage + 1},  menuCode=${menuCode}, subMenuCode=${subMenuCode})}" aria-label="Next"><span aria-hidden="true">&raquo;</span>
+							    	<a class="page-link" th:href="@{/board/board(nowPage=${uniBoardVO.endPage + 1})}" aria-label="Next"><span aria-hidden="true">&raquo;</span>
 							      </a>
 							    </li>
 							  </ul>
@@ -212,8 +227,6 @@
    
 	      <div class="modal-body boardWriters">
 						<form class="row g-3" th:action="@{/stuMenu/boardWrite}" method="post"> <!-- 라벨(label) 안써도됨.  -->
-							<input type="hidden" th:value="${menuCode}" name="menuCode"> 
-							<input type="hidden" th:value="${subMenuCode}" name="subMenuCode"> 
 							<div>						
 							<label for="memId" class="form-label"></label> 							
 								<th:block th:each="member : ${memberVO}">

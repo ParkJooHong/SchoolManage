@@ -174,6 +174,7 @@ public class BoardController {
 		model.addAttribute("uniBoardToDate", uniBoardVO.getToDate());
 
 		int totalDateCnt = boardService.totalBoardPage(uniBoardVO);
+		System.out.println("전체 게시판 게시글 개수 : " +totalDateCnt);
 		uniBoardVO.setTotalDataCnt(totalDateCnt);
 
 		// 페이징 정보 세팅
