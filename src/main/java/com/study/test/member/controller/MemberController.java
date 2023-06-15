@@ -119,21 +119,38 @@ public class MemberController {
 	}
 	
 	//문자인증
-	@PostMapping("/phoneAuthAjax")
-	@ResponseBody
-	public Boolean phoneAuth(String memTell) {
+		@PostMapping("/phoneAuthAjax")
+		@ResponseBody
+		public Boolean phoneAuth(String memTell, HttpSession session) {
 
-	    try { // 이미 가입된 전화번호가 있으면
-	        if(memberService.getMemTell(memTell) > 0) {
-	    	    String code = memberService.sendRandomMessage(memTell);
-	            return true; 
-	        }
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	    }
-	    
-	    return false;
-	}
+		    try { // 이미 가입된 전화번호가 있으면
+		        if(memberService.getMemTell(memTell) > 0) {
+		    	    String code = memberService.sendRandomMessage(memTell);
+		    	    session.setAttribute("rand", code);
+		            return true; 
+		        }
+		    } catch (Exception e) {
+		        e.printStackTrace();
+		    }
+		    
+		    return false;
+		}
+		
+		@PostMapping("/phoneAuthOkAjax")
+		@ResponseBody
+		public Boolean phoneAuthOk(HttpSession session, HttpServletRequest request) {
+		    String rand = (String) session.getAttribute("rand");
+		    String code = (String) request.getParameter("code");
+
+		    System.out.println(rand + " : " + code);
+
+		    if (rand.equals(code)) {
+		        session.removeAttribute("rand");
+		        return false;
+		    } 
+		    return true;
+		}
+
 	
 	//------------------------회원 정보 변경----------------------//
 	//메일 인증 
@@ -171,6 +188,7 @@ public class MemberController {
 		boolean checkResult = false;
 		String sendPw = (String) session.getAttribute("catiPw");
 		if(sendPw == catiNum) {
+			session.removeAttribute("catiPw");
 			checkResult = true;
 		}
 		return checkResult;

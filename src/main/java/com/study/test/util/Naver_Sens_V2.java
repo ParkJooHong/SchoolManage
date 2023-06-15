@@ -16,6 +16,7 @@ import javax.crypto.spec.SecretKeySpec;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+
 public class Naver_Sens_V2 {
 	@SuppressWarnings("unchecked")
 	public void send_msg(String memtell, String rand) {
@@ -43,23 +44,27 @@ public class Naver_Sens_V2 {
         JSONObject toJson = new JSONObject();
         JSONArray toArr = new JSONArray();
         
+        // memTell - 제거
+        memtell = memtell.replace("-", "");
+        
         // 난수와 함께 전송
-        toJson.put("content","Going 본인인증 ["+rand+"]");		
+        toJson.put("content","Going 본인인증 "+rand);
         toJson.put("to",memtell);
+        System.out.println("toJson" + toJson);
         toArr.add(toJson);
-	    
         // 메시지 Type (sms | lms)
-        bodyJson.put("type","sms");
+        bodyJson.put("type","SMS");
+        bodyJson.put("content","Going 본인인증 "+rand);
         bodyJson.put("contentType","COMM");
         bodyJson.put("countryCode","82");
         
         // 발신번호 * 사전에 인증/등록된 번호만 사용할 수 있습니다.
-        bodyJson.put("from","");		
+        bodyJson.put("from","01034493161");		
         bodyJson.put("messages", toArr);		
 	    
         String body = bodyJson.toJSONString();
 	    
-        System.out.println(body);
+        System.out.println("body =" + body);
 	    
         try {
             URL url = new URL(apiUrl);
@@ -68,7 +73,7 @@ public class Naver_Sens_V2 {
             con.setUseCaches(false);
             con.setDoOutput(true);
             con.setDoInput(true);
-            con.setRequestProperty("content-type", "application/json");
+            con.setRequestProperty("content-type", "application/json; charset=utf-8");
             con.setRequestProperty("x-ncp-apigw-timestamp", timestamp);
             con.setRequestProperty("x-ncp-iam-access-key", accessKey);
             con.setRequestProperty("x-ncp-apigw-signature-v2", makeSignature(requestUrl, timestamp, method, accessKey, secretKey));

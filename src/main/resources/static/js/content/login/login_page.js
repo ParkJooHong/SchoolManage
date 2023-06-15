@@ -179,8 +179,8 @@ function tellAutho(){
 				if(result){
 					swal.fire({
 						title: "문자 전송 완료",
-						text: "등록된 휴대폰 번호가 없습니다",
-						icon: 'error',
+						text: "입력한 번호로 코드가 전송되었습니다",
+						icon: 'success',
 						button: '확인',
 					});
 				}
