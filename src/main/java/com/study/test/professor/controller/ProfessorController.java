@@ -28,6 +28,7 @@ import com.study.test.admin.vo.AdminSubMenuVO;
 import com.study.test.admin.vo.EmpVO;
 import com.study.test.board.vo.UniBoardVO;
 import com.study.test.member.service.MemberService;
+import com.study.test.member.service.UserCustom;
 import com.study.test.member.vo.MemImgVO;
 
 import com.study.test.member.vo.MemberVO;
@@ -150,7 +151,7 @@ public class ProfessorController {
 	@ResponseBody
 	@PostMapping("/lectureTimeCheckAjax")
 	public boolean lectureTimeCheckAjax(@RequestBody List<LectureTimeVO> lectureTimeVO_list, Authentication authentication) {
-		User user = (User)authentication.getPrincipal();
+		UserCustom user = (UserCustom)authentication.getPrincipal();
 				
 		boolean timeCheck = true;
 		
@@ -169,7 +170,7 @@ public class ProfessorController {
 	//강의 등록
 	@PostMapping("/regLecture")
 	public String regLecture(LectureVO lectureVO, LectureTimeVO lectureTimeVO, MultipartFile pdfFile, Authentication authentication) {
-		User user = (User)authentication.getPrincipal();
+		UserCustom user = (UserCustom)authentication.getPrincipal();
 		//UploadUtill 객체 호출해서(util패키지에 만들어놓음)LecturePdfVO객체에 받음
 		LecturePdfVO attachedPdfVO = UploadUtil.uploadPdfFile(pdfFile);
 	
@@ -220,7 +221,7 @@ public class ProfessorController {
 	@PostMapping("/lectureScheduleAjax")
 	public List<Map<String, Object>> lectureScheduleAjax(Authentication authentication){
 		//강의 목록 조회
-		User user = (User)authentication.getPrincipal();
+		UserCustom user = (UserCustom)authentication.getPrincipal();
 		LectureVO lecture = new LectureVO();
 		lecture.setEmpNo(user.getUsername());
 		List<Map<String, Object>> lectureList = professorService.getLectureListMap(lecture);
@@ -234,7 +235,7 @@ public class ProfessorController {
 		professorMenuVO.setMenuCode(ConstVariable.THIRD_PROFESSOR_MENU_CODE);
 		
 		//강의 목록 조회
-		User user = (User)authentication.getPrincipal();
+		UserCustom user = (UserCustom)authentication.getPrincipal();
 		LectureVO lecture = new LectureVO();
 		lecture.setEmpNo(user.getUsername());
 		List<LectureVO> lectureList = schoolService.getLectureList(lecture);
@@ -254,7 +255,7 @@ public class ProfessorController {
 	@PostMapping("/getLectureListAjax")
 	public List<LectureVO> getLectureListAjax(@RequestBody LectureVO lectureVO, Authentication authentication){
 		//로그인 정보 불러오기
-		User user = (User)authentication.getPrincipal();
+		UserCustom user = (UserCustom)authentication.getPrincipal();
 		lectureVO.setEmpNo(user.getUsername());
 		
 		//1.강의 상태에 따른 목록조회
@@ -322,7 +323,7 @@ public class ProfessorController {
 		professorMenuVO.setMenuCode(ConstVariable.FOURTH_PROFESSOR_MENU_CODE);
 		
 		//로그인 정보 불러오기
-		User user = (User)authentication.getPrincipal();
+		UserCustom user = (UserCustom)authentication.getPrincipal();
 		lectureVO.setEmpNo(user.getUsername());
 		lectureVO.setLecStatus("Y");
 		
@@ -407,7 +408,7 @@ public class ProfessorController {
 	   public String calender(ProfessorMenuVO professorMenuVO, ProfessorSubMenuVO professorSubMenuVO, Authentication authentication, MemberVO memberVO) {
 		   professorSubMenuVO.setMenuCode(ConstVariable.SIX_PROFESSOR_MENU_CODE);
 		  
-		  User user = (User) authentication.getPrincipal();
+		  UserCustom user = (UserCustom) authentication.getPrincipal();
 			memberVO.setMemNo(user.getUsername());
 		  
 	      return "content/professor/calender";
