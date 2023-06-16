@@ -40,6 +40,7 @@
 		<result column="ENG_NAME" property="engName" />		
 		<association property="memImgVO" resultMap="memberMapper.memImg" />
 		<association property="stuVO" resultMap="stu" />
+		<association property="empVO" resultMap="adminMapper.emp" />
 		<association property="doubleMajorVO" resultMap="schoolMapper.doubleMajor" />
 		<association property="colleageVO" resultMap="schoolMapper.colleage" />
 		<association property="deptVO" resultMap="schoolMapper.dept" />
@@ -169,40 +170,40 @@
 	<!-- 학생 정보 조회 -->
 	<!-- <select id="seletStu" resultType="String"> -->
 	<select id="seletStu" resultMap="member">
-		SELECT UM.MEM_NO
-		, MEM_PW
-		, MEM_ADDR
-		, MEM_ADDR_DETAIL
-		, MEM_ROLE
-		, MEM_NAME
-		, US.STU_NO
-		, US.COLL_NO
-		, US.DEPT_NO
-		, DOUBLE_NO
-		, STU_YEAR
-		, STU_SEM
-		, STU_STATUS
-		, PARENT_NAME
-		, PARENT_TELL
-		, STU_BANK_NAME
-		, STU_BANK_ACCOUNT
-		, COLL_NAME
-		, DEPT_NAME
-		, IMG_CODE
-		, ORIGIN_FILE_NAME
-		, ATTACHED_FILE_NAME
-		, IS_MAIN
-		, MEM_TELL
-		, MEM_EMAIL
-		, MEM_IMAGE
-		, ENG_NAME
-		FROM UNI_STU US, UNI_MEMBER UM, COLLEAGE C, DEPT D, MEM_IMG MI
-		WHERE US.COLL_NO = C.COLL_NO
-		AND UM.MEM_NO = US.MEM_NO
-		AND D.DEPT_NO = US.DEPT_NO
-		AND UM.MEM_NO = MI.MEM_NO
-		AND UM.MEM_NO = #{memNo}
-	</select>
+	      SELECT UM.MEM_NO
+	      , MEM_PW
+	      , MEM_ADDR
+	      , MEM_ADDR_DETAIL
+	      , MEM_ROLE
+	      , MEM_NAME
+	      , US.STU_NO
+	      , US.COLL_NO
+	      , US.DEPT_NO
+	      , DOUBLE_NO
+	      , STU_YEAR
+	      , STU_SEM
+	      , STU_STATUS
+	      , PARENT_NAME
+	      , PARENT_TELL
+	      , STU_BANK_NAME
+	      , STU_BANK_ACCOUNT
+	      , COLL_NAME
+	      , DEPT_NAME
+	      , IMG_CODE
+	      , ORIGIN_FILE_NAME
+	      , ATTACHED_FILE_NAME
+	      , IS_MAIN
+	      , MEM_TELL
+	      , MEM_EMAIL
+	      , MEM_IMAGE
+	      , ENG_NAME
+	      FROM UNI_STU US, UNI_MEMBER UM, COLLEAGE C, DEPT D, MEM_IMG MI
+	      WHERE US.COLL_NO = C.COLL_NO
+	      AND UM.MEM_NO = US.MEM_NO
+	      AND D.DEPT_NO = US.DEPT_NO
+	      AND UM.MEM_NO = MI.MEM_NO
+	      AND UM.MEM_NO = #{memNo}
+   </select>
 
 	<!-- 대학 코드 갖고오기. -->
 	<select id="getColl" resultMap="stu">

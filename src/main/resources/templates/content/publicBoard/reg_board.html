@@ -48,21 +48,9 @@
 					</div>
 				</div>
 				<div class="row mb-4">
-					<div class="col-2">비밀글 여부:</div>
-					<div class="col-1">
-						<input type="radio" value="Y" class="form-check-input" onchange="radioCtrl(this);" name="isPrivate">&nbsp;Y	
-					</div>
-					<div class="col-1">
-						<input type="radio" value="N" class="form-check-input" checked onchange="radioCtrl(this);" name="isPrivate">&nbsp;N
-					</div>
-					<div class="col-7" id="boardPw">
-						
-					</div>
-				</div>
-				<div class="row mb-4">
 					<div class="col-2">공지사항 여부</div>
 					<div class="col-1">
-						<input type="radio" value="Y" name="isNotice" th:onchange="changeNotice([[${#authentication.authorities}]],this);" class="form-check-input">&nbsp;Y
+						<input type="radio" value="Y" name="isNotice" class="form-check-input">&nbsp;Y
 					</div>
 					<div class="col-1">
 						<input type="radio" value="N" checked name="isNotice" class="form-check-input">&nbsp;N

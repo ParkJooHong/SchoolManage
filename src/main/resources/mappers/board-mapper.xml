@@ -416,7 +416,6 @@
 			, BOARD_CONTENT
 			, BOARD_WRITER
 			, CATE_NO
-			, IS_PRIVATE
 			<if test='isPrivate != null and isPrivate.equals("Y")'>
 			, BOARD_PW
 			</if>
@@ -428,7 +427,6 @@
 	         , #{boardContent}
 	         , #{boardWriter}
 	         , #{cateNo}
-	         , #{isPrivate}
 	         <if test='isPrivate != null and isPrivate.equals("Y")'>
 			 , #{boardPw}
 			 </if>

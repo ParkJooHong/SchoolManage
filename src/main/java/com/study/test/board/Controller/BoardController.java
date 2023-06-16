@@ -307,23 +307,18 @@ public class BoardController {
 	
 		//학과 게시판
 	@RequestMapping("/deptBoard")
-	private String deptBoard(MemberSubMenuVO memberSubMenuVO, Model model, Authentication authentication, MemberVO memberVO, StuVO stuVO, UniBoardVO uniBoardVO
+	private String deptBoard(MemberSubMenuVO memberSubMenuVO, AdminSubMenuVO adminSubMenuVO, ProfessorMenuVO professorMenuVO, Model model, Authentication authentication, MemberVO memberVO, StuVO stuVO, UniBoardVO uniBoardVO
 			,String cateNo, BoardCategoryVO boardCategoryVO, String deptNo) {
 
-		
-		
-		String memLayout = getCode(authentication, model);
-		model.addAttribute("memLayOut", memLayout);
-		
 		User user = (User) authentication.getPrincipal();
 		String memName = user.getUsername();
+
+		String memLayOut = "";
 		stuVO.setMemNo(user.getUsername()); // id임
 		memberVO.setMemNo(user.getUsername());
 		
-		
-		model.addAttribute("memberVO", stuService.seletStu(memberVO));
-		System.out.println("학생정보 : " + stuService.seletStu(memberVO));
-		
+		List<String> authorityStrings = user.getAuthorities().stream().map(GrantedAuthority::getAuthority)
+				.collect(Collectors.toList());
 
 		// 오늘 날짜
 				String nowDate = DateUtil.getNowDateToString();
@@ -364,11 +359,38 @@ public class BoardController {
 
 				model.addAttribute("boardCategoryVO", boardService.getBoardCategoryList());
 				System.out.println("보드 카테고리 정보 : " + boardService.getBoardCategoryList());
+				
+				System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@데이터 확인" +memberService.getMemInfoForBoard(memberVO));
+				
 
-				uniBoardVO.setDeptNo(stuService.seletStu(memberVO).getDeptVO().getDeptNo());
+				//인증 정보에 따른 회원 정보 조회
+				if(authorityStrings.contains("ROLE_PRO")){
+					uniBoardVO.setDeptNo(memberService.getMemInfoForBoard(memberVO).getEmpVO().getDeptNo());
+					model.addAttribute("memberVO", memberService.getMemInfoForBoard(memberVO));
+					professorMenuVO.setMenuCode(ConstVariable.FIVE_PROFESSOR_MENU_CODE);
+					memLayOut = "professor";
+				}
+				
+				else if(authorityStrings.contains("ROLE_ADMIN")){
+					uniBoardVO.setDeptNo(memberService.getMemInfoForBoard(memberVO).getEmpVO().getDeptNo());
+					model.addAttribute("memberVO", memberService.getMemInfoForBoard(memberVO));
+					adminSubMenuVO.setMenuCode(ConstVariable.FOURTH_MENU_CODE);
+					memLayOut = "admin";
+				}
+				
+				else {
+					memberSubMenuVO.setMenuCode(ConstVariable.FOURTH_STU_MENU_CODE);
+					memberSubMenuVO.setSubMenuCode(ConstVariable.DEFAULT_STU_SUB_MENU_CODE);
+					uniBoardVO.setDeptNo(stuService.seletStu(memberVO).getDeptVO().getDeptNo());
+					model.addAttribute("memberVO", stuService.seletStu(memberVO));
+					System.out.println("학생정보 : " + stuService.seletStu(memberVO));
+					memLayOut = "info";
+				}
+				
 				System.out.println(uniBoardVO.getDeptNo());
 				model.addAttribute("uniBoardList", boardService.getTotalDeptBoardList(uniBoardVO));
-		
+				model.addAttribute("memLayOut", memLayOut);
+				
 		return "content/publicBoard/deptBoard";
 	}
 	
@@ -378,7 +400,7 @@ public class BoardController {
 
 	// 학사 공지사항
 	@RequestMapping("/notice")
-	private String board(Authentication authentication, Model model, UniBoardVO uniBoardVO) {
+	private String board(Authentication authentication, Model model, UniBoardVO uniBoardVO, ProfessorMenuVO professorMenuVO) {
 
 		String memLayout = "";
 		User user = (User) authentication.getPrincipal();
@@ -395,16 +417,27 @@ public class BoardController {
 		System.out.println("@@@@@@@@@@@@@@@@"+uniBoardVO);
 
 		model.addAttribute("memLayOut", memLayout);
+		
+		System.out.println("memLayOut : " + memLayout);
 
 		model.addAttribute("uniBoardList", boardService.searchByBoard(uniBoardVO));
+		
+		List<String> authorityStrings = user.getAuthorities().stream().map(GrantedAuthority::getAuthority)
+				.collect(Collectors.toList());
+		
+		//인증 정보에 따른 회원 정보 조회
+		if(authorityStrings.contains("ROLE_PRO")){
+
+			professorMenuVO.setMenuCode(ConstVariable.FIVE_PROFESSOR_MENU_CODE);
+		}
 				
-		return "/content/publicBoard/notice";
+		return "content/publicBoard/notice";
 	}
 	
 	
 	//학사공지사항 상세조회
 	@GetMapping("/noticeDetail")
-	public String noticeDetailAjax(Authentication authentication,UniBoardVO uniBoardVO, Model model) {
+	public String noticeDetailAjax(Authentication authentication,UniBoardVO uniBoardVO, Model model, ProfessorMenuVO professorMenuVO) {
 		String memLayout = "";
 
 		// 로그인한 회원의 권한에 따라 layout 변경 진행
@@ -418,13 +451,23 @@ public class BoardController {
 		boardMap.put("boardDetail", boardService.getBoardDetail(uniBoardVO.getBoardNo()));
 		boardMap.put("replyList", boardService.getBoardReplyList(uniBoardVO.getBoardNo()));
 		model.addAttribute("boardMap",boardMap);
+		User user = (User) authentication.getPrincipal();
+		List<String> authorityStrings = user.getAuthorities().stream().map(GrantedAuthority::getAuthority)
+				.collect(Collectors.toList());
+		
+		//인증 정보에 따른 회원 정보 조회
+		if(authorityStrings.contains("ROLE_PRO")){
+
+			professorMenuVO.setMenuCode(ConstVariable.FIVE_PROFESSOR_MENU_CODE);
+		}
+		
 		
 		return "content/publicBoard/notice_detail";
 	}
 	
 	//게시글 등록 페이지 이동
 	@GetMapping("/regBoard")
-	public String regBoard(Model model, Authentication authentication) {
+	public String regBoard(Model model, Authentication authentication,  ProfessorMenuVO professorMenuVO) {
 		
 		String memLayout = "";
 
@@ -433,6 +476,17 @@ public class BoardController {
 		model.addAttribute("memLayOut", memLayout);
 		
 		model.addAttribute("cateList",boardService.getBoardCategoryList());
+		
+		User user = (User) authentication.getPrincipal();
+		List<String> authorityStrings = user.getAuthorities().stream().map(GrantedAuthority::getAuthority)
+				.collect(Collectors.toList());
+		
+		//인증 정보에 따른 회원 정보 조회
+		if(authorityStrings.contains("ROLE_PRO")){
+
+			professorMenuVO.setMenuCode(ConstVariable.FIVE_PROFESSOR_MENU_CODE);
+		}
+		
 		
 		return "content/publicBoard/reg_board";
 	}
@@ -580,6 +634,7 @@ public class BoardController {
 	    	 memLayout = "professor";
 	    	 professorSubMenuVO.setMenuCode(ConstVariable.FIFTH_MENU_CODE);
 	         model.addAttribute("professorSubMenuVO", professorSubMenuVO);
+	         System.out.println(professorSubMenuVO);
 	      }
 	      else if(authorityStrings.contains("ROLE_ADMIN")) {
 	    	  memLayout = "admin";

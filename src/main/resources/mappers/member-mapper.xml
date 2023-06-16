@@ -17,6 +17,7 @@
 		<result column="MEM_ROLE" 			property="memRole"/>
 		<association property="empVO" resultMap="emp"/>
 		<association property="memImgVO" resultMap="memImg"/>
+		<association property="deptVO" resultMap="schoolMapper.dept"></association>
 		<association property="stuVO" resultMap="stuMapper.stu"/>
 	</resultMap>
 	<resultMap type="com.study.test.member.vo.MemImgVO" id="memImg">
@@ -51,6 +52,7 @@
 	SELECT UM.MEM_NO
 	    , MEM_NAME
 	    , D.DEPT_NO
+	    , D.DEPT_NAME
 	FROM UNI_MEMBER UM, UNI_EMP UE, DEPT D
 	WHERE UM.MEM_NO = UE.MEM_NO
 	AND UE.DEPT_NO = D.DEPT_NO

@@ -46,7 +46,7 @@
 							<td>
 							</td>
 							<td><input type="button" value="글쓰기"
-								class="btn btn-primary" onclick="moveRegForm();"></td>
+								class="btn btn-primary" th:onclick="moveRegForm([[${#authentication.authorities}]]);"></td>
 						</tr>
 					</table>
 				</div>

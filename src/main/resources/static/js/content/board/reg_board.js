@@ -37,19 +37,5 @@ function radioCtrl(radio_val){
 }
 
 
-//공지사항 라디오 컨트롤
-function changeNotice(mem_role,radio){
-	console.log(mem_role);
-	if(!mem_role.indexOf('ROLE_ADMIN')){
-		radio.disabled;
-		swal.fire({
-			title: "관리자만 공지사항을 올릴 수 있습니다.",
-			icon: 'warning',
-			button: '확인',
-		});
-		return
-	}
-}
-
 
 
