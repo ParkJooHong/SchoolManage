@@ -15,3 +15,37 @@
     margin-top: 5px;
     font-size: .35em;
 }
+
+/* 개인정보 변경 모달 */
+.detail_info {
+    position: relative;
+    flex-wrap: wrap;
+    border-top: 2px solid #897c76;
+    border-bottom: 1px solid #897c76;
+    margin: 10px 0;
+    background: #ebe7e3;
+    overflow: hidden;
+    padding: 6px 6px 1px 6px;
+}
+
+table.detail_info{
+	width: 100%;
+	padding: 10px;
+}
+table.detail_info td{
+	height: 50px;
+	padding: 5px;
+}
+table.detail_info td:first-child
+{
+	width: 160px;
+}
+
+table.default_info input{
+	background-color: #D3D3D3;
+}
+table.default_info td{
+	width: 200px;
+	padding: 5px;
+}
+/* 개인정보 변경 모달 */

@@ -62,20 +62,13 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 				<div class="input_pw">
 					<input class="form-control" type="password" name="memPw" id="memPw" th:placeholder="#{memPw.placeholder}">
 				</div>
+				<div class="log_error" style="height: 1.5rem;">
+				</div>
 			</div>
 			<div class="col-1">
 				<input onclick='login()' class="btn btn-primary login_btn" id="login_btn" type="submit" th:value="#{login_btn.value}">
 			</div>
 			<div class="col-6">
-			</div>
-		</div>
-		<div class="row mt-3">
-			<div class="col-1"></div>
-			<div class="col-4">
-				<img src="https://www.kefe.co.kr/m/image/sub/signup/signup_28.jpg" style="height: 30px; width: auto;" onclick="kakaoLogin();" >
-			</div>
-			<div class="col-1">
-				<input type="button" value="로그아웃" onclick="logout();">
 			</div>
 		</div>
 		<div class="row iuput_info">
@@ -90,7 +83,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 			<div class="col-11">
 				<span id="main_homepage" th:text="#{main_homepage}"></span>
 				<span id="remote_support" th:text="#{remote_support}"></span>		
-						
+				
 			</div>
 		</div>
 	</div>
@@ -164,7 +157,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 						</div>
 						<div class="col-8" id="error_find_pw_div">
 							<input type="text" class="form-control" id="memTell"
-								name="memTell" placeholder="휴대폰 번호를 입력하여주세요(-제외)">
+								name="memTell" maxlength="13" oninput="autoHyphen2(this)" placeholder="휴대폰 번호를 입력하여주세요(-제외)">
 						</div>
 						<div class="col-4 d-grid">
 							<button type="button" class="btn btn-primary" onclick="tellAutho()">
@@ -172,11 +165,11 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 							</button>
 						</div>
 						<div class="col-8" id="error_find_pw_div">
-							<input type="text" class="form-control" id="memEmail"
-								name="memEmail" placeholder="인증번호를 입력하여주세요">
+							<input type="text" class="form-control" id="authNum"
+								placeholder="인증번호를 입력하여주세요">
 						</div>
 						<div class="col-4 d-grid">
-							<button class="btn btn-primary">
+							<button type="button" id="tell_auth" class="btn btn-primary" onclick="auth_sms()" disabled>
 								인증하기
 							</button>
 						</div>
@@ -188,8 +181,8 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 							</ul>
 						</div>
 						<div class="col-12 d-grid">
-							<button id="button" class="btn btn-primary" type="button"
-								onclick='findPw();'>
+							<button id="findPwBtn" class="btn btn-primary" type="button"
+								onclick='findPw();' disabled>
 								<span>비밀번호 찾기</span>
 							</button>
 						</div>
@@ -215,8 +208,5 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 		crossorigin="anonymous">
 	</script>
 	
-	<!-- 카카오 로그인 js파일 로딩 -->
-	<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
-	<script type="text/javascript" src="/js/content/login/kakao_login.js"></script>
 </body>
 </html>

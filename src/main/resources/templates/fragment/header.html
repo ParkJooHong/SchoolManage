@@ -24,14 +24,14 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 				<div class="col-5 header_member">
 					<div class="row me-3">
 						<div class="col">
-							<span id="timer">🕦60:0</span>
-							<span>
-								<input type="button" value="연장" class="btn btn-primary" onclick="resetTimer();"> 
-							</span>
+								<span id="timer">🕦60:0</span>
+								<span>
+									<input type="button" value="연장" class="btn btn-primary" onclick="resetTimer();"> 
+								</span>
 							<span>
 								<input type="hidden" id="memNo" th:value="${#authentication.name}">
 							</span>
-							<button class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">[[${#authentication.principal.memName}]]</button>
+							<button class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">[[${#authentication.principal.memName}]]</button>
 							<ul class="dropdown-menu">
 								<li><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#changeInfoModal">개인정보변경</a></li>
 								<li><a data-bs-toggle="modal" data-bs-target="#passwordChangeModal">비밀번호 변경</a>
@@ -54,10 +54,10 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
       </div>
       <div class="modal-body">
 		<form action="/member/changeMemInfo" method="post" id="changeInfoForm">
-			<div class="row mainContainer">
+			<div class="row">
 				<div class="col-12">
 					<div class="row">
-						<div class="col">
+						<div class="col-12">
 							<table class="detail_info">
 								<tr>
 									<td>이메일</td>

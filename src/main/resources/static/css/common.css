@@ -34,6 +34,10 @@ table{
 	border-radius: 5px !important;
 }
 
+.modal-open{
+	padding-right: 0 !important;
+}
+
 svg{
 	color: blue;
 }
@@ -140,6 +144,10 @@ h1,h2,h3,h4{
 .btn-success{
 	border-color: #897c76;
 	box-shadow: 0 2px 4px #897c76;
+}
+
+.btn-secondary{
+	box-shadow: 0 2px 4px #6c757d;
 }
 
 /* 버튼 모음 */

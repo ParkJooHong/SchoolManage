@@ -1,30 +1,3 @@
-
-
-//회원 이름 호출
-/*
-init()
-
-function init(){
-	//ajax start
-	$.ajax({
-		url: '', //요청경로
-		type: '',
-		async: true, //동기 방식으로 실행, 작성하지 않으면 기본 true값을 가짐
-		data: {},			//JSON.stringify(classInfo), //필요한 데이터
-		contentType: 'application/json; charset=UTF-8',
-		contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-		success: function(result) {
-			const mem_name = document.querySelector('.header_member #memNo')
-			mem_name.value = '홍길동';
-		},
-		error: function() {
-			alert('실패');
-		}
-	});
-	//ajax end 
-}
-*/
-
 //새로운 메세지가 있을시 메시지 표시 변경
 getNewMsg();
 function getNewMsg() {

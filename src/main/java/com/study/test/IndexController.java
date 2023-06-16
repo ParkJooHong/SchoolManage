@@ -39,9 +39,7 @@ public class IndexController {
 	private StuService stuService;
 	
 	@GetMapping("/")
-	public String index(HttpSession session) {
-		
-		session.invalidate();
+	public String index() {
 		
 		return "content/login/login_page";
 

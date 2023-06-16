@@ -24,10 +24,12 @@ function login() {
 				//경고창 메세지 띄우기
 				if (document.querySelector('.input_pw').querySelector('div') == null) {
 					const error_div = document.querySelector('.input_pw');
+					
+					document.querySelector('.log_error').remove()
 
 					let str = '';
-					str += `<div style="color: red; font-size: 0.9rem; text-align: left;">`
-					str += `로그인 정보를 확인하세요.`
+					str += `<div class="log_error" style="color: red; font-size: 0.9rem; text-align: left; height:1.5rem">`
+					str += `${log_error}`
 					str += `</div>`
 
 					error_div.insertAdjacentHTML('beforeend', str);
@@ -155,7 +157,7 @@ function findPw(){
 }
 
 //문자 인증번호 발송
-//1. 등록된 휴대전화가 있는지 검증
+//1. 등록된 휴대전화가 있는지 검증후 검증이 되면 문자발송
 function tellAutho(){
 	const memTell = document.querySelector('#findPwForm #memTell').value;
 	
@@ -183,6 +185,7 @@ function tellAutho(){
 						icon: 'success',
 						button: '확인',
 					});
+					document.querySelector('#tell_auth').disabled = false;
 				}
 				else{
 					swal.fire({
@@ -201,15 +204,27 @@ function tellAutho(){
 	}
 }
 
-//2. 문자 발송
-function send_sms() {
+//2. 인증하기
+function auth_sms() {
+	
+	const input_num = document.querySelector('#authNum').value;
 	//ajax start
 	$.ajax({
 		url: '/member/phoneAuthOkAjax', //요청경로
 		type: 'post',
 		async: false, //동기 방식으로 실행, 작성하지 않으면 기본 true값을 가짐
+		data: {'inputNum':input_num},			//JSON.stringify(classInfo), //필요한 데이터
+		contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
 		success: function(result) {
-			
+			if (!result) {
+				swal.fire({
+					title: "인증완료",
+					text: "문자 인증이 완료되었습니다",
+					icon: 'success',
+					button: '확인',
+				});
+				document.querySelector('#findPwBtn').disabled = false;
+			}
 		},
 		error: function() {
 			alert('실패');
@@ -218,7 +233,12 @@ function send_sms() {
 	//ajax end 
 }
 
-
+//오토 하이픈
+const autoHyphen2 = (target) => {
+	target.value = target.value
+		.replace(/[^0-9]/g, '')
+		.replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, "$1-$2-$3").replace(/(\-{1,2})$/g, "");
+}
 
 //배경 자동전환 (애니메이션)
 //메인페이지 전체 선택
