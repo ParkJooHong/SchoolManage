@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
-.detail_info {
-    /* position: relative;
+.detail_board_info {
+    position: relative;
     display: flex;
     flex-wrap: wrap;
     border-top: 2px solid #897c76;
@@ -9,10 +9,10 @@
     margin: 10px 0;
     background: #ebe7e3;
     overflow: hidden;
-    padding: 6px 6px 1px 6px; */
+    padding: 6px 6px 1px 6px;
 }
 
-table{
+.total_board, .table-custom{
 	 box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
 	  background: linear-gradient(45deg, #f5f5f5, #ebebeb);
 	  border-collapse: separate;
@@ -20,36 +20,33 @@ table{
   border: 1px solid #ccc;
 }
 
-table.detail_info{
+table.detail_board_info{
 	width: 100%;
 	margin: 10px;
 	padding: 10px;
 	
 }
-table.detail_info td{
+table.detail_board_info td{
 	margin: 10px;
 	padding: 5px;
 }
 
-table.default_info{
+table.detail_board_info{
 	width: 100%;
 }
 
-table.default_info input{
+table.detail_board_info input{
 	background-color: #D3D3D3;
 }
-table.default_info td{
+table.detail_board_info td{
 	width: 100px;
 	padding: 5px;
 }
-input[type="text"]{
-	width: 120px;
+#writeModal input[type="text"]{
+	width: 140px;
 	border-radius: 4px;
 }
 
-.modal-dialog{
-	max-width: 500px;
-}
 
 .title{
 	font-size: 20px;

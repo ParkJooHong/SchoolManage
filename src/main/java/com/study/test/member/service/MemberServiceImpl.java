@@ -77,6 +77,13 @@ public class MemberServiceImpl implements MemberService {
 	public List<Map<String, Object>> getMemList(MemberVO memberVO) {
 		return sqlSession.selectList("memberMapper.getMemList", memberVO);
 	}
+	
+	//회원 정보 업데이트
+	@Override
+	public int updateMemInfo(MemberVO memberVO) {
+		return sqlSession.update("memberMapper.updateMemInfo", memberVO);
+	}
+	
 	//비번 업데이트
 	@Override
 	public int setPw(MemberVO memberVO) {
@@ -112,6 +119,8 @@ public class MemberServiceImpl implements MemberService {
 	public int getCntMemEmail(String changeMail) {
 		return sqlSession.selectOne("memberMapper.getCntMemEmail", changeMail);
 	}
+
+	
 
 
 	

@@ -8,7 +8,7 @@
 	font-size: 20px;
 	height: 300px;
 }
-.detail_info {
+.detail_board_info {
     position: relative;
     display: flex;
     flex-wrap: wrap;
@@ -20,24 +20,24 @@
     padding: 6px 6px 1px 6px;
 }
 
-table.detail_info{
+table.detail_board_info{
 	width: 100%;
 	margin: 10px;
 	padding: 10px;
 }
-table.detail_info td{
+table.detail_board_info td{
 	margin: 10px;
 	padding: 5px;
 }
 
-table.default_info{
+table.detail_board_info{
 	width: 100%;
 }
 
-table.default_info input{
+table.detail_board_info input{
 	background-color: #D3D3D3;
 }
-table.default_info td{
+table.detail_board_info td{
 	width: 100px;
 	padding: 5px;
 }

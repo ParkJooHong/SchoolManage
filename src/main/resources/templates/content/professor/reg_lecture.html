@@ -43,7 +43,7 @@
 							</tr>
 							<tr>
 								<td>강의학기</td>
-								<td class="d-grid">
+								<td>
 									<th:block th:each="seme : ${semester}">
 										<input type="hidden" name="semNo" th:value="${seme.semNo}">
 										[[${seme.semName}]]

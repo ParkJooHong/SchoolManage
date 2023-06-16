@@ -16,6 +16,24 @@
     font-size: .35em;
 }
 
+.dropdown-menu{
+	text-align: center;
+	left: 0;
+}
+
+.dropdown-menu > li{
+	height: 2rem;
+}
+
+.dropdown-menu > li > a{
+	display: block;
+	width: 100%;
+}
+
+.dropdown-menu > li:hover{
+	background-color: #cccccc;
+}
+
 /* 개인정보 변경 모달 */
 .detail_info {
     position: relative;

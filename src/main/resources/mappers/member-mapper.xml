@@ -146,6 +146,29 @@
 		</if>
 	</select>
 	
+	<!-- 회원정보수정 -->
+	<update id="updateMemInfo">
+		UPDATE UNI_MEMBER
+		SET 
+			<if test="memEmail != null and memEmail != ''">
+				MEM_EMAIL = #{memEmail}
+			</if>
+			<if test="memTell != null and memTell != ''">
+				MEM_TELL = #{memTell}
+			</if>
+			<if test="memName != null and memName != ''">
+				MEM_NAME = #{memName}
+			</if>
+			<if test="memAddr != null and memAddr != ''">
+				MEM_ADDR = #{memAddr}
+			</if>
+			<if test="memAddrDetail != null and memAddrDetail != ''">
+				, MEM_ADDR_DETAIL = #{memAddrDetail}
+			</if>
+		WHERE
+			MEM_NO = #{memNo}
+	</update>
+	
 	<!-- 비번 업데이트  -->
 	<update id="setPw">
 		UPDATE UNI_MEMBER

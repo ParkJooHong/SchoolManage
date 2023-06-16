@@ -7,20 +7,25 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.study.test.admin.service.AdminService;
 import com.study.test.admin.vo.AdminSubMenuVO;
 import com.study.test.member.service.MemberService;
+import com.study.test.member.service.UserCustom;
 import com.study.test.member.vo.MailVO;
 import com.study.test.member.vo.MemberMenuVO;
 import com.study.test.member.vo.MemberSubMenuVO;
@@ -109,6 +114,36 @@ public class MemberController {
 		return encoder.matches(memberVO.getMemPw(),beforPw);
 	}
 	
+	//회원정보 변경
+	@ResponseBody
+	@PostMapping("/updateMemInfoAjax")
+	public boolean updateMemInfo(@RequestBody MemberVO memberVO, Authentication authentication) {
+		
+		UserCustom user = (UserCustom)authentication.getPrincipal();
+		memberVO.setMemNo(user.getUsername());
+		
+		boolean updateChk = false;
+		
+		if(memberVO != null) {
+			int updateCnt = memberService.updateMemInfo(memberVO);
+			if(updateCnt >= 1) {
+				 // 인증 정보 갱신
+		        authentication = SecurityContextHolder.getContext().getAuthentication();
+
+		        // 사용자 정보 업데이트
+		        user.setMemName(memberVO.getMemName());
+
+		        // 인증 정보 갱신
+		        Authentication newAuthentication = new UsernamePasswordAuthenticationToken(user, authentication.getCredentials(), authentication.getAuthorities());
+		        SecurityContextHolder.getContext().setAuthentication(newAuthentication);
+				updateChk = true;
+				
+			}
+		}
+		return updateChk;
+	}
+	
+	
 	//비밀번호 변경
 	@PostMapping("/changePwAjax")
 	@ResponseBody
@@ -118,37 +153,53 @@ public class MemberController {
 		return adminService.changePw(memberVO);
 	}
 	
+	//연락처 변경시 sms전송
+	@PostMapping("/updateTellsendSmsAjax")
+	@ResponseBody
+	public Boolean updateTell(String memTell, HttpSession session) {
+
+	    try { // 이미 가입된 전화번호가 있으면
+	    	    String code = memberService.sendRandomMessage(memTell);
+	    	    session.setAttribute("rand", code);
+	            return true; 
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    
+	    return false;
+	}
+
 	//문자인증
-		@PostMapping("/phoneAuthAjax")
-		@ResponseBody
-		public Boolean phoneAuth(String memTell, HttpSession session) {
+	@PostMapping("/phoneAuthAjax")
+	@ResponseBody
+	public Boolean phoneAuth(String memTell, HttpSession session) {
 
-		    try { // 이미 가입된 전화번호가 있으면
-		        if(memberService.getMemTell(memTell) > 0) {
-		    	    String code = memberService.sendRandomMessage(memTell);
-		    	    session.setAttribute("rand", code);
-		            return true; 
-		        }
-		    } catch (Exception e) {
-		        e.printStackTrace();
-		    }
-		    
-		    return false;
-		}
-		
-		@PostMapping("/phoneAuthOkAjax")
-		@ResponseBody
-		public Boolean phoneAuthOk(HttpSession session, HttpServletRequest request, String inputNum) {
-		    String rand = (String) session.getAttribute("rand");
+	    try { // 이미 가입된 전화번호가 있으면
+	        if(memberService.getMemTell(memTell) > 0) {
+	    	    String code = memberService.sendRandomMessage(memTell);
+	    	    session.setAttribute("rand", code);
+	            return true; 
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    
+	    return false;
+	}
+	
+	@PostMapping("/phoneAuthOkAjax")
+	@ResponseBody
+	public Boolean phoneAuthOk(HttpSession session, HttpServletRequest request, String inputNum) {
+	    String rand = (String) session.getAttribute("rand");
 
-		    System.out.println(rand + " : " + inputNum);
+	    System.out.println(rand + " : " + inputNum);
 
-		    if (rand.equals(inputNum)) {
-		        session.removeAttribute("rand");
-		        return false;
-		    } 
-		    return true;
-		}
+	    if (rand.equals(inputNum)) {
+	        session.removeAttribute("rand");
+	        return false;
+	    } 
+	    return true;
+	}
 
 	
 	//------------------------회원 정보 변경----------------------//

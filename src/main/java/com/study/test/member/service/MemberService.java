@@ -36,6 +36,9 @@ public interface MemberService {
 	//회원 목록 조회
 	List<Map<String, Object>> getMemList(MemberVO memberVO);
 	
+	//회원 정보 업데이트
+	int updateMemInfo(MemberVO memberVO);
+	
 	//비번 업데이트
 	int setPw(MemberVO memberVO);
 	

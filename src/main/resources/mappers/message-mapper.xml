@@ -95,7 +95,7 @@
 			FROM MESSAGE)
 			, #{sendMemNo}
 			, #{recvMemNo}
-			, SYSDATE
+			, CURRENT_DATE
 			, #{content}
 		)
 	</insert>

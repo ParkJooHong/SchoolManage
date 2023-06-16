@@ -33,12 +33,15 @@ function getNewMsg() {
 				str += `</button>`;
 				msg_tag.insertAdjacentHTML('afterbegin', str);
 			}
-
-
 		},
 		error: function() {
 			alert('실패');
 		}
 	});
 	//ajax end 
+}
+
+function closeModal(){
+	$('#changeInfoModal').modal('hide');
+	location.reload(); // 페이지 새로고침
 }
