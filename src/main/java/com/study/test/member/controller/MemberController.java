@@ -1,6 +1,7 @@
 package com.study.test.member.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -29,6 +30,8 @@ import com.study.test.util.ConstVariable;
 import com.study.test.util.MailService;
 
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/member")
@@ -48,14 +51,12 @@ public class MemberController {
 	@ResponseBody
 	@PostMapping("/getMemberInfo")
 	public MemberVO getMemberInfo(MemberVO memberVO) {
-		
-		
 		return memberService.login(memberVO);
 	}
 	
 	//아이디 찾기
 	@ResponseBody
-	@PostMapping("/findId")
+	@PostMapping("/findIdAjax")
 	public String getMemNo(MemberVO memberVO) {
 		System.out.println(memberVO);
 		return memberService.getMemNo(memberVO);
@@ -117,8 +118,80 @@ public class MemberController {
 		return adminService.changePw(memberVO);
 	}
 	
+	//문자인증
+		@PostMapping("/phoneAuthAjax")
+		@ResponseBody
+		public Boolean phoneAuth(String memTell, HttpSession session) {
+
+		    try { // 이미 가입된 전화번호가 있으면
+		        if(memberService.getMemTell(memTell) > 0) {
+		    	    String code = memberService.sendRandomMessage(memTell);
+		    	    session.setAttribute("rand", code);
+		            return true; 
+		        }
+		    } catch (Exception e) {
+		        e.printStackTrace();
+		    }
+		    
+		    return false;
+		}
+		
+		@PostMapping("/phoneAuthOkAjax")
+		@ResponseBody
+		public Boolean phoneAuthOk(HttpSession session, HttpServletRequest request, String inputNum) {
+		    String rand = (String) session.getAttribute("rand");
+
+		    System.out.println(rand + " : " + inputNum);
+
+		    if (rand.equals(inputNum)) {
+		        session.removeAttribute("rand");
+		        return false;
+		    } 
+		    return true;
+		}
+
 	
+	//------------------------회원 정보 변경----------------------//
+	//메일 인증 
+	@PostMapping("/sendCatiMailAjax")
+	@ResponseBody
+	public boolean sendCatiMailAjax(String changeMail, HttpSession session) {
+		boolean mailResult = true;
+		MemberVO memberVO = new MemberVO();
+		int mailCnt = memberService.getCntMemEmail(changeMail);
+		//인증번호 생성
+		if(mailCnt == 0) {
+			String imsiPw = mailService.createRandomPw();
+			memberVO.setMemEmail(changeMail);
+			//메일 보내기
+			MailVO mailVO = new MailVO();
+			List<String> emailList = new ArrayList<>();
+			emailList.add(memberVO.getMemEmail());
+			mailVO.setTitle("이메일 인증번호 발송");
+			mailVO.setRecipientList(emailList);
+			mailVO.setContent("인증번호는 : " + imsiPw + " 입니다.");
+			session.setAttribute("catiPw", imsiPw);
+			//mailService.sendSimpleEmail(mailVO);
+		}
+		else {
+			mailResult = false;
+		}
+
+		return mailResult;
+	}
 	
+	//인증 하기
+	@PostMapping("/checkCatiNumAjax")
+	@ResponseBody
+	public boolean checkCatiNumAjax(HttpSession session, String catiNum) {
+		boolean checkResult = false;
+		String sendPw = (String) session.getAttribute("catiPw");
+		if(sendPw == catiNum) {
+			session.removeAttribute("catiPw");
+			checkResult = true;
+		}
+		return checkResult;
+	}
 	
 	
 	

@@ -193,10 +193,11 @@ thead{
 	font-weight: 600;
 }
 
-/* 테이블 tr 호버시 색 변경 */
+/* 테이블 tr 호버시 색 변경 
 table tbody tr:hover{
 	background-color: #f2f2f2;
 }
+*/
 
 /* 온클릭 커서 */
 .onclick{

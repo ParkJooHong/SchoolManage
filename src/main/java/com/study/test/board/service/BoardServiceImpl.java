@@ -53,6 +53,13 @@ public class BoardServiceImpl implements BoardService {
 		public int totalBoardPage(SearchVO searchVO) {	
 			return sqlSession.selectOne("boardMapper.totalBoardPage", searchVO);
 		}
+		
+
+	//학과 보드 게시판 개수
+	@Override
+	public int deptBoardCount(UniBoardVO uniBoardVO) {
+		return sqlSession.selectOne("boardMapper.deptBoardCount", uniBoardVO);
+	}
 
 	//보드 게시글 쓰기
 	@Override
@@ -158,6 +165,8 @@ public class BoardServiceImpl implements BoardService {
 		sqlSession.insert("boardMapper.regReply",boardReplyVO);
 		
 	}
+
+	
 	
 	
 

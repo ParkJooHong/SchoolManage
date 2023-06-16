@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 
 import com.study.test.member.service.MemberService;
+import com.study.test.member.service.UserCustom;
 import com.study.test.member.vo.MemberVO;
 
 import jakarta.annotation.Resource;
@@ -29,7 +30,7 @@ public class SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 		System.out.println("success 핸들러 실행!");
 		
 		//인증정보 가져오기
-		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		UserCustom userDetails = (UserCustom) authentication.getPrincipal();
 		
 		String isAccount = "";
 		

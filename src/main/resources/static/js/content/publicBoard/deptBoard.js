@@ -1,5 +1,73 @@
 
 
+//정렬 orderby 최신 순
+function getOrderList(REG_BOARD_DATE_ORDER){
+	const test_orderBy = document.querySelector('#test_orderBy');
+	
+	
+	test_orderBy.querySelector('input[name="orderBy"]').value = REG_BOARD_DATE_ORDER;
+		
+	const searchKeyword_label = document.querySelector('.searchKeyword').value;
+	test_orderBy.querySelector('input[name="searchKeyword"]').value = searchKeyword_label;
+	
+	const searchValue_label = document.querySelector('.searchValue').value;
+	test_orderBy.querySelector('input[name="searchValue"]').value = searchValue_label;
+	
+	//test_orderBy.submit();
+}
+
+//정렬 orderby 조회 순
+function getOrderList(READ_CNT){
+	const test_orderBy = document.querySelector('#test_orderBy');
+
+	test_orderBy.querySelector('input[name="orderBy"]').value = READ_CNT;
+	
+	
+	const searchKeyword_label = document.querySelector('.searchKeyword').value;
+	test_orderBy.querySelector('input[name="searchKeyword"]').value = searchKeyword_label;
+	
+	const searchValue_label = document.querySelector('.searchValue').value;
+	test_orderBy.querySelector('input[name="searchValue"]').value = searchValue_label;
+	
+	test_orderBy.submit();
+}
+
+
+//정렬 orderby 댓글 순
+function getOrderList(REPLY_CNT){
+	const test_orderBy = document.querySelector('#test_orderBy');
+	
+	test_orderBy.querySelector('input[name="orderBy"]').value = REPLY_CNT;
+	
+	
+	const searchKeyword_label = document.querySelector('.searchKeyword').value;
+	test_orderBy.querySelector('input[name="searchKeyword"]').value = searchKeyword_label;
+	
+	const searchValue_label = document.querySelector('.searchValue').value;
+	test_orderBy.querySelector('input[name="searchValue"]').value = searchValue_label;
+	
+	test_orderBy.submit();
+}
+
+
+//검색 정렬 keyword
+function searchOrder(){
+	
+	const searchKeyword = document.querySelector('#searchKeyword');
+	
+	const order_label = document.querySelector('.order').querySelector('input[class*="btn-primary"]').dataset.orderBy;
+	searchKeyword.querySelector('input[name="orderBy"]').value = order_label;
+
+	const searchKeyword_label = document.querySelector('.searchKeyword').value;
+	searchKeyword.querySelector('input[name="searchKeyword"]').value = searchKeyword_label;
+	
+	const searchValue_label = document.querySelector('.searchValue').value;
+	searchKeyword.querySelector('input[name="searchValue"]').value = searchValue_label;
+	
+	searchKeyword.submit();
+}
+//////////////////////////////////////////////////////////////////////////
+
 //정렬 기능 날짜순
 function getOrderListDesc(REG_BOARD_DATE){
 	

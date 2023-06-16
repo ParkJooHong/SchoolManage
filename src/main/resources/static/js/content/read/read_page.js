@@ -1,5 +1,6 @@
 init();
 
+/////퇴실 처리시 INIT 함수 말고 다른 불러올 방법 찾기
 
 function init() {
 	const today = new Date();
@@ -14,7 +15,12 @@ function init() {
 	const b_line = document.querySelector('#bLine');
 	const c_line = document.querySelector('#cLine');
 	const d_line = document.querySelector('#dLine');
-
+	
+	a_line.replaceChildren();
+	b_line.replaceChildren();
+	c_line.replaceChildren();
+	d_line.replaceChildren();
+	
 	$('#roomDay').val(day_no).prop("selected", true);
 
 	let a_str = '';
@@ -297,6 +303,15 @@ function reserveReadingRoom() {
 //퇴실 처리
 function leaveReadingRoom() {
 	const today = new Date();
+
+	const year = today.getFullYear();
+	const month = today.getMonth() + 1;
+	const date = today.getDate();
+
+	const reg_date = `${year}-${month >= 10 ? month : '0' + month}-${date >= 10 ? date : '0' + date}`;
+
+	console.log(reg_date);
+
 	const day_no = parseInt(today.getDay());
 	const room_day = parseInt(document.querySelector('#roomDay').value);
 
@@ -311,7 +326,7 @@ function leaveReadingRoom() {
 	else {
 		//ajax start
 		$.ajax({
-			url: '/stuMenu/leaveReadingRoomAjax', //요청경로
+			url: '/stuMenu/confirmedReadingRoomAjax', //요청경로
 			type: 'post',
 			async: true,
 			//contentType : 'application/json; charset=UTF-8',
@@ -326,8 +341,62 @@ function leaveReadingRoom() {
 					});
 					return
 				}
-				else{
-					
+				//퇴실 처리
+				else if (result == 1) {
+					swal.fire({
+						title: "퇴실 처리",
+						text: "퇴실하시겠습니까?",
+						icon: "question",
+						showCancelButton: true,
+						confirmButtonText: "확인",
+						cancelButtonText: "취소"
+					}).then((r) => {
+						if (r.isConfirmed) {
+							//ajax start
+							$.ajax({
+								url: '/stuMenu/leaveReadingRoomAjax', //요청경로
+								type: 'post',
+								async: true,
+								contentType: 'application/json; charset=UTF-8',
+								contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+								data: { 'regDate': reg_date }, //필요한 데이터
+								success: function(result) {
+									if (result == 1) {
+										swal.fire({
+											title: "퇴실 처리가 완료되었습니다.",
+											icon: 'success',
+											button: '확인',
+										}).then((r)=>{
+											if(r){
+												init();
+											}
+										})
+									}
+								},
+								error: function() {
+									alert('실패');
+								}
+							});
+							//ajax end
+
+						}
+						else if (r.isDismissed) {
+							swal.fire({
+								title: "퇴실 처리가 취소되었습니다.",
+								icon: 'success',
+								button: '확인',
+							});
+						}
+					})
+
+				}
+				else {
+					swal.fire({
+						title: "오류입니다 관리자에게 문의하세요",
+						icon: 'error',
+						button: '확인',
+					});
+					return
 				}
 			},
 			error: function() {

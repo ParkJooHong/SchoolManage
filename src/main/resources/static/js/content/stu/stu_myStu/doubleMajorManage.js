@@ -42,7 +42,8 @@ function doubleManage(){
 		}
 		if(currentDept == doubleMajorDept){
 			swal.fire({
-								title: "복수전공을 희망하는 학과가 현재와 동일 합니다. \n 다시 입력해주세요.",
+								title: "신청 불가",
+								text : "복수전공을 희망하는 학과가 현재와 동일 합니다.",
 								icon: 'warning',
 								button: '확인',
 							});

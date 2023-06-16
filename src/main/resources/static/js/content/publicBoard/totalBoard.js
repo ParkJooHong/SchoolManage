@@ -1,68 +1,219 @@
-
-
-//정렬 기능 날짜순
-function getOrderListDesc(REG_BOARD_DATE){
+//페이징 처리
+function getBoardList(pageNum){
+	const test_form = document.querySelector('#test_form');
 	
-	const orderDate = document.querySelector('.orderDate');
-	alert(orderDate);
+	test_form.querySelector('input[name="nowPage"]').value = pageNum;
 	
-	const orderBy = document.querySelector('#orderBy');
-	orderBy.querySelector('input').value = REG_BOARD_DATE;
-	orderBy.submit();
-}
+	const order_label = document.querySelector('.order').querySelector('input[class*="btn-primary"]').dataset.orderBy;
+	test_form.querySelector('input[name="orderBy"]').value = order_label;
+	
+	const categoryList_label = document.querySelector('.categoryList').querySelector('input[class*="btn-primary"]').dataset.categoryList;
+	test_form.querySelector('input[name="categoryList"]').value = categoryList_label;
+	
+	
+	const searchKeyword_label = document.querySelector('.searchKeyword').value;
+	test_form.querySelector('input[name="searchKeyword"]').value = searchKeyword_label;
+	
+	const searchValue_label = document.querySelector('.searchValue').value;
+	test_form.querySelector('input[name="searchValue"]').value = searchValue_label;
+	
 
-//정렬 기능 조회순
-function getOrderListDesc(READ_CNT){
-	const orderBy = document.querySelector('#orderBy');
-	orderBy.querySelector('input').value = READ_CNT;
-	orderBy.submit();
-}
-
-//정렬 기능 댓글 순
-function getOrderListDesc(REPLY_CNT){
-	const orderBy = document.querySelector('#orderBy');
-	orderBy.querySelector('input').value = REPLY_CNT;
-	orderBy.submit();
-}
-
-//전체
-function cateList(CATE_001){
-
-	const orderBy = document.querySelector('#categoryList');
-	orderBy.querySelector('input').value = CATE_001;
-	orderBy.submit();
+	test_form.submit();
 }
 
 
-//질문
-function cateList(CATE_003){
-
-	const orderBy = document.querySelector('#categoryList');
-	orderBy.querySelector('input').value = CATE_003;
-	orderBy.submit();
+//정렬 orderby 최신 순
+function getOrderList(REG_BOARD_DATE_ORDER){
+	const test_orderBy = document.querySelector('#test_orderBy');
+	
+	const pageNum_label = document.querySelector('#pageNum a.page-link.active').dataset.pageNum;
+	//const pageNum_label = document.querySelector('#pageNum').querySelector('a[class="page-link active"]').dataset.pageNum;
+	test_orderBy.querySelector('input[name="nowPage"]').value = pageNum_label;
+	
+	
+	test_orderBy.querySelector('input[name="orderBy"]').value = REG_BOARD_DATE_ORDER;
+	
+	const categoryList_label = document.querySelector('.categoryList').querySelector('input[class*="btn-primary"]').dataset.categoryList;
+	test_orderBy.querySelector('input[name="categoryList"]').value = categoryList_label;
+	
+	
+	const searchKeyword_label = document.querySelector('.searchKeyword').value;
+	test_orderBy.querySelector('input[name="searchKeyword"]').value = searchKeyword_label;
+	
+	const searchValue_label = document.querySelector('.searchValue').value;
+	test_orderBy.querySelector('input[name="searchValue"]').value = searchValue_label;
+	
+	test_orderBy.submit();
 }
 
-//잡담
-function cateList(CATE_004){
-	const orderBy = document.querySelector('#categoryList');
-	orderBy.querySelector('input').value = CATE_004;
-	orderBy.submit();
+//정렬 orderby 조회 순
+function getOrderList(READ_CNT){
+	const test_orderBy = document.querySelector('#test_orderBy');
+	
+	const pageNum_label = document.querySelector('#pageNum a.page-link.active').dataset.pageNum;
+	//const pageNum_label = document.querySelector('#pageNum').querySelector('a[class="page-link active"]').dataset.pageNum;
+	test_orderBy.querySelector('input[name="nowPage"]').value = pageNum_label;
+	
+	
+	test_orderBy.querySelector('input[name="orderBy"]').value = READ_CNT;
+	
+	const categoryList_label = document.querySelector('.categoryList').querySelector('input[class*="btn-primary"]').dataset.categoryList;
+	test_orderBy.querySelector('input[name="categoryList"]').value = categoryList_label;
+	
+	
+	const searchKeyword_label = document.querySelector('.searchKeyword').value;
+	test_orderBy.querySelector('input[name="searchKeyword"]').value = searchKeyword_label;
+	
+	const searchValue_label = document.querySelector('.searchValue').value;
+	test_orderBy.querySelector('input[name="searchValue"]').value = searchValue_label;
+	
+	test_orderBy.submit();
 }
 
-//정보
-function cateList(CATE_005){
-	const orderBy = document.querySelector('#categoryList');
-	orderBy.querySelector('input').value = CATE_005;
-	orderBy.submit();
+
+//정렬 orderby 댓글 순
+function getOrderList(REPLY_CNT){
+	const test_orderBy = document.querySelector('#test_orderBy');
+	
+	const pageNum_label = document.querySelector('#pageNum a.page-link.active').dataset.pageNum;
+	//const pageNum_label = document.querySelector('#pageNum').querySelector('a[class="page-link active"]').dataset.pageNum;
+	test_orderBy.querySelector('input[name="nowPage"]').value = pageNum_label;
+	
+	
+	test_orderBy.querySelector('input[name="orderBy"]').value = REPLY_CNT;
+	
+	const categoryList_label = document.querySelector('.categoryList').querySelector('input[class*="btn-primary"]').dataset.categoryList;
+	test_orderBy.querySelector('input[name="categoryList"]').value = categoryList_label;
+	
+	
+	const searchKeyword_label = document.querySelector('.searchKeyword').value;
+	test_orderBy.querySelector('input[name="searchKeyword"]').value = searchKeyword_label;
+	
+	const searchValue_label = document.querySelector('.searchValue').value;
+	test_orderBy.querySelector('input[name="searchValue"]').value = searchValue_label;
+	
+	test_orderBy.submit();
+}
+
+//전체 정렬
+function cateOrderList(CATE_001){
+	
+	const cateListOrder = document.querySelector('#cateListOrder');
+	
+	const pageNum_label = document.querySelector('#pageNum a.page-link.active').dataset.pageNum;
+	cateListOrder.querySelector('input[name="nowPage"]').value = pageNum_label;
+	
+	
+	const order_label = document.querySelector('.order').querySelector('input[class*="btn-primary"]').dataset.orderBy;
+	cateListOrder.querySelector('input[name="orderBy"]').value = order_label;
+	
+	cateListOrder.querySelector('input[name="categoryList"]').value = CATE_001;	
+	
+	const searchKeyword_label = document.querySelector('.searchKeyword').value;
+	cateListOrder.querySelector('input[name="searchKeyword"]').value = searchKeyword_label;
+	
+	const searchValue_label = document.querySelector('.searchValue').value;
+	cateListOrder.querySelector('input[name="searchValue"]').value = searchValue_label;
+	
+	cateListOrder.submit();
+}
+
+//질문 순 정렬
+function cateOrderList(CATE_003){
+	
+	const cateListOrder = document.querySelector('#cateListOrder');
+	
+	const pageNum_label = document.querySelector('#pageNum a.page-link.active').dataset.pageNum;
+	cateListOrder.querySelector('input[name="nowPage"]').value = pageNum_label;
+	
+	
+	const order_label = document.querySelector('.order').querySelector('input[class*="btn-primary"]').dataset.orderBy;
+	cateListOrder.querySelector('input[name="orderBy"]').value = order_label;
+	
+	cateListOrder.querySelector('input[name="categoryList"]').value = CATE_003;	
+	
+	const searchKeyword_label = document.querySelector('.searchKeyword').value;
+	cateListOrder.querySelector('input[name="searchKeyword"]').value = searchKeyword_label;
+	
+	const searchValue_label = document.querySelector('.searchValue').value;
+	cateListOrder.querySelector('input[name="searchValue"]').value = searchValue_label;
+	
+	cateListOrder.submit();
 }
 
 
-//검색기능
-function searchList(month){
-	const month_form = document.querySelector('#month-form');
-	month_form.querySelector('input').value = month;
-	month_form.submit();
+//잡담 순 정렬
+function cateOrderList(CATE_004){
+	
+	const cateListOrder = document.querySelector('#cateListOrder');
+	
+	const pageNum_label = document.querySelector('#pageNum a.page-link.active').dataset.pageNum;
+	cateListOrder.querySelector('input[name="nowPage"]').value = pageNum_label;
+	
+	
+	const order_label = document.querySelector('.order').querySelector('input[class*="btn-primary"]').dataset.orderBy;
+	cateListOrder.querySelector('input[name="orderBy"]').value = order_label;
+	
+	cateListOrder.querySelector('input[name="categoryList"]').value = CATE_004;	
+	
+	const searchKeyword_label = document.querySelector('.searchKeyword').value;
+	cateListOrder.querySelector('input[name="searchKeyword"]').value = searchKeyword_label;
+	
+	const searchValue_label = document.querySelector('.searchValue').value;
+	cateListOrder.querySelector('input[name="searchValue"]').value = searchValue_label;
+	
+	cateListOrder.submit();
 }
+
+
+//정보 순 정렬
+function cateOrderList(CATE_005){
+	
+	const cateListOrder = document.querySelector('#cateListOrder');
+	
+	const pageNum_label = document.querySelector('#pageNum a.page-link.active').dataset.pageNum;
+	cateListOrder.querySelector('input[name="nowPage"]').value = pageNum_label;
+	
+	
+	const order_label = document.querySelector('.order').querySelector('input[class*="btn-primary"]').dataset.orderBy;
+	cateListOrder.querySelector('input[name="orderBy"]').value = order_label;
+	
+	cateListOrder.querySelector('input[name="categoryList"]').value = CATE_005;	
+	
+	const searchKeyword_label = document.querySelector('.searchKeyword').value;
+	cateListOrder.querySelector('input[name="searchKeyword"]').value = searchKeyword_label;
+	
+	const searchValue_label = document.querySelector('.searchValue').value;
+	cateListOrder.querySelector('input[name="searchValue"]').value = searchValue_label;
+	
+	cateListOrder.submit();
+}
+
+//검색 정렬 keyword
+function searchOrder(){
+	
+	const searchKeyword = document.querySelector('#searchKeyword');
+	
+	const pageNum_label = document.querySelector('#pageNum a.page-link.active').dataset.pageNum;
+	searchKeyword.querySelector('input[name="nowPage"]').value = pageNum_label;
+	
+	
+	const order_label = document.querySelector('.order').querySelector('input[class*="btn-primary"]').dataset.orderBy;
+	searchKeyword.querySelector('input[name="orderBy"]').value = order_label;
+	
+	const categoryList_label = document.querySelector('.categoryList').querySelector('input[class*="btn-primary"]').dataset.categoryList;
+	searchKeyword.querySelector('input[name="categoryList"]').value = categoryList_label;
+	
+	const searchKeyword_label = document.querySelector('.searchKeyword').value;
+	searchKeyword.querySelector('input[name="searchKeyword"]').value = searchKeyword_label;
+	
+	const searchValue_label = document.querySelector('.searchValue').value;
+	searchKeyword.querySelector('input[name="searchValue"]').value = searchValue_label;
+	
+	searchKeyword.submit();
+}
+
+
 
 
 // 비밀번호 예
@@ -254,3 +405,97 @@ function plus(){
 	button.insertAdjacentHTML('afterbegin', str);
 	table.insertAdjacentHTML('afterbegin', str2);
 }
+
+
+
+
+
+/*정렬 기능 날짜순
+function getOrderListDesc(REG_BOARD_DATE){
+	
+	const orderDate = document.querySelector('.orderDate');
+	alert(orderDate);
+	
+	const orderBy = document.querySelector('#orderBy');
+	orderBy.querySelector('input').value = REG_BOARD_DATE;
+	
+	orderBy.submit();
+}
+*/
+/*정렬 기능 조회순
+function getOrderListDesc(READ_CNT){
+	const orderBy = document.querySelector('#orderBy');
+	orderBy.querySelector('input').value = READ_CNT;
+	
+	
+	orderBy.submit();
+}
+*/
+/*정렬 기능 댓글 순
+function getOrderListDesc(REPLY_CNT){
+	const orderBy = document.querySelector('#orderBy');
+	orderBy.querySelector('input').value = REPLY_CNT;
+	orderBy.submit();
+}
+*/
+/*
+//전체
+function cateList(CATE_001){
+
+	const orderBy = document.querySelector('#categoryList');
+	orderBy.querySelector('input').value = CATE_001;
+	orderBy.submit();
+}
+
+
+//질문
+function cateList(CATE_003){
+
+	const orderBy = document.querySelector('#categoryList');
+	orderBy.querySelector('input').value = CATE_003;
+	orderBy.submit();
+}
+
+//잡담
+function cateList(CATE_004){
+	const orderBy = document.querySelector('#categoryList');
+	orderBy.querySelector('input').value = CATE_004;
+	orderBy.submit();
+}
+
+//정보
+function cateList(CATE_005){
+	const orderBy = document.querySelector('#categoryList');
+	orderBy.querySelector('input').value = CATE_005;
+	orderBy.submit();
+}
+
+
+//검색기능
+function searchList(month){
+	const month_form = document.querySelector('#month-form');
+	month_form.querySelector('input').value = month;
+	month_form.submit();
+}
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -54,6 +54,9 @@ input[type="text"]{
 .my-scroll{
 	height: 500px;	
 	overflow-y: scroll;
+	
+	width: 600px;
+	overflow-x: scroll;
 }
 
 /* 채팅방 기능 */

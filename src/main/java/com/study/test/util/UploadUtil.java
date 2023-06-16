@@ -106,14 +106,14 @@ public class UploadUtil {
 		//첨부된 파일명(생성된 파일명)
 		String attachedFileName = lectureVO.getLecturePdfVO().getAttachedPdfName();
 		
-		System.out.println("@@@@@@@@@@@@데이터 확인 : "+ attachedFileName);
-		
 		File file = new File(ConstVariable.PROFESSOR_UPLOAD_PATH + attachedFileName);
+		boolean canRead = file.canRead();
+		System.out.println("읽기 권한: " + canRead);
 		
-		System.out.println("@@@@@@@@@@데이터확인 " + file);
 		if (file.exists()) {
 			try (FileInputStream fis = new FileInputStream(file);
 					OutputStream out = response.getOutputStream()) {
+				
 				//원본 파일명 인코딩
 				String encodeFileName = URLEncoder.encode(originFileName, "UTF-8");
 				// 응답이 파일 타입이라는 것을 명시

@@ -23,6 +23,9 @@ public interface BoardService {
 	//전체 게시판 페이징
 	int totalBoardPage(SearchVO searchVO);
 	
+	//학과 보드 게시판 개수
+	int deptBoardCount(UniBoardVO uniBoardVO);
+	
 	// 보드 전체 리스트 조회
 	List<UniBoardVO> getTotalBoardList(UniBoardVO uniBoardVO);
 	

@@ -53,7 +53,7 @@ function noPrivate(){
 	isPrivate.textContent = '';
 }
 
-function success(menuCode, subMenuCode){
+function success(){
 	
 	const boardTitle = document.querySelector('.boardTitle').value;
 	const boardContent = document.querySelector('.boardContent').value;
@@ -81,7 +81,7 @@ function success(menuCode, subMenuCode){
 			url: '/stuMenu/boardWriteAjax', //요청경로
 			type: 'post',
 			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-			data: { 'menuCode' : menuCode, 'subMenuCode' : subMenuCode,  'boardTitle' : boardTitle, 
+			data: {  'boardTitle' : boardTitle, 
 			'boardContent' : boardContent, 'isPrivate' : isPrivate, 'isNotice' : isNotice, 'boardWriter' : boardWriter, 'cateNo' : cateNo, 'inputPwd' : inputPwd, 'deptNo' : deptNo}, //필요한 데이터
 			success: function(result) {
 				if(result){

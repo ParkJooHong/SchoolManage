@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 .detail_info {
-    position: relative;
+    /* position: relative;
     display: flex;
     flex-wrap: wrap;
     border-top: 2px solid #897c76;
@@ -9,13 +9,22 @@
     margin: 10px 0;
     background: #ebe7e3;
     overflow: hidden;
-    padding: 6px 6px 1px 6px;
+    padding: 6px 6px 1px 6px; */
+}
+
+table{
+	 box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+	  background: linear-gradient(45deg, #f5f5f5, #ebebeb);
+	  border-collapse: separate;
+  border-spacing: 4px;
+  border: 1px solid #ccc;
 }
 
 table.detail_info{
 	width: 100%;
 	margin: 10px;
 	padding: 10px;
+	
 }
 table.detail_info td{
 	margin: 10px;
@@ -70,3 +79,11 @@ input[type="text"]{
 	text-align: left;
 	
 }
+
+
+#my-scroll{
+	height: 530px;	
+	overflow-y: scroll;
+
+}
+

@@ -81,6 +81,14 @@ public class BoardController {
 	private String totalBoard(Authentication authentication, AdminMenuVO adminMenuVO, AdminSubMenuVO adminSubMenuVO, ProfessorMenuVO professorMenuVO , Model model, MemberVO memberVO, StuVO stuVO, String toDate,
 			String fromDate, UniBoardVO uniBoardVO, BoardCategoryVO boardCategoryVO, String cateNo, MemberSubMenuVO memberSubMenuVO) {
 
+		System.out.println(uniBoardVO.getNowPage());
+
+		
+		/*
+		 * if(uniBoardVO.getOrderBy() == null) {
+		 * uniBoardVO.setOrderBy("REG_BOARD_DATE_ORDER"); }
+		 */
+		
 		System.out.println(uniBoardVO.getOrderBy());
 		
 		memberSubMenuVO.setMenuCode(ConstVariable.ONE_STU_MENU_CODE);
@@ -113,6 +121,12 @@ public class BoardController {
 			System.out.println("학생정보 : " + stuService.seletStu(memberVO));
 		}
 		
+		
+		// 보드 페이지 세팅
+		if(uniBoardVO.getNowPage() == 1) {
+			
+		}
+		
 		// 오늘 날짜
 		String nowDate = DateUtil.getNowDateToString();
 
@@ -120,10 +134,10 @@ public class BoardController {
 		String firstDate = DateUtil.getFirstDateOfMonth();
 
 		if (uniBoardVO.getOrderBy() == null) {
-			uniBoardVO.setOrderBy("REG_BOARD_DATE");
+			uniBoardVO.setOrderBy("REG_BOARD_DATE_ORDER");
 		}
 		if (uniBoardVO.getSearchKeyword() == null) {
-			uniBoardVO.setSearchKeyword("BOARD_WRITER");
+			uniBoardVO.setSearchKeyword("BOARD_TITLE");
 		}
 		if (uniBoardVO.getSearchValue() == null) {
 			uniBoardVO.setSearchValue("");
@@ -174,6 +188,7 @@ public class BoardController {
 		model.addAttribute("uniBoardToDate", uniBoardVO.getToDate());
 
 		int totalDateCnt = boardService.totalBoardPage(uniBoardVO);
+		System.out.println("전체 게시판 게시글 개수 : " +totalDateCnt);
 		uniBoardVO.setTotalDataCnt(totalDateCnt);
 
 		// 페이징 정보 세팅
@@ -186,10 +201,8 @@ public class BoardController {
 	
 
 		model.addAttribute("boardCategoryVO", boardService.getBoardCategoryList());
-		System.out.println("보드 카테고리 정보 : " + boardService.getBoardCategoryList());
+		System.out.println("@@@@" + uniBoardVO);
 		model.addAttribute("uniBoardList", boardService.getTotalBoardList(uniBoardVO));
-		
-		
 				
 		return "/content/publicBoard/totalBoard";
 	}
@@ -297,6 +310,8 @@ public class BoardController {
 	private String deptBoard(MemberSubMenuVO memberSubMenuVO, Model model, Authentication authentication, MemberVO memberVO, StuVO stuVO, UniBoardVO uniBoardVO
 			,String cateNo, BoardCategoryVO boardCategoryVO, String deptNo) {
 
+		
+		
 		String memLayout = getCode(authentication, model);
 		model.addAttribute("memLayOut", memLayout);
 		
@@ -304,8 +319,11 @@ public class BoardController {
 		String memName = user.getUsername();
 		stuVO.setMemNo(user.getUsername()); // id임
 		memberVO.setMemNo(user.getUsername());
+		
+		
 		model.addAttribute("memberVO", stuService.seletStu(memberVO));
 		System.out.println("학생정보 : " + stuService.seletStu(memberVO));
+		
 
 		// 오늘 날짜
 				String nowDate = DateUtil.getNowDateToString();
@@ -314,7 +332,7 @@ public class BoardController {
 				String firstDate = DateUtil.getFirstDateOfMonth();
 
 				if (uniBoardVO.getOrderBy() == null) {
-					uniBoardVO.setOrderBy("REG_BOARD_DATE");
+					uniBoardVO.setOrderBy("REG_BOARD_DATE_ORDER");
 				}
 				if (uniBoardVO.getSearchKeyword() == null) {
 					uniBoardVO.setSearchKeyword("BOARD_WRITER");
@@ -328,32 +346,7 @@ public class BoardController {
 				}
 				
 				System.out.println(uniBoardVO.getOrderBy());
-				
-				// Month랑 toDate, FromDate 함꼐 실행 불가
-				if(uniBoardVO.getMonth() == 0) {
-					uniBoardVO.setFromDate(null);
-					uniBoardVO.setToDate(null);
-				} else if(uniBoardVO.getMonth() == -1) {
-					uniBoardVO.setFromDate(null);
-					uniBoardVO.setToDate(null);
-				}else if(uniBoardVO.getMonth() == -3) {
-					uniBoardVO.setFromDate(null);
-					uniBoardVO.setToDate(null);
-				}
-				else {
-					if (uniBoardVO.getFromDate() == null) {
-						uniBoardVO.setFromDate(firstDate);
-					}
 
-					if (uniBoardVO.getToDate() == null) {
-						uniBoardVO.setToDate(nowDate);
-					}
-				}
-				
-				if(uniBoardVO.getToDate() != null || uniBoardVO.getFromDate() != null) {
-					uniBoardVO.setMonth(0);
-				}
-				
 				//카테고리 정렬
 				uniBoardVO.setCategoryList("CATE_002");
 				
@@ -364,13 +357,8 @@ public class BoardController {
 
 				
 				
+				
 				cateNo = boardCategoryVO.getCateNo();
-
-				int totalDateCnt = boardService.totalBoardPage(uniBoardVO);
-				uniBoardVO.setTotalDataCnt(totalDateCnt);
-
-				// 페이징 정보 세팅
-				uniBoardVO.setPageInfo();
 
 				System.out.println("페이징 정보 : " + uniBoardVO);
 
