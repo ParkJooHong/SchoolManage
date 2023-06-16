@@ -45,6 +45,7 @@
 			, START_TIME
 			, END_TIME
 			, DATE_NO
+			, REG_DATE 
 		) VALUES (
 			(SELECT 'RESER_'||LPAD(NVL(MAX(TO_NUMBER(SUBSTR(RESER_NO, 8))), 0) +1 , 3, '0')
             FROM RESERVATION_ROOM)
@@ -53,6 +54,7 @@
             , #{startTime}
             , #{endTime}
             , #{dateNo}
+            , SYSDATE
 		)
 	</insert>
 	

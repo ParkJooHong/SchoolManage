@@ -12,7 +12,8 @@ function searchAddr() {
 }
 //아이디 중복 검사
 function checkId() {
-	const mem_id = document.querySelector('#memId');
+	const mem_id = document.querySelector('#memberId');
+	console.log(mem_id);
 	const join_btn = document.querySelector('#joinBtn');
 	let reg_id_rule = /^\d{8}$/;
 	if (mem_id.value == '') {

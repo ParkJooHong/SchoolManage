@@ -74,13 +74,6 @@ public class AdminController {
 		
 		return adminService.getCntById(memNo);
 	}
-
-	// 비밀번호 변겅 페이지 이동
-	@GetMapping("/changePwd")
-	public String changePwd(AdminSubMenuVO adminSubMenuVO) {
-		adminSubMenuVO.setMenuCode(ConstVariable.DEFAULT_MENU_CODE);
-		return "content/admin/change_pwd";
-	}
 	
 	//회원의 비밀번호 검증
 	@PostMapping("/updatePwAjax")
