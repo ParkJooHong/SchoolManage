@@ -73,7 +73,7 @@
 			<if test='searchValue != null and !searchValue.equals("")'>
 	       		  AND UPPER(${searchKeyword}) LIKE '%' || UPPER(#{searchValue}) || '%'
 	        </if>
-			ORDER BY ${orderBy} DESC
+			ORDER BY REG_BOARD_DATE_ORDER DESC
 			OFFSET #{offsetCnt} ROWS FETCH FIRST #{displayCnt} ROWS ONLY
 		</select>
 		

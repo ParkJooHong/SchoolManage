@@ -135,12 +135,13 @@
 	</div>
 	
 
-	
+<input type="hidden" th:value="${member}" class="memNo">
+<input type="hidden" th:value="${member.memRole}" class="memRole">
 <div  style="float:right;">
 	<div><input type="hidden" value="일정 저장" onclick="allSave();" id="save-button" class="btn btn-danger" style="margin: 5px;"></div>
 	<div><input type="hidden" value="전체 삭제" onclick="allDelete();" id="delete-button" class="btn btn-danger" style="margin: 5px;"></div>
- </div>
-  	
+</div>
+
  <div style="float:left; width: 100%;">
  	<div>
  		<div id='external-events' style="float:left; width: 15%; padding-right: 30px; padding-left: 20px;">

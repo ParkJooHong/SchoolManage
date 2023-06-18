@@ -31,6 +31,12 @@ public class StuServiceImpl implements StuService {
 		return null;
 	}
 	
+	//멤저 정보 2
+		@Override
+		public MemberVO selectMember2(String memNo) {
+			return sqlSession.selectOne("stuMapper.selectMember2", memNo);
+		}
+	
 	//학생 정보
 	@Override
 	public MemberVO seletStu(MemberVO memberVO) {
@@ -222,6 +228,8 @@ public class StuServiceImpl implements StuService {
 	public int getFindEnol(EnrollmentVO enrollmentVO) {
 		return sqlSession.selectOne("stuMapper.getFindEnol", enrollmentVO);
 	}
+
+	
 
 	
 

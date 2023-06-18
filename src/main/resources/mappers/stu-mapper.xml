@@ -166,6 +166,23 @@
 		FROM UNI_MEMBER
 		WHERE MEM_NO = #{memNo}
 	</select>
+	
+	<!-- 멤버 조회2 -->
+	<select id="selectMember2" resultMap="member">
+		SELECT MEM_NO
+		, MEM_PW
+		, MEM_NAME
+		, MEM_EMAIL
+		, MEM_ADDR
+		, MEM_ADDR_DETAIL
+		, MEM_TELL
+		, MEM_IMAGE
+		, MEM_GENDER
+		, MEM_BIRTH
+		, MEM_ROLE
+		FROM UNI_MEMBER
+		WHERE MEM_NO = #{memNo}
+	</select>
 
 	<!-- 학생 정보 조회 -->
 	<!-- <select id="seletStu" resultType="String"> -->

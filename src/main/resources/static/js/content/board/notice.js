@@ -143,6 +143,8 @@ document.addEventListener('DOMContentLoaded', function() {
 	var checkbox = document.getElementById('drop-remove');
 	const memNo = document.querySelector('.memNo').value;
 
+	const memRole = document.querySelector('.memRole').value;
+
 	var all_events = null;
 
 	new Draggable(containerEl, {
@@ -162,7 +164,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		headerToolbar: {
 			left: 'prev,next today',
 			center: 'title',
-			right: 'customButton1, customButton2'
+			right: (memRole != 'STU') ? 'customButton1, customButton2' : ''
 		},
 
 		customButtons: {

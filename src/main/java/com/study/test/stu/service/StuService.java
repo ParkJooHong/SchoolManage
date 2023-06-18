@@ -18,6 +18,9 @@ public interface StuService {
 	//멤버 정보
 	MemberVO selectMember(MemberVO memberVO);
 	
+	//멤버정보 2
+	MemberVO selectMember2(String memNo);
+	
 	//학생 정보
 	MemberVO seletStu(MemberVO memberVO);
 	

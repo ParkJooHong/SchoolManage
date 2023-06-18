@@ -1162,11 +1162,10 @@ public class StuController {
 			String cateNo, String menuCode, SearchVO searchVO, String subMenuCode, BoardListSearchVO boardListSearchVO,
 			String boardNo, @RequestParam(name = "month", required = false) Integer month, MemberSubMenuVO memberSubMenuVO) {
 
+		memberSubMenuVO.setMenuCode(ConstVariable.FOURTH_STU_MENU_CODE);
+		
 		System.out.println(month);
 
-		if (uniBoardVO.getOrderBy() == null) {
-			uniBoardVO.setOrderBy("REG_BOARD_DATE");
-		}
 		if (uniBoardVO.getSearchKeyword() == null) {
 			uniBoardVO.setSearchKeyword("BOARD_WRITER");
 		}
@@ -1181,7 +1180,7 @@ public class StuController {
 		System.out.println(uniBoardVO.getSearchKeyword());
 		System.out.println(uniBoardVO.getSearchValue());
 
-		System.out.println(uniBoardVO.getOrderBy());
+		System.out.println("최근벼 ㄹ: " +uniBoardVO.getMonth());
 		// 오늘 날짜
 		String nowDate = DateUtil.getNowDateToString();
 
@@ -1189,31 +1188,6 @@ public class StuController {
 		String firstDate = DateUtil.getFirstDateOfMonth();
 
 		System.out.println(month);
-
-		if(uniBoardVO.getMonth() == 0) {
-			uniBoardVO.setFromDate(null);
-			uniBoardVO.setToDate(null);
-		} else if(uniBoardVO.getMonth() == -1) {
-			uniBoardVO.setFromDate(null);
-			uniBoardVO.setToDate(null);
-		}else if(uniBoardVO.getMonth() == -3) {
-			uniBoardVO.setFromDate(null);
-			uniBoardVO.setToDate(null);
-		}
-		else {
-			if (uniBoardVO.getFromDate() == null) {
-				uniBoardVO.setFromDate(firstDate);
-			}
-
-			if (uniBoardVO.getToDate() == null) {
-				uniBoardVO.setToDate(nowDate);
-			}
-		}
-		
-		if(uniBoardVO.getToDate() != null || uniBoardVO.getFromDate() != null) {
-			uniBoardVO.setMonth(0);
-		}
-
 		
 		System.out.println(uniBoardVO.getFromDate());
 		model.addAttribute("uniBoardFromDate", uniBoardVO.getFromDate());
@@ -1249,10 +1223,6 @@ public class StuController {
 
 		System.out.println("유니보드데이터 : " + uniBoardVO);
 		model.addAttribute("uniBoardList", boardService.getTotalMyBoardList(uniBoardVO));
-
-		// 게시판 상세보기할때 던질 메뉴코드, 서브메뉴코드 데이터
-		model.addAttribute("menuCode", menuCode);
-		model.addAttribute("subMenuCode", subMenuCode);
 
 		return "/content/stu/stu_board/myBoard";
 	}

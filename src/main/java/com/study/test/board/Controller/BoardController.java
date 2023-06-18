@@ -400,7 +400,7 @@ public class BoardController {
 
 	// 학사 공지사항
 	@RequestMapping("/notice")
-	private String board(Authentication authentication, Model model, UniBoardVO uniBoardVO, ProfessorMenuVO professorMenuVO) {
+	private String board(Authentication authentication, Model model, UniBoardVO uniBoardVO, ProfessorMenuVO professorMenuVO, MemberVO memberVO) {
 
 		String memLayout = "";
 		User user = (User) authentication.getPrincipal();
@@ -430,6 +430,13 @@ public class BoardController {
 
 			professorMenuVO.setMenuCode(ConstVariable.FIVE_PROFESSOR_MENU_CODE);
 		}
+		
+		memberVO.setMemNo(user.getUsername());
+		String memNo = memberVO.getMemNo();
+		
+		System.out.println("멤버 정보 : @ " +stuService.selectMember2(memNo));
+		model.addAttribute("member", stuService.selectMember2(memNo));
+		
 				
 		return "content/publicBoard/notice";
 	}

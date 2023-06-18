@@ -1,30 +1,5 @@
 
 
-//정렬 기능 날짜순
-function getOrderListDesc(REG_BOARD_DATE){
-	
-	const orderDate = document.querySelector('.orderDate');
-	alert(orderDate);
-	
-	const orderBy = document.querySelector('#orderBy');
-	orderBy.querySelector('input').value = REG_BOARD_DATE;
-	orderBy.submit();
-}
-
-//정렬 기능 조회순
-function getOrderListDesc(READ_CNT){
-	const orderBy = document.querySelector('#orderBy');
-	orderBy.querySelector('input').value = READ_CNT;
-	orderBy.submit();
-}
-
-//정렬 기능 댓글 순
-function getOrderListDesc(REPLY_CNT){
-	const orderBy = document.querySelector('#orderBy');
-	orderBy.querySelector('input').value = REPLY_CNT;
-	orderBy.submit();
-}
-
 
 //검색기능
 function searchList(month){
