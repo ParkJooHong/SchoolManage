@@ -72,6 +72,60 @@
 	</div>
 </div>
 
+
+<div class="row" style="margin-top: -180px; margin-left:80px;">
+	<div class="col-6">
+		<table class="weather" style="align-items: center; justify-content: center; display: flex; margin-left: auto; margin-right: auto;">
+			<tr>
+				<td>
+					<div class="weathermodal-body">
+						<link rel="stylesheet" href="/css/content/stu/weather/infoWeatherStyle.css">
+						<div container="weatherModal-container">
+						  <div class="weathersearch-box">
+							<i class="fa-solid fa-location-dot"></i>
+							<input type="text" placeholder="영문으로 위치 입력!">
+							<button class="fa-solid fa-magnifying-glass"></button>
+						  </div>
+					  
+						  <div class="not-found">
+							<img src="/image/weatherimage/404.png" alt="Weather Image">
+							<p>날씨정보가 없어요! :/</p>
+						  </div>
+					  
+						  <div class="weather-box">
+							<img src="">
+							<p class="temperature"></p>
+							<p class="description"></p>
+						  </div>
+					  
+						  <div class="weather-details">
+							<div class="humidity">
+							  <i class="fa-solid fa-water"></i>
+							  <div class="text">
+								<span></span>
+								<p>습도</p>
+							  </div>
+							</div>
+							<div class="wind">
+							  <i class="fa-solid fa-wind"></i>
+							  <div class="text">
+								<span></span>
+								<p>풍속</p>
+							  </div>
+							</div>
+						  </div>
+						</div>
+					  </div>
+					  
+					  <script src="https://kit.fontawesome.com/7c8801c017.js" crossorigin="anonymous"></script>
+					  <script src="/js/content/weather/weatherFunctionRender.js"></script>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+
+
 <input type="hidden" th:value="${memberVO.memName}" class="memName">
 <input type="hidden" id="example" th:onclick="alert([[${memberVO.memName}]]);">
 </th:block>

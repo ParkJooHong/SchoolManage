@@ -5,12 +5,12 @@
 	padding: 0;
 }
 
-ul{
+.ul-game{
 	list-style: none;
-	background-color: black;
-}
-li{
 	background-color: white;
+}
+.li-game{
+	background-color: black;
 }
 
 body{
