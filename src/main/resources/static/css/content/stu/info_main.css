@@ -59,3 +59,11 @@
 	cursor: move;
 	text-align: center;
 }
+
+.fc-event {
+  background-color: yellow; /* 원하는 배경색으로 변경 */
+}
+
+.fc-event-title {
+  color: black; /* 원하는 색상으로 변경 */
+}

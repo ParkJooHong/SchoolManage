@@ -164,7 +164,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		headerToolbar: {
 			left: 'prev,next today',
 			center: 'title',
-			right: (memRole != 'STU') ? 'customButton1, customButton2' : ''
+			right: (memRole != 'STU' && memRole != 'PRO') ? 'customButton1, customButton2' : ''
 		},
 
 		customButtons: {
@@ -270,6 +270,8 @@ function allSave(calendar) {
 
 	const memNo = document.querySelector('.memNo').value;
 
+	const memRole = document.querySelector('.memRole').value;
+	
 	var allEvent = calendar.getEvents();
 	console.log(allEvent);
 
@@ -286,6 +288,7 @@ function allSave(calendar) {
 		obj.end = allEvent[i]._instance.range.end; //마치는 날짜 시간
 		obj.viewTitle = allEvent[i]._context.viewTitle;
 		obj.memNo = memNo;
+		obj.memRole = memRole;
 
 		events.push(obj);
 
@@ -301,7 +304,7 @@ function allSave(calendar) {
 function loadingEvents(memNo) {
 	return new Promise(function(resolve, reject) {
 		$.ajax({
-			url: '/schedule/selectMyScheduleAjax',
+			url: '/schedule/selectSchoolScheduleAjax',
 			type: 'post',
 			async: true,
 			contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -333,7 +336,7 @@ function loadingEvents(memNo) {
 function saveData(jsondata) {
 	const memNo = document.querySelector('.memNo').value;
 	$.ajax({
-		url: '/schedule/myScheduleAjax?mem=' + encodeURIComponent(memNo), // 요청경로
+		url: '/schedule/schoolScheduleAjax?mem=' + encodeURIComponent(memNo), // 요청경로
 		type: 'post',
 		async: true,
 		contentType: 'application/json; charset=UTF-8',
