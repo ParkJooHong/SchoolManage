@@ -64,6 +64,7 @@
 			WHERE SEM_YEAR = #{semYear}
 			AND SEMESTER = #{semester}
 		</if>
+		ORDER BY SEM_YEAR, SEMESTER
 	</select>
 
 	<!-- 대학 리스트 조회 -->

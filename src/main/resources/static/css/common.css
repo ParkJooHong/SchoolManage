@@ -212,9 +212,6 @@ table tbody tr:hover{
 */
 
 /* 온클릭 커서 */
-.onclick{
-	cursor: pointer;
-}
 
 /* 메세지 내용 css */
 .msg:disabled{
@@ -309,7 +306,7 @@ table tbody tr:hover{
 }
 
 .menu_ul .active {
-	background-color: #870119;
+	background: linear-gradient(to right, #ff0000 5%, #870119 5%);
 }
 
 .subMenu_ul{
@@ -322,4 +319,11 @@ table tbody tr:hover{
 }
 /* 사이드 css 모음 */
 
+/* 모달 헤더 */
+.modal-header{
+	background-color: #897c76;
+	color: white;
+	
+}
+/* 모달 헤더 */
 

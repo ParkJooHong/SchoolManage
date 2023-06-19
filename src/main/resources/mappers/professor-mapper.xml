@@ -211,6 +211,9 @@
 		<if test="lecStatus != null and lecStatus != ''">
 		AND LEC_STATUS = #{lecStatus}
 		</if>
+		<if test="semNo != null and semNo != ''">
+		AND LEC.SEM_NO = #{semNo}		
+		</if>
 		<if test="lecName != null and lecName != ''">
 		AND UPPER(LEC_NAME) LIKE '%'||UPPER(#{lecName})||'%'
 		</if>
@@ -256,6 +259,7 @@
 		, LEC_SCORE = #{lecScore}
 		, LEC_STATUS = #{lecStatus}
 		WHERE LEC_NO = #{lecNo}
+		AND LEC_STATUS = 'Y'
 	</update>
 	
 	<!-- 강의 수정 : 강의 시간 -->

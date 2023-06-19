@@ -44,7 +44,7 @@ function getLetureList() {
 		data: JSON.stringify(lectureVO),			//JSON.stringify(classInfo), //필요한 데이터
 		success: function(lecture_list) {
 			//목록이 그려질 tbody태그 선택
-			const tbody_tag = document.querySelector('tbody');
+			const tbody_tag = document.querySelector('#lecture_list_body');
 
 			//기존리스트 삭제
 			tbody_tag.replaceChildren();
@@ -69,6 +69,7 @@ function getLetureList() {
 					str += `</td>`;
 					if (lecture.lecStatus == 'Y') {
 						str += `<td>강의중</td>`;
+						
 					}
 					else {
 						str += `<td>폐강</td>`;
@@ -79,7 +80,7 @@ function getLetureList() {
 			}
 			else {
 				str += `<tr>`;
-				str += `<td colspan="10">조회된 강의가 없습니다.</td>`;
+				str += `	<td colspan="10">조회된 강의가 없습니다.</td>`;
 				str += `</tr>`;
 			}
 
@@ -117,7 +118,7 @@ function updateLecModal(lecNo) {
 
 			//모달 바디 태그 선택
 			const modalBodyTag = document.querySelector('#updateLecModalBody');
-			
+
 			//모달 바디 태그 내용 지우기
 			modalBodyTag.innerHTML = '';
 
@@ -157,22 +158,24 @@ function updateLecModal(lecNo) {
 			str += `			<td>강의상태</td>`;
 			str += `			<td colspan="3">`;
 			if (lecture[0].lecStatus == 'Y') {
-				str += `				<select class="w-100" name="lecStatus">`;
+				str += `			<select class="w-100" name="lecStatus">`;
 				str += `				<option value="Y" selected>강의중</option>`;
 				str += `				<option value="N">폐강</option>`;
 				str += `			</select>`;
 				str += `				<div style="color:red; font-size:12px;">주의! 폐강으로 변경하면 다시 강의중으로 바꿀수 없습니다.</div>`
+				str += `				<input type="hidden" id="lecStatus" value=${lecture[0].lecStatus}`
 			}
 			else {
 				str += `			폐강`;
+				str += `			<input type="hidden" id="lecStatus" value=${lecture[0].lecStatus}`
 			}
 			str += `			</td>`;
 			str += `		</tr>`;
-			lecture[0].lectureTimeList.forEach((lecTime, index) =>{
+			lecture[0].lectureTimeList.forEach((lecTime, index) => {
 				str += `	<tr class="lecture_time_wrap">`;
 				str += `		<td>강의시간</td>`;
 				str += `		<td>`;
-				str += `			<input class="lecture_time w-100" value=${lecTime.lecDay} type="text" name="lecDay" id="lecDay-${index+1}" required placeholder="예)월" onchange="regBtnDisable(this)" onkeyup="lecDayValidate(this)" onblur="lecDayValidate(this)">`;
+				str += `			<input class="lecture_time w-100" value=${lecTime.lecDay} type="text" name="lecDay" id="lecDay-${index + 1}" required placeholder="예)월" onchange="regBtnDisable(this)" onkeyup="lecDayValidate(this)" onblur="lecDayValidate(this)">`;
 				str += `		</td>`;
 				str += `		<td>`;
 				str += `			<input class="lecture_time w-100" value=${lecTime.startTime} type="text" name="startTime" id="startTime" required placeholder="예)14:00" onchange="regBtnDisable(this)" onkeyup="startTimeValidate(this)" onblur="startTimeValidate(this)">`;
@@ -204,74 +207,84 @@ function updateLecModal(lecNo) {
 
 //강의 수정 함수(총 유효성 검사)
 function updateLecture() {
-	if (lecNameValidate() && validateAllLectureTimes()) {
-		// 강의 시간들을 가져옵니다.
-		const lectureTimes = document.querySelectorAll('.lecture_time_wrap');
-		// 강의 코드를 가져옴
-		const lecNo = document.querySelector('.update_table #lecNo');
-		// 강의 시간 체크를 위한 데이터
-		let lectureTimeVO_list = [];
-
-		for (const lectureTime of lectureTimes) {
-			let lectureTimeVO = {
-				lecNo : lecNo.value,
-				lecDay: lectureTime.querySelector('input[name="lecDay"]').value,
-				startTime: lectureTime.querySelector('input[name="startTime"]').value,
-				finishTime: lectureTime.querySelector('input[name="finishTime"]').value
-			};
-			lectureTimeVO_list.push(lectureTimeVO);
-		}
-
-		console.log(lectureTimeVO_list);
-
-		//ajax start
-		$.ajax({
-			url: '/professor/lectureTimeCheckAjax', //요청경로
-			type: 'post',
-			async: false, //동기방식으로 진행
-			data: JSON.stringify(lectureTimeVO_list),
-			contentType: "application/json; charset=UTF-8",
-			success: function(result) {
-				if (!result) {
-					swal.fire({
-						title: '등록 불가',
-						text: '해당 시간은 이미 등록되어있습니다.',
-						icon: 'error',
-						button: '확인'
-					});
-				}
-				else {
-					swal.fire({
-						title: '등록가능.',
-						text: '등록 가능한 시간입니다.',
-						icon: 'success',
-						button: '확인'
-					})
-						.then((result) => {
-							swal.fire({
-								title: '수정 완료',
-								text: '강의 수정이 완료되었습니다.',
-								icon: 'success',
-								buttom: '확인'
-							})
-								.then((result) => {
-									
-									//업데이트 ajax 함수 실행
-									updateLectureAjax();
-								})
-						})
-				}
-			},
-			error: function() {
-				alert('실패');
-			}
+	if (document.querySelector('#updateLecModal #lecStatus').value == 'N') {
+		swal.fire({
+			title: "수정불가",
+			text: "폐강된 강의입니다.",
+			icon: 'error',
+			button: '확인'
 		});
-		//ajax end
 	}
-	else {
-		lecNameValidate();
-		validateAllLectureTimes();
-		return;
+	else{
+		if (lecNameValidate() && validateAllLectureTimes()) {
+			// 강의 시간들을 가져옵니다.
+			const lectureTimes = document.querySelectorAll('.lecture_time_wrap');
+			// 강의 코드를 가져옴
+			const lecNo = document.querySelector('.update_table #lecNo');
+			// 강의 시간 체크를 위한 데이터
+			let lectureTimeVO_list = [];
+
+			for (const lectureTime of lectureTimes) {
+				let lectureTimeVO = {
+					lecNo: lecNo.value,
+					lecDay: lectureTime.querySelector('input[name="lecDay"]').value,
+					startTime: lectureTime.querySelector('input[name="startTime"]').value,
+					finishTime: lectureTime.querySelector('input[name="finishTime"]').value
+				};
+				lectureTimeVO_list.push(lectureTimeVO);
+			}
+
+			console.log(lectureTimeVO_list);
+
+			//ajax start
+			$.ajax({
+				url: '/professor/lectureTimeCheckAjax', //요청경로
+				type: 'post',
+				async: false, //동기방식으로 진행
+				data: JSON.stringify(lectureTimeVO_list),
+				contentType: "application/json; charset=UTF-8",
+				success: function(result) {
+					if (!result) {
+						swal.fire({
+							title: '등록 불가',
+							text: '해당 시간은 이미 등록되어있습니다.',
+							icon: 'error',
+							button: '확인'
+						});
+					}
+					else {
+						swal.fire({
+							title: '등록가능.',
+							text: '등록 가능한 시간입니다.',
+							icon: 'success',
+							button: '확인'
+						})
+							.then((result) => {
+								swal.fire({
+									title: '수정 완료',
+									text: '강의 수정이 완료되었습니다.',
+									icon: 'success',
+									buttom: '확인'
+								})
+									.then((result) => {
+
+										//업데이트 ajax 함수 실행
+										updateLectureAjax();
+									})
+							})
+					}
+				},
+				error: function() {
+					alert('실패');
+				}
+			});
+			//ajax end
+		}
+		else {
+			lecNameValidate();
+			validateAllLectureTimes();
+			return;
+		}
 	}
 }
 
