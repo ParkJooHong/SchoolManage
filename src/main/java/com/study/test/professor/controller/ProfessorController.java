@@ -406,6 +406,7 @@ public class ProfessorController {
 	//캘린더
 	   @GetMapping("/calender")
 	   public String calender(ProfessorMenuVO professorMenuVO, ProfessorSubMenuVO professorSubMenuVO, Authentication authentication, MemberVO memberVO) {
+		   professorMenuVO.setMenuCode("MENU_006");
 		   professorSubMenuVO.setMenuCode(ConstVariable.SIX_PROFESSOR_MENU_CODE);
 		  
 		  UserCustom user = (UserCustom) authentication.getPrincipal();

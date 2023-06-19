@@ -60,7 +60,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 					<input class="form-control" type="text" name="memNo" id="memNo" th:placeholder="#{memNo.placeholder}">
 				</div>
 				<div class="input_pw">
-					<input class="form-control" type="password" name="memPw" id="memPw" th:placeholder="#{memPw.placeholder}">
+					<input class="form-control" type="password" name="memPw" id="memPw" onkeypress="enterLogin(event)" th:placeholder="#{memPw.placeholder}">
 				</div>
 				<div class="log_error" style="height: 1.5rem;">
 				</div>
