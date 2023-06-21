@@ -80,7 +80,7 @@
 								<input type="text" name="memAddrDetail"  id="inputAddrDetail" required placeholder="상세주소 입력은 필수입니다.">
 								<div class="row">
 									<div class="col-12" id="valiDetail">
-										
+									
 									</div>
 								</div>								
 							</td>
@@ -88,12 +88,20 @@
 						<tr>
 							<td>이메일</td>
 							<td class="d-grid">
-								<input type="text" name="memEmail" id="memEmail" required placeholder="이메일 입력은 필수입니다.">
 								<div class="row">
-									<div class="col-12" id="valiEmail">
+									<div class="col-9 d-grid">
+										<input type="text" name="memEmail" id="memEmail" required placeholder="이메일 입력은 필수입니다.">
+									</div>
+									<div class="col-3 d-grid">
+										<input type="button" class="btn btn-primary addr_search_btn" onclick="searchAddr();" value="메일인증">
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-9" id="valiEmail">
 										
 									</div>
-								</div>								
+								</div>
+																	
 							</td>
 						</tr>
 						<tr>

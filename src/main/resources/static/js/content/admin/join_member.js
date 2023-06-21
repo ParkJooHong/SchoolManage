@@ -74,6 +74,34 @@ function checkId() {
 	}
 }
 
+//메일인증
+function toggle_all(tag) {
+	//속성값이 변경되어야 하느 모든 태그가 있는 div 태그 선택
+	const accodionItems = document.querySelectorAll('.accordion-item');
+	//전체 숨기고 펼치기 버튼 태그
+	const status = tag.dataset.toggleStatus;
+
+	if (status == 'close') {
+		tag.dataset.toggleStatus = 'open';
+		tag.value = '전체 숨기기';
+		for (const item of accodionItems) {
+			item.querySelector('.accordion-button').classList.remove('collapsed');
+			item.querySelector('.accordion-collapse').classList.add('show');
+			item.querySelector('.accordion-button').setAttribute('aria-expanded', 'true');
+		};
+	}
+	if (status == 'open') {
+		tag.dataset.toggleStatus = 'close';
+		tag.value = '전체 펼치기';
+		for (const item of accodionItems) {
+			item.querySelector('.accordion-button').classList.add('collapsed');
+			item.querySelector('div[class*="accordion-collapse"]').classList.remove('show');
+			item.querySelector('.accordion-button').setAttribute('aria-expanded', 'false');
+		};
+	}
+}
+
+
 //벨리데이션
 function validate(){
 	//정규식
