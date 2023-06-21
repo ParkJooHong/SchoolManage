@@ -1542,7 +1542,7 @@ public class StuController {
 		model.addAttribute("donationDetail", donationService.detailDonation(donationCode)); // 모델에 데이터 추가
 		System.out.println(donationCode);
 
-		return "redirect:/stuMenu/donation";
+		return "/content/stu/stu_board/donation";
 	}
 
 	// 게시판 끝 }

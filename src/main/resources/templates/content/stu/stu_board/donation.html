@@ -107,13 +107,11 @@
 							</div>
 
 							<div class="card-footer p-4 pt-0 border-top-0 bg-transparent d-flex justify-content-center">
-								<button class="btn btn-primary donation" data-bs-toggle="modal"
-									data-bs-target="#donationDetailModal"
-									th:data-donation-code="${donation.donationCode}"
-									th:href="@{/stuMenu/donationdetail(donationBoardVO=${donation})}"
-									style="cursor: pointer; margin-right: 10px;">
+								<button class="btn btn-primary donation" data-bs-toggle="modal" data-bs-target="#donationDetailModal" data-donation-code="${donation.donationCode}">
 									아이템보기
 								</button>
+								
+								
 
 							</div>
 						</div>
@@ -125,75 +123,53 @@
 
 
 	<!-- 상세보기 모달  -->
-	<div class="modal fade" id="donationDetailModal" tabindex="-1" role="dialog" aria-labelledby="donationModalLabel"
-		aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<div class="d-flex justify-content-center">
-						<h3 class="modal-title d-flex justify-content-center" id="donationModalLabel">
-							아이템 구입하기</h3>
-					</div>
-				</div>
-
-				<div class="modal-body">
-					<div class="container">
-						<main>
-							<div class="product-detail">
+	<div class="modal-body">
+		<div class="container">
+			<main>
+				<div class="product-detail">
+					<hr class="one" />
+					<div id="product-overview">
+						<h2 class="producut-item" style="margin-top: 0px">
+							<!-- 상품이미지섹션 -->
+							<!-- 상품 이미지 섹션 -->
+							<hr>
+						</h2>
+	
+						<div id="product-overview">
+							<h2 class="producut-item" style="margin-top: 0px">
+								<span th:text="${donationDetail.donationName}"></span>
+								<hr>
+							</h2>
+	
+							<div class="price-section">
+								<hr>
+								<span>
+									<h3>상품가격:</h3>
+									<span th:text="${donationDetail.donationPrice}"></span>
+								</span>
+							</div>
+	
+	
+							<div class="product-description">
 								<hr class="one" />
-								<div id="product-overview">
-									<h2 class="producut-item" style="margin-top: 0px">
-										상품이미지섹션
-										------------
-										상품 이미지 섹션
-
-										<hr>
-									</h2>
-
-									<div id="product-overview">
-										<h2 class="producut-item" style="margin-top: 0px">
-											상품명:
-											<hr>
-										</h2>
-
-										<div class="price-section">
-											<hr>
-											<span>
-												<h3>상품가격:</h3>
-											</span>
-										</div>
-
-
-										<div class="price-section">
-											<hr>
-											<span>
-												<h3>글쓴이:</h3>
-											</span>
-										</div>
-
+								<p class="product-buyer-span"></p>
+								<h3>제품 상세 설명</h3>
+								<span th:text="${donationDetail.donationContent}">
 								
-										<div class="product-description">
-											<hr class="one" />
-											<p class="product-buyer-span"></p>
-											<h3>제품 상세 설명</h3>
-											<span>
-												Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-												Deserunt voluptatibus tempora eaque. Dolorem nobis assumenda
-												quis enim sint alias quia praesentium numquam
-												Fugit magni vel omnis ipsa. Officiis, nemo iure.
-											</span>
-										</div>
-										<hr>
-										<button type="button" class="btn btn-primary delete-product">삭제하기</button>
-										<button type="button" class="btn btn-dark">
-											<span class="button-list">목록</span>
-										</button>
-								
-									</div>
-								</div>
-						</main>
+								</span>
+							</div>
+							<hr>
+							<button type="button" class="btn btn-primary delete-product">삭제하기</button>
+							<button type="button" class="btn btn-dark">
+								<span class="button-list">목록</span>
+							</button>
+						</div>
 					</div>
 				</div>
+			</main>
+		</div>
+	</div>
+	
 
 
 
