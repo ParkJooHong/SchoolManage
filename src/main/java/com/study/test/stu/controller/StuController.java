@@ -1543,12 +1543,33 @@ public class StuController {
 		memberVO.setMemNo(user.getUsername());
 		model.addAttribute("memberVO", stuService.seletStu(memberVO));
 
-		model.addAttribute("donationDetail", donationService.donationDetail(donationCode)); // 모델에 데이터 추가
+		model.addAttribute("dona", donationService.donationDetail(donationCode)); // 모델에 데이터 추가
 		System.out.println(donationCode);
 
 		return "/content/stu/stu_board/donation";
 	}
 
+	@ResponseBody
+	@PostMapping("/donationDetailAjax")
+	public Map<String, Object> replyAjax(String donationCode) {
+
+		System.out.println("도네 코드 : " + donationCode);
+
+		Map<String, Object> data = new HashMap<>();
+
+		DonationBoardVO donationDetail = donationService.donationDetail(donationCode);
+
+		data.put("donationDetail", donationDetail);
+
+		System.out.println(data);
+		return data;
+
+	}
+	/*
+	 * 
+	 * model.addAttribute("subMenuCode", subMenuCode);
+	 * model.addAttribute("menuCode", menuCode);
+	 */
 	// 게시판 끝 }
 
 	// ----------- 캘린더 {
