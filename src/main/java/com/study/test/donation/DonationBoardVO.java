@@ -1,7 +1,5 @@
 package com.study.test.donation;
 
-
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -17,4 +15,3 @@ public class DonationBoardVO {
     private String donationImage;
     private DonationBoardImageVO donationBoardImageVO;
 }
-
