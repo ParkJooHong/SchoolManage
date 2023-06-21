@@ -31,7 +31,7 @@ public class DonationServiceImpl implements DonationService {
 
     // 중고 상품의 상세보기를 하는 매퍼 쿼리문
     @Override
-    public DonationBoardVO detailDonation(String donationCode) {
+    public DonationBoardVO donationDetail(String donationCode) {
         return sqlSession.selectOne("donationMapper.donationDetail", donationCode);
 
     }

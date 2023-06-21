@@ -19,8 +19,7 @@ function insertDonation() {
 const donationButtons = document.querySelectorAll(".donation");
 donationButtons.forEach(function (button) {
   button.addEventListener("click", function () {
-    const donationCode = button.getAttribute("data-donation-code");
-
+    const donationCode = document.querySelector("#donationCode").value;
     // 서버로 AJAX 요청 보내기
     fetch("/stuMenu/donationdetail?donationCode=" + donationCode)
       .then(function (response) {

@@ -1510,6 +1510,8 @@ public class StuController {
 			MemberVO memberVO, String donationCode, StuVO stuVO, MemberMenuVO memberMenuVO,
 			MemberSubMenuVO memberSubMenuVO) {
 
+		memberSubMenuVO.setMenuCode(ConstVariable.FOURTH_STU_MENU_CODE);
+
 		System.out.println(donationCode);
 
 		User user = (User) authentication.getPrincipal();
@@ -1530,6 +1532,8 @@ public class StuController {
 			MemberVO memberVO, String donationCode, StuVO stuVO, MemberMenuVO memberMenuVO,
 			MemberSubMenuVO memberSubMenuVO) {
 
+		memberSubMenuVO.setMenuCode(ConstVariable.FOURTH_STU_MENU_CODE);
+
 		System.out.println(donationCode);
 
 		User user = (User) authentication.getPrincipal();
@@ -1539,7 +1543,7 @@ public class StuController {
 		memberVO.setMemNo(user.getUsername());
 		model.addAttribute("memberVO", stuService.seletStu(memberVO));
 
-		model.addAttribute("donationDetail", donationService.detailDonation(donationCode)); // 모델에 데이터 추가
+		model.addAttribute("donationDetail", donationService.donationDetail(donationCode)); // 모델에 데이터 추가
 		System.out.println(donationCode);
 
 		return "/content/stu/stu_board/donation";

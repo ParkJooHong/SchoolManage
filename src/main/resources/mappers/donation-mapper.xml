@@ -84,7 +84,7 @@
         ATTACHED_FILE_NAME
         FROM DONATION_ITEM DITEM, DONATION_IMG DIMG
         WHERE DITEM.DONATION_CODE = DIMG.DONATION_CODE
-        AND DITEM.DONATION_CODE = #{donationCode}
+        AND DIMG.DONATION_CODE = #{donationCode}
     </select>
 
 </mapper>
