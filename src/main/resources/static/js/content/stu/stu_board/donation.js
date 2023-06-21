@@ -16,27 +16,40 @@ function insertDonation() {
   });
 }
 
-document.addEventListener("DOMContentLoaded", function () {
-  var donationSeeButtons = document.querySelectorAll(".donationDetail");
-  donationSeeButtons.forEach(function (button) {
-    button.addEventListener("click", function () {
-      var donationCode = button.getAttribute("data-donation-code");
+const donationButtons = document.querySelectorAll(".donation");
+donationButtons.forEach(function (button) {
+  button.addEventListener("click", function () {
+    const donationCode = button.getAttribute("data-donation-code");
 
-      fetch("/stuMenu/donationdetail?donationCode=" + donationCode)
-        .then(function (response) {
-          if (response.ok) {
-            return response.json();
-          } else {
-            throw new Error("Error: " + response.status);
-          }
-        })
-        .then(function (data) {
-          // 받은 데이터를 사용하여 모달 열기 및 내용 업데이트 로직
-        })
-        .catch(function (error) {
-          // 에러 처리 로직
-          console.log(error);
-        });
-    });
+    // 서버로 AJAX 요청 보내기
+    fetch("/stuMenu/donationdetail?donationCode=" + donationCode)
+      .then(function (response) {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error("Error: " + response.status);
+        }
+      })
+      .then(function (data) {
+        // 모달에 데이터 채워넣기
+        const productName = document.getElementById("product-name");
+        const productPrice = document.getElementById("product-price");
+        const productDescription = document.getElementById(
+          "product-description"
+        );
+
+        productName.innerText = "상품명: " + data.donationName;
+        productPrice.innerText = "상품가격: " + data.donationPrice;
+        productDescription.innerText = data.donationContent;
+
+        // 모달 열기
+        const modal = new bootstrap.Modal(
+          document.getElementById("donationDetailModal")
+        );
+        modal.show();
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   });
 });
