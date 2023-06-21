@@ -3,7 +3,7 @@ function insertDonation() {
   const donationPrice = document.querySelector("#donationPrice").value;
 
   // 이름에 숫자 또는 특수 문자가 포함되어 있는지 확인
-  if (/\d|\W/.test(donationName)) {
+  if (/[^가-힣\w\d]/.test(donationName)) {
     Swal.fire({
       title: "경고",
       text: "이름은 문자만 입력해주세요!",
