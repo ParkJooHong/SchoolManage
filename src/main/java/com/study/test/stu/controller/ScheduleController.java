@@ -49,6 +49,8 @@ public class ScheduleController {
 		scheduleService.deleteSchedule(mem);
 		
 		
+		
+		
 		Map<String, Object> myScheduleList = new HashMap<>();
 			
 		try {
@@ -63,6 +65,7 @@ public class ScheduleController {
                 String end = (String) event.get("end");
                 String viewTitle = (String) event.get("viewTitle");
                 String memNo = (String)event.get("memNo");
+ 
                 
                 System.out.println(end);
                 
@@ -79,12 +82,15 @@ public class ScheduleController {
                 System.out.println("End: " + endTime);
                 System.out.println("View Title: " + viewTitle);
                 System.out.println("학번: " + memNo);
+
                 
                 scheduleVO.setTitle(title);
                 scheduleVO.setStartTime(startTime);
                 scheduleVO.setEndTime(endTime);
                 scheduleVO.setViewTitle(viewTitle);
                 scheduleVO.setMemNo(memNo);
+                scheduleVO.setMemRole("N");
+                
                 
                 scheduleService.regMySchedule(scheduleVO);            
             }
@@ -102,7 +108,77 @@ public class ScheduleController {
 		scheduleService.deleteSchedule(mem);
 	}
 	
+	//메인 화면에 학사 캘린더 조회
+	@ResponseBody
+	@PostMapping("/selectSchoolScheduleAjax")
+	public Map<String, Object> selectSchoolScheduleAjax(String memNo) {
+		
+		Map<String, Object> myScheduleList = new HashMap<>();
+		
+		myScheduleList.put("mySchedul", scheduleService.selectSchoolSchedule());
+		
+		return myScheduleList;
+	}
 	
+	
+	@ResponseBody
+	@PostMapping("/schoolScheduleAjax")
+	public Map<String, Object> schoolScheduleAjax(@RequestBody String json, ScheduleVO scheduleVO,  @RequestParam("mem") String mem) {
+
+		//일정 초기화(삭제)
+		scheduleService.deleteSchedule(mem);
+		
+		Map<String, Object> myScheduleList = new HashMap<>();
+			
+		try {
+            ObjectMapper mapper = new ObjectMapper();
+            HashMap[] events = mapper.readValue(json, HashMap[].class);
+
+            // events 배열에 변환된 데이터가 저장.
+            for (HashMap<String, Object> event : events) {
+                String title = (String) event.get("title");
+                boolean allDay = (boolean) event.get("allday");
+                String start = (String) event.get("start");
+                String end = (String) event.get("end");
+                String viewTitle = (String) event.get("viewTitle");
+                String memNo = (String)event.get("memNo");
+                String memRole = (String)event.get("memRole");
+ 
+                
+                System.out.println(end);
+                
+                //데이터 시간 날짜형으로 포맷
+                LocalDateTime dateTime = LocalDateTime.parse(start, DateTimeFormatter.ISO_DATE_TIME);
+                String startTime = dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                
+                LocalDateTime dateTime2 = LocalDateTime.parse(end, DateTimeFormatter.ISO_DATE_TIME);
+                String endTime = dateTime2.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+                System.out.println("Title: " + title);
+                System.out.println("All Day: " + allDay);
+                System.out.println("Start: " + startTime);
+                System.out.println("End: " + endTime);
+                System.out.println("View Title: " + viewTitle);
+                System.out.println("학번: " + memNo);
+                System.out.println("멤롤 : " + memRole);
+
+                
+                scheduleVO.setTitle(title);
+                scheduleVO.setStartTime(startTime);
+                scheduleVO.setEndTime(endTime);
+                scheduleVO.setViewTitle(viewTitle);
+                scheduleVO.setMemNo(memNo);
+                scheduleVO.setMemRole(memRole);
+                
+                
+                scheduleService.regMySchedule(scheduleVO);            
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return myScheduleList;
+		
+	}
 	
 	
 	

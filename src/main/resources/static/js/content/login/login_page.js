@@ -1,3 +1,10 @@
+function enterLogin(e){
+	if(e.keyCode == 13){
+		login()
+	}
+}
+
+
 function login() {
 	let memNo = document.querySelector('#memNo').value;
 	let memPw = document.querySelector('#memPw').value;

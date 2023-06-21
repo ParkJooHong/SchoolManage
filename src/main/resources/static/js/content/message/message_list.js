@@ -181,7 +181,7 @@ function getConversContent(recvMemNo, recvName){
 			
 			str += `<div class="row send_message text-center">`;
 			str += `	<div class="col-10 d-grid">`;
-			str += `		<input type="text" id="conversSendContent">`;
+			str += `		<input type="text" id="conversSendContent" onkeypress="enterSendMsg(event, '${recvMemNo}', '${recvName}')">`;
 			str += `	</div>`;
 			str += `	<div class="col-2 d-grid">`;
 			str += `		<button class="btn btn-primary" onclick="sendMessageConvers('${recvMemNo}', '${recvName}')">보 내 기</button>`;
@@ -199,3 +199,12 @@ function getConversContent(recvMemNo, recvName){
 	//ajax end 
 }
 
+//엔터키로 바로 메세지 보내기
+function enterSendMsg(e, recvMemNo, recvName){
+	
+	console.log(e.keyCode);
+	
+	if(e.keyCode == 13){
+		sendMessageConvers(recvMemNo, recvName);
+	}
+}

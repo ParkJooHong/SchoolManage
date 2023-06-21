@@ -30,6 +30,7 @@ import com.study.test.member.vo.MemberVO;
 import com.study.test.professor.vo.ProfessorMenuVO;
 import com.study.test.professor.vo.ProfessorSubMenuVO;
 import com.study.test.school.service.SchoolService;
+import com.study.test.stu.service.ScheduleService;
 import com.study.test.stu.service.StuService;
 import com.study.test.stu.vo.StuVO;
 import com.study.test.util.ConstVariable;
@@ -55,6 +56,9 @@ public class BoardController {
 
 	@Resource(name = "boardReplyService")
 	private BoardReplyService boardReplyService;
+	
+	@Resource(name = "scheduleService")
+	private ScheduleService scheduleService;
 	
 	@GetMapping("/boardMain")
 	public String boardMain(MemberSubMenuVO memberSubMenuVO, Authentication authentication, Model model, MemberVO memberVO, StuVO stuVO) {
@@ -436,6 +440,21 @@ public class BoardController {
 		
 		System.out.println("멤버 정보 : @ " +stuService.selectMember2(memNo));
 		model.addAttribute("member", stuService.selectMember2(memNo));
+		
+		memberVO = stuService.selectMember2(memNo);
+		
+		System.out.println(memberVO.getMemRole());
+		
+		memberVO.getStuVO().setStuNo(memNo);
+		System.out.println(memberVO.getStuVO().getStuNo());
+		
+		if (memberVO.getMemRole().equals("STU")) {
+			 System.out.println("학생.");
+			 model.addAttribute("dept", scheduleService.stuDeptNo(memberVO.getStuVO().getStuNo()));
+		} else {
+			System.out.println("교슈");
+			model.addAttribute("dept", scheduleService.empDeptNo(memberVO.getEmpVO().getMemNo()));
+		}
 		
 				
 		return "content/publicBoard/notice";

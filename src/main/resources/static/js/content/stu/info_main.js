@@ -59,7 +59,7 @@ function allSave(calendar){
 function loadingEvents(memNo) {
   return new Promise(function (resolve, reject) {
     $.ajax({
-      url: '/schedule/selectMyScheduleAjax',
+      url: '/schedule/selectSchoolScheduleAjax',
       type: 'post',
       async: true,
       contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -76,8 +76,8 @@ function loadingEvents(memNo) {
             date: return_value[i]['startTime'],
             allDay : true
           });
-        }
-        resolve(events); // 데이터 처리 완료 후 Promise를 이용하여 결과값 전달
+        }        
+       resolve(events); // 데이터 처리 완료 후 Promise를 이용하여 결과값 전달
       },
       error: function () {
         alert('실패~');
@@ -121,8 +121,8 @@ document.addEventListener('DOMContentLoaded', function () {
   var calendar = new Calendar(calendarEl, {
     headerToolbar: {
       left: 'prev,next today',
-      center: 'title',
-      right: 'dayGridMonth'
+      center: 'title', 
+      right: 'customButton1'
     },
     editable: true,
     droppable: true,
@@ -132,8 +132,18 @@ document.addEventListener('DOMContentLoaded', function () {
         info.draggedEl.parentNode.removeChild(info.draggedEl);
       }
     },
-    locale: "ko"
+    locale: "ko",
+    customButtons: {
+      customButton1: {
+        text: '학사 일정',
+        click: function () {
+          // 버튼 클릭 이벤트 처리
+        }
+      }
+    }
   });
+  
+  
 
   loadingEvents(memNo)
     .then(function (events) {
@@ -160,4 +170,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     
     calendar.render();
+    
 });
+
