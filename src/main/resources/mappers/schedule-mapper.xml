@@ -11,7 +11,7 @@
 		<result column="END_TIME" 			property="endTime"/>
 		<result column="VIEW_TITLE" 			property="viewTitle"/>
 		<result column="MEM_NO" 			property="memNo"/>
-
+		<result column="MEM_ROLE" 			property="memRole"/>
 	</resultMap>
 	
 	<!-- 일정 조회 -->
@@ -22,8 +22,22 @@
 			, END_TIME
 			, VIEW_TITLE
 			, MEM_NO
+			, MEM_ROLE
 		FROM SCHEDULE
 		WHERE MEM_NO = #{memNo}
+	</select>
+	
+	<!-- 학사 일정 조회 -->
+	<select id="selectSchoolSchedule" resultMap="schedule">
+		SELECT SCD_NO
+			, TITLE
+			, START_TIME
+			, END_TIME
+			, VIEW_TITLE
+			, MEM_NO
+			, MEM_ROLE
+		FROM SCHEDULE
+		WHERE MEM_ROLE = 'ADMIN'
 	</select>
 	
 	<!-- 일정 등록 -->
@@ -35,6 +49,7 @@
 			, END_TIME
 			, VIEW_TITLE
 			, MEM_NO
+			, MEM_ROLE
 		) VALUES(
 			(SELECT 'SCD_'||LPAD(NVL(MAX(TO_NUMBER(SUBSTR(SCD_NO, 5))), 0) +1 , 3,
 			'0')
@@ -44,6 +59,7 @@
 			, #{endTime}
 			, #{viewTitle}
 			, #{memNo}
+			, #{memRole}
 		)
 	</insert>
 	
@@ -51,6 +67,19 @@
 		DELETE SCHEDULE WHERE MEM_NO = #{memNo}
 	</delete>
 
+	<!-- 학과 조회 위한 학생 dept 추출 -->
+	<select id="stuDeptNo" resultMap="stuMapper.stu">
+		SELECT STU_NO, DEPT_NO
+		FROM UNI_STU
+		WHERE STU_NO = #{stuNo}
+	</select>
+	
+	<!-- 학과 조회 위한 겨수 dept 추출 -->
+	<select id="empDeptNo" resultMap="memberMapper.emp">
+		SELECT MEM_NO, DEPT_NO
+		FROM UNI_EMP
+		WHERE MEM_NO = #{memNo}
+	</select>
 
 </mapper>
 

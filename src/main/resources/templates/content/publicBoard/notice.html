@@ -135,8 +135,9 @@
 	</div>
 	
 
-<input type="hidden" th:value="${member}" class="memNo">
+<input type="hidden" th:value="${member.memNo}" class="memNo">
 <input type="hidden" th:value="${member.memRole}" class="memRole">
+<!-- <input type="text" th:value="${dept.deptNo}" class="deptNo"> -->
 <div  style="float:right;">
 	<div><input type="hidden" value="일정 저장" onclick="allSave();" id="save-button" class="btn btn-danger" style="margin: 5px;"></div>
 	<div><input type="hidden" value="전체 삭제" onclick="allDelete();" id="delete-button" class="btn btn-danger" style="margin: 5px;"></div>

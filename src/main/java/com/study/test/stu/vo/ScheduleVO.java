@@ -15,4 +15,6 @@ public class ScheduleVO {
 	private String endTime;
 	private String viewTitle;
 	private String memNo;
+	
+	private String memRole;
 }
