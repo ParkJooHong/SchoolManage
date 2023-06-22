@@ -598,15 +598,11 @@ public class BoardController {
 	// 보드 게시글 삭제
 	@ResponseBody
 	@PostMapping("/boardDeleteAjax")
-	private Map<String, Object> boardDelete(String boardNo, String menuCode, String subMenuCode) {
-
-		Map<String, Object> data = new HashMap<>();
-		data.put("menuCode", menuCode);
-		data.put("subMenuCode", subMenuCode);
+	private boolean boardDelete(String boardNo) {
 
 		boardService.boardDelete(boardNo);
 
-		return data;
+		return true;
 	}
 
 	// 보드 댓글 삭제

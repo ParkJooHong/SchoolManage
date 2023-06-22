@@ -72,12 +72,13 @@ function insertReply(menuCode, subMenuCode){
 
 //게시글 수정
 function updateBoard(boardContent,boardTitle, boardNo){
-	const menuCode = document.querySelector('.menuCode').value;
-	const subMenuCode = document.querySelector('.subMenuCode').value;
+	//const menuCode = document.querySelector('.menuCode').value;
+	//const subMenuCode = document.querySelector('.subMenuCode').value;
 	
 	const updateOrDelete = document.querySelector('.updateOrDelete');
 	const boardTitleStr = document.querySelector('.boardTitle');
 	const boardContentStr = document.querySelector('.boardContent');
+
 	
 	boardTitleStr.replaceChildren();
 	boardContentStr.replaceChildren();
@@ -88,11 +89,12 @@ function updateBoard(boardContent,boardTitle, boardNo){
 	let boardTitle_str = '';
 	let boardContent_str ='';
 	
-	boardTitle_str = '<input type="text" class="newBoardTitle" placeholder="변경할 제목을 입력해주세요.">';
-	boardContent_str = '<textarea class="newBoardContent" placeholder="변경할 내용을 입력해주세요." style="box-sizing: border-box; height: 100%; resize: none;"></textarea>';
+	boardTitle_str = '<input type="text" class="newBoardTitle" placeholder="변경할 제목을 입력해주세요." style="width:100%;">';
+	boardContent_str = '<textarea class="newBoardContent" placeholder="변경할 내용을 입력해주세요." style="box-sizing: border-box; width:100%; height: 100%; resize: none;"></textarea>';
 	
 	
-	updateOrDelete_str = `<input type="button" value="수정 완료" class="btn btn-primary" onclick="updateBoardGo('${boardContent}', '${boardTitle}','${boardNo}' , '${menuCode}', '${subMenuCode}');">`;
+	boardContent = boardContent.replace('\n','');
+	updateOrDelete_str = `<input type="button" value="수정 완료" class="btn btn-primary" onclick="updateBoardGo('${boardContent}', '${boardTitle}','${boardNo}');">`;
 	
 	boardTitleStr.insertAdjacentHTML('afterbegin', boardTitle_str);
 	boardContentStr.insertAdjacentHTML('afterbegin', boardContent_str);
@@ -100,15 +102,36 @@ function updateBoard(boardContent,boardTitle, boardNo){
 }
 
 //게시글 수정 ajax
-function updateBoardGo(menuCode, subMenuCode ,boardNo ){
+function updateBoardGo(boardContent, boardTitle ,boardNo ){
 	const newBoardTitle = document.querySelector('.newBoardTitle').value;
 	const newBoardContent = document.querySelector('.newBoardContent').value;
 	
-	$.ajax({
+	//alert(menuCode);
+	
+	if(newBoardTitle == ''){
+		swal.fire({
+				title: "변경할 제목을 입력해주세요.",
+				icon: 'error',
+				button: '확인',
+			});
+			return;
+	}
+	
+	if(newBoardContent == ''){
+		swal.fire({
+				title: "변경할 내용을 입력해주세요.",
+				icon: 'error',
+				button: '확인',
+			});
+			return;
+	}
+	
+	
+		$.ajax({
 			url: '/board/boardUpdateAjax', //요청경로
 			type: 'post',
 			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-			data: {'newBoardTitle' : newBoardTitle, 'menuCode' : menuCode, 'subMenuCode' : subMenuCode, 'newBoardContent' : newBoardContent , 'boardNo' : boardNo }, //필요한 데이터
+			data: {'newBoardTitle' : newBoardTitle, 'newBoardContent' : newBoardContent , 'boardNo' : boardNo }, //필요한 데이터
 			success: function(result) {
 				if(result){
 					swal.fire({
@@ -130,18 +153,21 @@ function updateBoardGo(menuCode, subMenuCode ,boardNo ){
 				
 			}
 		});
+	
+	
+	
 
 	
 }
 
 //게시글 삭제
-function deleteBoard(boardNo, menuCode, subMenuCode ){
+function deleteBoard(boardNo ){
 
 	$.ajax({
 			url: '/board/boardDeleteAjax', //요청경로
 			type: 'post',
 			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-			data: {'boardNo' : boardNo, 'menuCode' : menuCode, 'subMenuCode' : subMenuCode }, //필요한 데이터
+			data: {'boardNo' : boardNo }, //필요한 데이터
 			success: function(result) {
 				if(result){
 					swal.fire({
@@ -152,8 +178,8 @@ function deleteBoard(boardNo, menuCode, subMenuCode ){
 					 setTimeout(function() {
 						location.reload();
 						}, 500);
-					window.history.go(-1);
-					//location.href=`/stuMenu/myBoard?menuCode=${menuCode} & subMenuCode=${subMenuCode}`;
+					//window.history.go(-1);
+					//location.href=`/board/board`;
 				}
 				else{
 					alert('일시적 오류가 발생했습니다.');

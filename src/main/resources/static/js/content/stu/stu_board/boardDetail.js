@@ -70,6 +70,8 @@ function updateBoard(boardContent,boardTitle, boardNo){
 	const boardTitleStr = document.querySelector('.boardTitle');
 	const boardContentStr = document.querySelector('.boardContent');
 	
+	alert(menuCode);
+	
 	boardTitleStr.replaceChildren();
 	boardContentStr.replaceChildren();
 
@@ -94,6 +96,8 @@ function updateBoard(boardContent,boardTitle, boardNo){
 function updateBoardGo(menuCode, subMenuCode ,boardNo ){
 	const newBoardTitle = document.querySelector('.newBoardTitle').value;
 	const newBoardContent = document.querySelector('.newBoardContent').value;
+	
+	alert(newBoardContent);
 	
 	$.ajax({
 			url: '/board/boardUpdateAjax', //요청경로
