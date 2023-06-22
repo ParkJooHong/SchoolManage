@@ -311,7 +311,7 @@ public class BoardController {
 	
 		//학과 게시판
 	@RequestMapping("/deptBoard")
-	private String deptBoard(MemberSubMenuVO memberSubMenuVO, AdminSubMenuVO adminSubMenuVO, ProfessorMenuVO professorMenuVO, Model model, Authentication authentication, MemberVO memberVO, StuVO stuVO, UniBoardVO uniBoardVO
+	private String deptBoard(MemberSubMenuVO memberSubMenuVO, AdminSubMenuVO adminSubMenuVO, ProfessorSubMenuVO professorSubMenuVO, Model model, Authentication authentication, MemberVO memberVO, StuVO stuVO, UniBoardVO uniBoardVO
 			,String cateNo, BoardCategoryVO boardCategoryVO, String deptNo) {
 
 		User user = (User) authentication.getPrincipal();
@@ -371,7 +371,7 @@ public class BoardController {
 				if(authorityStrings.contains("ROLE_PRO")){
 					uniBoardVO.setDeptNo(memberService.getMemInfoForBoard(memberVO).getEmpVO().getDeptNo());
 					model.addAttribute("memberVO", memberService.getMemInfoForBoard(memberVO));
-					professorMenuVO.setMenuCode(ConstVariable.FIVE_PROFESSOR_MENU_CODE);
+					professorSubMenuVO.setMenuCode(ConstVariable.FIVE_PROFESSOR_MENU_CODE);
 					memLayOut = "professor";
 				}
 				

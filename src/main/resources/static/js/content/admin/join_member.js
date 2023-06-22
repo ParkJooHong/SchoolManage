@@ -171,30 +171,6 @@ function mailAuth_1(){
 	//ajax end
 }
 
-//연락처인증 : 문자전송
-function sendSms(tag) {
-	
-	//연락처 벨리데이션
-	if(input_email == ''){
-		str_mail_ck += '<div class="my-invalid">빈 값은 입력될 수 없습니다.</div>';
-		mail_bool = false;
-	}
-	else if(!input_email.match(reg_mail)){
-		str_mail_ck += '<div class="my-invalid">입력하신 이메일은 규정에 맞지 않습니다.</div>';
-		mail_bool = false;
-	}
-	
-
-	if (status == 'close') {
-		tag.dataset.toggleMail = 'open';
-		tag.value = '메일인증';
-		};
-	if (status == 'open') {
-		tag.dataset.toggleMail = 'close';
-		tag.value = '메일전송';
-		};
-}
-
 //인증 시간 타이머
 let timerInterval;
 
