@@ -27,7 +27,10 @@ import com.study.test.admin.vo.ProbationVO;
 import com.study.test.admin.vo.StuOutVO;
 import com.study.test.board.service.BoardService;
 import com.study.test.board.vo.BoardCategoryVO;
+import com.study.test.board.vo.PageVO;
+import com.study.test.board.vo.SearchVO;
 import com.study.test.member.service.MemberService;
+import com.study.test.member.vo.MailVO;
 import com.study.test.member.vo.MemImgVO;
 
 import com.study.test.member.vo.MemberVO;
@@ -40,9 +43,12 @@ import com.study.test.school.service.SchoolService;
 import com.study.test.stu.vo.StatusInfoVO;
 import com.study.test.stu.vo.StuVO;
 import com.study.test.util.ConstVariable;
+import com.study.test.util.MailService;
 import com.study.test.util.UploadUtil;
 
+import groovyjarjarantlr4.v4.parse.GrammarTreeVisitor.mode_return;
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/admin")
@@ -55,6 +61,8 @@ public class AdminController {
 	private SchoolService schoolService;
 	@Resource(name = "boardService")
 	private BoardService boardService;
+	@Resource(name = "mailService")
+	private MailService mailService;
 	@Autowired
 	private PasswordEncoder encoder;
 
@@ -91,7 +99,7 @@ public class AdminController {
 		memberVO.setMemPw(encodedPw);
 		return adminService.changePw(memberVO);
 	}
-
+	
 	// 회원등록
 	@PostMapping("/join")
 	public String join(MemberVO memberVO, MultipartFile mainImg, Model model,AdminSubMenuVO adminSubMenuVO) {
@@ -118,6 +126,39 @@ public class AdminController {
 		System.out.println("@@@@@@@@@@@@@@" + memberVO);
 		memberService.regMember(memberVO);
 		return path;
+	}
+	
+	// 메일전송 : 회원등록
+	@PostMapping("/sendCatiMailAjax")
+	@ResponseBody
+	public boolean sendCatiMailAjax(String mail, HttpSession session) {
+		boolean mailResult = true;
+		MemberVO memberVO = new MemberVO();
+			String imsiPw = mailService.createRandomPw();
+			// 메일 보내기
+			MailVO mailVO = new MailVO();
+			List<String> emailList = new ArrayList<>();
+			emailList.add(memberVO.getMemEmail());
+			mailVO.setTitle("이메일 인증번호 발송");
+			mailVO.setRecipientList(emailList);
+			mailVO.setContent("인증번호는 : " + imsiPw + " 입니다.");
+			session.setAttribute("catiPw", imsiPw);
+			//mailService.sendSimpleEmail(mailVO);
+			System.out.println("인증번호 생성확인 " + imsiPw);
+		return mailResult;
+	}
+	
+	//메일인증하기 : 회원등록
+	@PostMapping("/checkCatiNumAjax")
+	@ResponseBody
+	public boolean checkCatiNumAjax(HttpSession session, String catiNum) {
+		boolean checkResult = false;
+		String sendPw = (String) session.getAttribute("catiPw");
+		if(sendPw.equals(catiNum)) {
+			session.removeAttribute("catiPw");
+			checkResult = true;
+		}
+		return checkResult;
 	}
 
 	// 학생정보등록페이지 이동
@@ -186,6 +227,32 @@ public class AdminController {
 		adminService.regEmp(empVO);
 		return "redirect:/admin/joinMember";
 	}
+	
+	//----------------------회원관리----------------------//
+	//회원관리 페이지 이동
+	@RequestMapping("/memberManage")
+	public String memberManage(AdminSubMenuVO adminSubMenuVO, Model model, MemberVO memberVO, SearchVO searchVO) {
+		adminSubMenuVO.setMenuCode(ConstVariable.DEFAULT_MENU_CODE);
+		
+		System.out.println("@@@@@@@@@@@@@서치 데이터 확인 : " + memberVO.getSearchKeyword());
+		System.out.println("@@@@@@@@@@@@@서치 데이터 확인 : " + memberVO.getSearchValue());
+		
+		//페이징 세팅
+		//전체 회원수
+		int totalMemCnt = memberService.memCnt(memberVO);
+		memberVO.setTotalDataCnt(totalMemCnt);
+		//페이징 정보 세팅
+		memberVO.setPageInfo();
+		
+		//회원 목록 조회
+		List<Map<String, Object>> memList = memberService.memManageGetMemList(memberVO);
+		
+		//회원 목록 데이터 전달
+		model.addAttribute("memberList", memList);
+		
+		return "content/admin/member_manage";
+	}
+	
 	
 	// 학적변동승인(복학,휴학)
 	@GetMapping("/updateStuInfo")

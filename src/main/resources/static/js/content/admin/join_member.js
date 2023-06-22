@@ -75,31 +75,155 @@ function checkId() {
 }
 
 //메일인증
-function toggle_all(tag) {
-	//속성값이 변경되어야 하느 모든 태그가 있는 div 태그 선택
-	const accodionItems = document.querySelectorAll('.accordion-item');
-	//전체 숨기고 펼치기 버튼 태그
-	const status = tag.dataset.toggleStatus;
-
-	if (status == 'close') {
-		tag.dataset.toggleStatus = 'open';
-		tag.value = '전체 숨기기';
-		for (const item of accodionItems) {
-			item.querySelector('.accordion-button').classList.remove('collapsed');
-			item.querySelector('.accordion-collapse').classList.add('show');
-			item.querySelector('.accordion-button').setAttribute('aria-expanded', 'true');
-		};
+function sendMail(tag) {
+	
+	let mail_bool = true;
+	let str_mail_ck = '';
+	//메일 입력 태그
+	const input_email = document.querySelector('.detail_info #memEmail').value;
+	//에러 메세지 입력 태그
+	const vali_email = document.querySelector('#valiEmail');
+	//이메일 정규식
+	const reg_mail = /^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
+	//이메일 규정
+	if(input_email == ''){
+		str_mail_ck += '<div class="my-invalid">빈 값은 입력될 수 없습니다.</div>';
+		mail_bool = false;
 	}
-	if (status == 'open') {
-		tag.dataset.toggleStatus = 'close';
-		tag.value = '전체 펼치기';
-		for (const item of accodionItems) {
-			item.querySelector('.accordion-button').classList.add('collapsed');
-			item.querySelector('div[class*="accordion-collapse"]').classList.remove('show');
-			item.querySelector('.accordion-button').setAttribute('aria-expanded', 'false');
-		};
+	else if(!input_email.match(reg_mail)){
+		str_mail_ck += '<div class="my-invalid">입력하신 이메일은 규정에 맞지 않습니다.</div>';
+		mail_bool = false;
+	}
+	
+	if(!mail_bool){
+		vali_email.innerHTML = str_mail_ck;
+	}
+	else {
+		//메일전송
+		//ajax start
+		$.ajax({
+			url: '/admin/sendCatiMailAjax', //요청경로
+			type: 'post',
+			async: false, //동기 방식으로 실행, 작성하지 않으면 기본 true값을 가짐
+			data: { 'mail': input_email },			//JSON.stringify(classInfo), //필요한 데이터
+			contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+			success: function(result) {
+				swal.fire({
+					title: "인증번호 전송완료",
+					text: "입력하신 메일로 인증번호가 전송되었습니다.",
+					icon: 'success',
+					button: '확인'
+				}).then((r)=>{
+					//모달창 띄우기
+					const modal = new bootstrap.Modal(document.querySelector('#mailAuthModal'));
+					modal.show();
+					
+					//타이머 실행
+					timer();
+				})
+			},
+			error: function() {
+				alert('실패');
+			}
+		});
+		//ajax end 
 	}
 }
+
+//메일인증
+function mailAuth_1(){
+	const input_auth_num = document.querySelector('#mailAuthModal #mailAuthNum').value;
+	
+	//ajax start
+	$.ajax({
+		url: '/admin/checkCatiNumAjax', //요청경로
+		type: 'post',
+		async: false, //동기 방식으로 실행, 작성하지 않으면 기본 true값을 가짐
+		data: {'catiNum': input_auth_num},			//JSON.stringify(classInfo), //필요한 데이터
+		contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+		success: function(result) {
+			if(result){
+				swal.fire({
+					title : "인증완료",
+					text : "인증이 완료되었습니다",
+					icon : 'success',
+					button : '확인'
+				}).then((r) => {
+					$('#mailAuthModal').modal('hide');
+					document.querySelector('#mailAuth').value = '인증완료'
+					document.querySelector('#mailAuth').disabled = true
+				});
+			}
+			else{
+				swal.fire({
+					title : "인증실패",
+					text : "인증번호를 다시 확인하여주세요",
+					icon : 'error',
+					button : '확인'
+				})
+				return
+			}
+		},
+		error: function() {
+			alert('실패');
+		}
+	});
+	//ajax end
+}
+
+//문자인증
+function mailToggle(tag) {
+	//전체 숨기고 펼치기 버튼 태그
+	const status = tag.dataset.toggleMail;
+
+	if (status == 'close') {
+		tag.dataset.toggleMail = 'open';
+		tag.value = '메일인증';
+		};
+	if (status == 'open') {
+		tag.dataset.toggleMail = 'close';
+		tag.value = '메일전송';
+		};
+}
+
+//인증 시간 타이머
+let timerInterval;
+
+function timer() {
+	// 이미 실행 중인 타이머가 있다면 타이머를 정지
+	if(timerInterval){
+		clearInterval(timerInterval);
+	}
+	
+	// 현재 시간에 5분을 더함
+	let countdownTime = 60 * 5;
+	
+	timerInterval = setInterval(function() {
+		
+		let minutes = Math.floor(countdownTime / 60); // 분으로 변환
+		let seconds = countdownTime % 60; // 초로 변환
+
+		// 0 앞에 붙일 '0'을 미리 선언
+        let displayMinutes = (minutes < 10 ? "0" : "") + minutes;
+        let displaySeconds = (seconds < 10 ? "0" : "") + seconds;
+
+		document.getElementById("mail_countdown").innerHTML = displayMinutes + ":" + displaySeconds;
+		
+		countdownTime--;
+		
+		// 타이머가 0에 도달했을 때 
+		if (countdownTime < 0) {
+			clearInterval(timerInterval);
+			$('#mailAuthModal').modal('hide');
+		}
+	}, 1000);
+}
+
+//이메일 모달창을 닫을때 시간 초기화
+$('#mailAuthModal').on('hide.bs.modal', function (e) {
+   	clearInterval(timerInterval);
+    document.querySelector('#mail_countdown').innerHTML = '05:00';
+});
 
 
 //벨리데이션
@@ -185,6 +309,10 @@ function validate(){
 		str_mail_ck += '<div class="my-invalid">빈 값은 입력될 수 없습니다.</div>';
 		mail_bool = false;
 	}
+	else if(document.querySelector('#mailAuth').dataset.mailAuth =='false'){
+		str_mail_ck += '<div class="my-invalid">메일이 인증되지 않았습니다.</div>';
+		mail_bool = false;
+	}
 	else if(!input_email.match(reg_mail)){
 		str_mail_ck += '<div class="my-invalid">입력하신 이메일은 규정에 맞지 않습니다.</div>';
 		mail_bool = false;
@@ -221,29 +349,29 @@ function validate(){
 //회원 등록
 function insertMember() {
 	const member_form = document.querySelector('#memberForm');
-	
+
 	const vali_div = document.querySelectorAll('.my-invalid');
-	vali_div.forEach(function(v){
+	vali_div.forEach(function(v) {
 		v.remove();
 	});
-	
+
 	let is_valid = validate();
-	if(is_valid){
+	if (is_valid) {
 		swal.fire({
-		title: "회원 등록 성공",
-		text: "선택하신 권한에 따라 학생 또는 교직원 등록 페이지로 이동합니다. ",
-		icon: 'success',
-		button: '확인',
-	})
-		.then((result) => {
-
-			member_form.action = '/admin/join';
-			member_form.method = 'post';
-			member_form.submit();
+			title: "회원 등록 성공",
+			text: "선택하신 권한에 따라 학생 또는 교직원 등록 페이지로 이동합니다. ",
+			icon: 'success',
+			button: '확인',
 		})
-	}
+			.then((result) => {
 
+				member_form.action = '/admin/join';
+				member_form.method = 'post';
+				member_form.submit();
+			})
+	}
 }
+
 //오토 하이픈
 const autoHyphen2 = (target) => {
 	target.value = target.value

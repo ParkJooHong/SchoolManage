@@ -15,6 +15,7 @@
 		<result column="MEM_GENDER" 		property="memGender"/>
 		<result column="MEM_BIRTH" 			property="memBirth"/>
 		<result column="MEM_ROLE" 			property="memRole"/>
+		<result column="MEM_STATUS" 			property="memStatus"/>
 		<association property="empVO" resultMap="emp"/>
 		<association property="memImgVO" resultMap="memImg"/>
 		<association property="deptVO" resultMap="schoolMapper.dept"></association>
@@ -137,16 +138,98 @@
 		AND MEM_EMAIL = #{memEmail}
 	</select>
 	
-	<!-- 회원목록조회 -->
+	<!-- 회원수 조회 : 회원관리 -->
+	<select id="memCnt" resultType="int">
+		SELECT COUNT(UM.MEM_NO)
+		FROM UNI_MEMBER UM
+		LEFT JOIN UNI_EMP UE ON UM.MEM_NO = UE.MEM_NO
+		LEFT JOIN DEPT D ON UE.DEPT_NO = D.DEPT_NO
+		LEFT JOIN UNI_STU US ON UM.MEM_NO = US.MEM_NO
+		LEFT JOIN DEPT D2 ON US.DEPT_NO = D2.DEPT_NO
+		<if test="searchKeyword != null">
+			<if test="searchKeyword == 'all'">
+				<if test="searchValue != null and searchValue != ''">
+					WHERE (UPPER(MEM_NAME) LIKE '%'||UPPER(#{searchValue})||'%'
+					OR UPPER(D.DEPT_NAME) LIKE '%'||UPPER(#{searchValue})||'%'
+					OR UPPER(D2.DEPT_NAME) LIKE '%'||UPPER(#{searchValue})||'%')
+				</if>
+			</if>
+			<if test="searchKeyword == 'dept'">
+				<if test="searchValue != null and searchValue != ''">
+					WHERE (UPPER(D.DEPT_NAME) LIKE '%'||UPPER(#{searchValue})||'%'
+					OR UPPER(D2.DEPT_NAME) LIKE '%'||UPPER(#{searchValue})||'%')
+				</if>
+			</if>
+			<if test="searchKeyword == 'memName'">
+				<if test="searchValue != null and searchValue != ''">
+					WHERE UPPER(MEM_NAME) LIKE '%'||UPPER(#{memName})||'%'
+				</if>
+			</if>
+		</if>
+	</select>
+	
+	<!-- 회원목록조회 : 회원관리 -->
+	<select id="memManageGetMemList" resultType="HashMap">
+		SELECT UM.MEM_NO
+		    , MEM_NAME
+		    , DECODE(MEM_ROLE, 'ADMIN', '교직원', 'PRO', '교수', 'STU', '학생') AS MEM_ROLE
+		    , COALESCE(D.DEPT_NAME, D2.DEPT_NAME) AS DEPT_NAME
+		    , MEM_STATUS
+		FROM UNI_MEMBER UM
+		LEFT JOIN UNI_EMP UE ON UM.MEM_NO = UE.MEM_NO
+		LEFT JOIN DEPT D ON UE.DEPT_NO = D.DEPT_NO
+		LEFT JOIN UNI_STU US ON UM.MEM_NO = US.MEM_NO
+		LEFT JOIN DEPT D2 ON US.DEPT_NO = D2.DEPT_NO
+		<if test="searchKeyword != null">
+			<if test="searchKeyword == 'all'">
+				<if test="searchValue != null and searchValue != ''">
+					WHERE (UPPER(MEM_NAME) LIKE '%'||UPPER(#{searchValue})||'%'
+					OR UPPER(D.DEPT_NAME) LIKE '%'||UPPER(#{searchValue})||'%'
+					OR UPPER(D2.DEPT_NAME) LIKE '%'||UPPER(#{searchValue})||'%')
+				</if>
+			</if>
+			<if test="searchKeyword == 'dept'">
+				<if test="searchValue != null and searchValue != ''">
+					WHERE (UPPER(D.DEPT_NAME) LIKE '%'||UPPER(#{searchValue})||'%'
+					OR UPPER(D2.DEPT_NAME) LIKE '%'||UPPER(#{searchValue})||'%')				
+				</if>
+			</if>
+			<if test="searchKeyword == 'memName'">
+				<if test="searchValue != null and searchValue != ''">
+					WHERE UPPER(MEM_NAME) LIKE '%'||UPPER(#{memName})||'%'
+				</if>
+			</if>
+		</if>
+		ORDER BY MEM_ROLE, MEM_NO
+		OFFSET #{offsetCnt} ROWS FETCH FIRST #{displayCnt} ROWS ONLY
+	</select>
+	
+	<!-- 회원 상태 변경 -->
+	<update id="updateMemStatus" parameterType="java.util.List">
+		<foreach collection="list" item="member" open="DECLARE BEGIN" separator=";" close=";END;">
+		UPDATE UNI_MEMBER
+		SET 
+			MEM_STATUS = #{member.memStatus}
+		WHERE MEM_NO = #{member.memNo}
+		</foreach>
+	</update>
+	
+	<!-- 회원목록조회 : 메세지 -->
 	<select id="getMemList" resultType="HashMap">
-		SELECT MEM_NO
-			, MEM_NAME
-			, DECODE(MEM_ROLE, 'ADMIN', '교직원', 'PRO', '교수', 'STU', '학생') AS MEM_ROLE
-		FROM UNI_MEMBER
+		SELECT UM.MEM_NO
+		    , MEM_NAME
+		    , DECODE(MEM_ROLE, 'ADMIN', '교직원', 'PRO', '교수', 'STU', '학생') AS MEM_ROLE
+		    , COALESCE(D.DEPT_NAME, D2.DEPT_NAME) AS DEPT_NAME
+		FROM UNI_MEMBER UM
+		LEFT JOIN UNI_EMP UE ON UM.MEM_NO = UE.MEM_NO
+		LEFT JOIN DEPT D ON UE.DEPT_NO = D.DEPT_NO
+		LEFT JOIN UNI_STU US ON UM.MEM_NO = US.MEM_NO
+		LEFT JOIN DEPT D2 ON US.DEPT_NO = D2.DEPT_NO
 		<if test="memName != null and memName != ''">
 		WHERE UPPER(MEM_NAME) LIKE '%'||UPPER(#{memName})||'%'
 		</if>
 	</select>
+	
 	
 	<!-- 회원정보수정 -->
 	<update id="updateMemInfo">

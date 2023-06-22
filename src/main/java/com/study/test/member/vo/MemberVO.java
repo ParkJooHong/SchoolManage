@@ -2,6 +2,8 @@ package com.study.test.member.vo;
 
 import com.study.test.admin.vo.EmpVO;
 import com.study.test.admin.vo.StuOutVO;
+import com.study.test.board.vo.PageVO;
+import com.study.test.board.vo.SearchVO;
 import com.study.test.school.colleage.ColleageVO;
 import com.study.test.school.dept.DeptVO;
 import com.study.test.school.double_major.DoubleMajorVO;
@@ -15,7 +17,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class MemberVO {
+public class MemberVO extends SearchVO {
 	private String memNo;
 	private String memPw;
 	private String memName;
@@ -28,6 +30,7 @@ public class MemberVO {
 	private String memBirth;
 	private String memRole;
 	private String engName;
+	private String memStatus;
 	private MemImgVO memImgVO;
 	private StuVO stuVO;
 	private EmpVO empVO;

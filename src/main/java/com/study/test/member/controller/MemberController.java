@@ -114,6 +114,7 @@ public class MemberController {
 		return encoder.matches(memberVO.getMemPw(),beforPw);
 	}
 	
+	//------------------------회원 정보 변경----------------------//
 	//회원정보 변경
 	@ResponseBody
 	@PostMapping("/updateMemInfoAjax")
@@ -141,6 +142,19 @@ public class MemberController {
 			}
 		}
 		return updateChk;
+	}
+	
+	//회원 상태 변경
+	@ResponseBody
+	@PostMapping("/updateMemStatusAjax")
+	public boolean updateMemStatus(@RequestBody List<MemberVO> memberList) {
+		boolean isCheck = false;
+		
+		if(memberList.size() != 0) {
+			memberService.updateMemStatus(memberList);
+			isCheck = true;
+		}
+		return isCheck;
 	}
 	
 	
@@ -202,8 +216,7 @@ public class MemberController {
 	}
 
 	
-	//------------------------회원 정보 변경----------------------//
-	//메일 인증 
+	//메일 인증 : 회원정보 변경
 	@PostMapping("/sendCatiMailAjax")
 	@ResponseBody
 	public boolean sendCatiMailAjax(String changeMail, HttpSession session) {
@@ -222,7 +235,7 @@ public class MemberController {
 			mailVO.setRecipientList(emailList);
 			mailVO.setContent("인증번호는 : " + imsiPw + " 입니다.");
 			session.setAttribute("catiPw", imsiPw);
-			//mailService.sendSimpleEmail(mailVO);
+			mailService.sendSimpleEmail(mailVO);
 		}
 		else {
 			mailResult = false;
@@ -243,6 +256,7 @@ public class MemberController {
 		}
 		return checkResult;
 	}
+	//------------------------회원 정보 변경----------------------//
 	
 	
 	

@@ -57,7 +57,9 @@ input[type="text"]
 	height: 100%
 }
 
-
+.mail_countdown{
+	color: red !important;
+}
 
 td:nth-child(3) {
 }

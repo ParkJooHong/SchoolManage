@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.study.test.board.vo.SearchVO;
 import com.study.test.member.vo.MemberMenuVO;
 import com.study.test.member.vo.MemberSubMenuVO;
 import com.study.test.member.vo.MemberVO;
@@ -72,10 +73,28 @@ public class MemberServiceImpl implements MemberService {
 		return sqlSession.selectOne("memberMapper.getNextImgCode");
 	}
 
-	//회원 목록조회
+	//회원 목록조회 : 메세지
 	@Override
 	public List<Map<String, Object>> getMemList(MemberVO memberVO) {
 		return sqlSession.selectList("memberMapper.getMemList", memberVO);
+	}
+	
+	//회원수 조회 : 회원관리
+	@Override
+	public int memCnt(MemberVO memberVO) {
+		return sqlSession.selectOne("memberMapper.memCnt", memberVO);
+	}
+	
+	//회원 목록조회 : 회원관리
+	@Override
+	public List<Map<String, Object>> memManageGetMemList(SearchVO searchVO) {
+		return sqlSession.selectList("memberMapper.memManageGetMemList", searchVO);
+	}
+	
+	//회원 상태 업데이트
+	@Override
+	public void updateMemStatus(List<MemberVO> memberList) {
+		sqlSession.update("memberMapper.updateMemStatus", memberList);
 	}
 	
 	//회원 정보 업데이트
@@ -120,9 +139,4 @@ public class MemberServiceImpl implements MemberService {
 		return sqlSession.selectOne("memberMapper.getCntMemEmail", changeMail);
 	}
 
-	
-
-
-	
-	
 }

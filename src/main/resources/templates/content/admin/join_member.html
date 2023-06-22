@@ -24,12 +24,14 @@
 					<table class="detail_info">
 						<tr>
 							<td>학번/교직원번호</td>
-							<td class="row">
-								<div class="col-9 d-grid">
-									<input type="text" name="memNo" id="memberId" class="form-control"  required placeholder="본인의 학번 및 교번을 입력하세요">
-								</div>
-								<div class="col-3 d-grid">
-									<input type="button" class="btn btn-primary" onclick="checkId();" value="ID 중복검사">
+							<td>
+								<div class="row">
+									<div class="col-9 d-grid">
+										<input type="text" name="memNo" id="memberId" class="form-control"  required placeholder="본인의 학번 및 교번을 입력하세요">
+									</div>
+									<div class="col-3 d-grid">
+										<input type="button" class="btn btn-primary" onclick="checkId();" value="ID 중복검사">
+									</div>
 								</div>
 							</td>
 						</tr>
@@ -87,13 +89,13 @@
 						</tr>
 						<tr>
 							<td>이메일</td>
-							<td class="d-grid">
+							<td>
 								<div class="row">
 									<div class="col-9 d-grid">
 										<input type="text" name="memEmail" id="memEmail" required placeholder="이메일 입력은 필수입니다.">
 									</div>
 									<div class="col-3 d-grid">
-										<input type="button" class="btn btn-primary addr_search_btn" onclick="searchAddr();" value="메일인증">
+										<input data-mail-auth="false" id="mailAuth" type="button" class="btn btn-primary" onclick="sendMail(this)" value="메일전송">
 									</div>
 								</div>
 								<div class="row">
@@ -106,8 +108,15 @@
 						</tr>
 						<tr>
 							<td>연락처(선택)</td>
-							<td class="d-grid">
-								<input type="text" name="memTell" maxlength="13" oninput="autoHyphen2(this)" placeholder="연락처 입력은 선택입니다.">
+							<td>
+								<div class="row">
+									<div class="col-9 d-grid">
+										<input type="text" name="memTell" maxlength="13" oninput="autoHyphen2(this)" placeholder="연락처 입력은 선택입니다.">
+									</div>
+									<div class="col-3 d-grid">
+										<input data-toggle-tell="close" type="button" class="btn btn-primary" onclick="smsToggle(this)" value="문자전송">
+									</div>
+								</div>
 							</td>
 						</tr>
 						<tr>
@@ -153,6 +162,56 @@
 			<div class="row">
 				<div class="col d-grid">
 					<input type="button" onclick="insertMember();" disabled id="joinBtn" class="btn btn-primary" value="회원 등록">
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 메일 인증 모달 -->
+	<div class="modal fade" id="mailAuthModal" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">이메일 인증</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="row justify-content-center">
+						<div class="col">
+							<div class="row mt-3 mb-3">
+								<div class="col">
+									<table class="table text-center align-middle">
+										<colgroup>
+											<col width="40%">
+											<col width="30%">
+											<col width="30%">
+										</colgroup>
+										<tr>
+											<td>
+												<div class="mail_countdown">
+                                                	<span>남은시간 : </span><span id="mail_countdown">05:00</span>
+                                            	</div>
+											</td>
+											<td>
+												<div class="d-grid">
+													<input type="text" id="mailAuthNum">
+												</div>
+											</td>
+											<td>
+												<div class="d-grid">
+													<input type="button" value="이메일 인증" class="btn btn-primary" onclick="mailAuth_1()">
+												</div>
+											</td>
+										</tr>
+									</table>
+									<div class="col">
+										<div style="text-align: right;">
+											남은시간이 다끝나면 창이 자동으로 닫힙니다.
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

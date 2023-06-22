@@ -17,9 +17,7 @@ function getNewMsg() {
 				msg_tag.innerHTML = '';
 
 				str += `<button class="btn btn-success mx-2" style="background-color: #897c76; border-radius: 20px; padding: 0 0; width: 50px;">`;
-				str += `<a href='/message/messageList'>`;
-				str += `	<img src="/image/icon/new_message.png" width="65%"/>`;
-				str += `</a>`;
+				str += `	<img src="/image/icon/new_message.png" width="65%" onclick="messageList()"/>`;
 				str += `</button>`;
 				msg_tag.insertAdjacentHTML('afterbegin', str);
 			}
@@ -27,9 +25,7 @@ function getNewMsg() {
 				msg_tag.innerHTML = '';
 
 				str += `<button class="btn btn-success mx-2" style="background-color: #f2f2f2; border-radius: 20px; padding: 0 0; width: 50px;">`;
-				str += `<a href='/message/messageList'>`;
-				str += `	<img src="/image/icon/no_message.png" width="65%"/>`;
-				str += `</a>`;
+				str += `	<img src="/image/icon/no_message.png" width="65%" onclick="messageList()"/>`;
 				str += `</button>`;
 				msg_tag.insertAdjacentHTML('afterbegin', str);
 			}
@@ -40,6 +36,34 @@ function getNewMsg() {
 	});
 	//ajax end 
 }
+
+//메세지 목록 창으로 이동
+function messageList() {
+	// AJAX 요청
+	$.ajax({
+		url: '/message/getAuthAjax',
+		type: 'post',
+		dataType: 'json',
+		success: function(response) {
+			
+			let menu_code = '';
+			
+			// 권한 정보 처리
+			var roles = response;
+			if (roles.includes('ROLE_ADMIN')) {
+				menu_code = document.querySelector('#adminSubMenuVO').value;
+			}
+			if (roles.includes('ROLE_PRO')) {
+				menu_code = document.querySelector('#professorSubMenuVO').value;
+			}
+			if (roles.includes('ROLE_STU')) {
+				menu_code = document.querySelector('#memberSubMenuVO').value;
+			}
+			location.href = '/message/messageList?menuCode=' + menu_code;
+		}
+	});
+}
+
 
 function closeModal(){
 	$('#changeInfoModal').modal('hide');

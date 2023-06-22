@@ -98,7 +98,7 @@
 		WHERE MEM_NO = #{memNo}
 	</select>
 	
-	
+	<!-- 학생 등록 -->
 	<insert id="regStu">
 		INSERT INTO UNI_STU (
 			STU_NO
@@ -129,6 +129,7 @@
 		)
 	</insert>
 	
+	<!-- 교직원,교수 등록 -->
 	<insert id="regEmp">
 		INSERT INTO UNI_EMP (
 			EMP_NO

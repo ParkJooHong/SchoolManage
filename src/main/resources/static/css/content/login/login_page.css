@@ -1,5 +1,9 @@
 @charset "UTF-8";
 
+.login_page{
+	height: 85vh;
+}
+
 .login_backgroung{
 	margin-top: 5rem;
 	width: 130vh;

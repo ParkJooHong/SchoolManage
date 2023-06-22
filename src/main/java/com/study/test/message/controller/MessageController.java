@@ -1,13 +1,16 @@
 package com.study.test.message.controller;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.sound.midi.Soundbank;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +25,7 @@ import com.study.test.member.vo.MemberSubMenuVO;
 import com.study.test.message.service.MessageService;
 import com.study.test.message.vo.MessageVO;
 import com.study.test.professor.vo.ProfessorMenuVO;
+import com.study.test.professor.vo.ProfessorSubMenuVO;
 import com.study.test.util.ConstVariable;
 
 import jakarta.annotation.Resource;
@@ -31,6 +35,19 @@ import jakarta.annotation.Resource;
 public class MessageController {
 	@Resource(name = "messageService")
 	private MessageService messageService;
+	
+	//권한 정보 가져오기
+	@ResponseBody
+	@PostMapping("/getAuthAjax")
+	public ResponseEntity<?> getAuthInfo(Principal principal) {
+		// 권한 정보 가져오기
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		List<String> roles = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority)
+				.collect(Collectors.toList());
+
+		// JSON 형태로 응답 반환
+		return ResponseEntity.ok(roles);
+	}
 
 	// 메세지 전송(메세지 보내기창에서)
 	@GetMapping("/sendMessage")
@@ -63,16 +80,13 @@ public class MessageController {
 
 	// 메세지 목록
 	@GetMapping("/messageList")
-	public String message_list(Model model, Authentication authentication) {
+	public String message_list(Model model, Authentication authentication, AdminSubMenuVO adminSubMenuVO, MemberSubMenuVO memberSubMenuVO, ProfessorSubMenuVO professorSubMenuVO) {
 
 		// role에 따른 메뉴코드,layout 설정
 		User userInfo = (User) authentication.getPrincipal();
 
 		List<String> authorityStrings = userInfo.getAuthorities().stream().map(GrantedAuthority::getAuthority)
 				.collect(Collectors.toList());
-
-		// 메뉴 코드 설정
-		getCode(authentication, model);
 
 		// 레이아웃 코드 가져오기
 		String layout = getLayout(authentication);

@@ -11,7 +11,7 @@
 			<div class="col-md-6 menu_name_div">
 				<ul class="menu_ul">
 					<th:block th:each="professorMenu:${professorMenuList}">
-						<li class="main_menu_li" th:classappend="${professorMenu.menuCode} == ${professorMenuVO.menuCode} ? 'active' : ''"><a href="#"
+						<li class="main_menu_li" th:classappend="${professorMenu.menuCode} == ${professorSubMenuVO.menuCode} ? 'active' : ''"><a href="#"
 							th:onclick="moveByMenuCode([[${professorMenu.menuCode}]],[[${professorMenu.menuUrl}]])">[[${professorMenu.menuName}]]</a></li>
 					</th:block>
 				</ul>

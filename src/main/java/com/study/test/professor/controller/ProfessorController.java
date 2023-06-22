@@ -72,9 +72,9 @@ public class ProfessorController {
 	
 	//강의등록 페이지로 이동
 	@GetMapping("/regLecture")
-	public String regLecture(Model model, ProfessorMenuVO professorMenuVO) {
+	public String regLecture(Model model, ProfessorSubMenuVO professorSubMenuVO) {
 		//메뉴코드 등록
-		professorMenuVO.setMenuCode(ConstVariable.DEFAULT_PROFESSOR_MENU_CODE);
+		professorSubMenuVO.setMenuCode(ConstVariable.DEFAULT_PROFESSOR_MENU_CODE);
 		
 		//지금 학기 조회
 		//학기 정보를 지정하기 위해 오늘 날짜 데이터 조회
@@ -199,11 +199,8 @@ public class ProfessorController {
 		
 		lectureVO.setLectureTimeList(lectureTimeList);
 		
-		
-		
 		//강의 등록 쿼리 실행
 		professorService.regLecture(lectureVO);
-		
 		
 		return "redirect:/professor/regLecture";
 	}
@@ -211,8 +208,8 @@ public class ProfessorController {
 	
 	//강의 시간표 페이지 이동
 	@GetMapping("/lectureSchedule")
-	public String lectureSchedule(Model model, ProfessorMenuVO professorMenuVO) {
-		professorMenuVO.setMenuCode(ConstVariable.SECOND_PROFESSOR_MENU_CODE);
+	public String lectureSchedule(Model model, ProfessorSubMenuVO professorSubMenuVO) {
+		professorSubMenuVO.setMenuCode(ConstVariable.SECOND_PROFESSOR_MENU_CODE);
 		return "content/professor/lecture_schedule";
 	}
 	
@@ -231,8 +228,8 @@ public class ProfessorController {
 	
 	//강의 리스트 페이지 이동
 	@GetMapping("/lectureList")
-	public String lectureList(Model model, ProfessorMenuVO professorMenuVO, Authentication authentication) {
-		professorMenuVO.setMenuCode(ConstVariable.THIRD_PROFESSOR_MENU_CODE);
+	public String lectureList(Model model, ProfessorSubMenuVO professorSubMenuVO, Authentication authentication) {
+		professorSubMenuVO.setMenuCode(ConstVariable.THIRD_PROFESSOR_MENU_CODE);
 		
 		//강의 목록 조회
 		UserCustom user = (UserCustom)authentication.getPrincipal();
@@ -319,8 +316,8 @@ public class ProfessorController {
 	
 	//성적 등록 페이지 이동
 	@GetMapping("/regGrade")
-	public String regGrade(Model model, ProfessorMenuVO professorMenuVO, Authentication authentication, LectureVO lectureVO) {
-		professorMenuVO.setMenuCode(ConstVariable.FOURTH_PROFESSOR_MENU_CODE);
+	public String regGrade(Model model, ProfessorSubMenuVO professorSubMenuVO, Authentication authentication, LectureVO lectureVO) {
+		professorSubMenuVO.setMenuCode(ConstVariable.FOURTH_PROFESSOR_MENU_CODE);
 		
 		//로그인 정보 불러오기
 		UserCustom user = (UserCustom)authentication.getPrincipal();
@@ -371,7 +368,7 @@ public class ProfessorController {
 	
 	//게시판 페이지
 	@GetMapping("/board")
-	public String board(ProfessorMenuVO professorMenuVO, ProfessorSubMenuVO professorSubMenuVO, Model model, UniBoardVO uniBoardVO) {
+	public String board(ProfessorSubMenuVO professorSubMenuVO, Model model, UniBoardVO uniBoardVO) {
 		professorSubMenuVO.setMenuCode(ConstVariable.FIVE_PROFESSOR_MENU_CODE);
 		return "redirect:/board/board";
 	}

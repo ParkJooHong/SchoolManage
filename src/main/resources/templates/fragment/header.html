@@ -47,6 +47,19 @@
 				</div>
 			</div>
 		</div>
+		<span sec:authorize="hasRole('ROLE_ADMIN')">
+			<input type="hidden" id="adminSubMenuVO" th:value="${adminSubMenuVO.menuCode}">
+			<!-- ROLE_ADMIN 권한이 있는 경우에만 표시 -->
+		</span>
+		<span sec:authorize="hasRole('ROLE_STU')">
+			<input type="hidden" id="memberSubMenuVO" th:value="${memberSubMenuVO.menuCode}">
+			<!-- ROLE_MEMBER 권한이 있는 경우에만 표시 -->
+		</span>
+		<span sec:authorize="hasRole('ROLE_PRO')">
+			<input type="hidden" id="professorSubMenuVO" th:value="${professorSubMenuVO.menuCode}">
+			<!-- ROLE_PROFESSOR 권한이 있는 경우에만 표시 -->
+		</span>
+
 		<!-- 개인정보 변경 모달 -->
 		<div class="modal fade" id="changeInfoModal" tabindex="-1" aria-labelledby="exampleModalLabel"
 			aria-hidden="true">
