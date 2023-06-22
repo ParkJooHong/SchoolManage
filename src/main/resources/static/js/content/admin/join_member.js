@@ -74,7 +74,7 @@ function checkId() {
 	}
 }
 
-//메일인증
+//메일인증 : 메일전송
 function sendMail(tag) {
 	
 	let mail_bool = true;
@@ -133,7 +133,7 @@ function sendMail(tag) {
 //메일인증
 function mailAuth_1(){
 	const input_auth_num = document.querySelector('#mailAuthModal #mailAuthNum').value;
-	
+
 	//ajax start
 	$.ajax({
 		url: '/admin/checkCatiNumAjax', //요청경로
@@ -171,10 +171,19 @@ function mailAuth_1(){
 	//ajax end
 }
 
-//문자인증
-function mailToggle(tag) {
-	//전체 숨기고 펼치기 버튼 태그
-	const status = tag.dataset.toggleMail;
+//연락처인증 : 문자전송
+function sendSms(tag) {
+	
+	//연락처 벨리데이션
+	if(input_email == ''){
+		str_mail_ck += '<div class="my-invalid">빈 값은 입력될 수 없습니다.</div>';
+		mail_bool = false;
+	}
+	else if(!input_email.match(reg_mail)){
+		str_mail_ck += '<div class="my-invalid">입력하신 이메일은 규정에 맞지 않습니다.</div>';
+		mail_bool = false;
+	}
+	
 
 	if (status == 'close') {
 		tag.dataset.toggleMail = 'open';
