@@ -1,5 +1,5 @@
 //전체, 강의중, 폐강 ajax 목록조회
-function getLetureList() {
+function getLetureList_1() {
 	//강의상태 radio 선택값 가져오기
 	const lec_statuses = document.querySelectorAll('.lec_status');
 	//변수지정
@@ -44,17 +44,25 @@ function getLetureList() {
 		data: JSON.stringify(lectureVO),			//JSON.stringify(classInfo), //필요한 데이터
 		success: function(lecture_list) {
 			//목록이 그려질 tbody태그 선택
-			const tbody_tag = document.querySelector('tbody');
+			const tbody_tag = document.querySelector('#lecture_list_body');
 
 			//기존리스트 삭제
 			tbody_tag.replaceChildren();
+			
+			//학생 목록이 그려진 tbodytag선택
+			const stu_tbody_tag = document.querySelector('#lec_stu_list_body');
+			
+			//기존리스트 삭제
+			stu_tbody_tag.innerHTML = '';
+			
+			console.log(lecture_list);
 
 			//검색한 목록 추가
 			let str = '';
 
 			if (lecture_list.length != 0) {
 				for (const lecture of lecture_list) {
-					str += `<tr onclick="getLecStuList(${lecture.lecNo})>`;
+					str += `<tr onclick="getLecStuList_1('${lecture.lecNo}')">`;
 					str += `<td>${lecture.lecName}</td>`;
 					str += `<td>${lecture.lecScore}</td>`;
 					str += `<td>${lecture.colleageVO.collName}</td>`;
@@ -81,7 +89,7 @@ function getLetureList() {
 
 
 //수강 신청한 학생 목록 조회
-function getLecStuList(lec_no) {
+function getLecStuList_1(lec_no) {
 	//ajax start
 	$.ajax({
 		url: '/professor/getLecStuListAjax', //요청경로

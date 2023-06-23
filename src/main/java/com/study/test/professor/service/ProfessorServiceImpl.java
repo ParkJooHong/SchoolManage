@@ -49,7 +49,7 @@ public class ProfessorServiceImpl implements ProfessorService{
 	
 	//강의 시간 중복 체크
 	@Override
-	public String lectureTimeCheck(LectureTimeVO lectureTimeVO) {
+	public int lectureTimeCheck(LectureTimeVO lectureTimeVO) {
 		return sqlsession.selectOne("professorMapper.lectureTimeCheck", lectureTimeVO);
 	}
 

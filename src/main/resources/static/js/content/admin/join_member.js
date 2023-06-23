@@ -150,6 +150,7 @@ function mailAuth_1(){
 					button : '확인'
 				}).then((r) => {
 					$('#mailAuthModal').modal('hide');
+					document.querySelector('#mailAuth').setAttribute('data-mail-auth', 'true');
 					document.querySelector('#mailAuth').value = '인증완료'
 					document.querySelector('#mailAuth').disabled = true
 				});

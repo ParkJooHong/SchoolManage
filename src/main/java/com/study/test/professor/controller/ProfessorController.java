@@ -158,7 +158,7 @@ public class ProfessorController {
 		for(LectureTimeVO lectureTimeVO : lectureTimeVO_list) {
 			//교수가 다를시 중복이 안되어야 하기때문에 교수코드 저장
 			lectureTimeVO.setEmpNo(user.getUsername());
-			if(professorService.lectureTimeCheck(lectureTimeVO) != null) {
+			if(professorService.lectureTimeCheck(lectureTimeVO) != 0) {
 				timeCheck = false;
 			}
 		}

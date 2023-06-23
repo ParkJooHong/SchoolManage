@@ -240,6 +240,23 @@ function auth_sms() {
 	//ajax end 
 }
 
+
+//모달창이 닫힐때 입력한 정보 초기화
+//1.아이디 찾기 모달창
+$('#findIdModal').on('hide.bs.modal', function (e) {
+	document.querySelector('#findIdModal #memName').value = '';
+	document.querySelector('#findIdModal #memEmail').value = '';
+	document.querySelector('#findIdModal #error_find_id_div div').innerHTML = '';
+});
+
+//2.아이디 찾기 모달창
+$('#findPwModal').on('hide.bs.modal', function (e) {
+	document.querySelector('#findPwModal #memNo').value = '';
+	document.querySelector('#findPwModal #memEmail').value = '';
+	document.querySelector('#findPwModal #memTell').value = '';
+});
+
+
 //오토 하이픈
 const autoHyphen2 = (target) => {
 	target.value = target.value

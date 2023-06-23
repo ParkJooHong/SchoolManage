@@ -24,7 +24,7 @@ public interface ProfessorService {
 	String getNextLecNo();
 	
 	//강의 시간 중복 체크
-	String lectureTimeCheck(LectureTimeVO lectureTimeVO);
+	int lectureTimeCheck(LectureTimeVO lectureTimeVO);
 
 	//강의 등록
 	void regLecture(LectureVO lectureVO);

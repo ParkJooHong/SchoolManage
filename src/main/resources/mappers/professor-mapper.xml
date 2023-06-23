@@ -113,8 +113,8 @@
 	</insert>
 	
 	<!-- 강의 시간 중복 체크 -->
-	<select id="lectureTimeCheck" resultType="String">
-		SELECT TIME_NO
+	<select id="lectureTimeCheck" resultType="int">
+		SELECT COUNT(TIME_NO)
 		FROM LECTURE_TIME LT, LECTURE LEC
 		WHERE LT.LEC_NO = LEC.LEC_NO 
 		AND LEC_DAY = #{lecDay}
