@@ -138,12 +138,12 @@ public class AdminController {
 			// 메일 보내기
 			MailVO mailVO = new MailVO();
 			List<String> emailList = new ArrayList<>();
-			emailList.add(memberVO.getMemEmail());
+			emailList.add(mail);
 			mailVO.setTitle("이메일 인증번호 발송");
 			mailVO.setRecipientList(emailList);
 			mailVO.setContent("인증번호는 : " + imsiPw + " 입니다.");
 			session.setAttribute("catiPw", imsiPw);
-			//mailService.sendSimpleEmail(mailVO);
+			mailService.sendSimpleEmail(mailVO);
 			System.out.println("인증번호 생성확인 " + imsiPw);
 		return mailResult;
 	}
