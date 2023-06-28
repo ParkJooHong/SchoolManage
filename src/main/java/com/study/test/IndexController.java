@@ -1,8 +1,9 @@
 package com.study.test;
 
-
-import java.util.HashMap;
-import java.util.List;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.text.ParseException;
 import java.util.Map;
 
 import org.springframework.security.core.Authentication;
@@ -11,19 +12,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.study.test.member.service.MemberService;
 import com.study.test.member.vo.MemberMenuVO;
 import com.study.test.member.vo.MemberSubMenuVO;
 import com.study.test.member.vo.MemberVO;
 import com.study.test.professor.vo.LectureVO;
-import com.study.test.school.colleage.ColleageVO;
 import com.study.test.school.service.SchoolService;
 import com.study.test.stu.service.StuService;
 import com.study.test.stu.vo.StuVO;
 
 import jakarta.annotation.Resource;
-import jakarta.servlet.http.HttpSession;
-import jakarta.websocket.Session;
 
 
 
@@ -39,8 +38,19 @@ public class IndexController {
 	private StuService stuService;
 	
 	@GetMapping("/")
-	public String index() {
-		
+	public String index(Model model) throws IOException, ParseException {
+		// 패키지 경로 접근
+		// 클래스와 동일 패키지 폴더 위치에서 test.json 읽기
+//		URL path = this.getClass().getResource("/json/employment_rate.json");
+//		// URL path = this.getClass().getResource("/com/royleej9/test/test.json");
+//		System.out.println(path);
+//		File jsonFile = new File(path.getFile());
+//		
+//		ObjectMapper mapper = new ObjectMapper();
+//		Map<String, Object> jsonMap = mapper.readValue(jsonFile, Map.class);
+//		System.out.println("JSON File --> Map");
+//		System.out.println(jsonMap.toString());
+//		System.out.println();
 		return "content/login/login_page";
 
 	}
@@ -99,8 +109,7 @@ public class IndexController {
 		System.out.println("수강신청한 강의 리스트 :" + stuService.applyLectureList(stuVO.getStuNo()));
 
 		return "/content/stu/info_main";
-
-
-	
 	}
+	
+	
 }

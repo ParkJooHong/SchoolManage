@@ -172,11 +172,18 @@ function updateGrade(stu_grade_no, btn_tag){
 		data: {'stuGradeNo': stu_grade_no, 'grade':grade},			//JSON.stringify(classInfo), //필요한 데이터
 		contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
 		success: function(result) {
-			getLecStuList(lec_no);
+			swal.fire({
+				title: "성적변경 완료",
+				text: "성적변경이 완료되었습니다.",
+				icon: 'success',
+				button: '확인'
+			}).then((r) => {
+				getLecStuList_1(lec_no);	
+			})
 		},
 		error: function() {
 			alert('실패');
-		}
+		}``
 	});
 	//ajax end 
 	
