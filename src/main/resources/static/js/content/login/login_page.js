@@ -1,9 +1,10 @@
+employmentChart();
+
 function enterLogin(e){
 	if(e.keyCode == 13){
 		login()
 	}
 }
-
 
 function login() {
 	let memNo = document.querySelector('#memNo').value;
@@ -241,12 +242,131 @@ function auth_sms() {
 }
 
 
+//대학별 취업률 차트
+function employmentChart() {
+	//ajax start
+	$.ajax({
+		url: '/restApi', //요청경로
+		type: 'get',
+		async: true, //동기 방식으로 실행, 작성하지 않으면 기본 true값을 가짐
+		success: function(result) {
+			//json데이터로 변환
+			const json_data = JSON.parse(result)
+			console.log(json_data)
+			//차트를 그려줄 태그
+			const div_tag = document.querySelector('.chart')
+			//각 데이터를 배열로 저장
+			let categories = Object.keys(json_data);
+			console.log(categories);
+			let graduation_data = categories.map(category => json_data[category]["졸업자(명)"])
+			let employment_data = categories.map(category => json_data[category]["취업자(명)"])
+			let employment_rate = categories.map(category => json_data[category]["취업률(%)"])
+		
+
+			let employment_chart = new Chart(document.querySelector('.chart'), {
+				type: 'bar',
+				data: {
+					labels: categories,
+					datasets: [{
+						label: '취업률(%)',
+						data: employment_rate,
+						type: 'line',
+						fill: false,
+						backgroundColor: 'rgba(75, 192, 192, 1)',
+						borderColor: 'rgba(75, 192, 192, 1)',
+						borderWidth: 1,
+						yAxisID: 'y1',
+						},
+						{
+						label: '졸업자(명)',
+						data: graduation_data,
+						backgroundColor: 'rgba(255, 99, 132, 0.2)',
+						borderColor: 'rgba(255, 99, 132, 1)',
+						yAxisID: 'y2',
+						},
+						{
+						label: '취업자(명)',
+						data: employment_data,
+						backgroundColor: 'rgba(54, 162, 235, 0.2)',
+						borderColor: 'rgba(54, 162, 235, 0.2)',
+						yAxisID: 'y2',
+						}]
+				},
+				options: {
+					legend: {
+						display: false
+					},
+					scales: {
+						y1: {
+							type: 'linear',
+							position: 'left',
+							ticks: {
+								beginAtZero: true,
+								callback: function(value, index, values) {
+									return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '원';
+								},
+							},
+							scaleLabel: {
+								display: true,
+								position: 'left',
+								labelString: '(단위 : 원)'
+							},
+						},
+
+						y2: {
+
+							type: 'linear',
+							position: 'left',
+							ticks: {
+								beginAtZero: true,
+								callback: function(value, index, values) {
+									return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '건';
+								},
+							},
+							scaleLabel: {
+								display: true,
+								position: 'right',
+								labelString: '(단위 : 개)'
+							},
+							grid: {
+								drawOnChartArea: false, // only want the grid lines for one axis to show up
+							},
+						},
+					},
+					tooltips: {
+						mode: 'index',
+						callbacks: {
+							label: function(tooltipItem, data) {
+								let dataset = data.datasets[tooltipItem.datasetIndex];
+								let value = tooltipItem.yLabel;
+
+								if (tooltipItem.datasetIndex === 0) {
+									return '금액 ' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '원';
+								} else {
+									return '건수 ' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '건';
+								}
+							}
+						}
+					}
+				}
+			});
+
+		},
+		error: function() {
+			alert('실패');
+		}
+	});
+	//ajax end 
+}
+
 //모달창이 닫힐때 입력한 정보 초기화
 //1.아이디 찾기 모달창
 $('#findIdModal').on('hide.bs.modal', function (e) {
 	document.querySelector('#findIdModal #memName').value = '';
 	document.querySelector('#findIdModal #memEmail').value = '';
-	document.querySelector('#findIdModal #error_find_id_div div').innerHTML = '';
+	if(document.querySelector('#findIdModal #error_find_id_div div') != null){
+		document.querySelector('#findIdModal #error_find_id_div div').innerHTML = '';
+	}
 });
 
 //2.아이디 찾기 모달창

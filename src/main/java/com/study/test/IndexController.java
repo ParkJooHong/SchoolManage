@@ -6,12 +6,21 @@ import java.net.URL;
 import java.text.ParseException;
 import java.util.Map;
 
+import org.json.simple.JSONObject;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.RestTemplate;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.study.test.member.service.MemberService;
 import com.study.test.member.vo.MemberMenuVO;
@@ -39,20 +48,28 @@ public class IndexController {
 	
 	@GetMapping("/")
 	public String index(Model model) throws IOException, ParseException {
-		// 패키지 경로 접근
-		// 클래스와 동일 패키지 폴더 위치에서 test.json 읽기
-//		URL path = this.getClass().getResource("/json/employment_rate.json");
-//		// URL path = this.getClass().getResource("/com/royleej9/test/test.json");
-//		System.out.println(path);
-//		File jsonFile = new File(path.getFile());
-//		
-//		ObjectMapper mapper = new ObjectMapper();
-//		Map<String, Object> jsonMap = mapper.readValue(jsonFile, Map.class);
-//		System.out.println("JSON File --> Map");
-//		System.out.println(jsonMap.toString());
-//		System.out.println();
 		return "content/login/login_page";
-
+	}
+	
+	@ResponseBody
+	@GetMapping("/restApi")
+	public String getData() throws JsonProcessingException{
+		RestTemplate restTemplate = new RestTemplate();
+		String url = "http://localhost:5001/predict?sentence";
+		//url로 요청후 응답결과 reponse에 저장
+		ObjectMapper mapper = new ObjectMapper();
+		ResponseEntity<Map<String, Map<String, Map<String, Object>>>> response = restTemplate.exchange(url,
+				HttpMethod.GET, null, new ParameterizedTypeReference
+				<Map<String, Map<String, Map<String, Object>>>>() {
+				});
+		Map<String, Map<String, Map<String, Object>>> data = response.getBody();
+		String jsonData = mapper.writeValueAsString(data);
+        
+        //다른방법
+        //ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+        //String jsonData = response.getBody();
+        
+		return jsonData;
 	}
 
 	@GetMapping("/mainPage")

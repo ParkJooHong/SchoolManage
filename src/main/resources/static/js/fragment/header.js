@@ -23,7 +23,6 @@ function getNewMsg() {
 			}
 			else {
 				msg_tag.innerHTML = '';
-
 				str += `<button class="btn btn-success mx-2" style="background-color: #f2f2f2; border-radius: 20px; padding: 0 0; width: 50px;">`;
 				str += `	<img src="/image/icon/no_message.png" width="65%" onclick="messageList()"/>`;
 				str += `</button>`;

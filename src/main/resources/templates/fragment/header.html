@@ -25,8 +25,8 @@
 			<div class="col-5 header_member">
 				<div class="row me-3">
 					<div class="col">
-						<span id="timer">🕦60:0</span>
-						<span>
+						<span sec:authorize="hasRole('ROLE_STU')" id="timer">🕦60:0</span>
+						<span sec:authorize="hasRole('ROLE_STU')">
 							<input type="button" value="연장" class="btn btn-primary" onclick="resetTimer();">
 						</span>
 						<span>

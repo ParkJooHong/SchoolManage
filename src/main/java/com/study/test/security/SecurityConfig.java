@@ -28,6 +28,7 @@ public class SecurityConfig {
 		security.csrf().disable()
 				.authorizeHttpRequests()
 				.requestMatchers("/"
+								, "/restApi"
 								, "/member/findIdAjax"
 								, "/member/findPwAjax"
 								, "/member/phoneAuthAjax"
