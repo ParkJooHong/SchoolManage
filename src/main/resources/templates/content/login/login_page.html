@@ -98,9 +98,30 @@ layout:decorate="~{fragment/login_layout}">
 		</div>
 		<div class="employment_chart">
 			<input type="hidden" id="employmentData" th:value="${employmentData}">
-			<div class="row">
-				<div class="col chart">
-				
+			<div class="row chart_wrap">
+				<div class="col-1">
+				</div>
+				<div class="col-4">
+					<div class="text-center">
+						<div class="empolyment_rate">
+							전국 대학별 취업현황
+						</div>
+						<canvas id="employmentChart" class="mt-3"></canvas>
+					</div>
+				</div>
+				<div class="col-2">
+				</div>
+				<div class="col-4">
+					<div class="text-center">
+						<div class="empolyment_rate">
+							남여 취업 비율
+						</div>
+						<div class="pie-chart">
+							<canvas id="genderRateChart" class="mt-3"></canvas>
+						</div>
+					</div>
+				</div>
+				<div class="col-1">
 				</div>
 			</div>
 		</div>
@@ -203,6 +224,8 @@ layout:decorate="~{fragment/login_layout}">
 
 	<!-- login_page js파일 로딩 -->
 	<th:block layout:fragment="content_js">
+		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+		 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
 		<script type="text/javascript" src="/js/content/login/login_page.js"></script>
 	</th:block>
 </body>

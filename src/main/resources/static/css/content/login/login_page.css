@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 .login_page{
-	height: 85vh;
+	min-height: 85vh;
 }
 
 .login_backgroung{
@@ -91,6 +91,33 @@
 /* 서브메뉴 정렬 */
 .sub_menu span::before{padding-right: 5px; content: "|"; color: #d3c4b2}
 .sub_menu span:first-child::before{content: ""}
+
+/* 차트관련 */
+.chart_wrap{
+	height: 100%;
+}
+
+.employment_chart{
+	margin-top: 200px;
+	height: 100%;
+}
+
+.empolyment_rate{
+	border: 1px solid #897c76;
+	background-color: #897c76;
+	color: white;
+	font-size: 20px;
+	border-radius: 5px;
+}
+
+.pie-chart{
+	display: flex;
+	justify-content: center;
+}
+
+
+/* 차트관련 */
+
 
 .iuput_info{
 	text-align: left;

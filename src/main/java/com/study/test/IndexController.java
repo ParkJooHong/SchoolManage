@@ -7,8 +7,6 @@ import java.text.ParseException;
 import java.util.Map;
 
 import org.json.simple.JSONObject;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
@@ -57,17 +55,14 @@ public class IndexController {
 		RestTemplate restTemplate = new RestTemplate();
 		String url = "http://localhost:5001/predict?sentence";
 		//url로 요청후 응답결과 reponse에 저장
-		ObjectMapper mapper = new ObjectMapper();
-		ResponseEntity<Map<String, Map<String, Map<String, Object>>>> response = restTemplate.exchange(url,
-				HttpMethod.GET, null, new ParameterizedTypeReference
-				<Map<String, Map<String, Map<String, Object>>>>() {
-				});
-		Map<String, Map<String, Map<String, Object>>> data = response.getBody();
-		String jsonData = mapper.writeValueAsString(data);
+		//ObjectMapper mapper = new ObjectMapper();
+		//Map<String, Map<String, Integer>> data = restTemplate.getForObject(url, Map.class);
+		//내용을 string 으로 받기
+        //String jsonData = mapper.writeValueAsString(data);
         
         //다른방법
-        //ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
-        //String jsonData = response.getBody();
+		ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+        String jsonData = response.getBody();
         
 		return jsonData;
 	}

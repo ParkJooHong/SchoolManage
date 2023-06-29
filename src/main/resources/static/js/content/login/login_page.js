@@ -1,7 +1,7 @@
 employmentChart();
 
-function enterLogin(e){
-	if(e.keyCode == 13){
+function enterLogin(e) {
+	if (e.keyCode == 13) {
 		login()
 	}
 }
@@ -32,7 +32,7 @@ function login() {
 				//경고창 메세지 띄우기
 				if (document.querySelector('.input_pw').querySelector('div') == null) {
 					const error_div = document.querySelector('.input_pw');
-					
+
 					document.querySelector('.log_error').remove()
 
 					let str = '';
@@ -54,7 +54,7 @@ function login() {
 						if (role == 'admin') {
 							location.href = '/admin/joinMember';
 						}
-						else if(role == 'professor'){
+						else if (role == 'professor') {
 							location.href = '/professor/regLecture';
 						}
 						else {
@@ -82,9 +82,9 @@ function findId() {
 		//data: loginData, //필요한 데이터
 		data: { 'memName': memName, 'memEmail': memEmail }, //필요한 데이터
 		success: function(result) {
-			
-			console.log(result);	
-		
+
+			console.log(result);
+
 			if (result == null || result == '') {
 				swal.fire({
 					title: "아이디 찾기 실패",
@@ -126,7 +126,7 @@ function findId() {
 	//ajax end
 }
 
-function findPw(){
+function findPw() {
 	const mem_no = document.querySelector('#findPwModal #memNo').value;
 	const mem_email = document.querySelector('#findPwModal #memEmail').value;
 
@@ -161,15 +161,15 @@ function findPw(){
 			alert('실패');
 		}
 	});
-		//ajax end
+	//ajax end
 }
 
 //문자 인증번호 발송
 //1. 등록된 휴대전화가 있는지 검증후 검증이 되면 문자발송
-function tellAutho(){
+function tellAutho() {
 	const memTell = document.querySelector('#findPwForm #memTell').value;
-	
-	if(memTell == null || memTell == ''){
+
+	if (memTell == null || memTell == '') {
 		swal.fire({
 			title: "실패",
 			text: "전화번호를 입력해주세요",
@@ -177,16 +177,16 @@ function tellAutho(){
 			button: '확인',
 		});
 	}
-	else{
+	else {
 		//ajax start
 		$.ajax({
 			url: '/member/phoneAuthAjax', //요청경로
 			type: 'post',
 			async: false, //동기 방식으로 실행, 작성하지 않으면 기본 true값을 가짐
-			data: {'memTell':memTell},			//JSON.stringify(classInfo), //필요한 데이터
+			data: { 'memTell': memTell },			//JSON.stringify(classInfo), //필요한 데이터
 			contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
 			success: function(result) {
-				if(result){
+				if (result) {
 					swal.fire({
 						title: "문자 전송 완료",
 						text: "입력한 번호로 코드가 전송되었습니다",
@@ -195,7 +195,7 @@ function tellAutho(){
 					});
 					document.querySelector('#tell_auth').disabled = false;
 				}
-				else{
+				else {
 					swal.fire({
 						title: "등록된 번호없음",
 						text: "등록된 휴대폰 번호가 없습니다",
@@ -214,14 +214,14 @@ function tellAutho(){
 
 //2. 인증하기
 function auth_sms() {
-	
+
 	const input_num = document.querySelector('#authNum').value;
 	//ajax start
 	$.ajax({
 		url: '/member/phoneAuthOkAjax', //요청경로
 		type: 'post',
 		async: false, //동기 방식으로 실행, 작성하지 않으면 기본 true값을 가짐
-		data: {'inputNum':input_num},			//JSON.stringify(classInfo), //필요한 데이터
+		data: { 'inputNum': input_num },			//JSON.stringify(classInfo), //필요한 데이터
 		contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
 		success: function(result) {
 			if (!result) {
@@ -251,86 +251,99 @@ function employmentChart() {
 		async: true, //동기 방식으로 실행, 작성하지 않으면 기본 true값을 가짐
 		success: function(result) {
 			//json데이터로 변환
-			const json_data = JSON.parse(result)
+			console.log(result)
+			const data = JSON.parse(result)
+			const json_data = JSON.parse(data)
 			console.log(json_data)
+
 			//차트를 그려줄 태그
-			const div_tag = document.querySelector('.chart')
+			const div_tag = document.querySelector('#employmentChart')
 			//각 데이터를 배열로 저장
 			let categories = Object.keys(json_data);
 			console.log(categories);
-			let graduation_data = categories.map(category => json_data[category]["졸업자(명)"])
-			let employment_data = categories.map(category => json_data[category]["취업자(명)"])
-			let employment_rate = categories.map(category => json_data[category]["취업률(%)"])
-		
+			let graduation_data = categories.map(category => json_data[category]["졸업자 (명)"])
+			let employment_data = categories.map(category => json_data[category]["취업자 (명)"])
+			let employment_rate = categories.map(category => json_data[category]["취업률 (%)"])
 
-			let employment_chart = new Chart(document.querySelector('.chart'), {
+			//전국 대학별 취업현황(bar, line)차트
+			let employment_chart = new Chart(div_tag, {
 				type: 'bar',
 				data: {
 					labels: categories,
 					datasets: [{
 						label: '취업률(%)',
-						data: employment_rate,
+						data: employment_rate.map(rate_data => rate_data["소계"]),
+						type: 'bar',
+						fill: false,
+						backgroundColor: 'rgba(35, 201, 209, 1)',
+						borderColor: 'rgba(35, 201, 209, 1)',
+						borderWidth: 1,
+						yAxisID: 'y',
+						order: 2,
+						barPercentage: 0.5,
+					},
+					{
+						label: '졸업자(명)',
+						data: graduation_data.map(graduation => graduation["소계"]),
 						type: 'line',
 						fill: false,
-						backgroundColor: 'rgba(75, 192, 192, 1)',
-						borderColor: 'rgba(75, 192, 192, 1)',
-						borderWidth: 1,
+						backgroundColor: 'rgba(0, 143, 251, 1)',
+						borderColor: 'rgba(0, 143, 251, 1)',
+						pointBorderColor: 'rgba(0, 143, 251, 1)',
+						pointBackgroundColor: 'rgba(225, 251, 255, 1)',
+						pointBorderWidth: 1,
 						yAxisID: 'y1',
-						},
-						{
-						label: '졸업자(명)',
-						data: graduation_data,
-						backgroundColor: 'rgba(255, 99, 132, 0.2)',
-						borderColor: 'rgba(255, 99, 132, 1)',
-						yAxisID: 'y2',
-						},
-						{
+						order: 1,
+					},
+					{
 						label: '취업자(명)',
-						data: employment_data,
-						backgroundColor: 'rgba(54, 162, 235, 0.2)',
-						borderColor: 'rgba(54, 162, 235, 0.2)',
-						yAxisID: 'y2',
-						}]
+						data: employment_data.map(employment => employment["소계"]),
+						type: 'line',
+						fill: false,
+						backgroundColor: 'rgba(141, 151, 168, 1)',
+						borderColor: 'rgba(141, 151, 168, 1)',
+						pointBorderColor: 'rgba(141, 151, 168, 1)',
+						pointBackgroundColor: 'rgba(225, 251, 255, 1)',
+						pointBorderWidth: 1,
+						yAxisID: 'y1',
+						order: 1,
+					}]
 				},
 				options: {
 					legend: {
 						display: false
 					},
 					scales: {
-						y1: {
+						y: {
 							type: 'linear',
 							position: 'left',
 							ticks: {
 								beginAtZero: true,
 								callback: function(value, index, values) {
-									return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '원';
+									return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '%';
 								},
 							},
 							scaleLabel: {
 								display: true,
-								position: 'left',
-								labelString: '(단위 : 원)'
+								labelString: '취업률(%)'
 							},
 						},
-
-						y2: {
-
+						y1: {
 							type: 'linear',
-							position: 'left',
+							position: 'right',
 							ticks: {
 								beginAtZero: true,
 								callback: function(value, index, values) {
-									return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '건';
+									return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '명';
 								},
-							},
-							scaleLabel: {
-								display: true,
-								position: 'right',
-								labelString: '(단위 : 개)'
 							},
 							grid: {
 								drawOnChartArea: false, // only want the grid lines for one axis to show up
 							},
+							scaleLabel: {
+								display: true,
+								labelString: '졸업자 및 취업자 수'
+							}
 						},
 					},
 					tooltips: {
@@ -341,14 +354,59 @@ function employmentChart() {
 								let value = tooltipItem.yLabel;
 
 								if (tooltipItem.datasetIndex === 0) {
-									return '금액 ' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '원';
+									return '취업률: ' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '%';
 								} else {
-									return '건수 ' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '건';
+									return dataset.label + ': ' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '명';
 								}
 							}
 						}
 					}
 				}
+			});
+
+			//남자 여자 취업 비율
+			const genderRateChart = document.querySelector('#genderRateChart')
+			const male_employment = json_data["총계"]["취업자 (명)"]["남자"]
+			const female_employment = json_data["총계"]["취업자 (명)"]["여자"]
+			const pieChart = new Chart(genderRateChart, {
+				type: 'pie',
+				data: {
+					labels: ['남자 취업자', '여자 취업자'],
+					datasets: [{
+						data: [male_employment, female_employment],
+						backgroundColor: ['rgba(255, 99, 132, 0.5)', 'rgba(54, 162, 235, 0.5)'],
+						borderColor: ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)'],
+						borderWidth: 1
+					}]
+				},
+				options: {
+					//차트 크기 변경
+					responsive: false,
+					legend: {
+					},
+					plugins: {
+						legend: {
+							position: 'top',
+							labels: {
+								font: {
+									size: 12
+								}
+							}
+						},
+						datalabels: {
+							formatter: function(value, context) {
+								let percentage = Math.round(value / context.chart.getDatasetMeta(0).total * 100).toFixed(1);
+								return context.chart.data.labels[context.dataIndex] + '\n' + percentage + '%';
+							},
+							font: {
+								weight: 'normal',
+								size: '20'
+							},
+							textAlign: 'center'
+						},
+					},
+				},
+				plugins: [ChartDataLabels]
 			});
 
 		},
@@ -361,16 +419,16 @@ function employmentChart() {
 
 //모달창이 닫힐때 입력한 정보 초기화
 //1.아이디 찾기 모달창
-$('#findIdModal').on('hide.bs.modal', function (e) {
+$('#findIdModal').on('hide.bs.modal', function(e) {
 	document.querySelector('#findIdModal #memName').value = '';
 	document.querySelector('#findIdModal #memEmail').value = '';
-	if(document.querySelector('#findIdModal #error_find_id_div div') != null){
+	if (document.querySelector('#findIdModal #error_find_id_div div') != null) {
 		document.querySelector('#findIdModal #error_find_id_div div').innerHTML = '';
 	}
 });
 
 //2.아이디 찾기 모달창
-$('#findPwModal').on('hide.bs.modal', function (e) {
+$('#findPwModal').on('hide.bs.modal', function(e) {
 	document.querySelector('#findPwModal #memNo').value = '';
 	document.querySelector('#findPwModal #memEmail').value = '';
 	document.querySelector('#findPwModal #memTell').value = '';
@@ -395,24 +453,24 @@ let currentImageIndex = 0;
 const intervalDuration = 3000; // 이미지 전환 간격 (밀리초)
 
 // 이미지를 로드하고 배경 이미지로 설정하는 함수
-    function loadAndSetImage(index) {
-      const image = new Image();
-      image.src = images[index];
-      image.onload = () => {
-        imgContainer.style.backgroundImage = `url(${images[index]})`;
-      };
-    }
+function loadAndSetImage(index) {
+	const image = new Image();
+	image.src = images[index];
+	image.onload = () => {
+		imgContainer.style.backgroundImage = `url(${images[index]})`;
+	};
+}
 
-    setInterval(() => {
-      // 다음 이미지 인덱스 계산
-      currentImageIndex = (currentImageIndex + 1) % images.length;
+setInterval(() => {
+	// 다음 이미지 인덱스 계산
+	currentImageIndex = (currentImageIndex + 1) % images.length;
 
-      // 다음 이미지로 배경 이미지 변경하여 표시
-      loadAndSetImage(currentImageIndex);
-    }, intervalDuration);
+	// 다음 이미지로 배경 이미지 변경하여 표시
+	loadAndSetImage(currentImageIndex);
+}, intervalDuration);
 
-    // 초기에 첫 번째 이미지 로드하여 표시
-    loadAndSetImage(0);
+// 초기에 첫 번째 이미지 로드하여 표시
+loadAndSetImage(0);
 
 
 
