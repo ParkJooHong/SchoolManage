@@ -1,4 +1,13 @@
 
+function nameChange(){
+	swal.fire({
+			title: "성공!",
+			text : "신청이 접수되었습니다.",
+			icon: 'success',
+			button: '확인',
+		});	
+}
+
 
 function updateImg(){
 	
@@ -8,7 +17,13 @@ function updateImg(){
 
 
 function save(){
-	swal("변경 성공!", "비밀번호가 변경되었습니다.", "success");
+	swal.fire({
+			title: "성공!",
+			text : "비밀번호가 변경되었습니다.",
+			icon: 'success',
+			button: '확인',
+		});	
+	
 }
 
 function plus(memNo, memName, stuYear, stuStatus, collName, deptName){

@@ -54,6 +54,7 @@ public class MessageController {
 	public String sendMessage(MessageVO messageVO, String recvName, Authentication authentication) {
 		User user = (User) authentication.getPrincipal();
 
+		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 		// 보낼 메세지에 정보 저장
 		messageVO.setRecvMemNo(messageVO.getRecvMemNo());
 		messageVO.setSendMemNo(user.getUsername());

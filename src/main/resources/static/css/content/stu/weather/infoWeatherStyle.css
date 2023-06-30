@@ -1,5 +1,8 @@
 
   
+  
+  
+  
   .weathermodal-body {
     width: 100%;
     max-width: 400px;
@@ -136,4 +139,8 @@
       scale: 1;
       opacity: 1;
     }
+  }
+  
+  #weatherSize{
+  	height: 10px;
   }

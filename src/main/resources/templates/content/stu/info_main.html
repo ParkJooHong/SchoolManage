@@ -42,44 +42,12 @@
 	</div>
 </div>
 <div class="row main2">
-	<div class="col-6" >
-		<table class="course" style="align-items: center; justify-content: center; display: flex; margin-left: auto; margin-right: auto;">
-			<tr th:each="semName, iterStat : ${semester}">
-				<td th:if="${iterStat.index == 0}" th:value="${semName.semNo}" class="semName" style="text-align: center;">
-					[[${semName.semName}]] 수강과목
-				</td>
-			</tr>
-		</table>
-		<table class="myLecture" style="align-items: center; justify-content: center; display: flex; margin-left: auto; margin-right: auto;">
-			<tr th:each="myLecture : ${applyLecture}">
-				<td>
-					<li>[[${myLecture.lecName}]]</li>
-				</td>
-			</tr>
-		</table>
-	</div>
-	
-	<div class="col-6">		
-		<table style="width: 100%; margin-top: -100px;">
-			<tr>
-				<td><div id='calendar'></div></td>
-			</tr>
-			<tr>
-				<td>
-	
-				</td>
-			</tr>
-		</table>
-	</div>
-</div>
 
-
-<div class="row" style="margin-top: -180px; margin-left:80px;">
-	<div class="col-6">
+	<div class="col-3">
 		<table class="weather" style="align-items: center; justify-content: center; display: flex; margin-left: auto; margin-right: auto;">
 			<tr>
 				<td>
-					<div class="weathermodal-body">
+					<div class="weathermodal-body" id="weatherSize">
 						<link rel="stylesheet" href="/css/content/stu/weather/infoWeatherStyle.css">
 						<div container="weatherModal-container">
 						  <div class="weathersearch-box">
@@ -125,6 +93,43 @@
 			</tr>
 		</table>
 	</div>
+
+
+
+	<div class="col-3" >
+		<table class="course" style="align-items: center; justify-content: center; display: flex; margin-left: auto; margin-right: auto;">
+			<tr th:each="semName, iterStat : ${semester}">
+				<td th:if="${iterStat.index == 0}" th:value="${semName.semNo}" class="semName" style="text-align: center;">
+					[[${semName.semName}]] 수강과목
+				</td>
+			</tr>
+		</table>
+		<table class="myLecture" style="align-items: center; justify-content: center; display: flex; margin-left: auto; margin-right: auto;">
+			<tr th:each="myLecture : ${applyLecture}">
+				<td>
+					<li>[[${myLecture.lecName}]]</li>
+				</td>
+			</tr>
+		</table>
+	</div>
+		
+	<div class="col-6">		
+		<table style="width: 100%; margin-top: -100px;">
+			<tr>
+				<td><div id='calendar'></div></td>
+			</tr>
+			<tr>
+				<td>
+	
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
+
+
+<div class="row" style="margin-top: -180px; margin-left:80px;">
+	
 
 
 <input type="hidden" th:value="${memberVO.memName}" class="memName">

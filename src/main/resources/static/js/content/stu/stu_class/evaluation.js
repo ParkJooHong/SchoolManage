@@ -3,7 +3,7 @@
 function capture(memName) {
 	
 	//const memName = document.querySelector('.memName').value;
-	alert(memName);
+	//alert(memName);
 	
   // 캡쳐 라이브러리를 통해서 canvas 오브젝트를 받고 이미지 파일로 리턴한다.
   html2canvas(document.querySelector("#capture")).then(canvas => {
@@ -145,6 +145,8 @@ for (var i = 0; i < applyMapElements.length; i++) {
 		  }
 	}
 	
+	
+	
   // 오라클데이터베이스_기초 시간표
 	 if (lecNoMatch[1] === 'LEC_0005') {
 		var tdElement = document.querySelector('.thursdayFirstClass');
@@ -190,6 +192,35 @@ for (var i = 0; i < applyMapElements.length; i++) {
 		  }
 		  
 		  if (tdElement2.textContent.trim() === '') {
+		    tdElement2.textContent = lecNameMatch[1];
+		  } else {
+			alert("조회 실패! 시간이 중복된 수강항목이 있습니다. \n학부 사무실에서 임의로 수강취소 할 수 있습니다. \n문의 : 052-222-1123 ");
+		    window.location.href = `/stuMenu/application?menuCode=MENU_003&subMenuCode=SUB_MENU_009`; // 중복 시 다른 페이지로 이동
+		  }
+	}
+	
+	// 파이썬 기초 시간표
+	if(lecNoMatch[1] === 'LEC_0007'){
+		var tdElement = document.querySelector('.mondayThirdClass');
+		if (tdElement.textContent.trim() === '') {
+		    tdElement.textContent = lecNameMatch[1];
+		  } else {
+			alert("조회 실패! 시간이 중복된 수강항목이 있습니다. \n학부 사무실에서 임의로 수강취소 할 수 있습니다. \n문의 : 052-222-1123 ");
+		    window.location.href = `/stuMenu/application?menuCode=MENU_003&subMenuCode=SUB_MENU_009`; // 중복 시 다른 페이지로 이동
+		  }
+	}
+	
+	// 파이썬 중급 시간표
+	if(lecNoMatch[1] === 'LEC_0008'){
+		var tdElement = document.querySelector('.mondaySecondClass');
+		var tdElement2 = document.querySelector('.tuesdayFristClass');
+		if (tdElement.textContent.trim() === '') {
+		    tdElement.textContent = lecNameMatch[1];
+		  } else {
+			alert("조회 실패! 시간이 중복된 수강항목이 있습니다. \n학부 사무실에서 임의로 수강취소 할 수 있습니다. \n문의 : 052-222-1123 ");
+		    window.location.href = `/stuMenu/application?menuCode=MENU_003&subMenuCode=SUB_MENU_009`; // 중복 시 다른 페이지로 이동
+		  }
+		 if (tdElement2.textContent.trim() === '') {
 		    tdElement2.textContent = lecNameMatch[1];
 		  } else {
 			alert("조회 실패! 시간이 중복된 수강항목이 있습니다. \n학부 사무실에서 임의로 수강취소 할 수 있습니다. \n문의 : 052-222-1123 ");

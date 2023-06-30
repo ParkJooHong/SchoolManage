@@ -37,7 +37,7 @@ function connect() {
         stompClient.subscribe('/topic/greetings', function (greeting) {
             showGreeting(JSON.parse(greeting.body).content);
         });
-        $("#greetings").append("<tr><td><div style='width: 100%; background-color:#ffd400;'>" + memNo  + ' / ' + memName  + "님이 채팅방에 입장하셨습니다.</div></td></tr>");
+        $("#greetings").append("<tr><td><div style='width: 100%; background-color:#ffd400;'>" + memNo  + ' / ' + memName  + "님 이곳은 익명 채팅방입니다.</div></td></tr>");
     });
     //<div style="width: 100%; background-color:#ffd400; ">ㅎㅇ</div>
     

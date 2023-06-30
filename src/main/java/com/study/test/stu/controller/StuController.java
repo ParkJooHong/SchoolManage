@@ -1635,7 +1635,7 @@ public class StuController {
 
 		Thread.sleep(100);
 		return new Greeting(
-				memberVO.getMemName() + " / " + memberVO.getMemNo() + " : " + HtmlUtils.htmlEscape(message.getName()));
+				 " 익명 : " + HtmlUtils.htmlEscape(message.getName()));
 
 	}
 
