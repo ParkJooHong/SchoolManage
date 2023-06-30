@@ -54,7 +54,6 @@ public class MessageController {
 	public String sendMessage(MessageVO messageVO, String recvName, Authentication authentication) {
 		User user = (User) authentication.getPrincipal();
 
-		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 		// 보낼 메세지에 정보 저장
 		messageVO.setRecvMemNo(messageVO.getRecvMemNo());
 		messageVO.setSendMemNo(user.getUsername());
@@ -91,9 +90,12 @@ public class MessageController {
 
 		// 레이아웃 코드 가져오기
 		String layout = getLayout(authentication);
+		getCode(authentication, model);
 
 		// 메세지 리스트 조회
 		List<Map<String, Object>> msgList = messageService.getMsgList(userInfo.getUsername());
+		
+		System.out.println("@@@@@@@@@@@@@@@@@@@@@");
 
 		model.addAttribute("mem_role", layout);
 		model.addAttribute("msgList", msgList);

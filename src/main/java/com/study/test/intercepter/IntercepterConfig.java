@@ -28,7 +28,8 @@ public class IntercepterConfig implements WebMvcConfigurer {
 					.excludePathPatterns("/board/**Ajax")
 					.excludePathPatterns("/member/**Ajax")
 					.excludePathPatterns("/message/**Ajax")
-					.excludePathPatterns("/admin/talk");
+					.excludePathPatterns("/admin/talk")
+					.excludePathPatterns("/js/**", "/css/**", "/upload/**", "/image/**");
 			//교수 인터셉터
 			registry.addInterceptor(getProfessorMenuIntercepter())
 					.order(2)
@@ -42,7 +43,8 @@ public class IntercepterConfig implements WebMvcConfigurer {
 					.excludePathPatterns("/board/**Ajax")
 					.excludePathPatterns("/member/**Ajax")
 					.excludePathPatterns("/message/**Ajax")
-					.excludePathPatterns("/professor/talk");
+					.excludePathPatterns("/professor/talk")
+					.excludePathPatterns("/js/**", "/css/**", "/upload/**", "/image/**");
 			//학생 인터셉터
 			registry.addInterceptor(getMenuIntercepter())
 					.order(3)
@@ -61,7 +63,8 @@ public class IntercepterConfig implements WebMvcConfigurer {
 					.excludePathPatterns("/stuMenu/updateMynfo")
 					.excludePathPatterns("/stuMenu/board")
 					.excludePathPatterns("/message/**Ajax")
-					.excludePathPatterns("/stuMenu/talk");
+					.excludePathPatterns("/stuMenu/talk")
+					.excludePathPatterns("/js/**", "/css/**", "/upload/**", "/image/**");
 			}
 
 	// 학생 메인 메뉴

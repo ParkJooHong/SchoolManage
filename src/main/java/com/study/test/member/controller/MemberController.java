@@ -186,13 +186,17 @@ public class MemberController {
 	//문자인증
 	@PostMapping("/phoneAuthAjax")
 	@ResponseBody
-	public Boolean phoneAuth(String memTell, HttpSession session) {
+	public Boolean phoneAuth(MemberVO memberVO, HttpSession session) {
+		
+		String changeMail = memberVO.getMemEmail();
+		
+		System.out.println("@@@@@@@@@@@@@@데이터 확인용:" + memberVO);
 
 	    try { // 이미 가입된 전화번호가 있으면
-	        if(memberService.getMemTell(memTell) > 0) {
-	    	    String code = memberService.sendRandomMessage(memTell);
+	        if(memberService.getMemInfoForBoard(memberVO) != null && memberService.getMemTell(memberVO.getMemTell()) > 0 && memberService.getCntMemEmail(changeMail) > 0) {
+	    	    String code = memberService.sendRandomMessage(memberVO.getMemTell());
 	    	    session.setAttribute("rand", code);
-	            return true; 
+	            return true;
 	        }
 	    } catch (Exception e) {
 	        e.printStackTrace();

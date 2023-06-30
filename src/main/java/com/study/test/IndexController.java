@@ -46,6 +46,9 @@ public class IndexController {
 	
 	@GetMapping("/")
 	public String index(Model model) throws IOException, ParseException {
+		
+		System.out.println("@@@@@@@@@@@몇번나오는지 확인@@@@@@@@@@@@");
+		
 		return "content/login/login_page";
 	}
 	

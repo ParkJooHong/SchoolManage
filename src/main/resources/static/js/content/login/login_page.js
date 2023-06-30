@@ -167,9 +167,27 @@ function findPw() {
 //문자 인증번호 발송
 //1. 등록된 휴대전화가 있는지 검증후 검증이 되면 문자발송
 function tellAutho() {
-	const memTell = document.querySelector('#findPwForm #memTell').value;
+	const mem_no = document.querySelector('#findPwForm #memNo').value;
+	const mem_tell = document.querySelector('#findPwForm #memTell').value;
+	const mem_email = document.querySelector('#findPwForm #memEmail').value;
 
-	if (memTell == null || memTell == '') {
+	if (mem_no == null || mem_no == '') {
+		swal.fire({
+			title: "실패",
+			text: "학번또는 직원번호를 입력해주세요",
+			icon: 'error',
+			button: '확인',
+		});
+	}
+	else if (mem_email == null || mem_email == '') {
+		swal.fire({
+			title: "실패",
+			text: "이메일을 입력해주세요",
+			icon: 'error',
+			button: '확인',
+		});
+	}
+	else if (mem_tell == null || mem_tell == '') {
 		swal.fire({
 			title: "실패",
 			text: "전화번호를 입력해주세요",
@@ -183,7 +201,7 @@ function tellAutho() {
 			url: '/member/phoneAuthAjax', //요청경로
 			type: 'post',
 			async: false, //동기 방식으로 실행, 작성하지 않으면 기본 true값을 가짐
-			data: { 'memTell': memTell },			//JSON.stringify(classInfo), //필요한 데이터
+			data: { 'memTell': mem_tell, 'memEmail':mem_email, 'memNo':mem_no },			//JSON.stringify(classInfo), //필요한 데이터
 			contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
 			success: function(result) {
 				if (result) {
@@ -197,8 +215,8 @@ function tellAutho() {
 				}
 				else {
 					swal.fire({
-						title: "등록된 번호없음",
-						text: "등록된 휴대폰 번호가 없습니다",
+						title: "전송 실패",
+						text: "입력하신 정보와 일치하는 회원이 없습니다.",
 						icon: 'error',
 						button: '확인',
 					});
@@ -232,6 +250,16 @@ function auth_sms() {
 					button: '확인',
 				});
 				document.querySelector('#findPwBtn').disabled = false;
+			}
+			else{
+				swal.fire({
+					title: "인증실패",
+					text: "인증번호가 다릅니다",
+					icon: 'error',
+					button: '확인',
+				}).then((r)=>{
+					document.querySelector('#tell_auth').disabled = true;
+				})
 			}
 		},
 		error: function() {
@@ -427,11 +455,14 @@ $('#findIdModal').on('hide.bs.modal', function(e) {
 	}
 });
 
-//2.아이디 찾기 모달창
+//2.비밀번호 찾기 모달창
 $('#findPwModal').on('hide.bs.modal', function(e) {
 	document.querySelector('#findPwModal #memNo').value = '';
 	document.querySelector('#findPwModal #memEmail').value = '';
 	document.querySelector('#findPwModal #memTell').value = '';
+	document.querySelector('#findPwModal #authNum').value = '';
+	document.querySelector('#findPwModal #tell_auth').disabled = true;
+	document.querySelector('#findPwModal #findPwBtn').disabled = true;
 });
 
 
