@@ -61,6 +61,10 @@ function insertReply(menuCode, subMenuCode){
 		});
 }
 
+function bard(){
+	var ar12 = '12';
+}
+
 //게시글 수정
 function updateBoard(boardContent,boardTitle, boardNo){
 	const menuCode = document.querySelector('.menuCode').value;
